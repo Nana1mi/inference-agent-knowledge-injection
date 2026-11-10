@@ -1,0 +1,89 @@
+{
+  "status": "partial",
+  "sessions": [
+    {
+      "session_id": "K01",
+      "required": 389,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K02",
+      "required": 180,
+      "reviewed": 180,
+      "complete": true
+    },
+    {
+      "session_id": "K03",
+      "required": 205,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K04",
+      "required": 214,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K05",
+      "required": 287,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K06",
+      "required": 192,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K07",
+      "required": 292,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K08",
+      "required": 180,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K09",
+      "required": 561,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K10",
+      "required": 220,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K11",
+      "required": 96,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K12",
+      "required": 230,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K13",
+      "required": 178,
+      "reviewed": 0,
+      "complete": false
+    },
+    {
+      "session_id": "K14",
+      "required": 121,
+      "reviewed": 0,
+      "complete": false
+    }
+  ]
+}

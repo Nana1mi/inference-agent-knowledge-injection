@@ -1,0 +1,320 @@
+[
+  {
+    "file": "20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+    "family": "glm",
+    "model": "glm-5.3",
+    "records": 1459,
+    "assistant_records": 786,
+    "block_types": {
+      "thinking": 229,
+      "tool_use": 389,
+      "text": 168
+    },
+    "thinking_examples": [
+      [
+        5,
+        "Let me start by understanding the problem. I need to implement Kimi Delta Attention (KDA) forward in chunk form for RTX PRO 6000 (SM120 Blackwell).\n\nFirst, let me look at the reference implementation and the workspace files. The `kernel` skill is available and it says to use it \"whenever writing, optimizing, debugging, porting, or benchmarking GPU/TPU kernels\". Let me invoke that skill first, and also read the reference.py.\n\nLet me start by readi"
+      ]
+    ],
+    "text_examples": [
+      [
+        55,
+        "The math is clear from the reference. Let me check FLA's sequential-state kernel for precision choices, then write my own implementation."
+      ]
+    ]
+  },
+  {
+    "file": "20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+    "family": "glm",
+    "model": "glm-5.2",
+    "records": 774,
+    "assistant_records": 416,
+    "block_types": {
+      "thinking": 132,
+      "text": 91,
+      "tool_use": 193
+    },
+    "thinking_examples": [
+      [
+        5,
+        "Let me start by understanding the environment and the problem. Let me look at the reference implementation and the directory structure.\n\nLet me explore the workspace first."
+      ]
+    ],
+    "text_examples": [
+      [
+        6,
+        "I'll start by exploring the workspace to understand the reference implementation and the infrastructure available."
+      ]
+    ]
+  },
+  {
+    "file": "20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+    "family": "glm",
+    "model": "glm-5.3",
+    "records": 689,
+    "assistant_records": 365,
+    "block_types": {
+      "text": 50,
+      "tool_use": 204,
+      "thinking": 111
+    },
+    "thinking_examples": [
+      [
+        10,
+        "Let me read the other files: benchmark.py, check.py, problem.yaml, shapes.py, sota.py, PROMPT.txt."
+      ]
+    ],
+    "text_examples": [
+      [
+        5,
+        "I'll start by reading the problem files and understanding the environment."
+      ]
+    ]
+  },
+  {
+    "file": "20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+    "family": "glm",
+    "model": "glm-5.2",
+    "records": 844,
+    "assistant_records": 471,
+    "block_types": {
+      "thinking": 134,
+      "text": 109,
+      "tool_use": 228
+    },
+    "thinking_examples": [
+      [
+        5,
+        "Let me start by understanding the task. I need to write a paged attention decode kernel for the RTX PRO 6000 (SM120 Blackwell). Let me first explore the workspace to understand the structure.\n\nLet me look at:\n1. reference.py - the reference implementation\n2. check.py - the correctness checker\n3. benchmark.py - the benchmark\n4. The directory structure\n\nLet me start exploring."
+      ]
+    ],
+    "text_examples": [
+      [
+        6,
+        "I'll start by exploring the workspace to understand the reference implementation, the checker, and the benchmark."
+      ]
+    ]
+  },
+  {
+    "file": "20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+    "family": "glm",
+    "model": "glm-5.3",
+    "records": 933,
+    "assistant_records": 516,
+    "block_types": {
+      "text": 82,
+      "tool_use": 286,
+      "thinking": 148
+    },
+    "thinking_examples": [
+      [
+        20,
+        "Let me look at the eval infrastructure — src/eval/timing.py, src/eval/roofline.py, src/hardware, and numeric_stress.\n\nLet me check the repo root."
+      ]
+    ],
+    "text_examples": [
+      [
+        5,
+        "I'll start by understanding the problem setup — reading the reference, check, and benchmark scripts."
+      ]
+    ]
+  },
+  {
+    "file": "20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl",
+    "family": "glm",
+    "model": "glm-5.2",
+    "records": 806,
+    "assistant_records": 385,
+    "block_types": {
+      "thinking": 102,
+      "text": 78,
+      "tool_use": 205
+    },
+    "thinking_examples": [
+      [
+        5,
+        "Let me start by understanding the task. I need to write a weight-only int4 quantized GEMM (W4A16) for the RTX PRO 6000 (SM120 Blackwell). Let me first explore the workspace to understand what's available.\n\nLet me look at the reference implementation, the check script, and benchmark."
+      ]
+    ],
+    "text_examples": [
+      [
+        6,
+        "I'll start by exploring the workspace to understand the interface and tooling available."
+      ]
+    ]
+  },
+  {
+    "file": "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+    "family": "claude",
+    "model": "claude-opus-4-8",
+    "records": 858,
+    "assistant_records": 369,
+    "block_types": {
+      "text": 79,
+      "tool_use": 290
+    },
+    "thinking_examples": [],
+    "text_examples": [
+      [
+        5,
+        "I'll start by exploring the workspace and understanding the reference implementation."
+      ]
+    ]
+  },
+  {
+    "file": "20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+    "family": "gpt",
+    "model": "gpt-5.6-sol",
+    "records": 378,
+    "assistant_records": 189,
+    "block_types": {
+      "text": 10,
+      "tool_use": 179
+    },
+    "thinking_examples": [],
+    "text_examples": [
+      [
+        10,
+        "I’ll first map the reference math and benchmark harness, then build a correctness-first custom kernel in `solution.py`. I’ll use only `uv run ...`, validate every iteration with `check.py`, and optimize against the supplied benchmark once all four shapes pass."
+      ]
+    ]
+  },
+  {
+    "file": "20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+    "family": "claude",
+    "model": "claude-opus-5",
+    "records": 1945,
+    "assistant_records": 1124,
+    "block_types": {
+      "text": 195,
+      "tool_use": 558,
+      "thinking": 371
+    },
+    "thinking_examples": [
+      [
+        10,
+        "GPU 0 is available while GPU 1 is running vLLM, so I'll start by reading through the files and then leverage the kernel skill and cuda-build-blackwell skill as the routing suggests."
+      ]
+    ],
+    "text_examples": [
+      [
+        5,
+        "I'll start by understanding the problem setup and environment."
+      ]
+    ]
+  },
+  {
+    "file": "20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+    "family": "gpt",
+    "model": "gpt-5.6-sol",
+    "records": 606,
+    "assistant_records": 377,
+    "block_types": {
+      "thinking": 137,
+      "text": 21,
+      "tool_use": 219
+    },
+    "thinking_examples": [
+      [
+        10,
+        "**Preparing tool usage plan**"
+      ]
+    ],
+    "text_examples": [
+      [
+        11,
+        "I’ll inspect the reference, harness, and current solution first, then establish a correctness/performance baseline. I’ll iterate against the provided `check.py` and `benchmark.py`, keeping all final changes confined to this workspace’s `solution.py`."
+      ]
+    ]
+  },
+  {
+    "file": "20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+    "family": "claude",
+    "model": "claude-opus-4-8",
+    "records": 327,
+    "assistant_records": 137,
+    "block_types": {
+      "text": 42,
+      "tool_use": 95
+    },
+    "thinking_examples": [],
+    "text_examples": [
+      [
+        5,
+        "I'll start by exploring the workspace and understanding the reference implementation."
+      ]
+    ]
+  },
+  {
+    "file": "20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+    "family": "gpt",
+    "model": "gpt-5.6-sol",
+    "records": 710,
+    "assistant_records": 471,
+    "block_types": {
+      "thinking": 211,
+      "text": 31,
+      "tool_use": 229
+    },
+    "thinking_examples": [
+      [
+        10,
+        "**Planning approach for complex task**"
+      ]
+    ],
+    "text_examples": [
+      [
+        11,
+        "I’ll inspect the reference, harness, existing environment, and any local instructions first. Then I’ll establish a correctness/timing baseline, implement the fused grouped kernel in `solution.py`, and iterate strictly through `check.py` plus `benchmark.py` until all three shapes pass."
+      ]
+    ]
+  },
+  {
+    "file": "20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+    "family": "deepseek",
+    "model": "deepseek-v4-flash-0731",
+    "records": 727,
+    "assistant_records": 384,
+    "block_types": {
+      "thinking": 139,
+      "tool_use": 177,
+      "text": 68
+    },
+    "thinking_examples": [
+      [
+        5,
+        "Let me start by exploring the workspace to understand the task. I need to look at reference.py, the check.py, benchmark.py, and any existing solution.py.\n\nLet me first understand the environment."
+      ]
+    ],
+    "text_examples": [
+      [
+        94,
+        "I now understand the task well. Let me set up my working environment and understand the timing floor first, then design the kernel."
+      ]
+    ]
+  },
+  {
+    "file": "20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+    "family": "deepseek",
+    "model": "deepseek-v4.1-flash-1017",
+    "records": 487,
+    "assistant_records": 255,
+    "block_types": {
+      "text": 33,
+      "tool_use": 127,
+      "thinking": 95
+    },
+    "thinking_examples": [
+      [
+        10,
+        "Let me look at the rest: problem.yaml, shapes.py, sota.py, and the src/eval helpers."
+      ]
+    ],
+    "text_examples": [
+      [
+        5,
+        "I'll start by exploring the workspace to understand the reference implementation and available tooling.\n\n"
+      ]
+    ]
+  }
+]

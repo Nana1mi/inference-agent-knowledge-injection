@@ -1,0 +1,646 @@
+[
+  {
+    "session_id": "K01",
+    "selection": {
+      "file": "20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "size": 3270602,
+      "blob_id": "ec369fcc0f9bf180f2699e4b43df47899cbbfdf6",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "ec369fcc0f9bf180f2699e4b43df47899cbbfdf6",
+        "size": 3270602,
+        "path": "20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl"
+      },
+      "run_id": "20260822_053629_zai-claude_glm-5.3_02_kda_cutlass",
+      "date": "20260822",
+      "time": "053629",
+      "identity": "zai-claude_glm-5.3",
+      "model_family": "glm",
+      "model_from_filename": "glm-5.3",
+      "task": "02_kda_cutlass",
+      "hardware_directory": "root_unspecified",
+      "outcome": "failure",
+      "outcome_evidence": {
+        "outcome": "failure",
+        "published_status": "FAIL",
+        "cells": [
+          "FAIL",
+          "02_kda_cutlass",
+          "glm-5.3",
+          "Claude Code",
+          "299m",
+          "20260822_053629_zai-claude_glm-5.3_02_kda_cutlass"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260822_053629_zai-claude_glm-5.3_02_kda_cutlass"
+      },
+      "sampling_group": "GLM"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K01.jsonl",
+    "steps": 389,
+    "visible_thinking_steps": 229,
+    "tool_calls": 389,
+    "reasoning_characters": 1096687
+  },
+  {
+    "session_id": "K02",
+    "selection": {
+      "file": "20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "size": 1303337,
+      "blob_id": "cb77b1796a669178643756e650793def8c148b69",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "cb77b1796a669178643756e650793def8c148b69",
+        "size": 1303337,
+        "path": "20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl"
+      },
+      "run_id": "20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu",
+      "date": "20260613",
+      "time": "061433",
+      "identity": "zai-claude_glm-5.2",
+      "model_family": "glm",
+      "model_from_filename": "glm-5.2",
+      "task": "06_sonic_moe_swiglu",
+      "hardware_directory": "root_unspecified",
+      "outcome": "failure",
+      "outcome_evidence": {
+        "outcome": "failure",
+        "published_status": "FAIL",
+        "cells": [
+          "FAIL",
+          "06_sonic_moe_swiglu",
+          "glm-5.2",
+          "Claude Code",
+          "241m",
+          "20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu"
+      },
+      "sampling_group": "GLM"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K02.jsonl",
+    "steps": 180,
+    "visible_thinking_steps": 132,
+    "tool_calls": 193,
+    "reasoning_characters": 448699
+  },
+  {
+    "session_id": "K03",
+    "selection": {
+      "file": "20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+      "size": 1687161,
+      "blob_id": "ef1b2e6412108d91a9caff6e585696817ca3e04d",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "ef1b2e6412108d91a9caff6e585696817ca3e04d",
+        "size": 1687161,
+        "path": "20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl"
+      },
+      "run_id": "20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu",
+      "date": "20260822",
+      "time": "075101",
+      "identity": "zai-claude_glm-5.3",
+      "model_family": "glm",
+      "model_from_filename": "glm-5.3",
+      "task": "06_sonic_moe_swiglu",
+      "hardware_directory": "root_unspecified",
+      "outcome": "failure",
+      "outcome_evidence": {
+        "outcome": "failure",
+        "published_status": "FAIL",
+        "cells": [
+          "FAIL",
+          "06_sonic_moe_swiglu",
+          "glm-5.3",
+          "Claude Code",
+          "165m",
+          "20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu"
+      },
+      "sampling_group": "GLM"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K03.jsonl",
+    "steps": 205,
+    "visible_thinking_steps": 111,
+    "tool_calls": 204,
+    "reasoning_characters": 513096
+  },
+  {
+    "session_id": "K04",
+    "selection": {
+      "file": "20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+      "size": 1519278,
+      "blob_id": "5e24deafb85b99aca610ea6f98d6aa33e2e8fcd7",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "5e24deafb85b99aca610ea6f98d6aa33e2e8fcd7",
+        "size": 1519278,
+        "path": "20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl"
+      },
+      "run_id": "20260613_055815_zai-claude_glm-5.2_03_paged_attention",
+      "date": "20260613",
+      "time": "055815",
+      "identity": "zai-claude_glm-5.2",
+      "model_family": "glm",
+      "model_from_filename": "glm-5.2",
+      "task": "03_paged_attention",
+      "hardware_directory": "root_unspecified",
+      "outcome": "success",
+      "outcome_evidence": {
+        "outcome": "success",
+        "published_status": "0.677",
+        "cells": [
+          "0.677",
+          "03_paged_attention",
+          "glm-5.2",
+          "Claude Code",
+          "234m",
+          "20260613_055815_zai-claude_glm-5.2_03_paged_attention"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260613_055815_zai-claude_glm-5.2_03_paged_attention"
+      },
+      "sampling_group": "GLM"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K04.jsonl",
+    "steps": 214,
+    "visible_thinking_steps": 134,
+    "tool_calls": 228,
+    "reasoning_characters": 602728
+  },
+  {
+    "session_id": "K05",
+    "selection": {
+      "file": "20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "size": 2120183,
+      "blob_id": "a6a8fbe2ca8612e911ed30f6ca4944e06ee88e12",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "a6a8fbe2ca8612e911ed30f6ca4944e06ee88e12",
+        "size": 2120183,
+        "path": "20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl"
+      },
+      "run_id": "20260822_053709_zai-claude_glm-5.3_05_topk_bitonic",
+      "date": "20260822",
+      "time": "053709",
+      "identity": "zai-claude_glm-5.3",
+      "model_family": "glm",
+      "model_from_filename": "glm-5.3",
+      "task": "05_topk_bitonic",
+      "hardware_directory": "root_unspecified",
+      "outcome": "success",
+      "outcome_evidence": {
+        "outcome": "success",
+        "published_status": "0.088",
+        "cells": [
+          "0.088",
+          "05_topk_bitonic",
+          "glm-5.3",
+          "Claude Code",
+          "136m",
+          "20260822_053709_zai-claude_glm-5.3_05_topk_bitonic"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260822_053709_zai-claude_glm-5.3_05_topk_bitonic"
+      },
+      "sampling_group": "GLM"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K05.jsonl",
+    "steps": 287,
+    "visible_thinking_steps": 148,
+    "tool_calls": 286,
+    "reasoning_characters": 768352
+  },
+  {
+    "session_id": "K06",
+    "selection": {
+      "file": "20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl",
+      "size": 1441101,
+      "blob_id": "def00efd7921c11c96bd783d89f08768eec4ecbd",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "def00efd7921c11c96bd783d89f08768eec4ecbd",
+        "size": 1441101,
+        "path": "20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl"
+      },
+      "run_id": "20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm",
+      "date": "20260613",
+      "time": "061443",
+      "identity": "zai-claude_glm-5.2",
+      "model_family": "glm",
+      "model_from_filename": "glm-5.2",
+      "task": "07_w4a16_gemm",
+      "hardware_directory": "root_unspecified",
+      "outcome": "success",
+      "outcome_evidence": {
+        "outcome": "success",
+        "published_status": "0.321",
+        "cells": [
+          "0.321",
+          "07_w4a16_gemm",
+          "glm-5.2",
+          "Claude Code",
+          "280m",
+          "20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm"
+      },
+      "sampling_group": "GLM"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K06.jsonl",
+    "steps": 192,
+    "visible_thinking_steps": 102,
+    "tool_calls": 205,
+    "reasoning_characters": 566153
+  },
+  {
+    "session_id": "K07",
+    "selection": {
+      "file": "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+      "size": 810123,
+      "blob_id": "1e252cffecef1cd83b8a9d60aca381466b336041",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "1e252cffecef1cd83b8a9d60aca381466b336041",
+        "size": 810123,
+        "path": "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl"
+      },
+      "run_id": "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass",
+      "date": "20260613",
+      "time": "042257",
+      "identity": "claude_claude-opus-4-8",
+      "model_family": "claude",
+      "model_from_filename": "claude-opus-4-8",
+      "task": "02_kda_cutlass",
+      "hardware_directory": "root_unspecified",
+      "outcome": "failure",
+      "outcome_evidence": {
+        "outcome": "failure",
+        "published_status": "FAIL",
+        "cells": [
+          "FAIL",
+          "02_kda_cutlass",
+          "claude-opus-4-8",
+          "Claude Code",
+          "114m",
+          "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260613_042257_claude_claude-opus-4-8_02_kda_cutlass"
+      },
+      "sampling_group": "paired_claude"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K07.jsonl",
+    "steps": 292,
+    "visible_thinking_steps": 0,
+    "tool_calls": 290,
+    "reasoning_characters": 0
+  },
+  {
+    "session_id": "K08",
+    "selection": {
+      "file": "20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "size": 822136,
+      "blob_id": "bc8be89009b0b506b0777adaeba4c55cf7ba05df",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "bc8be89009b0b506b0777adaeba4c55cf7ba05df",
+        "size": 822136,
+        "path": "20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl"
+      },
+      "run_id": "20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass",
+      "date": "20260709",
+      "time": "192708",
+      "identity": "codex_gpt-5.6-sol",
+      "model_family": "gpt",
+      "model_from_filename": "gpt-5.6-sol",
+      "task": "02_kda_cutlass",
+      "hardware_directory": "root_unspecified",
+      "outcome": "failure",
+      "outcome_evidence": {
+        "outcome": "failure",
+        "published_status": "FAIL",
+        "cells": [
+          "FAIL",
+          "02_kda_cutlass",
+          "gpt-5.6-sol [xhigh]",
+          "Codex",
+          "30m",
+          "20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass"
+      },
+      "sampling_group": "paired_gpt"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K08.jsonl",
+    "steps": 180,
+    "visible_thinking_steps": 0,
+    "tool_calls": 179,
+    "reasoning_characters": 0
+  },
+  {
+    "session_id": "K09",
+    "selection": {
+      "file": "20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "size": 4624883,
+      "blob_id": "4da1a9efe0c3d5126c76cc326cde7c014cc06989",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "4da1a9efe0c3d5126c76cc326cde7c014cc06989",
+        "size": 4624883,
+        "path": "20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl"
+      },
+      "run_id": "20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic",
+      "date": "20260725",
+      "time": "002808",
+      "identity": "or-opus_anthropic_claude-opus-5",
+      "model_family": "claude",
+      "model_from_filename": "claude-opus-5",
+      "task": "05_topk_bitonic",
+      "hardware_directory": "root_unspecified",
+      "outcome": "success",
+      "outcome_evidence": {
+        "outcome": "success",
+        "published_status": "0.095",
+        "cells": [
+          "0.095",
+          "05_topk_bitonic",
+          "anthropic/claude-opus-5 [max]",
+          "or-opus",
+          "424m",
+          "20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic"
+      },
+      "sampling_group": "paired_claude"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K09.jsonl",
+    "steps": 561,
+    "visible_thinking_steps": 371,
+    "tool_calls": 558,
+    "reasoning_characters": 1409138
+  },
+  {
+    "session_id": "K10",
+    "selection": {
+      "file": "20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "size": 785576,
+      "blob_id": "e4f10665ad84e92da16140c4e221998ebcf4f7f9",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "e4f10665ad84e92da16140c4e221998ebcf4f7f9",
+        "size": 785576,
+        "path": "20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl"
+      },
+      "run_id": "20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic",
+      "date": "20260718",
+      "time": "215148",
+      "identity": "codex_gpt-5.6-sol",
+      "model_family": "gpt",
+      "model_from_filename": "gpt-5.6-sol",
+      "task": "05_topk_bitonic",
+      "hardware_directory": "root_unspecified",
+      "outcome": "success",
+      "outcome_evidence": {
+        "outcome": "success",
+        "published_status": "0.041",
+        "cells": [
+          "0.041",
+          "05_topk_bitonic",
+          "gpt-5.6-sol [xhigh]",
+          "Codex",
+          "35m",
+          "20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic"
+      },
+      "sampling_group": "paired_gpt"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K10.jsonl",
+    "steps": 220,
+    "visible_thinking_steps": 109,
+    "tool_calls": 219,
+    "reasoning_characters": 8452
+  },
+  {
+    "session_id": "K11",
+    "selection": {
+      "file": "20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "size": 389952,
+      "blob_id": "fd7c634b3bebd7874a55e21674a83eef14dd934f",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "fd7c634b3bebd7874a55e21674a83eef14dd934f",
+        "size": 389952,
+        "path": "20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl"
+      },
+      "run_id": "20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu",
+      "date": "20260613",
+      "time": "042321",
+      "identity": "claude_claude-opus-4-8",
+      "model_family": "claude",
+      "model_from_filename": "claude-opus-4-8",
+      "task": "06_sonic_moe_swiglu",
+      "hardware_directory": "root_unspecified",
+      "outcome": "failure",
+      "outcome_evidence": {
+        "outcome": "failure",
+        "published_status": "FAIL",
+        "cells": [
+          "FAIL",
+          "06_sonic_moe_swiglu",
+          "claude-opus-4-8",
+          "Claude Code",
+          "105m",
+          "20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu"
+      },
+      "sampling_group": "paired_claude"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K11.jsonl",
+    "steps": 96,
+    "visible_thinking_steps": 0,
+    "tool_calls": 95,
+    "reasoning_characters": 0
+  },
+  {
+    "session_id": "K12",
+    "selection": {
+      "file": "20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "size": 1206832,
+      "blob_id": "5af5bc464a02bb6213f7385e8ce0619be6c1a937",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "5af5bc464a02bb6213f7385e8ce0619be6c1a937",
+        "size": 1206832,
+        "path": "20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl"
+      },
+      "run_id": "20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu",
+      "date": "20260718",
+      "time": "222659",
+      "identity": "codex_gpt-5.6-sol",
+      "model_family": "gpt",
+      "model_from_filename": "gpt-5.6-sol",
+      "task": "06_sonic_moe_swiglu",
+      "hardware_directory": "root_unspecified",
+      "outcome": "failure",
+      "outcome_evidence": {
+        "outcome": "failure",
+        "published_status": "FAIL",
+        "cells": [
+          "FAIL",
+          "06_sonic_moe_swiglu",
+          "gpt-5.6-sol [xhigh]",
+          "Codex",
+          "63m",
+          "20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu"
+      },
+      "sampling_group": "paired_gpt"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K12.jsonl",
+    "steps": 230,
+    "visible_thinking_steps": 177,
+    "tool_calls": 229,
+    "reasoning_characters": 10188
+  },
+  {
+    "session_id": "K13",
+    "selection": {
+      "file": "20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+      "size": 2055801,
+      "blob_id": "4e85fb899eff8b8029fd5f6ff0c3e4afb955c2a8",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "4e85fb899eff8b8029fd5f6ff0c3e4afb955c2a8",
+        "size": 2055801,
+        "path": "20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl"
+      },
+      "run_id": "20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic",
+      "date": "20260801",
+      "time": "225649",
+      "identity": "or-fable_deepseek_deepseek-v4-flash-0731",
+      "model_family": "deepseek",
+      "model_from_filename": "deepseek-v4-flash-0731",
+      "task": "05_topk_bitonic",
+      "hardware_directory": "root_unspecified",
+      "outcome": "success",
+      "outcome_evidence": {
+        "outcome": "success",
+        "published_status": "0.029",
+        "cells": [
+          "0.029",
+          "05_topk_bitonic",
+          "deepseek/deepseek-v4-flash-0731",
+          "or-fable",
+          "140m",
+          "20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic"
+      },
+      "sampling_group": "supplement_deepseek"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K13.jsonl",
+    "steps": 178,
+    "visible_thinking_steps": 139,
+    "tool_calls": 177,
+    "reasoning_characters": 903378
+  },
+  {
+    "session_id": "K14",
+    "selection": {
+      "file": "20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "size": 1202969,
+      "blob_id": "3236efb3a6fc34e3d0d7c7349c23d618546476b3",
+      "lfs": null,
+      "kind": "trace",
+      "file_metadata": {
+        "type": "file",
+        "oid": "3236efb3a6fc34e3d0d7c7349c23d618546476b3",
+        "size": 1202969,
+        "path": "20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl"
+      },
+      "run_id": "20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu",
+      "date": "20261017",
+      "time": "215407",
+      "identity": "or-fable_deepseek_deepseek-v4.1-flash-1017",
+      "model_family": "deepseek",
+      "model_from_filename": "deepseek-v4.1-flash-1017",
+      "task": "06_sonic_moe_swiglu",
+      "hardware_directory": "root_unspecified",
+      "outcome": "success",
+      "outcome_evidence": {
+        "outcome": "success",
+        "published_status": "0.106",
+        "cells": [
+          "0.106",
+          "06_sonic_moe_swiglu",
+          "deepseek/deepseek-v4.1-flash-1017",
+          "or-fable",
+          "82m",
+          "20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu"
+        ],
+        "source_url": "https://kernelbench.com/runs",
+        "source_locator": "table row 20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu"
+      },
+      "sampling_group": "supplement_deepseek"
+    },
+    "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+    "step_file": "data/derived/r2_review_inputs/K14.jsonl",
+    "steps": 121,
+    "visible_thinking_steps": 95,
+    "tool_calls": 127,
+    "reasoning_characters": 459788
+  }
+]

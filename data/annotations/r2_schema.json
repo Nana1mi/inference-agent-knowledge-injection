@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "优化轨迹编码 v2.0：保留v1字段并新增知识/状态字段",
+  "type": "object",
+  "required": [
+    "source",
+    "unit",
+    "session_id",
+    "step_id",
+    "raw_file",
+    "source_locator",
+    "source_url",
+    "phase",
+    "tool",
+    "layer",
+    "hypothesis",
+    "hypothesis_origin",
+    "evidence",
+    "outcome",
+    "turning_point",
+    "component",
+    "annotation_method",
+    "annotation_rationale",
+    "duration_seconds",
+    "reasoning_visible",
+    "hypothesis_source",
+    "knowledge_access",
+    "knowledge_use",
+    "state_tamper_risk",
+    "source_lines",
+    "tool_result_lines",
+    "review_input_sha256",
+    "review_pass",
+    "knowledge_followup_locator",
+    "reasoning_visibility_note"
+  ],
+  "properties": {
+    "source": {
+      "type": "string"
+    },
+    "unit": {
+      "enum": [
+        "tool_call",
+        "episode",
+        "agent_step",
+        "decision_step"
+      ]
+    },
+    "session_id": {
+      "type": "string"
+    },
+    "step_id": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "raw_file": {
+      "type": "string"
+    },
+    "source_locator": {
+      "type": "string"
+    },
+    "source_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "source_line": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "result_line": {
+      "type": [
+        "integer",
+        "null"
+      ]
+    },
+    "candidate_edit": {
+      "type": [
+        "boolean",
+        "null"
+      ]
+    },
+    "upstream_event_count": {
+      "type": "integer",
+      "minimum": 1
+    },
+    "upstream_label_source": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "phase": {
+      "enum": [
+        "探索代码",
+        "profile",
+        "提出假设",
+        "修改代码",
+        "测量",
+        "接受",
+        "回滚",
+        "写报告",
+        "等待",
+        "环境准备",
+        "其他"
+      ]
+    },
+    "tool": {
+      "enum": [
+        "NCU",
+        "nsys",
+        "torch profiler",
+        "端到端 benchmark",
+        "kernel benchmark",
+        "正确性检查",
+        "读源码",
+        "查文档",
+        "其他"
+      ]
+    },
+    "layer": {
+      "enum": [
+        "kernel",
+        "算子融合",
+        "attention",
+        "调度器",
+        "runtime 与 host 开销",
+        "并行配置",
+        "运行参数",
+        "量化",
+        "推测解码",
+        "测量工具",
+        "其他",
+        "不可判定"
+      ]
+    },
+    "hypothesis": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "hypothesis_origin": {
+      "enum": [
+        "explicit",
+        "inferred",
+        "missing"
+      ]
+    },
+    "evidence": {
+      "enum": [
+        "有",
+        "无",
+        "数据有误",
+        "不可判定",
+        "不适用"
+      ]
+    },
+    "outcome": {
+      "enum": [
+        "成功",
+        "失败",
+        "正确性不过",
+        "未测"
+      ]
+    },
+    "turning_point": {
+      "type": "boolean"
+    },
+    "component": {
+      "enum": [
+        "miner",
+        "profiler",
+        "optimizer",
+        "selector",
+        "accumulation",
+        "skills"
+      ]
+    },
+    "annotation_method": {
+      "enum": [
+        "规则初标",
+        "研究助理逐项复核"
+      ]
+    },
+    "annotation_rationale": {
+      "type": "string"
+    },
+    "duration_seconds": {
+      "type": [
+        "number",
+        "null"
+      ],
+      "minimum": 0
+    },
+    "reasoning_visible": {
+      "type": "boolean"
+    },
+    "hypothesis_source": {
+      "enum": [
+        "profile 数据",
+        "读源码",
+        "参考实现或 SOTA",
+        "模型先验",
+        "不可判定"
+      ]
+    },
+    "knowledge_access": {
+      "type": "boolean"
+    },
+    "knowledge_use": {
+      "enum": [
+        "照搬",
+        "改写适配",
+        "读了但没用",
+        "读了并明确反驳",
+        "不适用"
+      ]
+    },
+    "state_tamper_risk": {
+      "type": "boolean"
+    },
+    "source_lines": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "tool_result_lines": {
+      "type": "array",
+      "items": {
+        "type": "integer"
+      }
+    },
+    "review_input_sha256": {
+      "type": "string"
+    },
+    "review_pass": {
+      "enum": [
+        "first",
+        "blind_second"
+      ]
+    },
+    "knowledge_followup_locator": {
+      "type": [
+        "string",
+        "null"
+      ]
+    },
+    "reasoning_visibility_note": {
+      "type": "string"
+    }
+  },
+  "additionalProperties": false
+}

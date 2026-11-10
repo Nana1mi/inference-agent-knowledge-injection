@@ -25,3 +25,10 @@ Thumbs.db
 
 # Local restore/verification logs
 /data/derived/restore_results.json
+
+# Round 2 local copies of upstream transcripts and blind review payloads
+/data/derived/r2_review_inputs/
+/data/derived/r2_blind_inputs/
+/data/derived/r2_state_tamper_hits.json
+/data/derived/r2_state_tamper_reviewed.json
+!/data/raw/r2_manifest.jsonl

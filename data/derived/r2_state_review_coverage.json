@@ -1,0 +1,12 @@
+{
+  "review_status": "partial",
+  "counts": {
+    "待复核": 2964,
+    "合法优化": 11,
+    "确实影响评估": 3,
+    "无法判断": 1
+  },
+  "required_hits": 2979,
+  "reviewed_hits": 15,
+  "physical_files": 113
+}

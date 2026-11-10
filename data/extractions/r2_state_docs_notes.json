@@ -1,0 +1,9 @@
+{
+  "method": "Context7先resolve PyTorch，再查询与轨迹版本一致的/pytorch/pytorch/v2.11.0；官方原文由r2_collect_state_docs.py冻结，哈希在r2_manifest.jsonl。",
+  "claims": [
+    {"claim":"allow_bf16_reduced_precision_reduction控制BF16 GEMM能否使用低精度中间归约，关闭可改变性能/数值路径。","source_url":"https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/backends.md","source_locator":"torch.backends.cuda.matmul属性","local_source":"data/raw/r2_docs/pytorch_v2.11.0/backends.md"},
+    {"claim":"官方数值精度说明指出部分GPU可截断GEMM中间累加以换取性能，BF16此功能默认开启；文档给出关闭示例。","source_url":"https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/numerical_accuracy.rst","source_locator":"Reduced Precision Reduction for FP16 and BF16 GEMMs","local_source":"data/raw/r2_docs/pytorch_v2.11.0/notes/numerical_accuracy.rst"},
+    {"claim":"CUDA说明的C++示例经globalContext设置BF16归约，支持它是共享backend设置而非候选tensor的局部参数。","source_url":"https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/cuda.rst","source_locator":"Reduced Precision Reduction in BF16 GEMMs","local_source":"data/raw/r2_docs/pytorch_v2.11.0/notes/cuda.rst"}
+  ],
+  "limitation":"文档支持API语义；没有在本研究机器复现原轨迹数值差异、评分收益或行为意图。"
+}

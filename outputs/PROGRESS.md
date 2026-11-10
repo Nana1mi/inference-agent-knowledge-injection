@@ -1,5 +1,51 @@
 # 研究进度
 
+## 第二轮启动（2026-11-11）
+
+### R2抽样预注册（先于ISO候选轨迹下载）
+
+- 主随机种子2026111102。正式目录的完整artifact索引包含1562个运行目录；先完成全部小型run_summary导出的下载尝试，再冻结结局抽样框。`/agent/status=success`仅表示导出记载流程完成，不当作GPU测量或性能通过。
+- 对有success字段且有trajectory或agent标准输出的目录，按导出agent×model分层，用上述种子在层内打乱，再按层轮转检查；同一运行多种导出只取包含工具调用与返回的实际轨迹。候选检查顺序和未取得/CPU-only/未见实测等理由全部保留，不根据性能高低挑选。
+- 合格成功会话必须同时具备：导出success字段、工具返回中的实际GPU测量数值或明确完成的CUDA benchmark、可定位原始证据。仅提示词要求GPU、CUDA代码、nvidia-smi、理论估算、未执行命令均不算GPU测量。
+- 按预定顺序选最先满足条件的4份成功GPU会话，并使agent或模型至少有2类；若前4份同类，则继续取首个异类合格候选。另从未入选且导出结局可判定的运行中用同一随机生成器抽2份，完成至少6份；若候选框穷尽仍不足，记录缺口，不把CPU或未知冒充GPU。对访问失败保留顺位并做一次同URL重试；不能因失败随机重抽以隐藏缺失。
+- 原始trajectory中的`success`与summary状态若冲突，两者并列展示并人工确认，不覆盖。目录名只作定位，agent/model采用导出字段；一个目录名已有与导出模型不一致的实例。
+- 执行补记：已完成1467个小型summary请求的首轮尝试；冻结抽样框前，对连接失败的少量同一官方URL做一次重试，已取得的文件由缓存跳过，不重复下载。缺失结局继续标unknown，不因缺失推断失败。
+
+### 本轮逐步复核进展（非最终分析）
+
+- R1：元数据完整性、随机配额和14份实际文件已核对，见`outputs/round2/r2_sampling.md`；下载合计23,239,934字节，未下载全部数据集。
+- R3：以K02整会话作首份逐步复核，180/180个decision_step均由AI研究助理逐项判断并保存到`data/annotations/r2_reviews/K02.tsv`，编译为`r2_kernelbench.jsonl`。其余3165步尚未复核；未标步骤不生成默认标签或进入行为统计。
+- 新schema与操作约定在`data/annotations/r2_schema.json`和`outputs/round2/r2_codebook.md`；标注者不是独立人类。20%盲复标需待首次完整标注冻结后执行，当前没有一致率/κ结果。
+- K02保留榜单failure与原始末尾PASS/0.2451/OK的差异，不用局部成功重标最终结局。已逐步记录按data_ptr缓存造成跨形状错误、修复后PASS，以及未经架构实测支持的tcgen05兼容推论写进持久记忆的事实；结论尚未扩展到其他会话。
+- R2：1467个summary首轮尝试及一次失败重试已终结，实际取得1466份；索引1562目录，833个summary导出success、632 error、1 max_steps，另96目录无已取得summary。以完整尝试后的833个success冻结抽样框，种子2026111102生成9层轮转顺序；资格下载已到前48个候选，前28个已人工核查，尚未确认合格成功GPU会话。缺失/CPU/仅摘要/状态冲突各自保留，不将833冒充GPU样本数。候选顺序与抽样框哈希在ISO的selection.json，手工证据在`r2_iso_eligibility_reviews.json`。
+- R5：扫描脚本已建立8类检索规则，包括要求的6类及RNG/持久记忆补充；当前扫描是下载过程中的中间快照，后续必须在全部取得后重扫。首批torch_global的15处已逐处看过目标路径与原始上下文：3处同一旧FP8候选的导入期开关写入影响共享评测状态、11处是独立诊断/校准配置、1处为记忆文字的后续影响无法判断。次数不是独立案例数，不能将其余2871个命中当已复核。
+- API语义使用Context7核查PyTorch2.11官方backend/numerical_accuracy/CUDA说明，原文在`data/raw/r2_docs/`，中文证据笔记在`data/extractions/r2_state_docs_notes.json`。未启动本地GPU或执行下载的代码。当前结构校验`r2_validation.json`为in_progress，明确R2/R3盲复标/R4/R5/R6未完成。
+- 下载到前48个ISO候选的进程已正常终结；随后对全部当前已下载轨迹/候选diff重新扫描：113个物理文件、111份不同内容、2979个规则命中，15处已复核、2964处待复核。原始代码上下文派生包保留本地，不进入本地发布候选清单；语义判断另存`r2_state_tamper.jsonl`，后续仍须逐命中完成。
+
+### R3一致性自检预注册（先于新标注）
+
+- 主随机种子2026111103；每个来源的首次标注完成后，按完整step主键清单随机无放回抽取ceil(20%×N)，不按分歧或有趣案例挑选。另一个独立种子2026111104打乱并生成不含session/step信息的盲ID。
+- 第二次输入包只含原始推理、工具调用/返回和必要上下文，不含首次标签、首次理由和汇总统计；使用独立blind文件写标签。首次标签冻结哈希后才生成第二次包，一致率与κ在两次完成后计算。
+- 标注者为同一AI研究助理，属于重复标注自检；对话记忆无法完全抹去，不能称独立双人或严格无记忆实验。可见推理会话每个decision_step逐项复核，包括没有thinking块的工具等待/任务管理步。原始字段保留，新增decision_step粒度另行说明，不能混入第一轮tool_call统计。
+- KBH时间戳表现为格式化连续秒，与工具输出内时间不一致；本轮阶段耗时均保持null。ISO只有逐步真实计时可证才计算，summary总时长不按步骤均摊。
+
+### R1抽样预注册（先于抽样与轨迹下载）
+
+- 索引快照：`c2c764c8b5a5fdad493592a2fde1055684e0f064`，与第一轮相同，仍用新的`data/raw/r2_kbh/<hash>/`目录保存本轮来源。已取得全部745文件元数据，其中740为轨迹；仅103份有本次榜单结局，未覆盖者不猜。
+- 主随机种子：2026111101。GLM抽样框限定为索引中有榜单结局的GLM文件；success表示榜单可评分，不表示超越SOTA或满足隐藏性能目标。失败框3份、成功框10份。按3失败+3成功分层不放回随机抽样；若不足4个任务则整体重新随机抽取，直到满足任务覆盖。每次尝试/合格条件由脚本记录，不手工挑选高分样本。
+- 在已抽GLM任务中、Claude与Codex(GPT)都有榜单文件的任务集合内随机选3任务；各任务分别均匀抽1 Claude、1 GPT，不按高低分挑选，尽量使用同为root目录的来源。硬件/harness/预算差异待原始文件核验，不能把同任务直接当因果配对。
+- 补充2份DeepSeek：在有榜单结局且任务属于已抽GLM集合的框内均匀不放回随机抽取，优先不同任务通过条件随机抽样。选择DeepSeek是因为Kimi未被当前榜单覆盖，不把Kimi未知结局冒充成功或失败。
+- 元数据已证明GLM文件存在；推理可见性使用抽中GLM样本先核验再展开标注。若思维不可见，保留该事实，按同层随机候补顺序替换；若GLM均不可用才依计划转其他开放模型，不降低样本标准。不会为核验额外下载未被选中的KBH轨迹。
+- 本轮使用scientific-critical-thinking技能检查抽样/结局口径与关联解释，使用Context7核验HF元数据接口；不使用规则标签代替可见推理的逐步复核。
+- 执行补记：样本已按种子产生14份（GLM6、配对闭源6、DeepSeek2），GLM覆盖5任务。首份GLM下载连接中断，其余13份已取得；对该同一官方URL做最多一次延后重试，不改变抽样结果或追加未选KBH文件。
+- 已在实际GLM5.2/5.3与DeepSeek导出中看到明文thinking块；不能再按“所有闭源都不可见”粗分，因为所抽Claude Opus5也有明文thinking，Codex部分文件有简短推理摘要。R3按逐步实际可见性编码，并单列完整性/摘要限制。
+
+- 依据 `PLAN_ROUND2.md` 执行R1–R6；新报告放 `outputs/round2/`，新脚本/数据加 `r2_` 前缀，冻结第一轮原始快照和标注。
+- 先获取KBH全部文件元数据/修订与榜单，不下载轨迹内容；索引完成后才写分层抽样与随机种子，再下载选中记录。
+- ISO先建立正式运行目录与结局/GPU证据索引，再按预先记录方案抽取至少6份；不以成功字段替代GPU测量证据。
+- 本轮不执行T4，不推送远程，仅本地提交；不向新报告、README或脚本复制PLAN第1.1节的内部信息。
+- 前一轮为已交付研究与上传；本轮首次目标回合正在执行元数据核验，属于有进展，不是状态等待。
+
 日期：2026-11-10（Asia/Hong_Kong）。依据 [PLAN.md](../PLAN.md) 执行；公开来源是待核验线索。
 
 ## 执行记录
@@ -69,3 +115,52 @@
 离线终验已运行，结果见 `data/derived/validation.json`：标注字段/类型与原始定位、工具返回配对、快照SHA256、37题计数、统计分母及本地链接。该检查不验证科学真伪或GPU正确性。采集失败不影响已保存样本的离线重建。脚本语法编译通过；Together PDF按PDF技能提取并目视核对p10，关键数字页码已建ledger。
 
 最后汇总时间：2026-11-10T23:26:04.830474+08:00。
+
+
+<!-- r2-access-audit:start -->
+
+## 第二轮资源访问失败审计
+
+记录失败URL、时间与原始错误；同URL后续成功不删除历史失败。全部请求见`data/raw/r2_manifest.jsonl`。
+
+| 时间（香港） | URL | 错误 | 状态 |
+|---|---|---|---|
+| 2026-11-11T01:14:03.634303+08:00 | https://huggingface.co/api/datasets/Infatoshi/kernelbench-hard-traces/tree/c2c764c8b5a5fdad493592a2fde1055684e0f064?recursive=true&expand=true&limit=1000 | HTTPError: HTTP Error 400: Bad Request | 本次未取得 |
+| 2026-11-11T01:16:31.304274+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_07-50-32/sglang_sonnet45_rerun_912788c0/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:17:03.145461+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_a191a0e4/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:17:09.805441+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_b77a02cd/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:17:32.220218+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/claude_code/default/2025-12-23_06-28-44/sglang_011_25e1816e/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:17:34.429379+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/claude_code/default/2025-12-23_06-28-44/sglang_013_2854a5ea/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:17:00.307529+08:00 | https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:18:14.635470+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/claude_code/default/2025-12-23_06-28-44/sglang_064_d1112d85/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:18:41.537488+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_017_2ed68d7a/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:19:15.055218+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_057_bb3a3b66/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:19:18.216059+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_061_c2f212d6/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:19:39.362659+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_003_132dad87/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:23:44.589794+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex/gpt-4o/2025-11-19_18-10-07/vllm_core-0003/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:23:47.835224+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex/gpt-4o/2025-11-19_18-57-41/vllm_core-0001/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:23:51.333265+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex/gpt-5/2025-11-19_18-05-29/vllm_core-0003/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:24:33.256048+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0050/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:24:51.296454+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0073/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:25:19.689200+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex_cli/default/2026-01-20_18-16-02/vllm_gpt5_v5-0008/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:25:20.715263+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex_cli/default/2026-01-20_18-16-02/vllm_gpt5_v5-0009/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:25:28.914112+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex_cli/default/2026-01-20_18-16-02/vllm_gpt5_v5-0032/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:25:53.149285+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex_cli/default/2026-01-20_20-19-18/vllm_gpt5_v5-0029/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:25:44.119946+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex_cli/default/2026-01-20_20-19-18/vllm_gpt5_v5-0021/run_summary.json | URLError: <urlopen error [WinError 10060] 由于连接方在一段时间后没有正确答复或连接的主机没有反应，连接尝试失败。> | 同源后续取得 |
+| 2026-11-11T01:26:42.456665+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-27_15-42-14/vllm_bedrock_sonnet45-0017/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:26:45.228583+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-27_15-42-14/vllm_bedrock_sonnet45-0021/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:30:17.755171+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0045/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:30:29.117141+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0010/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:30:38.850423+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0021/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:30:58.409301+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0046/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:31:14.355805+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-05_16-34-59/vllm_core-0054/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:31:59.732892+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-05_16-39-51/vllm_core-0001/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 本次未取得 |
+| 2026-11-11T01:34:56.002633+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_6e36f4fa/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:36:34.445941+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-05_16-39-51/vllm_core-0001/run_summary.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 本次未取得 |
+| 2026-11-11T01:38:14.021267+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/codex_cli/default/2026-01-20_20-19-18/vllm_gpt5_v5-0010/journal.json | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:38:18.684271+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_066_dc188132/model_patch.diff | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 同源后续取得 |
+| 2026-11-11T01:43:15.558541+08:00 | https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_021_4418f599/model_patch.diff | ConnectionResetError: [WinError 10054] 远程主机强迫关闭了一个现有的连接。 | 本次未取得 |
+
+更新时间：2026-11-11T01:47:27.798300+08:00。
+
+<!-- r2-access-audit:end -->

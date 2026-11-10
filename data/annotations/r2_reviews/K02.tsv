@@ -1,0 +1,181 @@
+# step phase tool layer origin source evidence outcome flags use hypothesis rationale followup component (tab-separated)
+1	E	D	F	m	u	x	u	k	a	-	读取reference明确双GEMM与SwiGLU接口；只有探索动作播报，后续候选改写实现	step12:L71–73	o
+2	E	D	M	m	u	x	u	-	x	-	实际读取benchmark和check，未采样profile；不把测试源码算外部知识读取	-	m
+3	E	D	F	m	u	x	u	k	n	-	读取sota入口与题目配置；入口提示QuACK在SM120可能不可用，后续未调用或移用该入口实现	step12,21自写Triton方案	o
+4	N	O	O	m	u	x	u	-	x	-	查询GPU和编译环境；设备识别不是GPU性能测量	-	k
+5	N	O	O	m	u	x	u	-	x	-	查找已安装Triton/CUTLASS和目录，不是读取文档内容	-	k
+6	E	D	M	m	u	x	u	-	x	-	读取硬件常量、计时器和roofline实现；未运行计时或改变全局状态	-	m
+7	E	D	M	e	c	y	u	v	x	计分FLOPs未计K会压低相对实际工作的peak_fraction	推理逐式对比问题定义与评分公式，依据为源码而非profile；实际调用继续读正确性源码	-	m
+8	H	O	F	e	i	n	u	v	x	融合gate和up并在epilogue计算SwiGLU可降低中间HBM流量	运行的是理论roofline算式，非GPU实测；选手提出从手工指针正确版本逐步优化	-	o
+9	O	O	M	e	c	y	u	v	x	由于计分缺少K因子需要较高实际tensor-core利用率才能过阈值	复核前步单位后确认算式一致，未发生实测；实际工具只建任务，计划缓存尚未写入	-	m
+10	O	O	K	m	u	x	u	-	x	-	创建未来benchmark/profile和autotune任务；未实际启动profiler	-	o
+11	O	O	K	m	u	x	u	-	x	-	更新任务状态，推迟架构调研先写v1；本步没有机制分析或测试	-	o
+12	C	O	F	i	i	n	u	cs	x	双GEMM融合共享输入并避免SwiGLU中间结果落HBM	首个solution写入，融合机制来自实现注释及前步计划；代码中有按offset身份缓存tile-map，交R5复核	-	o
+13	C	O	K	e	c	y	u	vcst	x	autotune改变tile尺寸会使预先固定的tile-map与网格不匹配	明确推翻首版设计并整体改成3D网格；根据自身源码接口分析，仍写max_n_e缓存	-	o
+14	E	D	K	e	i	n	u	v	x	当前Triton可能不接受候选所用autotune网格接口	通过inspect读取Autotuner.run；工具返回后台句柄，尚未拿到源码结果，未算测量	-	o
+15	E	D	K	m	u	x	u	-	x	-	在等待上个源码探测时查询Config签名；仍是读源码，非profile	-	o
+16	E	D	K	m	u	x	u	-	x	-	读取Autotuner.run探测输出；无可见实质推理，也未修改源码	-	o
+17	E	D	K	m	u	x	u	-	x	-	继续查询getitem和bench函数以理解网格传递；未明确提出可检验性能机制	-	o
+18	E	D	K	e	c	y	u	v	x	网格须通过kernel下标调用路径传入而非Config关键字	结合已读run接口寻找网格来源，读取Config真实签名；不是工具性能采样	-	o
+19	E	D	K	e	c	y	u	v	x	Config首参必须为kwargs字典而非直接传BLOCK_M关键字	明确根据签名纠正接口理解，但本步仍仅查询模块源码未写候选	-	o
+20	E	D	K	e	c	y	u	v	x	当前autotune装饰器不支持grid参数	inspect返回完整签名不含grid，支持其对接口的判断	-	o
+21	C	O	K	e	c	y	u	vcst	x	固定BLOCK_M/N并仅搜索其余参数可绕过当前autotune接口限制	因实际签名改写候选并转手工shape启发式，方向改变；仍有offset相关缓存，未有GPU性能证据	-	o
+22	M	V	F	m	u	x	s	vs	x	-	小形状与非均衡路由正确性allclose为True；手写诊断临时改reference形状全局量，非最终检查	-	o
+23	M	V	F	e	c	y	u	v	x	小形状绝对误差虽过而近零相对误差大，仍须全套stress验证	从前步误差推导验证范围，启动check后台任务尚无最终PASS	-	o
+24	E	D	K	e	i	n	f	v	x	SM120上tl.dot采用的指令与TMA支持可能限制性能	读包源码位置并检查后端能力；属性探测报错，尚未证明指令或性能假设	-	o
+25	T	V	K	e	i	n	u	v	x	改用tcgen05可能提高当前mma路径的性能	实际只轮询check输出且尚空，推理提出后续PTX验证，不能记已profile	-	o
+26	E	D	K	m	u	x	u	-	x	-	试图从微型JIT获取PTX但grep无输出，未证明指令类型；编译检查不等于性能profile	-	o
+27	E	D	K	m	u	x	f	v	x	-	解释前次未真正抽取PTX并改探测法，但stdin定义JIT失败	-	o
+28	E	D	K	m	u	x	u	-	x	-	把微型kernel写到文件后读取其PTX，确实观察mma.sync和cp.async；没有硬件性能计数器采样	-	o
+29	T	V	K	e	c	u	u	v	x	观察到mma.sync意味着没有用到所假定的Blackwell峰值路径	PTX支持所用指令，但该指令是否限制SM120峰值尚无数据；实际工具轮询check仍无结果	-	o
+30	E	D	K	e	c	u	u	v	x	触发tcgen05编译路径可能消除性能限制	读取编译器源码寻找选择逻辑，尚未获得适配当前架构的性能证据	-	o
+31	M	V	F	m	u	x	c	-	x	-	读取完整check结果，shape2 seed123大量元素越容差；不能沿用小形状的通过结论	-	o
+32	M	V	K	e	c	u	f	v	x	不同seed才失败可能与autotune路径或未写输出tile有关	列出多种竞争解释并写逐配置诊断；实际在import reference前失败，因此诊断尚未运行	-	o
+33	M	V	K	m	u	x	f	-	x	-	原样重试诊断仍无法import reference，未生成新数值证据	-	o
+34	M	V	K	m	u	x	s	s	x	-	通过临时PYTHONPATH环境写入执行诊断，能编译的配置均通过；部分配置共享内存超限单列失败	-	o
+35	M	V	K	e	c	w	s	vs	x	错误必然来自autotune路径而非单个kernel配置	用直接调用均正确作为依据，但forward在两seed也通过，尚未复现全套流程；后步36定位缓存使该必然判断不成立；临时改reference全局形状与PYTHONPATH	step36:L171–174	o
+36	C	O	H	e	c	y	u	vcst	x	仅以data_ptr作max_n_e缓存键会在跨形状地址复用后返回旧路由长度	全套与单形状结果差异促使检查缓存，改key加入T_perm和E；后续step47全套PASS支持修复	step47:L211–214	o
+37	C	O	H	i	c	y	u	cs	x	调用缓存函数时需传入形状维度以区分复用地址	补齐前一步改签名后的调用点；没有本步可见推理，代码直接落实缓存修复	-	o
+38	C	O	K	e	c	y	u	vc	x	删掉已知共享内存超限配置能缩短正确性迭代等待	根据step34资源报错缩减BK和stages范围，不把另提的双独立GEMM备选当已实施	-	o
+39	M	V	F	m	u	x	u	-	x	-	缓存修复后启动全套check后台任务；本步只有句柄尚未PASS	-	o
+40	E	J	K	e	c	u	u	vk	a	make_tensor_descriptor对应TMA路径且可能触发目标MMA	读取API签名及docstring、编译器条件；后续step50按该接口写TMA scratch实验	step50:L224–227	o
+41	E	D	K	e	c	u	u	v	x	编译器中按capability启用的tmem优化可能覆盖SM120	读取条件分支但未见实际tcgen05产物；代码条件不能单独证明目标指令适用	-	o
+42	E	D	K	e	c	w	u	v	x	改用TMA载入可让SM120从mma.sync转为tcgen05	根据编译pass作了未经产物验证的归因；step53的TMA实际PTX仍为mma.sync，推翻该归因	step53:L236–241	o
+43	E	J	K	e	c	y	u	vk	a	ragged描述符可为每个expert的变长M子数组提供边界检查	读取ragged API的文档与TensorDescriptor实现；step50将其改写为双GEMM/SwiGLU scratch实验，step53验证正确性	step50:L224–227;step53:L236–241	o
+44	T	V	K	m	u	x	u	v	x	-	解释描述符结构后轮询check进程，输出仍为空，不当作新的成功测试	-	o
+45	E	D	K	e	c	u	u	v	x	单个三维权重描述符与ragged激活描述符可实现分组GEMM	搜索使用实例并给出设计草案；没有实际改候选或运行该设计	-	o
+46	T	V	F	m	u	x	u	-	x	-	读取check日志末尾只看到耗时，没有PASS行；定位FlashInfer源文件但未成功读取实现	-	o
+47	M	V	F	m	u	x	s	-	x	-	明确grep到原始check的PASS，支持缓存修复后的全套正确性通过	-	o
+48	O	O	F	m	u	x	u	-	x	-	依据前步PASS把任务1完成、任务2进行中；实际尚未发出benchmark命令	-	s
+49	M	K	F	m	u	x	u	-	x	-	启动原始benchmark的基线后台运行，尚未得到分数	-	p
+50	C	O	K	e	c	w	u	vs	x	按已读ragged TMA接口载入可能使GEMM改走tcgen05	将API改写成scratch而非最终候选；后来step53显示TMA可运行但仍发射mma.sync，该指令归因错误	step53:L236–241	o
+51	M	K	F	m	u	x	s	-	x	-	读取完整基线计分输出，geomean0.1226且RESULT为OK，不覆盖榜单最终failure	-	p
+52	M	K	K	e	c	y	s	vs	x	硬件常量200TFLOPS可能低于当前机器实际可达到的BF16吞吐	根据baseline与计分因子换算异常，执行CUDA事件cuBLAS诊断得到347–397TFLOPS；为自定义测量而非标准计分	-	p
+53	M	V	K	e	c	w	s	v	x	TMA加tcgen05是超过现有吞吐的必经路径	运行TMA scratch后正确性通过，但PTX仍mma.sync；该结果已推翻前步的指令必然归因，吞吐因果仍未证明	-	o
+54	C	O	K	e	c	u	u	v	x	改变tile和warp配置可能触发tcgen05 lowering	写独立探针比较编译产物；非候选solution修改，也没有本步性能结果	-	o
+55	E	D	K	m	u	x	u	-	x	-	探针实际返回所有配置仍mma.sync；读取编译产物不算profiler采样	-	o
+56	E	D	K	e	c	u	u	v	x	CUTLASS或Gluon路径可能支持标准Triton未触发的目标指令	根据多配置PTX未触发结果转查安装的CUTLASS架构支持；兼容性尚待实际验证	-	o
+57	C	O	M	e	c	u	u	vs	x	比较单一TMA实现与cuBLAS计时可区分访存方式与指令吞吐限制	写自定义计时脚本含CUDA同步和reference形状全局赋值；未更改官方评分器	-	p
+58	M	K	K	m	u	x	u	-	x	-	启动独立TMA配置计时后台任务，尚无结果	-	p
+59	E	D	K	m	u	x	u	-	x	-	检索Gluon API和CUTLASS分组例程位置，未读取完整文档或运行新kernel	-	o
+60	T	K	K	m	u	x	u	v	x	-	意识到SM100与SM120兼容性需验证，但实际仅轮询后台计时文件且为空	-	o
+61	T	K	K	m	u	x	u	-	x	-	显式等待并读计时文件，无数值结果	-	o
+62	T	O	K	m	u	x	u	-	x	-	查询进程和文件大小，确认计时仍运行，不把空文件解读为失败	-	o
+63	E	J	K	m	u	x	u	vk	n	-	读取CUTLASS例程75前60行的说明与用法，后续因工作量/兼容风险放弃CUTLASS实现，未见移用	step117:L529–533;step161:L708–711	o
+64	E	D	K	e	c	u	u	v	x	SM100分组例程可能适配SM120但融合epilogue成本高	比较两套实现工作量并检索架构/翻译器源码；未证明SM120支持该指令	-	o
+65	N	O	K	m	u	x	f	v	x	-	因编译等待较长尝试终止计时改做单配置，pkill命中命令导致exit144；不算性能失败	-	o
+66	E	D	K	m	u	x	u	-	x	-	读取翻译器辅助源码，未执行翻译或生成GPU测量	-	o
+67	E	D	K	e	c	u	u	v	x	Gluon翻译器可能为同一Triton逻辑选择tcgen05	读支持条件与原语，提出验证兼容性的必要性；未直接执行该路径	-	o
+68	M	K	K	e	c	u	f	v	x	先比较单配置TMA与指针kernel可选择较可靠的优化基础	写并运行A/B计时，但导入reference失败，尚无有效A/B结果	-	p
+69	M	K	K	m	u	x	s	s	x	-	通过临时PYTHONPATH执行上步计时，返回不同配置耗时；其中一配置明显慢，不删去原始观测	-	p
+70	E	D	K	e	c	u	u	v	x	当前分组TMA与指针实现差距小，可能是MMA路径本身限制吞吐	根据自定义计时提出归因但分组等混杂尚未控制；实际读取Gluon支持条件，不是新profile	-	o
+71	E	D	K	e	c	u	u	v	x	将现有kernel转换成满足tile条件的Gluon可能使用tcgen05	从辅助实现读到M/K/warp约束，继续查转换入口；未证明目标架构可执行	-	o
+72	M	K	K	e	c	w	s	vs	x	大规模普通mma.sync GEMM若仅达130TFLOPS可证明必须换指令路径	实际非分组测试达到最高326.1TFLOPS，否定130/200的简单上限；临时PYTHONPATH和自定义CUDA计时	-	p
+73	M	K	K	e	c	y	u	vst	x	双累加器的资源压力可能限制融合kernel的tile选择与吞吐	单GEMM326TFLOPS推翻必须换指令的路线，转向融合配置扫参；后台句柄未返回新结果，写临时PYTHONPATH	-	o
+74	T	K	K	e	c	u	u	v	x	两次独立GEMM可能因资源压力更小而胜过完全融合	依据前一步数据提出备选并等待扫参，输出仍空，未实施备选	-	o
+75	T	K	K	e	c	n	u	v	x	BM128/BN256/BK32且两级流水的共享内存需求可落在硬件限额内	手算smem占用而非实测寄存器/访存指标，实际等待扫参无输出	-	o
+76	M	K	K	m	u	x	s	-	x	-	等后台扫参后得到多配置计时，BM128/BN256多配置异常慢而BM64/BN256正常	-	p
+77	M	K	F	e	c	u	u	vst	x	完全融合的双累加器可能溢出寄存器，拆成两GEMM可提升吞吐	根据耗时数量级差提出寄存器解释，未读寄存器或spill计数因此机制未证实；转向单GEMM实测	-	o
+78	O	O	F	e	c	u	u	v	x	先物化gate再在up的epilogue融合SwiGLU可兼顾资源占用与访存成本	依据计时及中间tensor大小估算选择两kernel方案；实际工具只更新任务并创建后续任务	-	o
+79	T	K	K	m	u	x	u	-	x	-	等待单GEMM测试，输出仍空	-	o
+80	M	K	K	m	u	x	s	-	x	-	读到单GEMM完整扫参，8warps配置吞吐约379TFLOPS；本步无推理块	-	p
+81	C	O	F	e	c	y	u	vcs	x	两次分组GEMM以8warps宽Ntile运行并在第二次epilogue算SwiGLU可避免双累加器压力	根据单GEMM与融合计时改写solution；保留路由缓存并改用已读ragged/TensorDescriptor实现	-	o
+82	C	O	K	e	c	y	u	vc	x	未使用且描述符block_shape错误的_launch辅助函数应移除	读自身刚写代码发现死代码，明确删除而非恢复先前方案	-	o
+83	C	O	K	e	c	y	u	vc	x	TMA描述符block_shape必须与kernel的BK匹配，不能在外部固定64同时autotune32	源码一致性检查后固定BK64并仅调stages；没有新增运行证据	-	o
+84	C	O	K	e	c	y	u	vc	x	BK从autotune配置移除后必须在forward显式传参并与描述符共用常量	补齐前步接口修改，防止缺少constexpr；本步未运行测试	-	o
+85	O	O	K	m	u	x	u	-	x	-	思考autotune key后更新任务为进行中，未实际执行所说正确性检查	-	o
+86	M	V	F	m	u	x	f	s	x	-	临时PYTHONPATH运行自定义全shape检查，编译在SwiGLU表达式失败；不当作容差不通过	-	o
+87	M	V	K	m	u	x	f	vs	x	-	重试并扩展错误输出，仍是同一编译表达式错误；临时PYTHONPATH未改官方评测	-	o
+88	M	V	K	e	c	u	u	vs	x	TMA载入gate的布局或dtype可能与dot累加器的逐元素运算不兼容	写最小编译探针分离错误；后台返回句柄，尚未验证候选解释	-	o
+89	T	V	K	m	u	x	u	-	x	-	等待并轮询最小编译探针，调用自身也返回后台句柄	-	o
+90	M	V	K	m	u	x	f	-	x	-	读取探针结果，仍在sigmoid表达式编译失败，尾部未显示根因	-	o
+91	E	D	K	e	c	u	f	v	x	错误可能是TMA载入布局与MMA累加器布局不兼容	为定位编译根因改读日志头；日志仍仅表达式定位，没有确认布局归因	-	o
+92	M	V	K	e	c	u	f	vs	x	逐项简化epilogue可区分布局乘法问题与sigmoid的dtype问题	准备二分实验但脚本名遮蔽stdlib bisect导致导入失败；临时PYTHONPATH，未验证表达式	-	o
+93	M	V	K	m	u	x	f	vs	x	-	更名消除stdlib遮蔽后，exec构造的JIT函数仍因缺真实源码文件失败	-	o
+94	N	O	K	e	c	u	u	v	x	布局转换或dtype转换问题需在真实文件中拆表达式验证	写探针脚手架却仍含exec_global，自行承认该方法不会工作；未执行有意义GPU验证	-	o
+95	M	V	K	e	c	y	s	vs	x	若最简单acc乘gate能编译，问题就不是所有布局之间的乘法	真实文件探针返回OK mul，缩小归因范围；临时PYTHONPATH为导入所需	-	o
+96	M	V	K	e	c	y	s	vs	x	bf16 gate先转fp32再算sigmoid可解决该编译错误	三个真实文件变体比较，原始bf16 sigmoid报错而fp32两种变体OK，支持dtype解释	-	o
+97	C	O	K	e	c	y	u	vc	x	将载入的gate转fp32后再算sigmoid可避开已观察编译错误	把前步变体结果落实到正式solution的SwiGLU epilogue，尚未重新完整验收	-	o
+98	M	V	F	m	u	x	u	s	x	-	临时PYTHONPATH启动自定义正确性脚本，返回后台句柄，尚无新检查结果	-	o
+99	M	V	F	m	u	x	s	v	x	-	解释两种FUSE的autotune缓存键后读到三shape两seed均bad0；不是全套stress验收	-	o
+100	M	V	F	m	u	x	u	-	x	-	正式check后台启动，结果尚未返回，不把前步抽查当全套PASS	-	o
+101	M	V	F	m	u	x	s	-	x	-	全套check明确返回PASS	-	o
+102	M	K	F	m	u	x	s	-	x	-	正式benchmark返回peak_fraction0.2355且OK，比原基线高；会话终局仍由榜单单列	-	p
+103	M	K	H	e	c	u	u	vs	x	小形状退步可能来自第二次launch或TMA allocator开销	依据分shape计时差异写wall/event/allocator诊断；并非torch.profiler或硬件计数器采样，临时脚本涉及全局allocator替换	-	p
+104	T	K	H	m	u	x	u	-	x	-	尝试读诊断输出时拼错任务ID，两个路径尾部均空，未得到新数据	-	p
+105	M	K	H	m	u	x	s	-	x	-	读到wall0.5301ms和event0.5752ms，直接相减产生负开销；两种协议不可直接解释为精确host开销	-	p
+106	M	K	F	e	c	u	u	vs	x	将gate累加器转bf16后再计算up可降低活跃寄存器且省去中间HBM写入	据源码与计时提出新融合设计并执行scratch测试；不能由前步负差值断言host开销为零，后台尚无结果	-	o
+107	T	K	F	m	u	x	u	-	x	-	等待单kernel融合实验，调用返回新的后台句柄，无数值结果	-	o
+108	M	K	F	m	u	x	s	-	x	-	读取多个融合配置实测耗时，作为下一步采用该设计的依据	-	p
+109	C	O	F	e	c	y	u	vcst	x	在寄存器暂存bf16 gate并分两K循环可减少launch与中间HBM读写	据scratch所有shape计时较快重写为统一单kernel，方向由双kernel转单kernel；仍有路由缓存与allocator全局设置	-	o
+110	M	V	F	m	u	x	u	-	x	-	启动统一融合kernel的全套check，尚无结果	-	o
+111	M	V	F	m	u	x	s	-	x	-	全套check返回PASS	-	o
+112	M	K	F	m	u	x	s	-	x	-	正式benchmark返回peak_fraction0.2407和OK，不等同scratch热缓存计时	-	p
+113	M	K	F	e	c	u	u	vs	x	冷L2评分协议可能使读两次x的设计比热缓存scratch慢，增加warps的真单遍融合可减少该代价	识别两种计时协议不同但未隔离其他因素，提出对照scratch；临时PYTHONPATH与计时脚本，后台尚无结果	-	o
+114	T	K	F	e	c	u	u	v	x	单次读x若可实现可能缩小冷暖协议下的差距	等待真融合实验，未产生验证结果；没有把等待时长当可靠阶段耗时	-	o
+115	T	K	F	m	u	x	u	-	x	-	继续等待实验输出，仍空	-	o
+116	M	K	F	m	u	x	s	-	x	-	读到真融合配置结果，部分共享内存超限、其余有慢计时；成功指取得实验数据，不表示每个配置可用	-	p
+117	M	K	F	e	c	y	u	vst	x	已试真单遍融合受共享内存或性能制约，保留bf16 gate版本较稳妥	依据配置返回放弃该支线；使用明确诊断开关KBH_BENCHMARK_BASELINES=1跑原benchmark，合法性交R5，不假设CUTLASS潜在收益已证实	-	s
+118	T	K	F	m	u	x	u	v	x	-	考虑再调BM/stages但选择暂不修改，实际等待含基线benchmark返回	-	o
+119	T	K	F	m	u	x	u	-	x	-	继续等待含基线benchmark，尚无数值结果	-	o
+120	M	K	F	m	u	x	s	-	x	-	读到含eager/compiled/sota的原benchmark完整结果，最终peak_fraction0.2412且OK	-	p
+121	M	K	F	e	c	u	u	vs	x	在每个K迭代复用x并串行载入两套权重或可减少HBM读写而不双倍缓冲权重	据前面失败设计提出单buffer真融合备选并启动scratch，尚未验证；临时PYTHONPATH与计时逻辑	-	o
+122	T	K	F	m	u	x	u	-	x	-	等待真融合scratch，轮询本身被后台化，无结果	-	o
+123	T	K	F	m	u	x	u	-	x	-	继续等待，无新的数值结果	-	o
+124	T	O	F	m	u	x	u	-	x	-	查询进程确认仍运行，等待后文件仍空，不判测试失败	-	o
+125	T	K	F	m	u	x	u	v	x	-	比较当前已验证方案与未完成实验后选择继续等；没有新增机制证据或候选修改	-	o
+126	N	O	F	m	u	x	f	v	x	-	为缩短实验拟终止长扫参再写精简脚本，但pkill使命令exit144，后续heredoc未完成	-	o
+127	M	K	F	m	u	x	f	s	x	-	带临时PYTHONPATH重试精简计时，实际脚本不存在；没有有效GPU测量	-	p
+128	M	K	F	m	u	x	u	vs	x	-	解释heredoc被中断后重新创建并启动精简计时，后台尚未返回数据	-	p
+129	M	K	F	m	u	x	s	-	x	-	精简真融合得到24.072和20.049ms，一配置共享内存超限；没有以最慢结果替代全部配置	-	p
+130	C	O	M	e	c	u	u	vs	x	匹配正式benchmark的冷L2协议可能改变不同配置相对排序	承认精简测试仅单次热缓存数据不足，拟新增flush计时；本步草稿有语法错未执行	-	p
+131	M	K	K	m	u	x	u	s	x	-	重写冷L2配置计时并执行，含同步/flush和临时PYTHONPATH；这是独立诊断，非官方评分器改写	-	p
+132	E	D	F	m	u	x	u	-	x	-	在扫参后台运行时重读当前solution核对两K循环和接口；未读取外部知识	-	o
+133	T	K	K	e	c	u	u	v	x	冷L2结果可验证stages与tile组合是否优于现有autotune范围	当前仅等待，返回后台句柄没有新测量	-	p
+134	T	K	K	m	u	x	u	-	x	-	继续等待冷L2实验，无新结果	-	p
+135	M	K	K	m	u	x	s	-	x	-	查询活进程后读到冷L2配置计时；stages4报共享内存超限，其他配置有数值	-	p
+136	C	O	K	e	c	y	u	vc	x	固定已测最优stages3可避免autotune反复编译不可用stages4	根据冷L2结果去掉autotune、增加明确warp和stages常量；不把单轮测量外推成所有shape绝对最优	-	o
+137	C	O	K	i	c	y	u	c	x	移除autotune后调用点必须显式传入warp与stages常量	补齐上步接口改动，只有编辑无可见推理	-	o
+138	M	V	F	e	c	y	u	v	x	原autotune已选stages3，硬编码同配置应保持计算正确性	据源码与已测配置预期等价，仍启动全套check确认；后台未返回	-	o
+139	T	V	F	m	u	x	u	-	x	-	等待硬编码版本check，轮询本身被后台化	-	o
+140	T	V	F	m	u	x	u	-	x	-	继续等待同一check，未见PASS/FAIL	-	o
+141	T	V	F	m	u	x	u	-	x	-	解释比预期慢但尚无根因证据，继续查运行状态	-	o
+142	T	V	F	m	u	x	u	v	x	-	识别自己的sleep轮询也产生后台任务，改用TaskOutput确认原任务仍运行	-	o
+143	T	V	H	e	c	u	u	v	x	全套检查耗时可能主要来自reference逐expert同步而非候选编译	依据参考源码推测等待原因但未profile，不将猜测当事实；实际再次等待	-	p
+144	T	V	H	m	u	x	u	v	x	-	重新质疑为何shell轮询后台化并改TaskOutput；确认原任务仍running，没有额外CUDA测量	-	o
+145	N	O	H	e	i	n	u	v	x	旧后台进程的竞争可能造成当前命令延迟	根据等待时间作原因猜测，发出ps诊断但仍后台，尚无进程数据支持	-	k
+146	T	O	H	e	i	n	u	v	x	大量后台任务可能造成系统拥塞	读取原check空日志，空日志不能证明拥塞或进程终止	-	k
+147	T	V	H	m	u	x	u	v	x	-	在是否终止任务之间反复权衡，实际用TaskOutput等原check，状态仍running	-	o
+148	N	O	H	e	i	n	u	v	x	GPU上残留scratch进程可能使check显著变慢	尝试nvidia-smi和pgrep但诊断自身后台化，未取得GPU占用证据	-	k
+149	T	O	H	e	i	n	u	v	x	可能是CPU或系统任务竞争导致普遍后台化	读到的诊断日志仍空，不能据此确定CPU饱和	-	k
+150	T	O	H	e	i	n	u	v	x	残留后台Python进程可能竞争GPU	继续用TaskOutput等待nvidia-smi，仍超时；无新增占用观测	-	k
+151	N	O	H	e	i	n	u	v	x	强制清理scratch与sleep进程可能恢复评测运行	未取得占用诊断就发出pkill清理；不宣称已证实资源拥塞，也未实际改评测源码	-	k
+152	T	O	H	m	u	x	u	-	x	-	等待清理命令仍返回running，不能记为清理完成	-	k
+153	N	O	H	e	i	n	u	v	x	系统负载可能而非单个GPUkernel造成延迟	查询cleanup输出、uptime与进程数据；工具先返回后台句柄，结果尚未取得	-	k
+154	N	O	H	e	i	u	s	v	x	大量后台任务堆积可能造成之前的慢响应	TaskOutput返回cleanup完成且load约1.05，不能反推清理前必然CPU饱和；将机制保留不可判定	-	k
+155	M	V	F	m	u	x	u	v	x	-	在推测旧check已被杀后重跑，但过滤后的输出为空；不能确认旧进程终止或新检查通过	-	o
+156	M	V	F	m	u	x	u	v	x	-	意识到grep空输出不等于成功，改捕获完整check输出；启动后台尚无结果	-	o
+157	T	V	F	m	u	x	u	v	x	-	收到旧check完成消息后再读两个日志，诊断仍先后台化；不把exit0自动当PASS	-	o
+158	M	V	F	m	u	x	s	-	x	-	直接Read原始新check输出，明确出现PASS	-	o
+159	M	K	F	m	u	x	u	v	x	-	在已见新check PASS后读旧检查并启动最终benchmark；关于拥塞原因仍只是选手说法	-	p
+160	M	K	F	m	u	x	s	-	x	-	原始返回包含旧check PASS及benchmark0.2432、RESULT OK	-	p
+161	E	D	K	e	c	y	u	v	x	小shape用BN128可增加CTA数量并可能改善其计分	长推理反复权衡，但实际仅读取当前tile与缓存代码；既有冷L2配置数据支持尝试，不重复计为多次决策	-	o
+162	C	O	K	e	c	y	u	vc	x	按初始化时估计每expert token数选择BN可适配小shape	将估计量阈值512写入_choose_tiles，来源是已观察不同配置计时而非profile指标	-	o
+163	C	O	K	i	c	y	u	c	x	模型实例与描述符/网格需共用选定BM和BN	补齐前步shape自适应调用链；无新推理块或测试，本步不新建缓存机制	-	o
+164	M	V	F	e	c	y	u	v	x	小shape BN128配置的共享内存可容纳且应保持正确性	根据先前配置结果与资源估算启动全套check确认；返回后台句柄	-	o
+165	M	V	F	m	u	x	s	-	x	-	直接等待原任务并看到shape自适应版本PASS	-	o
+166	M	K	F	m	u	x	u	-	x	-	启动shape自适应版本正式benchmark，尚无数值结果	-	p
+167	M	K	F	m	u	x	s	-	x	-	benchmark返回peak_fraction0.2447及OK；原始分shape计时可定位	-	p
+168	A	O	F	e	c	y	u	v	x	保留shape自适应后小shape计分略升而大shape近似稳定	依据前后一次计时接受当前方案并做禁用op grep/清理scratch；差异未做重复统计，未把小幅提升当普遍规律	-	s
+169	E	D	F	m	u	x	u	-	x	-	完整重读最终solution与接口；只有复查动作播报，没有新增机制或知识读取	-	o
+170	C	O	K	m	u	x	u	vc	x	-	发现docstring仍写固定BN256而实际shape自适应，修改说明；没有执行路径变化	-	o
+171	C	O	K	m	u	x	u	c	x	-	继续修正文档中已不成立的autotuned说法，未改变执行逻辑	-	o
+172	O	O	F	m	u	x	u	v	x	-	考虑是否需注释改后再测并更新任务完成状态；实际工具仅任务管理	-	s
+173	E	O	O	m	u	x	u	-	x	-	查询持久记忆目录是否存在，没有读取到文档内容	-	a
+174	W	O	K	e	c	u	u	vs	x	Gluon可能提供当前标准Triton未触发的tcgen05路径	把此兼容性未验证主张写入持久记忆；已知PTX不能证明Gluon可在SM120运行，不将记忆视作事实验证	-	a
+175	W	O	M	e	c	y	u	s	x	此机实测BF16吞吐高于评分硬件文件给定常量	写持久记忆保存cuBLAS诊断数值和计分约定；是选手测量结论，未由本研究GPU复现	-	a
+176	W	O	F	e	c	y	u	s	x	暂存bf16 gate的单kernel设计在已测配置下较早期双累加器版本快	把已测设计、缓存地址复用教训与dtype修复写入持久记忆；不是再次测量	-	a
+177	W	O	O	m	u	x	u	s	x	-	写持久记忆索引，不读取外部知识，不能据索引推断后续会话已采用	-	a
+178	M	V	F	m	u	x	u	v	x	-	仅注释变更后仍选择最终顺序执行check与benchmark，先返回后台句柄；主要动作是正确性启动	-	o
+179	M	K	F	m	u	x	s	-	x	-	最终返回同时有check PASS和benchmark0.2451、OK；为该原始导出观测，未改变榜单failure标签	-	p
+180	W	O	F	e	c	y	u	v	x	在该会话已测形状上bf16 gate单kernel设计较初个正确版本计分快	最终文字汇总0.1226至0.2451与关键取舍；对任意routing稳健及未来Gluon收益未实测，不作为已证事实	-	a
