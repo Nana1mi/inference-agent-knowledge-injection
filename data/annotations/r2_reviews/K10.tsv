@@ -1,0 +1,221 @@
+# step phase tool layer origin source evidence outcome flags use hypothesis rationale followup component
+1	探索代码	D	K	m	u	x	s	k	a	-	读reference、check和benchmark；9适配输入/输出、索引和Model接口，不使用禁止Torch算子作候选；短标题不计推理	step9	m
+2	环境准备	O	C	m	u	x	f	-	x	-	读配置/形状且GPU可见，但默认Python缺torch；题设元数据不等于实际SOTA正文读取	step7	o
+3	探索代码	D	M	e	c	y	s	v	x	stress分布可影响比较次序，应先读协议	读数值压力与timer并定位解释器；公开提NaN/Inf/tie不是协议确有覆盖这些输入的证据	-	p
+4	环境准备	O	O	m	u	x	f	-	x	-	另一Python仍缺torch；nvcc12.8和CUB rg列表取得，未读目标实现正文	step7	o
+5	环境准备	O	O	m	u	x	s	-	x	-	定位项目venv/库并读pyproject，仅环境导航	-	o
+6	环境准备	O	O	m	u	x	f	-	x	-	相对venv路径不存在，未加载torch	step7	o
+7	环境准备	O	C	m	u	x	s	-	x	-	绝对路径成功回显torch2.11 cu130/Triton3.6、SM120 Server和CUDA_HOME12.8；不是profile	-	o
+8	探索代码	D	K	m	u	x	s	k	a	-	实际读CUB BlockRadixSort文档/签名和blocked布局；9调用该API，标题串不计实质推理	step9	m
+9	修改代码	O	K	e	r	y	u	vcs	x	分块本地topk加全局归并可增加SM并行，k1单独归约	正式首次写CUDA/CUB实现，适配reference与8库文档；导入setdefault编译架构环境，未profile	step18	o
+10	测量	V	K	m	u	x	u	-	x	-	启动正式check，后台未完	step12	p
+11	等待	O	M	m	u	x	u	-	x	-	poll空，不能记编译失败或完成	step12	o
+12	测量	V	K	m	u	x	f	-	x	-	扩展编译失败，尚未数值对照	step13	p
+13	修改代码	O	K	i	c	y	u	c	x	换FLT_MAX哨兵可修复未定义CUDART_INF_F	正式修复常量；finite哨兵是否覆盖非有限输入不由此证明	step18	o
+14	测量	V	K	m	u	x	u	-	x	-	启动修复后check	step18	p
+15	等待	O	M	m	u	x	u	-	x	-	check后台空	step18	o
+16	等待	O	M	m	u	x	u	-	x	-	check仍空，无终态	step18	o
+17	等待	O	M	m	u	x	u	-	x	-	继续等待check，无结果	step18	o
+18	测量	V	K	m	u	x	s	t	x	-	首次正式check PASS，不外推全部输入	-	p
+19	测量	B	K	e	i	u	s	v	x	完整tile排序可能浪费排序被丢弃元素的工作	首次正式benchmark实际返回0.0287/LOW；还无profile验证瓶颈	step29	p
+20	测量	B	M	m	u	x	u	s	x	-	命令局部KBH_BENCHMARK_BASELINES=1启用合法基线诊断，开始eager比较；未改oracle	step21	p
+21	测量	B	M	m	u	x	s	-	x	-	基线比较完成fraction0.0280/LOW；SOTA也是torch.topk，与reference不独立；不是SOTA源码采用	-	p
+22	修改代码	O	K	e	i	u	u	vc	x	四字节radix阈值筛选只排序赢家可减少全tile排序	公开/可见实质理由支持改算法；正式实现新selector，还无硬件profile或有效收益	step27/28	o
+23	测量	V	K	m	u	x	u	-	x	-	启动selector check	step27	p
+24	等待	O	M	m	u	x	u	-	x	-	后台空，未完成	step27	o
+25	等待	O	M	m	u	x	u	-	x	-	继续等待selector check	step27	o
+26	等待	O	M	m	u	x	u	-	x	-	后台仍空，不判失败	step27	o
+27	测量	V	K	m	u	x	s	-	x	-	selector check PASS	-	p
+28	测量	B	K	m	u	x	s	-	x	-	selector fraction0.0231/LOW，比初版慢；不把正确性通过当有效优化	step29	p
+29	profile	S	K	e	i	y	u	v	x	selector回退可能因直方图同步成本，应拆kernel计时	公开决定弃用但本步仅启动nsys；根因机制还未证实，实际回滚在31	step30	p
+30	profile	S	K	m	u	x	s	t	x	-	首份成功nsys报告：selector tile均值22.392us/merge3.916us；晚于9首次修改	-	p
+31	回滚	O	K	i	p	y	u	c	x	selector慢于CUB应恢复完整radix排序	正式保留旧selector但热路径恢复CUB，profile指向tile主导	step36	o
+32	测量	B	K	m	u	x	u	-	x	-	启动恢复CUB benchmark	step36	p
+33	等待	O	M	m	u	x	u	-	x	-	后台空	step36	o
+34	等待	O	M	m	u	x	u	-	x	-	继续等待编译/benchmark，无完成	step36	o
+35	等待	O	M	m	u	x	u	-	x	-	返回空，不等于失败	step36	o
+36	测量	B	K	m	u	x	s	-	x	-	恢复CUB fraction0.0287/LOW	-	p
+37	profile	S	K	m	u	x	u	-	x	-	启动恢复CUB后的nsys，CPU采样警告不等于CUDA采集失败	step38	p
+38	profile	S	K	m	u	x	s	-	x	-	nsys实际tile14.795us/merge3.925us，100次无逐次L2刷新；不与正式冷缓存时长等同	step41	p
+39	探索代码	D	C	m	u	x	s	k	a	-	读CUB radix位宽模板默认4及rank/exchange实现，41试8bit/47试6bit	step41/47	m
+40	探索代码	D	C	m	u	x	s	k	a	-	继续读CUB模板参数与逐digit处理正文，41作位宽适配	step41	m
+41	修改代码	O	C	e	p	y	u	vc	x	profile中tile主导，8bit digit可减少radix轮数	正式两阶段4→8位；容量先验未经实测，后编译失败	step46	o
+42	探索代码	D	C	m	u	x	s	-	x	-	rg确认两处模板改8，读自写候选不计外部知识	-	o
+43	测量	B	C	m	u	x	u	-	x	-	启动8bit benchmark待编译	step46	p
+44	等待	O	M	m	u	x	u	-	x	-	后台空	step46	o
+45	等待	O	M	m	u	x	u	-	x	-	继续等待，无完成	step46	o
+46	测量	B	C	m	u	x	f	-	x	-	ptxas静态共享内存超过0xc000上限；不是数值失败或有效8bit时长	step47	p
+47	修改代码	O	C	i	c	y	u	c	x	6bit digit或在容量与轮数间折中	正式8→6并改扩展名，未更改harness阈值	step52	o
+48	测量	B	C	m	u	x	u	-	x	-	启动6bit benchmark	step52	p
+49	等待	O	M	m	u	x	u	-	x	-	后台空	step52	o
+50	等待	O	M	m	u	x	u	-	x	-	继续等待，无时长返回	step52	o
+51	等待	O	M	m	u	x	u	-	x	-	后台仍空	step52	o
+52	测量	B	C	m	u	x	s	-	x	-	fraction0.0272/LOW，比4bit回退	step53	p
+53	修改代码	O	C	e	i	y	u	vc	x	回4bit并用1024tile或提高batched并发	正式同时恢复位宽和改分块/merge容量，后时长不独立归因tile	step59	o
+54	探索代码	D	C	m	u	x	s	-	x	-	rg确认1024tile函数/dispatch模板；无新增算法知识	-	o
+55	测量	B	C	m	u	x	u	-	x	-	启动1024tile benchmark	step59	p
+56	等待	O	M	m	u	x	u	-	x	-	编译/benchmark无输出	step59	o
+57	等待	O	M	m	u	x	u	-	x	-	后台继续空	step59	o
+58	等待	O	M	m	u	x	u	-	x	-	尚无结果	step59	o
+59	测量	B	C	m	u	x	s	-	x	-	fraction0.0302/LOW，组合版改善	-	p
+60	修改代码	O	C	i	i	u	u	c	x	同1024元素改256线程每线程4项或更快	正式128×8→256×4，待测	step65	o
+61	测量	B	C	m	u	x	u	-	x	-	启动256线程benchmark	step65	p
+62	等待	O	M	m	u	x	u	-	x	-	后台空	step65	o
+63	等待	O	M	m	u	x	u	-	x	-	继续等待	step65	o
+64	等待	O	M	m	u	x	u	-	x	-	尚无结果	step65	o
+65	测量	B	C	m	u	x	s	-	x	-	fraction0.0293/LOW，线程试验回退	step66	p
+66	修改代码	O	C	i	i	u	u	c	x	更小512tile或改善并发	正式恢复128线程并改tile/merge容量，多改合测	step71	o
+67	测量	B	C	m	u	x	u	-	x	-	启动512tile benchmark	step71	p
+68	等待	O	M	m	u	x	u	-	x	-	后台空	step71	o
+69	等待	O	M	m	u	x	u	-	x	-	仍在等待	step71	o
+70	等待	O	M	m	u	x	u	-	x	-	空返回不判失败	step71	o
+71	测量	B	C	m	u	x	s	-	x	-	fraction0.0288/LOW，整体不及1024版；逐形状保留	step72	p
+72	提出假设	D	K	e	c	u	s	v	x	少比低8位使同bin最大255ULP误序，可在容差内省2轮	公开容差推导，rg自身Sort调用；尚无截断后check，不把排序键近似当严格topk等价	step73/77	m
+73	修改代码	O	K	i	c	u	u	c	x	按容差截断低8位并恢复较优tile	正式本地和merge均begin8，另恢复1024与merge容量；组合测量	step77/78	o
+74	测量	V	K	m	u	x	u	-	x	-	启动截断低8位check	step77	p
+75	等待	O	M	m	u	x	u	-	x	-	check待编译	step77	o
+76	等待	O	M	m	u	x	u	-	x	-	后台空	step77	o
+77	测量	V	K	m	u	x	s	-	x	-	截断8位正式PASS，有限协议通过不等于精确排序保证	-	p
+78	测量	B	K	m	u	x	s	-	x	-	fraction0.0338/LOW；组合配置结果	-	p
+79	修改代码	O	K	i	i	u	u	c	x	本地再丢低12位可少一轮	仅前两本地sort begin12，merge仍8；待check	step83	o
+80	测量	V	K	m	u	x	u	-	x	-	启动本地12位截断check	step83	p
+81	等待	O	M	m	u	x	u	-	x	-	后台空	step83	o
+82	等待	O	M	m	u	x	u	-	x	-	继续等待	step83	o
+83	测量	V	K	m	u	x	s	-	x	-	本地12位截断PASS	-	p
+84	测量	B	K	m	u	x	s	-	x	-	fraction0.0350/LOW	-	p
+85	修改代码	O	K	e	i	u	u	vc	x	本地截断16位或再省一轮，必要时加候选slack	正式前两sort begin16，尚未失败不能编造边界证据	step89/96	o
+86	测量	V	K	m	u	x	u	-	x	-	启动本地16位截断check	step89	p
+87	等待	O	M	m	u	x	u	-	x	-	后台空	step89	o
+88	等待	O	M	m	u	x	u	-	x	-	等待check	step89	o
+89	测量	V	K	m	u	x	s	-	x	-	本地16位且radix merge8位版本PASS；不推出本地run精确有序	step96	p
+90	测量	B	K	m	u	x	s	-	x	-	fraction0.0352/LOW	-	p
+91	修改代码	O	K	e	c	u	u	vc	x	已有降序run可k-way归并减少候选排序	正式切迭代run merge；本地begin16只保证bin序，真正run单调前提不成立，待实际check	step96	o
+92	测量	V	K	m	u	x	u	-	x	-	启动run merge check	step96	p
+93	等待	O	M	m	u	x	u	-	x	-	后台空	step96	o
+94	等待	O	M	m	u	x	u	-	x	-	继续等待	step96	o
+95	等待	O	M	m	u	x	u	-	x	-	未出结果	step96	o
+96	测量	V	K	m	u	x	c	t	x	-	shape0 seed123 nominal值误差0.0115983/3处超差；实际数值失败，不能保留精确归并主张	step97	p
+97	回滚	O	K	i	c	y	u	c	x	将本地截断收紧8位或修复run次序问题	正式16→8，未恢复原radix merge	step102	o
+98	测量	V	K	m	u	x	u	-	x	-	启动收紧后check	step102	p
+99	等待	O	M	m	u	x	u	-	x	-	后台空	step102	o
+100	等待	O	M	m	u	x	u	-	x	-	继续等待	step102	o
+101	等待	O	M	m	u	x	u	-	x	-	尚无结果	step102	o
+102	测量	V	K	m	u	x	s	-	x	-	run merge加本地8位版本PASS，非任意输入保证	-	p
+103	测量	B	K	m	u	x	s	-	x	-	fraction0.0316/LOW，比radix merge版本差	step104	p
+104	修改代码	O	K	e	c	u	u	vc	x	16bit局部索引可减交换流量，argmax float4可减少load指令	正式同时恢复全部K的radix merge、本地begin8→16、压索引和向量化；不能拆每项收益，公开措辞不代替实际dispatch	step109/110	o
+105	测量	V	K	m	u	x	u	-	x	-	启动压缩索引/向量化版本check	step109	p
+106	等待	O	M	m	u	x	u	-	x	-	后台空	step109	o
+107	等待	O	M	m	u	x	u	-	x	-	继续等待	step109	o
+108	等待	O	M	m	u	x	u	-	x	-	尚无结果	step109	o
+109	测量	V	K	m	u	x	s	-	x	-	组合版本check PASS	-	p
+110	测量	B	K	m	u	x	s	-	x	-	fraction0.0394/LOW，argmax约10.256us；合并改动收益不拆分	-	p
+111	修改代码	O	C	e	i	u	u	vc	x	不同K采用512/1024tile可能改善并行和merge容量	可见推理比较向量/标量与索引，正式k16试512且增merge容量	step115	o
+112	测量	B	C	m	u	x	u	-	x	-	启动分块版benchmark	step115	p
+113	等待	O	M	m	u	x	u	-	x	-	后台空	step115	o
+114	等待	O	M	m	u	x	u	-	x	-	继续等待	step115	o
+115	测量	B	C	m	u	x	s	-	x	-	fraction0.0390/LOW，未比110整体改善	step116	p
+116	修改代码	O	K	i	i	u	u	c	x	tile向量化load并恢复1024或更快	正式float4+尾部标量，并恢复k16配置；不是纯向量化单因素实验	step121/122	o
+117	测量	V	K	m	u	x	u	-	x	-	启动向量化tile check	step121	p
+118	等待	O	M	m	u	x	u	-	x	-	后台空	step121	o
+119	等待	O	M	m	u	x	u	-	x	-	继续等待	step121	o
+120	等待	O	M	m	u	x	u	-	x	-	尚无完成	step121	o
+121	测量	V	K	m	u	x	s	-	x	-	正式check PASS	-	p
+122	测量	B	K	m	u	x	s	-	x	-	fraction0.0395/LOW	-	p
+123	修改代码	O	K	e	i	u	u	vc	x	本地begin20加2倍slack可容纳粗bin边界赢家	正式扩所有候选和merge容量；Gaussian也无已证完备性，末级只排序已保留者不能找回漏选	step128/129	o
+124	测量	V	K	m	u	x	u	-	x	-	启动20位截断/slack check	step128	p
+125	等待	O	M	m	u	x	u	-	x	-	后台空	step128	o
+126	等待	O	M	m	u	x	u	-	x	-	继续等待	step128	o
+127	等待	O	M	m	u	x	u	-	x	-	尚无结果	step128	o
+128	测量	V	K	m	u	x	s	-	x	-	该有限check PASS，不证明粗bin候选集合全包含全局topk	-	p
+129	测量	B	K	m	u	x	s	-	x	-	fraction0.0385/LOW，整体回退	step130	p
+130	修改代码	O	K	i	i	y	u	c	x	按K只在8/32用begin20和2倍候选可折中	正式K64/16 begin16无slack，K8/32 begin20/2倍；非恢复全部精确key	step135	o
+131	测量	B	K	m	u	x	u	-	x	-	启动按K配置benchmark	step135	p
+132	等待	O	M	m	u	x	u	-	x	-	后台空	step135	o
+133	等待	O	M	m	u	x	u	-	x	-	继续等待	step135	o
+134	等待	O	M	m	u	x	u	-	x	-	尚无结果	step135	o
+135	测量	B	K	m	u	x	s	-	x	-	fraction0.0409/LOW	-	p
+136	profile	S	K	m	u	x	u	-	x	-	启动v18 shape0的nsys，尚未返回kernel表	step137	p
+137	profile	S	K	m	u	x	s	-	x	-	实回merge10.541us/tile5.204us共100次；当前瓶颈与38另一形状版本不同	step140	p
+138	探索代码	D	K	e	p	y	s	vk	a	末级精排可修正粗run合并后的次序	可见实质推理并读CUB WarpMergeSort接口；140/154适配，不能据精排保证候选完整	step140/154	m
+139	探索代码	D	K	m	u	x	s	-	x	-	rg定位Sort继承实现/示例，仅导航，没有新增完整算法正文	step140	m
+140	修改代码	O	K	e	p	y	u	vc	x	profile显示K64 merge主导，可试单warp双run加末级精排	正式使用WarpMergeSort精排选出的64值；候选选择仍依赖粗run顺序，不能保证无漏选	step145/146	o
+141	测量	V	K	m	u	x	u	-	x	-	启动单warp K64 check	step145	p
+142	等待	O	M	m	u	x	u	-	x	-	后台空	step145	o
+143	等待	O	M	m	u	x	u	-	x	-	继续等待	step145	o
+144	等待	O	M	m	u	x	u	-	x	-	未出结果	step145	o
+145	测量	V	K	m	u	x	s	-	x	-	有限check PASS	-	p
+146	测量	B	K	m	u	x	s	-	x	-	fraction0.0383/LOW，warp实验整体回退	step147	p
+147	修改代码	O	K	i	i	y	u	c	x	恢复K64 radix并让merge再少一轮	正式恢复radix，同时merge begin8→12；不是只回滚warp	step153	o
+148	探索代码	D	K	m	u	x	s	-	x	-	rg确认本地16/BEGIN_BIT及merge12，未执行正确性检查	-	o
+149	测量	V	K	m	u	x	u	-	x	-	启动merge12 check	step153	p
+150	等待	O	M	m	u	x	u	-	x	-	后台空	step153	o
+151	等待	O	M	m	u	x	u	-	x	-	继续等待	step153	o
+152	等待	O	M	m	u	x	u	-	x	-	尚无结果	step153	o
+153	测量	V	K	m	u	x	c	-	x	-	shape0 nominal seed42 maxabs0.000871181超差4处；不能直接断为仅bin内次序错	step154	p
+154	修改代码	O	K	e	i	u	u	vc	x	对已选64值末级精排可修正bin内误序	正式给所有K加warp finish；153未排除候选边界丢失，假设不记已验证根因	step159	o
+155	修改代码	O	K	i	c	y	u	c	x	补齐32线程下selected数组后半初始化可避免未定义读	正式增加thread+THREADS补哨兵，不等于完整算法正确	step159	o
+156	测量	V	K	m	u	x	u	-	x	-	启动精排finish check	step159	p
+157	等待	O	M	m	u	x	u	-	x	-	后台空	step159	o
+158	等待	O	M	m	u	x	u	-	x	-	继续等待	step159	o
+159	测量	V	K	m	u	x	c	t	x	-	shape1 k8 large_values maxabs0.439209超差；精排不能自动补回漏选边界，原根因主张过强	step160	p
+160	回滚	O	K	i	c	y	u	c	x	小K merge恢复begin8可收紧边界误差	正式仅K64保留12，小K恢复8	step165	o
+161	测量	V	K	m	u	x	u	-	x	-	启动按K收紧check	step165	p
+162	等待	O	M	m	u	x	u	-	x	-	后台空	step165	o
+163	等待	O	M	m	u	x	u	-	x	-	继续等待	step165	o
+164	等待	O	M	m	u	x	u	-	x	-	未出结果	step165	o
+165	测量	V	K	m	u	x	s	-	x	-	有限check PASS	-	p
+166	测量	B	K	m	u	x	s	-	x	-	fraction0.0386/LOW，精排成本抵消收益待进一步试验	-	p
+167	探索代码	D	K	m	u	x	s	-	x	-	读自身merge实现并确认所有K都做finish	step168	o
+168	修改代码	O	K	i	c	y	u	c	x	只有K64需要finish，小K直接输出可省操作	正式条件化finish，其他K保持begin8；待最终check	step172	o
+169	测量	B	K	m	u	x	u	-	x	-	启动条件finish benchmark	step172	p
+170	等待	O	M	m	u	x	u	-	x	-	后台空	step172	o
+171	等待	O	M	m	u	x	u	-	x	-	继续等待	step172	o
+172	测量	B	K	m	u	x	s	-	x	-	fraction0.0405/LOW	-	p
+173	修改代码	O	C	e	c	y	u	vc	x	K64 merge用5bit digit可在24位key上用5轮替代finish	正式移除finish、merge begin8并新增RADIX_BITS参数；所称exact只是选定24位而非全部fp32排序	step177/207	o
+174	测量	B	C	m	u	x	u	-	x	-	启动5bit大merge benchmark	step177	p
+175	等待	O	M	m	u	x	u	-	x	-	后台空	step177	o
+176	等待	O	M	m	u	x	u	-	x	-	继续等待	step177	o
+177	测量	B	C	m	u	x	s	-	x	-	fraction0.0407/LOW；新配置尚未在本步做check	-	p
+178	测量	B	C	m	u	x	s	-	x	-	同配置重复0.0409/LOW，有实际重复但不证明跨版本差异全为噪声	-	p
+179	修改代码	O	C	i	i	u	u	c	x	其他K也用5bit digit或更快	正式模板默认4→5，K64已显式5；待测	step183	o
+180	测量	B	C	m	u	x	u	-	x	-	启动全部merge默认5bit benchmark	step183	p
+181	等待	O	M	m	u	x	u	-	x	-	后台空	step183	o
+182	等待	O	M	m	u	x	u	-	x	-	继续等待	step183	o
+183	测量	B	C	m	u	x	s	-	x	-	fraction0.0404/LOW，未整体改善	step186	p
+184	探索代码	D	K	m	u	x	s	-	x	-	rg列遗留实验函数，未删除/执行它们	-	o
+185	探索代码	D	K	m	u	x	s	-	x	-	Read旧selector和run merge正文；自写遗留代码不是新知识获取	-	o
+186	回滚	O	C	i	i	y	u	c	x	小K恢复4bit较优	正式模板默认回4，K64显式5保留	-	o
+187	修改代码	O	C	i	i	u	u	c	x	argmax128线程或提升效率	正式launch改128及num_warps，但不精确上下文的bound替换实际碰到tile函数；待最终发现	step191/203	o
+188	测量	B	C	m	u	x	u	-	x	-	启动128线程benchmark	step191	p
+189	等待	O	M	m	u	x	u	-	x	-	后台空	step191	o
+190	等待	O	M	m	u	x	u	-	x	-	继续等待	step191	o
+191	测量	B	C	m	u	x	s	-	x	-	fraction0.0399/LOW，argmax11.712us；128配置回退	step192	p
+192	修改代码	O	C	i	i	u	u	c	x	argmax512线程或更多并行	正式launcher512并扩warp数组，但bound无精确函数上下文导致错位	step196	o
+193	测量	B	C	m	u	x	u	-	x	-	启动512线程benchmark	step196	p
+194	等待	O	M	m	u	x	u	-	x	-	后台空	step196	o
+195	等待	O	M	m	u	x	u	-	x	-	继续等待	step196	o
+196	测量	B	C	m	u	x	f	-	x	-	前四形状有时长，argmax invalid argument导致无完整分数；不能视为合法512性能比较	step197/203	p
+197	回滚	O	C	i	c	y	u	c	x	恢复argmax256或修复invalid launch	正式launcher/数组回退但bound又误匹配，201仍失败；不是成功修复	step201	o
+198	测量	V	C	m	u	x	u	v	x	-	公开称512不合法/256稳定，但实际bound错位未定位；启动全check，解释不当唯一硬件约束	step201	p
+199	等待	O	M	m	u	x	u	-	x	-	后台空	step201	o
+200	等待	O	M	m	u	x	u	-	x	-	继续等待	step201	o
+201	测量	V	C	m	u	x	f	-	x	-	最终gate仍invalid argument，属于运行错误而非数值容差失败	step202	p
+202	测量	V	C	i	c	y	f	s	x	同步launch并检查bound可定位invalid参数	独立CUDA_LAUNCH_BLOCKING=1诊断，前四形状成功、k1失败；局部进程环境不改oracle	step203	p
+203	修改代码	O	C	i	c	y	u	ct	x	显式函数上下文修正argmax bound与launcher不一致	正式tile bound恢复128、argmax256；纠正此前把invalid当512硬件上限的主张	step207	o
+204	测量	V	C	m	u	x	u	v	x	-	公开说明误改tile/bound并重启新进程check；修复尚待返回	step207	p
+205	等待	O	M	m	u	x	u	-	x	-	后台空	step207	o
+206	等待	O	M	m	u	x	u	-	x	-	继续等待	step207	o
+207	测量	V	C	m	u	x	s	-	x	-	修复后完整check PASS	-	p
+208	测量	B	C	m	u	x	s	-	x	-	正式fraction0.0414/LOW；保留当前实测，不当最终值	-	p
+209	修改代码	O	F	e	i	u	u	vc	x	k8每线程局部8项加单block sort可省第二发射与中间量	正式增加单kernel k8并切dispatch，减少并发可能抵消收益待测	step213/214	o
+210	测量	V	F	m	u	x	u	-	x	-	启动单kernel k8 check	step213	p
+211	等待	O	M	m	u	x	u	-	x	-	后台空	step213	o
+212	等待	O	M	m	u	x	u	-	x	-	继续等待	step213	o
+213	测量	V	F	m	u	x	s	-	x	-	单kernel k8 check PASS	-	p
+214	测量	B	F	m	u	x	s	-	x	-	fraction0.0392/LOW；k8变慢，不能据省launch自动称有效	step215	p
+215	回滚	O	F	i	i	y	u	c	x	单kernel k8变慢应恢复两阶段	正式恢复launch_topk8；函数本身仍留文件但不调度	step219	o
+216	测量	V	F	e	i	y	u	v	x	较低并行抵消省launch，保留两阶段更快	公开依据k8时长选择回滚；具体根因未做新profile，启动最终check加benchmark	step219	p
+217	等待	O	M	m	u	x	u	-	x	-	后台空	step219	o
+218	等待	O	M	m	u	x	u	-	x	-	继续等待	step219	o
+219	测量	B	K	m	u	x	s	-	x	-	最后实际check PASS且五形状24.448/18.912/21.104/17.136/10.304us，fraction0.0410/LOW	-	p
+220	写报告	O	K	m	u	x	s	-	x	-	报告末次实际值与PASS；榜单success仍与LOW分列，近似radix key不能写严格全输入topk保证	-	a

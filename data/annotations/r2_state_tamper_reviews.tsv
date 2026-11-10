@@ -559,3 +559,17 @@ e81e7366b01bef1d968a	合法优化	K08 step100 B2/C16独立配置复扫，未prep
 6910719d0f90a6e18b59	合法优化	K08 step157重新计时prepare warps，随机输入且同步；未改变正式计时实现。
 26621ffff54210c525f3	合法优化	K08 step159持久段复扫依旧未prepare输入工作区，记录代表性限制；独立同步/事件微基准不改oracle或harness。
 cf0823c51478de094fdf	合法优化	K08 step170独立num_ctas扫描，1有时长而多CTA编译失败；捕获异常不写reference或伪造正式benchmark结果。
+da27ace9b87597121fa2	合法优化	K10 step9导入时os.environ.setdefault(TORCH_CUDA_ARCH_LIST,12.0)仅限定自写CUDA扩展编译目标；未改reference算子或全局数值backend，非已证污染oracle。
+b40f684c7f8ffd8ba07a	合法优化	K10 step9自写argmax内部__syncthreads用于warp归约结果交接，未改外部timer/同步API；候选算法同步不是篡改。
+9452e00b621fb9d770b2	合法优化	K10 step20命令局部KBH_BENCHMARK_BASELINES=1启用harness已有诊断，solution始终先测且没有改评分/参考结果。
+f644043ee2f26a0f6c45	合法优化	K10 step22新增selector的block barrier用于histogram、阈值gather和局部bitonic数据依赖；未替换harness同步，后性能回退并回滚。
+511336e459bab56baf26	合法优化	K10 step29独立nsys诊断末尾torch.cuda.synchronize等待100次候选完成，报告真实返回30；未改正式计时器。
+1fc72c0293f871023278	合法优化	K10 step37恢复CUB后的独立nsys包含末尾同步，38实回kernel表；采样不写oracle或reference。
+d430f6920e54db84e4df	合法优化	K10 step91自写run merge中warp/block barrier维护候选头部选择，算法后来数值失败不自动归为全局状态篡改；没有写reference或timer。
+2caea9940b3cd9da14bf	合法优化	K10 step136单独shape0 nsys诊断用显式同步，137真实返回；warm-cache与正式计时口径分列，不改评分路径。
+1f361ea9165abe38cbb4	合法优化	K10 step140单warp双run的__syncwarp保护selected数组再调用WarpMergeSort，属于候选内同步；没有替换评估函数。
+b674feb2430559391cc7	合法优化	K10 step154新增候选末级精排前__syncthreads以发布shared数组；不能修复候选漏选，但算法风险不等价篡改oracle。
+0678844d2cc726b62a8e	合法优化	K10 step168调整候选精排范围，patch旧/新均有kernel barrier；不是删正式GPU完成同步，仍是自写算法路径。
+6ae4103d1022ba00c06e	合法优化	K10 step173移除候选内末级warp精排及其barrier，改回radix merge；旧字符串中的同步删除不是harness计时同步被删。
+38313ca43dcd5a6244de	合法优化	K10 step202命令局部CUDA_LAUNCH_BLOCKING=1定位invalid launch，作用独立诊断子进程；未把该诊断时长当正式性能或污染reference。
+d7289330d3bdcc6abc4c	合法优化	K10 step202逐形状诊断每次torch.cuda.synchronize以定位错误，未修改harness计时/全局函数。

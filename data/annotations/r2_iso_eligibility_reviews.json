@@ -1937,6 +1937,140 @@
         "trajectory.json#/agent_steps/47/tool_results/0/success",
         "trajectory.json#/agent_steps/48/tool_results/0/result"
       ]
+    },
+    {
+      "order": 330,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。17创建失败后19成功，25实际改为直接加载quant_utils并stub依赖，27修randint上界；30/40明确Benchmarking on cpu。解包/行置换CPU微基准不计GPU测量，38超时也不是GPU返回。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/17/tool_results/0/success",
+        "trajectory.json#/agent_steps/19/tool_results/0/success",
+        "trajectory.json#/agent_steps/25/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/25/tool_results/0/success",
+        "trajectory.json#/agent_steps/27/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/27/tool_results/0/success",
+        "trajectory.json#/agent_steps/30/tool_results/0/result",
+        "trajectory.json#/agent_steps/40/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 334,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。24成功创建的P2P NCCL测试仅计导入、100个request元数据与字符串地址解析；25失败后27导入/元数据/解析均PASS，43/56再测。脚本没有传输引擎实例、GPU张量或NCCL传输调用，模块名称不构成GPU通信测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/24/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/24/tool_results/0/success",
+        "trajectory.json#/agent_steps/25/tool_results/0/result",
+        "trajectory.json#/agent_steps/27/tool_results/0/result",
+        "trajectory.json#/agent_steps/43/tool_results/0/result",
+        "trajectory.json#/agent_steps/56/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 335,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。16创建失败后18成功，26整段替换失败后27 Read仍为Scheduler调度加20次sleep(0.002)，29/32只补dummy prompt和import stub。33/50/52约0.0436–0.0439秒主要包含人为等待，num_gpu_blocks是逻辑配额，没有模型GPU执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/16/tool_results/0/success",
+        "trajectory.json#/agent_steps/18/tool_results/0/success",
+        "trajectory.json#/agent_steps/26/tool_results/0/success",
+        "trajectory.json#/agent_steps/27/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/29/tool_results/0/success",
+        "trajectory.json#/agent_steps/32/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/32/tool_results/0/success",
+        "trajectory.json#/agent_steps/33/tool_results/0/result",
+        "trajectory.json#/agent_steps/50/tool_results/0/result",
+        "trajectory.json#/agent_steps/52/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 337,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true。8创建后用object.__new__(NeuronWorker)绕过初始化，stub依赖；14/16替换失败，17实际Read确认脚本。2/21源码的determine_num_available_blocks与initialize_cache只算max_num_seqs(+1)、assert和写两个配置整数。18/20/27的20万轮主机计时并非GPU cache分配，num_gpu_blocks=513不构成设备执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/2/tool_results/0/result",
+        "trajectory.json#/agent_steps/8/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/8/tool_results/0/success",
+        "trajectory.json#/agent_steps/14/tool_results/0/success",
+        "trajectory.json#/agent_steps/16/tool_results/0/success",
+        "trajectory.json#/agent_steps/17/tool_results/0/result",
+        "trajectory.json#/agent_steps/18/tool_results/0/result",
+        "trajectory.json#/agent_steps/20/tool_results/0/result",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/27/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 339,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。46成功创建的性能脚本只循环创建GuidedDecodingParams/DecodingConfig和选择backend字符串，47返回每call主机耗时；34是集成测试总耗时且4过1失败。XGrammar模块名与配置名不等于实际GPU guided decoding或模型执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/33/tool_results/0/success",
+        "trajectory.json#/agent_steps/34/tool_results/0/result",
+        "trajectory.json#/agent_steps/46/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/46/tool_results/0/success",
+        "trajectory.json#/agent_steps/47/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 340,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true。2创建失败后4成功，6实际替换为纯Python random/list/sum划分对照；7/29旧0.094s、新0.157s且checksum1285/864不同。两算法分割规则不同，不能只称等价加速；没有Torch/CUDA执行，不补GPU配额。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/2/tool_results/0/success",
+        "trajectory.json#/agent_steps/4/tool_results/0/success",
+        "trajectory.json#/agent_steps/6/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/6/tool_results/0/success",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 345,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true。10创建失败后12成功；19加namespace stub。脚本只创建token列表/SequenceGroup、BlockSpaceManager.allocate与compute_full_blocks_in_seq；3/22实际allocator源码仅构造PhysicalTokenBlock/管理refcount和free list。21/36/41的微秒级主机时长及Free GPU blocks=224是元数据，不是GPU显存或kernel测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_results/0/result",
+        "trajectory.json#/agent_steps/10/tool_results/0/success",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/12/tool_results/0/success",
+        "trajectory.json#/agent_steps/19/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/19/tool_results/0/success",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/22/tool_results/0/result",
+        "trajectory.json#/agent_steps/36/tool_results/0/result",
+        "trajectory.json#/agent_steps/41/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 347,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true。7尝试创建被拒因文件存在，8实际Read为NumPy int32长context、强制早期匹配及NgramProposer.propose，50次主机time计时、3轮均值；9/12/13/14为CPU ngram路径，非拟写脚本的参数，也不是GPU推测解码模型执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/7/tool_results/0/success",
+        "trajectory.json#/agent_steps/8/tool_results/0/result",
+        "trajectory.json#/agent_steps/9/tool_results/0/result",
+        "trajectory.json#/agent_steps/12/tool_results/0/result",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/14/tool_results/0/result"
+      ]
     }
   ]
 }
