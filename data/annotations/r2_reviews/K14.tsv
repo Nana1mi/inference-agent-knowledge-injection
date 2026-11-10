@@ -1,0 +1,122 @@
+# step	phase	tool	layer	origin	source	evidence	outcome	flags	use	hypothesis	rationale	followup	component
+1	探索代码	D	F	m	u	x	s	k	a	-	读reference/check/benchmark并查询设备版本，只有动作播报；参考接口后来用于step19正式候选	step19 L81–L84的Model参数、expert_offsets和返回张量协议	o
+2	探索代码	D	F	m	u	x	s	k	n	-	读SOTA入口、形状和禁用规则，且探测依赖；复核全121步未见调用或改写sonic_moe入口实现，不能由放置知识推定采用	step19–21/89/103自写Triton与121最终说明；未见使用不表示没有认知影响	o
+3	探索代码	D	M	m	u	x	s	-	x	-	读harness计时/压力/roofline/正确性源文件；只说明要理解规则，无实测或新性能机制	-	p
+4	探索代码	D	M	m	u	x	s	-	x	-	展开numeric_stress与硬件表，尚无profile或吞吐校准	-	p
+5	探索代码	D	M	m	u	x	s	-	x	-	读RTX表和property_stress规则；bf16表值500不等于实际实测峰值	-	p
+6	探索代码	D	F	e	c	u	s	v	x	MoE实际扩展行工作量可能为dense-equivalent口径的K倍，需据接口和计时约束校准	讨论实际FLOPs与评分口径后继续读property/timing；理论推演尚未测得硬件吞吐	-	m
+7	测量	K	M	e	c	y	s	vs	x	正式计时每次清L2，校准不同GEMM形状有助估计实际可达吞吐	独立cuBLAS探针给出262至372TFLOPS等；scratch设置allow_tf32全局flag，不据此认定正式评分状态改变，普通校准不是profile	-	p
+8	测量	K	K	e	i	y	s	v	x	先测单GEMM可判断Triton代码生成的可达吞吐再实现grouped kernel	实际扫scratch配置，有共享内存超额失败也有有效时延；未把不能运行配置当可靠收益	-	m
+9	探索代码	D	K	e	i	y	s	v	x	Triton可能未采用更先进MMA或载入路径，PTX可确认实际指令	实际dump显示mma.sync和cp.async、162寄存器0spills；编译产物分析不是运行时硬件profile，194/262被称52%的口算也不准确	-	m
+10	环境准备	O	K	e	c	u	s	v	x	CUTLASS或自写CUDA可能提供不同流水，先核实依赖可得性	实际clone成功而pip命令不存在；未把成功下载当已读源码或可运行最优实现	-	o
+11	探索代码	D	K	m	u	x	s	-	x	-	核对CUTLASS提交并列文件/grep命中文件名；尚未实际读算法代码，目录导航不记knowledge_access	-	o
+12	探索代码	D	K	e	i	u	s	vk	n	CUTLASS中可能有可用于SM120的grouped/MoE实现	列目录并grep少量内核声明；全会话未见采用这些声明对应实现，后续窄精度适用性判断由step13展开阅读支持	step13–14转向自写；103/120最终纯Triton且不依赖CUTLASS	o
+13	探索代码	D	K	e	c	y	s	vk	r	需核对SM120 MMA类型及示例是否适合本题bf16路径	读窄精度MMA模板和ex79文件列表，step14明确认为不适用而转自写CUDA；并非验证整个CUTLASS都不支持bf16	step14 L62–L64对已读窄精度路径的适用性判断	o
+14	测量	K	K	e	c	u	u	vs	x	在所见窄精度示例之外，可先扩大Triton配置范围检验实现上限	实际启动普通扫参仅获后台句柄；scratch的TMA分支含set_allocator全局回调，尚无反馈确认该分支执行；架构/性能上限说法也未验证	-	o
+15	等待	O	U	e	i	u	f	v	x	先有可检查的Triton版本再做CUDA可降低开发不确定性	大量CUDA设计推演后实际只读后台扫参日志，因路径不存在失败；本步没写候选或跑新测量	-	o
+16	环境准备	O	U	m	u	x	s	-	x	-	find定位已有后台任务日志，未得到性能数值或新假设	-	o
+17	等待	O	U	e	i	u	u	v	x	日志访问失败可能是路径或挂载差异，换目录读可确认	实际读到零字节日志；没有证明是符号链接或GPU异常	-	o
+18	环境准备	O	U	e	i	u	s	v	x	宽扫配置编译成本高，可停止并先写工作候选再针对性优化	成功停止已确认存在的扫参任务，15分钟等是估计而非可靠阶段耗时	-	s
+19	修改代码	O	F	e	r	u	u	vcs	x	按expert范围分配tile并融合两GEMM和SwiGLU可去掉Python专家循环	首次正式solution写入成功，参考协议适配；引入可复用_tprefix工作区，尚未测正确性或性能	-	o
+20	修改代码	O	K	e	c	y	u	vcs	x	prefix按固定BM计算却让autotune改BM会失配，应在kernel中按当前配置映射	整文件改写移除_tprefix状态并内置映射；新循环与grid仍待check，不能把发现bug当已验证修复	-	o
+21	修改代码	O	K	e	c	y	u	vc	x	grid及NUM_N也需与autotune的BM/BN一致，可由META动态推导	实际修正solution并启动check，仅获后台句柄；接口/正确性排错不混作硬件瓶颈偏好	-	o
+22	修改代码	O	K	e	i	u	u	vs	x	手写cp.async和ldmatrix/MMA流水可能改善吞吐并融合SwiGLU	写辅助CUDA实现，不是正式solution入口修改；含动态共享内存属性设置，实际效果仍未测	-	o
+23	等待	V	F	m	u	x	s	-	x	-	展开原始日志确认Triton候选check为PASS/exit0，未开展新检查	-	o
+24	修改代码	O	K	e	c	y	f	v	x	修正CUDA地址与共享布局后构建扩展可验证自写路径	同时启动Triton正式benchmark；实际CUDA构建先失败于ninja不可见，不能归因kernel数值错误	-	o
+25	环境准备	O	U	e	i	y	f	v	x	安装或定位ninja可恢复扩展构建，但最终打包还需避免环境依赖	python-m-pip失败，import ninja却有路径输出；没有成功安装证明，保留两种反馈差别	-	o
+26	环境准备	O	U	e	c	y	s	v	x	ninja包可导入但二进制可能未在PATH，可先查安装目录	实际列venv与uv版本；此步只诊断，无新的安装或环境赋值	-	o
+27	环境准备	O	U	e	c	y	f	vs	x	为构建子进程添加venv/bin到PATH可解决ninja查找	临时env PATH后进入编译但新的C++错误；环境修改范围为构建命令，不是改正式计时或oracle	-	o
+28	修改代码	O	K	e	c	u	f	vs	x	去除CUDA侧Torch头文件可绕过host编译不兼容并降低构建复杂度	实际改辅助源与包装并临时设构建PATH后继续失败；内核203寄存器0spill是编译元数据，不是运行时profile	-	o
+29	测量	V	U	e	c	y	s	v	x	独立小C++编译可区分Torch头文件本身与模板实例化问题	三种旗标实验均未显示错误，不能证实此前已断言的单一GCC根因；这不是GPU性能测量	-	o
+30	修改代码	O	K	e	c	y	s	v	x	直接nvcc共享库加ctypes可绕开pybind/Torch模板包装问题	实际编译lib成功但未运行kernel，正式入口仍Triton；不把生成so当数值正确	-	o
+31	测量	K	K	i	c	w	s	s	x	独立ctypes探针可比较自写CUDA的正确性与吞吐	small-shape diff可接受，但real FLOPs被重复乘2且未清L2，497.8TFLOPS不可当有效可比收益；另设manual_seed仅在诊断进程	-	o
+32	测量	K	M	e	c	y	s	vt	x	去掉FLOPs重复因子并加入清L2可与正式口径更接近地比较	明确撤回双计数，重测全形状正确及修正吞吐；dev形状编号顺序与正式不同，按尺寸而非编号对齐	-	p
+33	探索代码	D	C	e	c	y	s	v	x	正式Triton比自写CUDA快，读取autotune最佳配置可定位差异	实际运行诊断并读配置缓存，不是外部知识读取或硬件采样；收益源自普通计时，非profile	-	m
+34	测量	K	K	e	i	y	s	v	x	tile面积和共享缓冲配置可能解释CUDA较慢，可先扫配置	修改辅助launch配置并跑微基准；各配置226至302TFLOPS，不把未执行的ncu计划记作profile	-	o
+35	探索代码	O	M	e	c	y	s	v	x	实际opt-in共享内存上限也许高于Triton限制，可查设备属性核实	只读cudaDeviceGetAttribute确认101376B；输出regs-per-sm为188的标签显然不能作寄存器容量依据，未调用修改属性函数	-	p
+36	探索代码	D	K	e	c	y	s	v	x	Triton实际buffer数量可能少于num_stages，可检查编译元数据	实际inspect误选另一个配置，显示255regs/62spills；不能用错配置元数据解释真正winner	-	m
+37	探索代码	D	K	e	c	y	s	vt	x	上步没有读到winner，应直接编译指定配置以核对shared/registers	明确纠正配置失配后得到winner98304B与0spills等；静态编译检查不是profile	-	m
+38	profile	N	K	e	c	y	s	v	x	相同共享预算仍有性能差距，可能是bank冲突或流水效率，可用ncu区分	首次实际NCU发生在正式候选step19之后；采样自写CUDA，未在本步修改正式代码	-	p
+39	profile	N	K	e	p	y	s	v	x	CUDA的高L2吞吐与低DRAM提示L2或请求效率，可采样Triton作对照	实际NCU对照得到另一组吞吐/命中率；高利用率提示不等于唯一瓶颈已证实	-	m
+40	profile	N	K	e	p	u	s	v	x	不同缓存命中或L2流量可能解释吞吐差，可取sector计数比较	实际额外采样两实现的sector数据；tensor吞吐高就称compute-bound仍是推断	-	p
+41	profile	N	K	e	p	u	s	v	x	CUDA的L2读sector较多可能由访问效率导致，换BK配置可检验	实际采样多个自写配置，但未隔离metric含义/汇总范围，1.5倍流量解释待检验	-	m
+42	profile	N	K	e	p	u	s	vt	x	不同配置的sector近乎恒定使此前直解存疑，可改看warp停顿	明确质疑此前sector解释并实际采样WarpStateStats；未宣称已解决计数器歧义	-	m
+43	profile	N	K	i	c	y	s	-	x	显式指定停顿指标可得到被grep遗漏的对照数据	实际NCU取明细，只有指标清单/动作说明，不算新的实质机制推理	-	p
+44	探索代码	D	K	e	p	y	s	v	x	CUDA更高barrier等停顿可能来自MMA与载入顺序，可读PTX比较	实际dump并分析生成代码，不在本步做新的硬件采样；停顿现象有据，代码因果仍待试验	-	m
+45	探索代码	D	K	e	c	u	s	v	x	Triton的wait_group与缓冲分组顺序可能解释差距，需展开真实loop	实际读取已有PTX指令序列，wait_group与buffer层数的推演未由该步骤验证	-	m
+46	测量	K	K	e	c	u	u	v	x	扩大实际grouped配置范围可能比继续自写CUDA更快得到收益	实际后台启动普通扫参，只见started；称77%与实算/评分FLOPs口径需区分，不是新的profile	-	o
+47	等待	O	U	e	i	u	u	v	x	并发GPU工作可能污染当前扫参时延，应只监控已有任务	实际等待读日志命令超时；没有证明存在干扰，也未启动并发新测量	-	p
+48	等待	K	K	m	u	x	s	-	x	-	读取已启动扫参的配置时延和编译元数据，没有提出新机制或修改候选	-	p
+49	环境准备	O	M	e	c	y	s	v	x	核对负载时钟可判断名义峰值和可用性能空间是否一致	实际返回四卡时钟/功率及device属性，没有将忙卡与本会话设备身份对齐，不能直接认定候选当时处于2422MHz	-	p
+50	探索代码	D	M	e	i	u	s	v	x	理论计算峰值和带宽预算提示小形状可能更值得优化	实际只读已有profile驱动文件；以另一卡忙时钟推定本卡无节流证据不足，468TFLOPS与90%目标都是推演	-	m
+51	profile	N	K	i	c	y	s	s	x	用小形状真实NCU计数器可核对带宽瓶颈解释	实际创建并运行ncu成功产出报告；命令临时设PATH，未改正式oracle或计时器	-	p
+52	探索代码	N	M	m	u	x	s	s	x	-	导入已有ncu-rep读取摘要，不是新采样；临时PATH仅影响读取进程工具查找	-	p
+53	测量	K	M	e	p	u	f	v	x	小形状高DRAM利用率而大形状仍有计算余量，可测纯MMA吞吐上界	实际纯MMA探针先编译失败于缺cstdio，没有得到新上界；从利用率和理论预算唯一定位stage瓶颈仍未证实	-	p
+54	测量	K	M	i	c	y	s	-	x	补cstdio可修复printf声明并运行纯MMA探针	实际独立测试输出约457.8TFLOPS；这是无访存微基准，不是正式MoE或整芯片所有程序的绝对上界	-	p
+55	profile	N	K	e	p	u	u	v	x	在相同tile几何下比较sector可检验CUDA载入放大假设	新建对照驱动并请求ncu但无输出；457.8除500实际约91.6%而非文中97.8%，不沿用错误百分比	-	m
+56	profile	N	M	m	u	x	f	-	x	-	尝试重跑NCU因指定路径不存在失败，未采到新计数器	-	p
+57	环境准备	O	M	m	u	x	s	-	x	-	查到实际ncu包装路径与版本，不把工具存在当已取得采样数据	-	p
+58	profile	N	K	i	c	y	s	-	x	直接用PATH中ncu可绕过错误venv路径完成计数器采样	实际成功采样cfg6；包装来源是模型猜测，目录位置不证明硬件隔离或计时可信性	-	p
+59	profile	N	K	e	p	u	s	v	x	CUDA数据量相对tile预算偏高，采样同几何Triton可比较	实际取得Triton计数器；预测字节量与sector含义仍在排查，不能预认2.3倍来自合并失效	-	m
+60	profile	N	K	e	p	u	s	v	x	换BK后若仍放大可区分每行连续性与固定载入成本	实际采样CUDA BK64；2倍读流量现象有据，具体请求合并机制尚无隔离证据	-	m
+61	探索代码	D	K	e	p	u	s	v	x	不同BK得到相同计数可能来自请求粒度，需核对实际PTX载入类型	实际grep已有PTX只见cg、没有bulk，未读外部文档或作新profile	-	m
+62	探索代码	D	K	e	p	u	s	v	x	跨lane请求合并或每线程载入组合可能解释sector差异	实际继续读PTX指令，不因反复宣称找到关键就将尚未验证机制记成事实	-	m
+63	修改代码	O	K	e	c	u	u	v	x	独立cp.async探针可隔离载入映射与完整GEMM的请求差异	实际写不完整scratch并回显放弃，未编译或获得新性能结果	-	o
+64	测量	K	M	e	i	u	f	v	x	在受控拷贝核里比较两种lane映射可验证合并假设	重写并尝试编译探针，但缺cuda_bf16头导致失败，无计数器数据	-	m
+65	profile	N	K	i	c	y	s	-	x	补bf16头后可运行拷贝探针并采sector计数	实际编译和NCU成功；只测隔离copy而非正式候选性能	-	p
+66	profile	N	K	e	p	y	s	vt	x	隔离copy映射没有放大，完整核差异可能来自额外请求而非映射不合并	明确修正此前同映射不合并的推断，并采L1/L2请求明细；额外请求根因仍待查	-	m
+67	修改代码	O	K	e	p	u	s	v	x	分别屏蔽A或B载入可定位请求流中哪部分放大	实际建立scratch isolation变体并编译成功，未给正确性或有效GEMM性能承诺；少载入变体只用于计数器隔离	-	m
+68	profile	N	K	i	c	u	u	-	x	对A-only/B-only变体分别采样可分解访存请求	改诊断驱动载入隔离so并启动NCU，只见后台句柄；不能把缺工作变体计时当正确优化收益	-	p
+69	探索代码	D	K	e	p	u	s	v	x	ptxas的载入缓存策略可能不同，可查看SASS而非只看PTX	实际cuobjdump见BYPASS载入；没有新硬件采样或验证策略因果	-	m
+70	探索代码	D	K	e	c	u	u	v	x	可在Triton缓存中找到对应cubin核实SASS是否不同	实际搜索错缓存位置无输出，未取得可比较SASS或改缓存	-	m
+71	探索代码	O	M	m	u	x	s	-	x	-	只读find定位自己的cubin缓存位置，没有写缓存、读oracle输出或生成新性能数据	-	p
+72	探索代码	D	K	e	c	u	u	v	x	从正确MoE cubin查看载入指令可避免误读早期matmul编译产物	实际仍用不存在的相对cache路径无输出，最新文件也未保证对应目标配置	-	m
+73	探索代码	O	M	m	u	x	f	-	x	-	验证相对缓存路径失败，未将空grep当没有某种指令的证据	-	p
+74	环境准备	O	M	e	i	u	s	v	x	可能是工作目录或缓存根路径误认，应核对pwd和绝对路径	实际定位run目录缓存；TRITON_CACHE_DIR只在思考中提到，未写环境变量	-	p
+75	探索代码	D	K	i	c	y	s	-	x	使用已定位绝对路径才能读取真实Triton cubin的SASS	实际取得多份LDGSTS/LDSM指令，只有读取动作，无新实质推理或状态修改	-	m
+76	等待	O	K	e	c	u	u	v	x	相同载入指令意味着仍需用隔离返回判断地址或请求差异	分析既有SASS后实际读取已有NCU任务日志，只见cfg20标题，尚无隔离数据	-	m
+77	等待	O	K	e	p	u	f	v	x	A的短行跨sector粒度可能解释额外流量，可等隔离结果检验	实际等待读日志因手抄路径错误失败；未获得新计数器来支持该猜想	-	m
+78	环境准备	O	M	i	c	y	s	-	x	用find可纠正手抄任务输出路径错误	实际只定位日志，没有完成新采样或取得数值	-	p
+79	等待	O	M	m	u	x	f	-	x	-	再次Read仍因路径错误找不到文件，不推断原任务已终止或GPU挂起	-	p
+80	环境准备	O	M	e	i	u	s	v	x	路径冲突可能是拼写或文件状态变化，可用glob核对大小	实际ls/wc看到日志只有10字节；并未证明race或文件移动	-	p
+81	profile	N	K	e	i	u	u	v	x	后台输出可能受监控方式影响，转为本地log串行采样可取回结果	实际查看进程并另启隔离脚本，但输出前缀被长进程文本占据，不能把计划当该步已完成或断言旧任务终止	-	p
+82	等待	N	K	e	c	y	s	v	x	多agent与GPU锁也许解释多卡进程，仍需小心设备身份与时延波动	实际等log得到A/B和双流计数器；没有独立核验硬件隔离，不能据进程字符串就断言无干扰	-	p
+83	修改代码	O	K	e	p	u	s	v	x	四操作数cp.async或ca策略可能改变请求合并，可做隔离变体	实际编译变体并见SASS新增无BYPASS指令；构建成功未验证吞吐/机制，非正式候选修改	-	m
+84	profile	N	K	e	c	y	s	v	x	用相同几何对不同src-size及缓存策略采样可检验载入差异	实际串行NCU返回计数器和时延；隔离变体缺载入时不作为完整GEMM性能收益	-	p
+85	测量	K	K	e	p	y	s	vt	x	ca减少L2流量却更慢使唯一L2瓶颈解释不足，可试更多warps隐藏延迟	显式改写先前瓶颈解释后普通扫参w16；现象支持多因素，不能由此唯一证实MMA延迟原因	-	m
+86	探索代码	O	K	e	p	u	s	v	x	w16寄存器不足出现spill，TMA描述符或可减少地址计算及MIO压力	实际dir/hasattr核对API可见性，没有读外部文档或执行TMA；支持函数存在不等于支持高性能	-	m
+87	提出假设	O	K	e	i	u	u	v	x	用描述符载入配合布局映射可能改善grouped两GEMM流水	只有实质推理与代码草案，没有工具调用；提到set_allocator但尚未执行，不标实际全局状态修改	-	m
+88	测量	K	K	i	i	y	s	-	x	描述符版grouped kernel可用微基准验证正确性与吞吐	实际新建host TensorDescriptor探针得到小case误差和全形状时延，未运行完整正式check；脚本未执行思考中的set_allocator	-	o
+89	修改代码	O	C	e	p	y	u	vc	x	TMA等已试路线未胜现有cp.async实现，可收紧autotune列表减少初始化成本	成功修改正式配置，TMA流水差或stage-boundary是机制解释而非已隔离证明；当前仅所试配置范围支持选择	-	s
+90	测量	V	F	m	u	x	u	-	x	-	启动配置收紧版正式check，只见PROPERTY_SEED，不能提前宣布通过	-	o
+91	等待	V	F	m	u	x	s	-	x	-	轮询取得check PASS，未启动新正确性实验	-	o
+92	测量	K	F	m	u	x	s	-	x	-	正式benchmark为0.1067/OK；这是完整候选计时，不是前面的真实扩展行TFLOPs口径	-	p
+93	探索代码	D	C	e	c	u	u	v	x	小幅得分差可能由autotune选择或波动造成，查实际配置可区分	运行诊断因构造缓存键不完整返回None，未证明未缓存或配置错误；没有实际测得统计噪声区间	-	m
+94	探索代码	O	C	e	c	y	s	v	x	autotune缓存键还含dtype等字段，应读取真实key	实际打印键后确认缺dtype信息；运行时内省不是外部知识读取	-	o
+95	探索代码	D	C	i	c	y	s	-	x	按实际缓存键打印配置可确认各形状选择	实际读得三形状配置，其中小形状BK32/ns6；这是配置诊断而非硬件profile	-	p
+96	探索代码	O	K	e	i	u	s	v	x	warp specialization可能进一步隐藏stage边界成本，先核对可用参数	实际inspect Config签名与dir，不是读取文档或执行WS；0.5%必为噪声及全局最优结论仍未证实	-	m
+97	探索代码	J	K	e	i	y	s	vk	a	较新Triton可通过tl.range参数而非Config启用warp specialization	实际读取tl.range签名及docstring，step98自写探针适配warp_specialize等参数；区别于纯dir属性查询	step98 L402–L407的tl.range参数试验	o
+98	测量	K	K	e	c	y	s	v	x	TMA配WS也许比单独描述符快，需实测而非仅函数可见性	实际独立探针返回大形状约19ms等，仍慢于cp.async基线；未改正式solution	-	o
+99	等待	K	K	e	c	y	s	v	x	当前TMA加WS优于单TMA却仍慢，需读全形状结果确认范围	实际等并读取既有扫描日志，有有效配置也有共享内存超额失败；不把失败配置算作性能改善	-	p
+100	探索代码	D	F	e	c	y	s	vk	a	已试TMA/WS均未胜cp.async，还需确认交付接口是否完整	实际grep reference与check调用，确认检查器使用参考helpers；“plateau confirmed”仅限已试配置，不是所有实现上界	step103 L423–L426补齐接口	s
+101	探索代码	D	F	e	c	y	s	vk	c	即使harness不调用solution helpers，也应按要求补同接口	实际读取reference路由和get_inputs/get_init_inputs，step103基本原样复制功能语句；复制的是输入构造而非性能kernel	step103 L425的_build_routing/get_inputs/get_init_inputs	o
+102	探索代码	D	F	m	u	x	s	k	c	-	读取reference的Model与模块常量，动作说明无新实质推理；step103沿用相同常量和接口，不复制逐专家matmul作候选	step103 L425模块shape常量	o
+103	修改代码	O	F	e	r	u	u	vc	x	补参考helpers并把大偏移改int64可提升接口完整性和大形状健壮性	整文件正式写入成功；实际kernel仍自写Triton，helpers语义照搬但新int64代价与更大形状未在此步验证	-	o
+104	测量	K	F	e	c	u	u	v	x	重新check与benchmark可确认接口/int64修改未破坏当前题目	实际后台检查只返回PROPERTY_SEED，外层cat未就绪exit1不是候选已失败证据	-	o
+105	等待	V	F	m	u	x	s	-	x	-	读取check PASS但benchmark仍未输出，不把PASS当性能结论	-	o
+106	等待	K	F	m	u	x	s	-	x	-	读取同一验证链的benchmark0.1065/OK，确认修改后当前题目可测	-	p
+107	探索代码	O	O	e	c	y	f	v	x	当前实现已检查且多条路线未胜，可整理设备与配置经验供后续使用	实际cat框架标签和记忆目录，读到ptx但memory目录读取失败；不是本步记忆写入或性能新验证	-	a
+108	探索代码	D	M	e	c	u	s	v	x	框架标签可能被solution文本关键词误命中，应先读检测逻辑	实际读取check中的正则检测器，发现整文件包含mma.sync即可标ptx；未修改检测器或正式评分逻辑	-	m
+109	修改代码	O	M	e	c	y	u	vc	x	文档中的mma.sync关键词使框架识别错误，改措辞可准确标为Triton	实际仅改docstring，未改kernel或检测器；这是标签准确性修复，不当作GPU性能优化	-	o
+110	修改代码	O	M	i	c	y	u	c	x	继续移除另一处文档关键词可避免旧框架标签误匹配	实际只改第二处docstring；候选文件有改动但没有计算逻辑变化，R4首次算法修改口径单列	-	o
+111	测量	V	F	m	u	x	u	-	x	-	启动check只见PROPERTY_SEED且旧framework.txt仍ptx；检查未完成，不判修复无效	-	o
+112	等待	O	M	e	c	u	u	v	x	framework标签在check末尾写入，当前旧值可能只是检查尚未完成	实际等待后仍无PASS，不能仅凭模型解释确认完成或失败	-	o
+113	等待	V	F	m	u	x	s	-	x	-	取得check PASS并framework=triton，支持文档误命中修复而非改检测器作弊	-	o
+114	测量	K	F	e	c	y	u	v	x	虽仅文档变动，精确最终文件的新benchmark可留可核验记录	实际启动最终benchmark只回started；未预认最终数值与旧值完全相同	-	p
+115	写报告	O	M	i	c	u	s	s	x	记录设备微基准和拒绝路线可为后续优化提供经验	实际写持久memory成功；458TFLOPS为特定无访存微基准，2422时钟设备未对齐及“硬上界”等泛化不能直接当通用真值	-	a
+116	写报告	O	K	i	c	u	s	s	x	记录最终MoE实现及配置取舍可支持后续会话复用	成功写性能经验；CUTLASS整个bf16 builder不合适的断言只基于局部阅读，不能由写入记忆就视为已核验	-	a
+117	写报告	O	O	m	u	x	s	s	x	-	成功写两份经验的MEMORY索引，没有修改正式评分器或计算结果	-	a
+118	等待	K	F	m	u	x	u	-	x	-	最终benchmark仅前两形状部分输出，不能用未完成日志宣布完整几何均值	-	p
+119	等待	K	F	m	u	x	s	-	x	-	读取最终完整benchmark0.1059/OK，与step113末次check共同界定交付状态	-	p
+120	探索代码	D	F	e	c	y	s	v	x	最终入口应语法有效、无禁用调用并自包含，不依赖scratch so	实际AST与字符串静态检查通过；性能波动是数次观测范围，不构成已估计噪声分布或独立GPU复现	-	s
+121	写报告	O	K	e	p	y	s	v	x	按采样与所试配置总结cp.async融合实现及放弃路线	最终公开说明含实质机制理由；最终0.1059/OK有据，但“硬上界/剩余瓶颈唯一确定”等主张超出证据，且评分TFLOPs需和扩展行真实工作口径区分	step119 L478–L481最后正式benchmark；113 L461–L464末次check PASS	a

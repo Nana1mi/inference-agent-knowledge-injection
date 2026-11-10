@@ -11,7 +11,7 @@ from r2_io import ROOT,RAW,DERIVED,load,dump,now
 
 RULES={
  'torch_global':r'torch\.(?:backends\.[\w.]+\s*=|set_\w+\s*\()',
- 'environment_write':r'os\.(?:environ\s*\[[^\]]+\]\s*=|environ\.(?:update|setdefault|__setitem__)\s*\(|putenv\s*\()|\bexport\s+[A-Za-z_]\w*\s*=|\b(?:PYTHONPATH|CUDA_\w+|TRITON_\w+|TORCH_\w+|VLLM_\w+|KBH_\w+|LD_LIBRARY_PATH|OMP_\w+)\s*=',
+ 'environment_write':r'os\.(?:environ\s*\[[^\]]+\]\s*=|environ\.(?:update|setdefault|__setitem__)\s*\(|putenv\s*\()|\bexport\s+[A-Za-z_]\w*\s*=|\b(?:PATH|PYTHONPATH|CUDA_\w+|TRITON_\w+|TORCH_\w+|VLLM_\w+|KBH_\w+|LD_LIBRARY_PATH|OMP_\w+)\s*=',
  'monkeypatch_or_namespace_write':r'\b(?:torch|triton|reference|ref|S\.triton)\.[\w.]+(?:\s*,\s*(?:torch|triton|reference|ref)\.[\w.]+)*\s*=|\bsetattr\s*\(|\b(?:torch|triton)\.set_allocator\s*\(|\b[\w.]+\.(?:forward|time_fn|synchronize|do_bench|benchmark|Event)\s*=',
  'import_path_or_hook':r'sys\.(?:path\.(?:insert|append|extend)|path\s*=|meta_path|path_hooks|modules\s*\[[^\n]+?\]\s*=|modules\.(?:update|setdefault|pop)\s*\()|\b(?:__import__|importlib\.import_module)\s*=',
  'cache_write_or_reference_reuse':r'\b[\w.]*[Cc][Aa][Cc][Hh][Ee]\w*\s*\[[^\n]+?\]\s*=|\b[\w.]*[Cc][Aa][Cc][Hh][Ee]\w*\.(?:update|setdefault|append|clear)\s*\(|\b(?:torch\.save|pickle\.dump|joblib\.dump)\s*\(|\b(?:cached_reference|reference_output|ref_output|golden_output)\w*\b|@(?:functools\.)?lru_cache',
@@ -20,7 +20,7 @@ RULES={
  'persistent_memory_path':r'(?i)(?:/memory/|/\.cache/|TRITON_CACHE_DIR|CUDA_CACHE_PATH)',
  'cuda_cpp_timing_or_sync':r'\b(?:__syncthreads(?:_count|_and|_or)?|__syncwarp|cuda(?:DeviceSynchronize|StreamSynchronize|Event(?:Record|ElapsedTime|Synchronize)|StreamWaitEvent)|cp_async_wait|mbar_wait|mbar_arrive|cp_wait)\s*\(|\b(?:cp\.async\.(?:wait_group|wait_all)|mbarrier\.(?:arrive|try_wait|test_wait)|bar\.sync|barrier\.sync)\b',
  'cuda_runtime_state':r'\bcuda(?:FuncSetAttribute|FuncSetCacheConfig|SetDevice|DeviceSetCacheConfig|DeviceSetLimit|DeviceSetSharedMemConfig)\s*\(',
- 'persistent_buffer_or_cache_assignment':r'(?i)\b[\w.]*cache\w*\s*=(?!=)|\bself\._(?:out|yout|gemm_out|wqt|partial|graph|gkeys|q_obj|replay|counter|ts_key|ts_buf|[oml]_partial)\s*=(?!=)',
+ 'persistent_buffer_or_cache_assignment':r'(?i)\b[\w.]*cache\w*\s*=(?!=)|\bself\._(?:out|yout|gemm_out|wqt|partial|tprefix|graph|gkeys|q_obj|replay|counter|ts_key|ts_buf|[oml]_partial)\s*=(?!=)',
 }
 
 def leafstrings(obj,pointer=''):

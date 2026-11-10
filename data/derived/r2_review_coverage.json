@@ -82,8 +82,8 @@
     {
       "session_id": "K14",
       "required": 121,
-      "reviewed": 0,
-      "complete": false
+      "reviewed": 121,
+      "complete": true
     }
   ]
 }
