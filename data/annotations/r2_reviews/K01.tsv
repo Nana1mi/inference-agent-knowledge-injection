@@ -267,3 +267,124 @@
 268	测量	K	M	e	i	u	f	vs	x	重试可检验构建失败是否瞬态	本次先import reference失败，无编译或时延新证据，不能支持“瞬态构建错误”；CUDA/user-site设置	-	p
 269	测量	K	M	m	u	x	f	s	x	-	明确问题目录后再次构建失败，无CUDA/Triton有效计时	step270展开错误	p
 270	探索代码	D	C	m	u	x	s	s	x	-	展开错误定位main.cpp声明缺右括号，尚无正式采用CUDA K1或成功新性能对比	-	o
+271	探索代码	D	C	e	c	y	s	v	x	non-debug声明字符串缺闭括号导致host编译失败	生成main.cpp直接显示double scale;，不是瞬态编译故障	step274修声明	p
+272	探索代码	D	C	m	u	x	s	-	x	-	定位自写cuda_k1的cpp_sources，未读外部知识	-	o
+273	探索代码	D	C	e	c	y	s	v	x	条件拼接的非dbg分支缺右括号	实际else为分号，dbg分支才含闭括号，支持该构建解释	-	p
+274	修改代码	O	C	e	c	y	u	v	x	将非dbg声明补为闭括号分号可修host编译	成功修改独立cuda_k1原型，不是正式solution	step275成功计时	o
+275	测量	K	K	m	u	x	s	s	x	-	三轮固定顺序批次AB回显Triton90.5–95.6us、CUDA98.1–99.0us；非逐trial交错；子进程环境设置	-	p
+276	探索代码	D	M	e	c	y	s	v	x	形状或flush方法差异可能解释绝对时长变化	读自写time_k1确认同形状、25次一批先Triton后CUDA，缓存清理在计时前；未测时钟因果	-	p
+277	探索代码	D	M	e	i	u	s	v	x	时钟漂移或串行cumsum可能造成高延迟	grep benchmark只显示print的flush=True，不能据此验证L2刷新；更早step12实际timing源码另有依据；227KB设备容量猜测后被306纠正	-	p
+278	profile	N	K	m	u	x	f	s	x	-	独立CUDA K1只发射一次却launch-skip2，返回No kernels were profiled；不记成功profile	step279修skip	p
+279	profile	N	K	e	c	y	s	vs	x	去掉skip可采到唯一CUDA K1发射	成功41passes，95.84us、204寄存器、16.72%occupancy；print flush不构成L2清理证据	-	p
+280	profile	N	K	e	p	y	s	v	x	低occupancy和高无eligible比例提示延迟隐藏不足	读取实际报告显示local/shared spilling均0及大量共享bank conflicts；204寄存器不等于spill	-	p
+281	profile	N	K	e	p	y	s	v	x	共享访问冲突可能解释高stall，需定位指令	读NCU source页仅持久输出预览，未实际访问建议的NVIDIA文档正文	-	p
+282	profile	N	M	m	u	x	s	-	x	-	检查NCU source CSV字段和SASS导出格式，非新增外部知识	-	p
+283	profile	N	M	e	c	u	f	v	x	按指令聚合excessive wavefront可定位热点	解析脚本把Kernel Name行当header，KeyError Address，未得到有效聚合	step285修header	p
+284	探索代码	D	M	m	u	x	s	-	x	-	读自生成CSV确认第一行为kernel信息、第二行才是字段名	-	o
+285	profile	N	M	e	c	y	s	v	x	跳过首行可正确聚合source counters	成功打印STS.U16与LDSM热点，来自实际报告，不是静态SASS计数冒充动态采样	-	p
+286	profile	N	K	e	p	y	s	v	x	行pitch与XOR组合可能使矩阵load/store冲突	完整opcode聚合显示LDSM和STSM占主要excessive wavefront，估计speedup不等于实测加速	-	p
+287	探索代码	D	K	e	p	y	s	v	x	改为128/64pitch可消除该XOR布局的主要bank冲突	明确承认先前只验证mapping正确性并未验证无冲突；读自写kernel准备改动	step314重新NCU	p
+288	探索代码	D	K	m	u	x	s	-	x	-	继续读取自写CUDA的staging与prologue，不计外部知识读取	-	o
+289	探索代码	D	K	m	u	x	f	v	x	-	想读剩余q-pass但绝对路径缺repo/problems部分，文件不存在，无新源码证据	step290正确路径	o
+290	探索代码	D	K	m	u	x	s	-	x	-	读到q-pass及launcher；原型CUDA K1在默认stream发射，未验证其他stream契约	-	o
+291	探索代码	D	K	e	p	y	s	v	x	修pitch并在prologue生成ql可减少冲突及重复cumsum	读自写debug harness安排布局，预期收益尚未测；中途精度估计不是正式正确性证明	-	p
+292	探索代码	D	M	e	c	y	s	v	x	共享布局变更需要同步修改debug偏移	读自写harness尾部确认旧dump基址与比较逻辑	-	p
+293	修改代码	O	K	e	p	y	u	v	x	128/64pitch与独立qlq可减少访问冲突和重复扫描	修改独立CUDA原型常量与Smem，尚未正式采用或验证	-	o
+294	修改代码	O	K	m	u	x	u	-	x	-	prologue复用e_up写qlq并改dump偏移；只改独立原型	-	o
+295	修改代码	O	M	e	c	y	u	v	x	布局改变要求B checkpoint基址更新	改独立调试dump地址，无正式候选编辑	-	o
+296	修改代码	O	M	m	u	x	u	-	x	-	更新M checkpoint基址	-	o
+297	修改代码	O	M	m	u	x	u	-	x	-	更新w/u checkpoint基址	-	o
+298	修改代码	O	K	m	u	x	u	-	x	-	删除重复q-pass并将Aqk操作数换qlq，独立原型尚未测	-	o
+299	修改代码	O	K	m	u	x	f	-	x	-	注释Edit因错误绝对路径失败，不算已修改候选	step301承认路径错误	o
+300	修改代码	O	K	m	u	x	u	-	x	-	成功把fold的8次读改为qlq并改Aqk dump，仍在原型	-	o
+301	测量	V	M	e	c	y	f	vs	x	更新Python基址后可重新比较全部checkpoints	清理_build却未重建目录，FileNotFoundError，无GPU正确性新证据；设置子进程环境	-	p
+302	测量	V	K	e	c	y	f	vs	x	重建目录可修构建文件不存在	构建成功但CUDA invalid argument，尚无checkpoints通过	step303属性错误检查	p
+303	测量	V	C	e	i	u	f	vs	x	invalid argument可能来自被忽略的共享内存属性错误	增加TORCH_CHECK定位setattr失败smem108288；227KB上限猜测未获设备支持	step306查询实际属性	p
+304	环境准备	O	C	e	i	u	f	vs	x	设备opt-in实际容量可能小于预期	设备信息可见RTX PRO6000、188SM、L2=128MB；自写属性查询编译失败，尚无容量值	-	p
+305	环境准备	O	C	m	u	x	f	-	x	-	查询程序因不存在的MaxSharedMemoryPerSm标识符编译失败	-	o
+306	环境准备	O	C	m	u	x	s	s	x	-	改查询后实回optin101376B、regs65536，纠正此前227KB架构移植假设	-	p
+307	修改代码	O	K	e	c	u	u	v	x	复用kl替代kb可将共享分配降到设备上限内	移除独立kb并变换kl；所谓exact仅实数代数，已有bf16舍入且后续缓冲生存期出错	step309 P误差	o
+308	探索代码	D	K	m	u	x	s	-	x	-	定位删除kb后遗漏的debug引用	-	o
+309	测量	V	K	e	c	y	c	vs	x	删除残留kb引用可运行新原型	运行后P maxabs0.395、qe0.025，不能称全通过；名义checkpoints非正式check	-	p
+310	测量	V	K	e	c	w	c	vs	x	仅将t staging移出kl即可保住w供P读取	P仍错0.404，因为qe staging也覆盖kl；虽修一处生存期问题却未完整解决	step311再修	p
+311	测量	V	K	e	c	y	s	vs	x	恢复kb并复用chain的xs可避免w被覆盖且满足容量	P误差降至0.000977，但debug kb/Aqk仍错，qe旧符号错误尚未发现；不能直接称正式PASS	step312修debug	p
+312	测量	V	M	e	c	y	s	vs	x	kb漏dump与Aqk跨warp dump竞态造成checkpoint假错	恢复dump并用syncthreads后两个checkpoint归零；同步改变也进入非dbg源码，不全是显示修正	-	p
+313	测量	K	K	e	c	w	s	vs	x	checkpoints全绿后可比较改布局性能	固定批次AB显示CUDA74.7–75.7us优于Triton89.9–93.4；qe0.025仍有真实符号bug，all-green表述过强	step338正式失败	p
+314	profile	N	K	e	p	y	s	vs	x	再次NCU可检验冲突修复与剩余瓶颈	67.17us、175寄存器、store约3way；多项代码同时变更，不将全部收益单归pitch	-	p
+315	profile	N	K	e	p	y	s	v	x	修冲突后仍可能受内存延迟和barrier限制	读warp section但sed匹配到说明文字，未获得清晰stall分解；未独立测时钟	-	p
+316	profile	N	M	m	u	x	s	-	x	-	导出details CSV过滤stall，多为诊断说明，不新增实际采样	-	p
+317	profile	N	M	m	u	x	f	-	x	-	把units行当数据且屏蔽异常，命令无输出，不当stall证据	step320修行号	p
+318	profile	N	M	m	u	x	s	-	x	-	检查raw CSV列及三行结构，找到stall字段	-	p
+319	profile	N	M	m	u	x	f	-	x	-	仍转换units行的inst字符串，ValueError，未得到stall排序	-	p
+320	profile	N	K	m	u	x	s	-	x	-	明确row2数据后得long_scoreboard4.25、barrier2.49等，row1单位不能作为测量值	-	p
+321	修改代码	O	K	e	p	y	u	v	x	批量预取与bf162成对存储可降低scoreboard和store压力	独立prologue改2列16行，误用单run混两列且有run_of占位；尚未执行新kernel	step322/323修错	o
+322	测量	V	K	e	c	y	c	vs	x	删除run_of并扩大part可使新prologue构建	构建成功但多缓冲严重错误，Pd1.65；未把可执行当正确	step323分列run	p
+323	测量	V	K	e	c	y	s	vs	x	每列必须独立cumsum，单run混列导致错误	分run0/run1后多数checkpoint恢复；qe仍旧0.025，不代表全算法正确	-	p
+324	测量	K	K	m	u	x	s	s	x	-	批次AB CUDA约73.4us、Triton90.8–92.7；没有正式端到端提升结论	-	p
+325	测量	K	M	e	i	u	s	vs	x	early-return变体的差值可定位阶段成本	多个编译变体74/36/38.4/48.2/57.4us；删后续工作会改变活跃代码和资源，不能直接作可加阶段耗时	-	p
+326	profile	N	K	e	c	w	s	vs	x	截断计时表明prologue占半并接近DRAM下界	成功采early1=31.36us、lg_throttle9.16；截断kernel与完整kernel不等价，不能据此确认完整prologue份额	-	p
+327	测量	V	K	e	p	y	c	vs	x	4列8行向量化并overlay part可降低LSU发射压力	独立原型构建后Pd近似正确但其他buffer错，uint2行stride单位错误；未当有效优化	step328修stride	p
+328	测量	V	K	e	c	y	s	vs	x	uint2含4个bf16，行stride应HK/4不是HK/8	修3个向量load后checkpoints恢复，qe残留错误仍在	-	p
+329	测量	K	M	m	u	x	s	s	x	-	批次AB与early变体再计时；early2略小early1也提示不可简单减出阶段成本	-	p
+330	测量	K	M	e	i	u	s	vs	x	重复截断计时可检查方差	两次各variant批次结果近似；仍非同一编译体的阶段计时，不证明时钟漂移唯一原因	-	p
+331	profile	N	K	e	c	u	s	vs	x	compiler可能未将向量load全部提前	实际early1 SASS32条LDG、首FFMA前12条；证明该截断版本静态排布，不证明完整kernel相同或唯一延迟原因	-	p
+332	测量	K	K	e	c	y	s	vs	x	分开4个load loop可能改善排布与性能	修改独立原型并测early0约65.6us；没有对新版本SASS重新核实全部load hoist，正确性只过滤P行	-	p
+333	测量	V	K	e	c	y	s	vs	x	让8warp同时做P/C可减少半warp闲置与同步	独立原型重组后有限checkpoint误差仍近似旧值；qe符号错尚在，未正式采用	-	p
+334	测量	K	K	m	u	x	s	s	x	-	完整early0约63.6us，截断差值不严格等于P/C阶段成本	-	p
+335	探索代码	D	F	e	c	u	s	v	x	独立CUDA K1已有相对收益应集成测正式流水线	读自写solution定位调用点，30%来自非同期微基准；尚未正式验证CUDA替换	-	o
+336	探索代码	D	D	m	u	x	s	-	x	-	读正式wrapper与工作区cache确认接口；不计知识读取	-	o
+337	修改代码	O	D	e	c	y	u	vcs	x	嵌入自写CUDA及lazy build fallback可替换K1	正式solution首次采用CUDA K1，持久模块/尝试标志及FuncAttribute；B H参数替换顺序漏改，尚未校验	step338修签名	o
+338	测量	V	K	e	c	y	c	vcs	x	补BH签名后可正式检查CUDA替换	正式Edit成功但large_qkv失败maxabs0.195；不以此前名义checkpoint代替全协议	step353正式PASS	p
+339	探索代码	D	M	e	i	u	f	v	x	形状或数值规模差异可能解释large_qkv失败	grep未找到case，sed空地址失败；尚未定位数值根因	-	p
+340	探索代码	D	M	m	u	x	s	-	x	-	再次grep check未匹配，无新case定义证据	-	o
+341	探索代码	D	M	m	u	x	s	-	x	-	递归定位自写dev_test的large_qkv，未读取外部新知识	-	o
+342	探索代码	D	M	m	u	x	s	-	x	-	读自写压力脚本确定乘2测试；正式检查case另来自eval模块，二者不自动等同	-	o
+343	测量	V	K	e	c	y	c	vs	x	逐个K1中间输出比较可定位正式失败来源	独立同形状倍增测试qe差0.160，其他较小；helper会重设seed，不能叫seed42新随机样本	-	p
+344	测量	V	K	e	c	u	c	vs	x	扩大输入后ql/Aqk舍入或fold可能放大qe误差	扩独立debug形状seed/scale，qe仍0.160；部分worst unit reshape混token/head，不能作可靠位置定位	-	p
+345	探索代码	D	K	e	c	y	s	v	x	qe独有路径可能存在舍入顺序或符号差异	读自写Triton源码明确qg减Aqk@w，不是外部知识读取	-	p
+346	测量	V	K	e	c	u	c	vs	x	单/双bf16舍入是否足以解释0.16需直接模拟	两种emul仅差0.000244、CUDA却差0.0947，反驳仅舍入解释；未改正式solution	step352发现符号	p
+347	探索代码	D	K	e	c	y	s	v	x	CUDA偏离自身模拟提示fold映射或dot错误	承认emul一致，读自写fold定位；未宣称已证具体mapping错误	-	p
+348	探索代码	D	K	m	u	x	s	v	x	-	读完整qe/t区域，代码实际正dot加q，与前述数学减法相反	-	o
+349	测量	V	K	e	i	u	c	vs	x	若qe量级大则0.095可能只是一个bf16 ulp	实际qe最大仅0.0688、99.7%位置超过1.5ulp，否定大结果单ulp猜测；调试统计非正式PASS	-	p
+350	探索代码	D	K	e	c	u	s	v	x	dot读取内容与checkpoint时点不同可能造成系统误差	再读w/u与Aqk，仍未定位根因	-	p
+351	测量	V	K	e	c	w	c	vs	x	w/u staging只触自身列因而无跨warp竞态	忽略相同wn不同wm也读同列，不能证明race-free；debug寄存器dump还存在lane碰撞，重构只支持正dot实际被相加	-	p
+352	测量	V	K	e	c	y	s	vst	x	qe应q项减dot，旧CUDA写成加dot	修独立原型后qe由0.160降0.000732；旧reconstruction仍按加法打印不能反证新修复	step353同步正式实现	p
+353	测量	V	K	e	c	y	s	vcst	x	将减号修复同步正式solution可解决压力失败	正式候选修改并check返回PASS；不把ULP近零放大统计当大绝对误差	-	p
+354	测量	B	K	e	i	u	s	vs	x	CUDA K1替换可能改善正式端到端peak_fraction	正式benchmark0.0456/LOW；表示未达0.1门槛，非局部CUDA原型正确性结论	最后一次正式bench	p
+355	探索代码	D	M	e	c	u	s	v	x	需确认LOW阈值和是否静默fallback	grep显示geomean阈值0.1；多处flush=True是输出刷新，不能单独认作cache刷新	-	p
+356	环境准备	O	D	m	u	x	s	s	x	-	独立进程_build_cuda_k1返回OK，仅证明此进程可构建；查询错误名称的内部flag均absent，未追溯证明上一bench分支	-	p
+357	测量	K	F	e	c	u	s	vs	x	逐形状拆K1/K2与整流水线可找新瓶颈	普通事件各测25次批次；full小于两独测之和，打印负launch-gap不是负launch开销；新进程build不独立证明前bench路径	-	p
+358	测量	K	F	e	c	y	s	vs	x	独测链成本高应再拆k2a/b/c	两形状分开计时，shape3 G16 L2非L8；冷暖边界不同，不能相加推全流水线份额	-	p
+359	探索代码	D	F	e	c	u	s	v	x	融合链并保留L2中间量可能减少launch和重读	定位自写K2函数，字节/FLOPs及峰值多次重算，未有新profile证实DRAM是唯一限制	-	p
+360	探索代码	D	F	m	u	x	s	-	x	-	读自写三阶段K2数学与布局，为独立融合原型准备	-	o
+361	探索代码	D	F	e	c	u	s	v	x	look-back融合K2可减少串行group合并及launch	128block常规计划未证明所有配置共同驻留与无死锁；后KG16诊断达512block；读自写helper	-	p
+362	探索代码	D	K	m	u	x	s	v	x	-	继续读自写K1 helper以复用进独立K2，不计外部知识读取	-	o
+363	修改代码	O	F	e	c	u	u	vs	x	以generation标志发布prefix可融合K2三阶段	新建独立cuda_k2，持久_states/gen/flags及FuncAttribute；不写solution；初始prefetch缺失、timeout判定与prefix递推均待核验	-	o
+364	测量	V	F	e	c	y	f	vs	x	修token地址与冗余代码可构建K2原型	仍因torch::cuda::getCurrentCUDAStream编译失败，无有效GPU结果	step366修stream API	p
+365	探索代码	D	D	e	c	y	s	v	x	K2编译失败需检查K1 stream实现	发现K1默认stream发射，未验证side stream契约；只读自身源码	-	p
+366	测量	V	F	e	i	u	f	vs	x	换c10 stream API及头文件可修host接口	编译继续失败于PTX st.global.gpu缺memory order；未读当前外部API文档	-	p
+367	测量	V	F	m	u	x	f	s	x	-	独立K2改release/acquire后能构建但非法内存访问，不算正确优化	-	p
+368	测量	V	F	e	c	y	c	vs	x	sizeof分配及修pf_prev地址可消除越界	能运行但Bg NaN、o严重错误，70us不能当有效加速；同改两项不证唯一非法访问原因	-	p
+369	测量	V	F	e	c	y	c	vs	x	phase A缺j0预取导致未初始化操作数	补预取后NaN消失但A/Bg/o仍错；64us不计有效性能收益	-	p
+370	测量	V	F	e	c	y	c	vs	x	L1可隔离基本复合矩阵与carry错误	KG16成功运行但A差0.553、Bg0、o仍错；Bg=C只检验C路径不检验P或Pd	-	p
+371	测量	V	F	e	c	y	c	vs	x	A寄存器carry应从I初始化而非0	修identity后L1与默认仍错，识别真实缺项不证明全部根因已解决	-	p
+372	测量	V	F	e	c	u	s	vs	x	比较单tile对diag(d)+P可定位A误差	独立仅查一个tile近似正确，不能外推所有tile或正式K2通过	-	p
+373	测量	V	F	e	c	y	c	vs	x	逐tile比较可揭示单tile测试遗漏	42/256 A tile坏，Bg全零差；per-g max非所有g或所有tile都错	-	p
+374	测量	V	F	e	c	u	s	vs	x	错误tile可能读错chunk的P或Pd	一个tile匹配本chunk仅证明局部；前述“g大于0全坏”误读聚合max，未建立普遍索引错	-	p
+375	测量	V	F	e	c	u	s	vs	x	Triton A可能是比较异常来源	Triton bh0各g与直接期望一致；跨bh却仍用bh0数据比较无效，不能认定Triton错误	step376自纠跨bh	p
+376	测量	V	F	e	c	y	c	vs	x	非固定坏tile模式提示竞态应重复相同诊断	自纠42非全部g坏，重测39tile坏且直接期望亦不符；提示竞态但未定位唯一原因	-	p
+377	测量	V	F	e	c	u	u	vs	x	按phase cut复测可定位错误出现范围	改独立K2并启动三变体8次重复，600s后后台task；不能仅超时认定死锁	step382取回完成	p
+378	探索代码	O	M	e	i	u	f	v	x	超时可能是hang也可能编译较久	读取错误拼接的后台输出路径失败，未取得进程终态	step382完成	p
+379	探索代码	O	M	m	u	x	f	-	x	-	zsh glob未匹配，未定位后台文件，不算等待完成	-	o
+380	探索代码	O	M	m	u	x	s	-	x	-	find未找到输出，不能据此认定任务停止或hang	-	o
+381	等待	O	M	e	i	u	f	v	x	构建耗时可能比实际kernel hang更符合超时	sleep加ps命令被工具拦截，没有真正等待或进程证据；仍保留原task	-	o
+382	等待	O	M	m	u	x	s	-	x	-	TaskOutput取回原task exit0 completed及三个cut坏tile统计，纠正超时即死锁猜测	-	o
+383	测量	V	F	e	c	y	c	vs	x	phase A cut已错，应看每次重复及错误结构	六次254–256/256坏；截断编译改变资源与执行，不能据此唯一定位原版错误源	-	p
+384	测量	V	F	e	c	y	c	vs	x	预取下一chunk会在fold前覆盖本chunk C/Pd	静态确有该hazard但L1无下一预取仍错；同输入cut0为42坏、cut1为256，不把单一hazard解释全体	-	p
+385	探索代码	D	F	e	c	u	s	v	x	不同cut差异可能揭示latent race，应核对identity编辑	sed起始命中docstring，仅显示文件头与helper，未实际核对phase A初始化	-	p
+386	探索代码	D	F	m	u	x	s	-	x	-	grep定位identity赋值与stage/barrier行，自己代码导航	-	o
+387	探索代码	D	F	m	u	x	s	-	x	-	读actual phase A确认identity与prefetch/fold顺序；未证明竞态已消失	-	o
+388	测量	V	F	e	c	u	f	vs	x	增加phase A内部dump可区分identity/load/dot/publish错误	调试build的cuda_flags在定义前append，UnboundLocalError，尚无新debug GPU证据；K2从未正式采用	-	p
+389	其他	O	O	m	u	x	f	-	x	-	最终API429五小时额度耗尽；无最终总结，正式末check353 PASS、bench354 0.0456/LOW，保留榜单failure	-	o
+1	探索代码	J	M	m	u	x	s	vk	n	-	kernel技能正文在user L8确实注入；后9步说要读packs但全会话未见读取或optimize-loop调用，无可辨识具体采用证据，常规profile/AB本身不足归因技能	全389步核对	k
+8	探索代码	D	K	m	u	x	s	k	n	-	确实读取FLA SOTA adapter；全会话未调用/改写其wrapper，随后另读FLA算法源码并适配的事件单独标注，不能把该贡献归给此入口	全389步核对	m

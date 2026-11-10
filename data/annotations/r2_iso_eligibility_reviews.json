@@ -1699,6 +1699,128 @@
         "trajectory.json#/agent_steps/40/tool_results/0/success",
         "trajectory.json#/agent_steps/41/tool_results/0/result"
       ]
+    },
+    {
+      "order": 290,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。最初创建失败后成功，step13将依赖PrefillAdder的脚本替换为纯Python DummyReq求和与list/set成员过滤。实际两次返回约0.004s/2.26s等均为Python模式微基准，非GPU工作；set创建还在计时外，不把其全部收益当实际调度器端到端加速。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/8/tool_results/0/success",
+        "trajectory.json#/agent_steps/10/tool_results/0/success",
+        "trajectory.json#/agent_steps/13/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/13/tool_results/0/success",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/27/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 295,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "trajectory.success=false。最初Mamba脚本创建失败后成功，但最终step39改成stack/preallocation与normal初始化微基准，实际40/53返回只对应新脚本。device_str根据cuda.is_available分支，CUDA分支有开始/结束synchronize；结果未打印设备，未获得其实际走CUDA的证据，不以Mamba优化名称或条件CUDA代码补GPU配额。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/21/tool_results/0/success",
+        "trajectory.json#/agent_steps/25/tool_results/0/success",
+        "trajectory.json#/agent_steps/39/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/39/tool_results/0/success",
+        "trajectory.json#/agent_steps/40/tool_results/0/result",
+        "trajectory.json#/agent_steps/53/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 297,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true；实际脚本构建PrefixCachingBlockAllocator并用Python token ID列表分配逻辑block、mark_blocks_as_computed([])，返回Duration0.0001s。没有CUDA张量计算或设备完成计时；MoE align sum提交标题与该测量对象不一致，不能以标题当GPU执行证据。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/2/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/2/tool_results/0/success",
+        "trajectory.json#/agent_steps/7/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/8/tool_results/0/result",
+        "trajectory.json#/agent_steps/22/tool_results/0/result",
+        "trajectory.json#/agent_steps/36/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 300,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false；初create失败后37成功，38实际返回py_loops/math_ops/rand_ops的CPU Python循环计时。该38返回未被当前numeric导航包抓到，直接原文核对补入；46超时不抹去38返回，也不是GPU证据。后续产品文件含device=cuda的代码编辑没有对应GPU执行测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/35/tool_results/0/success",
+        "trajectory.json#/agent_steps/37/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/37/tool_results/0/success",
+        "trajectory.json#/agent_steps/38/tool_results/0/result",
+        "trajectory.json#/agent_steps/45/tool_results/0/result",
+        "trajectory.json#/agent_steps/46/tool_results/0/error"
+      ]
+    },
+    {
+      "order": 302,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false；创建新脚本失败因文件已存在，29实际Read是环境变量lookup/hash计时。38曾添加配置update_sizes，但41因NumPy/transformers import失败未获其时长；44回滚main，45又只测env lookup/hash，无GPU工作测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/28/tool_results/0/success",
+        "trajectory.json#/agent_steps/29/tool_results/0/result",
+        "trajectory.json#/agent_steps/30/tool_results/0/result",
+        "trajectory.json#/agent_steps/41/tool_results/0/result",
+        "trajectory.json#/agent_steps/42/tool_results/0/result",
+        "trajectory.json#/agent_steps/44/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/45/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 304,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。实际list/array操作与padding微基准为CPU Python/NumPy，integration tensor conversion还显式device=cpu；最后只突出2.6x转换收益，未抹去早期padding0.16x/0.35x及后续0.28–0.51x回退。CPU窄路径收益不补GPU配额。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/11/tool_results/0/result",
+        "trajectory.json#/agent_steps/36/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/37/tool_results/0/result",
+        "trajectory.json#/agent_steps/38/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/39/tool_results/0/result",
+        "trajectory.json#/agent_steps/55/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 305,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "trajectory.success=false。13实际写入的脚本只做1024x1024 cumsum/transpose，device由cuda.is_available条件选择，开始/结束有条件同步。14只返回time_sec=0.1053而无设备；产品model_runner含显式CUDA代码的Edit不是其执行证据，保留设备不可判定。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/9/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/13/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/13/tool_results/0/success",
+        "trajectory.json#/agent_steps/14/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 307,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true；初create失败后15成功，16语法错误后17仅删除重复slot_mapping关键字，18/32/34实际完成。query/key/value/slot_mapping均默认CPU分配，脚本未设置CUDA默认设备；即便cuda.is_available时额外synchronize也不把CPU SDPA变GPU计算。提交MoE标题不对应实测TorchSDPABackend路径。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/13/tool_results/0/success",
+        "trajectory.json#/agent_steps/15/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/15/tool_results/0/success",
+        "trajectory.json#/agent_steps/16/tool_results/0/error",
+        "trajectory.json#/agent_steps/17/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/18/tool_results/0/result",
+        "trajectory.json#/agent_steps/32/tool_results/0/result",
+        "trajectory.json#/agent_steps/34/tool_results/0/result"
+      ]
     }
   ]
 }
