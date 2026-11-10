@@ -43,7 +43,7 @@
 44	修改代码	O	K	e	c	y	s	vc	x	分半直接写正确行偏移可避免再次使用坏join	正式去掉_vjoin引用，分别store w/u两半；没有改框架或误差容限	step45局部验证	o
 45	测量	V	A	m	u	x	s	s	x	-	中间量误差降至bf16量级，局部压力最坏比0.018，修正有效；不是正式check	step46正式检查	p
 46	测量	V	A	m	u	x	s	vs	x	-	首次正式check PASS；CUDA_VISIBLE_DEVICES写入，当前全形状和压力case协议通过；reference内部重置seed0，不证明三个不同随机输入	-	p
-47	测量	B	A	m	u	x	s	s	x	-	首次正式benchmark0.0313/LOW；未用nominal局部测试替代正式结果	-	p
+47	测量	K	A	m	u	x	s	s	x	-	首次正式benchmark0.0313/LOW；未用nominal局部测试替代正式结果	-	p
 48	修改代码	O	M	e	i	u	s	vs	x	拆分普通事件计时可初步识别最慢pipeline阶段	写prof_kernels含清L2/事件、reference形状和seed；名字prof不等于实际profile，尚未调用NCU/Torch profiler	step49普通分阶段计时	p
 49	测量	K	M	m	u	x	s	s	x	-	声称4形状的循环实际四次均回显B2/T2048/H8；不能当4形状测量，普通事件也不是profile	step50诊断参数问题	p
 50	环境准备	O	M	e	i	w	s	v	x	argv长度条件错误导致4次均回退默认形状	实测只支持形状未变化；三个独立CLI参数时len(argv)=4，>3本可成立，其边界解释不足；实际只定位NCU/nsys，未修script	step76改为直接读argv	p
@@ -70,8 +70,8 @@
 71	修改代码	O	K	i	c	y	s	c	x	Pd load须使用与store相同128维步长	正式修加载地址，无独立新实验	step72验证	o
 72	测量	V	A	m	u	x	s	s	x	-	局部比值恢复约0.0187；此前同时改operator符号/衰减精度与地址，不能把改善仅归因fp32 d	-	p
 73	测量	V	A	m	u	x	s	vs	x	-	正式check PASS，未改误差阈值；只证明本次检查协议	-	p
-74	测量	B	A	m	u	x	s	s	x	-	正式v2 benchmark0.0358/LOW，高于初始0.0313；输出tail不涵盖全部形状行	step75展开重测	p
-75	测量	B	M	m	u	x	s	vs	x	-	因误读截尾输出及分数方向重跑，返回0.0355；不把“下降/缺shape4”叙述采信为数据事实	-	p
+74	测量	K	A	m	u	x	s	s	x	-	正式v2 benchmark0.0358/LOW，高于初始0.0313；输出tail不涵盖全部形状行	step75展开重测	p
+75	测量	K	M	m	u	x	s	vs	x	-	因误读截尾输出及分数方向重跑，返回0.0355；不把“下降/缺shape4”叙述采信为数据事实	-	p
 76	修改代码	O	M	e	i	u	s	vs	x	K2顺序链低并行度可能需要两级scan分解	重写普通事件脚本为v2两kernel并直接读argv，含reference全局形状/seed；148SM叙述未由此测得，非实际profile	step79–82实际事件返回	p
 77	测量	K	M	m	u	x	f	s	x	-	循环经tail/head无输出，未取得多形状测量结果	-	p
 78	测量	K	M	m	u	x	f	s	x	-	循环grep返回exit1，不能记为成功profile或无性能差异	-	p
@@ -92,7 +92,7 @@
 93	修改代码	O	A	i	p	u	s	c	x	group局部scan和composite可增加长序列并行度	正式用K2a/b/c替换旧scan，跨步方案来自92profile分析；参数接通与正确性尚待94/95	-	o
 94	修改代码	O	A	e	c	y	s	vcs	x	按NT配置G与统一边界布局可接通三级scan	正式wrapper增加A/Bg/Sb持久工作区与dispatch，cache按B/T/H；不是答案缓存，跨设备/并发协议未验证	step95局部压力检查	o
 95	测量	V	A	m	u	x	s	s	x	-	两个形状局部压力比约0.019/0.023，支持这两个实例正确性，不证明所有composite量化无害	-	p
-96	测量	B	A	e	i	u	s	vs	x	group composite存bf16不会明显损害当前输入精度	正式bench0.0416有返回，精度判断只来自95有限测试；不能泛化所有输入或完整最终结局	-	p
+96	测量	K	A	e	i	u	s	vs	x	group composite存bf16不会明显损害当前输入精度	正式bench0.0416有返回，精度判断只来自95有限测试；不能泛化所有输入或完整最终结局	-	p
 97	修改代码	O	M	e	i	u	f	v	x	分阶段计时可检查K1是否成为主要瓶颈	尝试替换prof_kernels整段但旧串不匹配失败，未写新脚本或新seed状态	step98重写	p
 98	修改代码	O	M	m	u	x	s	vs	x	-	成功重写独立普通事件分阶段计时脚本，含reference维度/seed；名字prof不计真实profile	-	p
 99	测量	K	M	m	u	x	f	s	x	-	形状循环过滤返回exit1，无新多形状数值	step100直接调用	p
@@ -111,7 +111,7 @@
 112	修改代码	O	K	i	c	y	s	c	x	X的load须匹配三个32×32的紧凑store布局	正式改stride32和1024/2048偏移，无新实验	-	o
 113	修改代码	O	K	i	c	y	s	cs	x	工作区分配须匹配新X布局	正式持久cache分配改3×32×32每chunk，未改reference或正确性容限	step114复测	o
 114	测量	V	A	m	u	x	s	s	x	-	修布局后两个局部压力比恢复约0.019/0.023，支持地址修复有效	-	p
-115	测量	B	A	m	u	x	s	s	x	-	正式benchmark0.0436并check PASS，未返回RESULT过滤行不补写显示标签	-	p
+115	测量	K	A	m	u	x	s	s	x	-	正式benchmark0.0436并check PASS，未返回RESULT过滤行不补写显示标签	-	p
 116	修改代码	O	M	m	u	x	s	v	x	-	只修改独立计时脚本import以包含K0；没有正式候选改动	-	p
 117	修改代码	O	M	m	u	x	s	-	x	-	独立计时脚本增加X探针缓冲，不是模块级跨调用cache或正式编辑	-	p
 118	修改代码	O	M	m	u	x	s	-	x	-	独立脚本分别启动K0和新K1进行事件计时，不是NCU或正式harness修改	-	p
@@ -122,8 +122,8 @@
 123	探索代码	D	A	m	u	x	s	v	x	-	解释regex问题并查分段边界，只有准备恢复动作，没有新性能机制证据	-	o
 124	回滚	O	A	i	c	u	s	c	x	从备份恢复融合K1可撤回拆分	成功拼入正式文件但仍保留死K0和旧wrapper，grep只证明函数存在；尚未完成可运行回退	step126接wrapper	o
 125	探索代码	D	A	m	u	x	s	v	x	-	Read实际wrapper检查剩余参数和工作区，自有代码不计knowledge_access	-	o
-126	回滚	B	A	e	c	y	s	vcs	x	删除K0/X并恢复融合调用可完成回退	正式清wrapper、持久cache结构与死代码，局部压力通过，正式benchmark0.0371；不将低值未经核实归为冷编译	step127重测	o
-127	测量	B	M	e	i	u	s	vs	x	邻近重测可检查0.0371是否稳定	正式两次返回0.0437/0.0436，说明波动但未隔离原因；不把过滤缺失的shape行补造出来	-	p
+126	回滚	K	A	e	c	y	s	vcs	x	删除K0/X并恢复融合调用可完成回退	正式清wrapper、持久cache结构与死代码，局部压力通过，正式benchmark0.0371；不将低值未经核实归为冷编译	step127重测	o
+127	测量	K	M	e	i	u	s	vs	x	邻近重测可检查0.0371是否稳定	正式两次返回0.0437/0.0436，说明波动但未隔离原因；不把过滤缺失的shape行补造出来	-	p
 128	修改代码	K	M	e	i	u	c	vs	x	更多CTA与阶段配置可测试SM利用率是否限制dot吞吐	独立occupancy探针Cp按pid索引却只分NS块，触发非法访问；宣称0.0371为冷编译唯一原因无充分证据	step129修容量	p
 129	修改代码	K	M	e	c	y	s	vs	x	Cp按CTA容量分配可避免非法访问	独立探针改Cp600块后返回350–375名义TFLOPS；输入在循环内不变，未查看生成指令确认重复dot数，不能当硬件峰值测量	step130解释边界另审	p
 130	profile	N	A	e	i	u	s	vs	x	缓存复用与操作数传递可能解释真实scan低于名义dot吞吐	由不同访存探针转向内存解释，实际NCU K2c约41.54us/DRAM74.32%；不能由固定输入probe单独证明L1命中或全部瓶颈	step131消融	p
@@ -138,13 +138,13 @@
 139	修改代码	V	A	e	c	y	s	vcst	x	逆矩阵应为X链本身而非X乘额外F转置	先猜精度后识别错误数学，正式删额外F链并局部最坏比恢复0.0186；该改善不是单纯提升bf16精度	step140核对落盘	o
 140	探索代码	D	A	e	i	u	s	v	x	新旧误差统计相同可能说明替换没有生效	grep正式源码确认新M表达式，不能由统计相同就认定旧cache被用；未编辑候选	step141查看helper残留	o
 141	探索代码	D	A	m	u	x	s	-	x	-	grep确认_row2/_col2只剩定义，不把自有源码Read算外部知识读取	-	o
-142	测量	B	A	e	i	u	s	vs	x	下游bf16量化可能掩盖不同逆算法的细小误差差别	正式bench0.0406；随后独立计时脚本因仍import已删K0失败，无成功阶段新数据	step143修脚本	p
+142	测量	K	A	e	i	u	s	vs	x	下游bf16量化可能掩盖不同逆算法的细小误差差别	正式bench0.0406；随后独立计时脚本因仍import已删K0失败，无成功阶段新数据	step143修脚本	p
 143	修改代码	K	M	e	c	y	s	vs	x	移除旧K0/X接口可恢复有效独立计时	只改prof_kernels后运行，约94.9/51.5/29.9/70.5us；正式候选未改，普通事件非实际profile	-	p
 144	测量	K	M	e	i	u	s	vs	x	多次复测可检查未改kernel整体变慢是否稳定	三个事件汇总约241–247us；共租户/频率仅是未隔离的解释，不能当已证根因	-	p
 145	环境准备	O	M	e	i	y	s	vt	x	同进程邻近A/B比跨时段比较更能控制已见漂移	只生成sol_full64/sol_blocked独立副本；声称交错测试尚未实施，不改正式候选	step146/147实际批次对比	p
 146	修改代码	O	M	i	i	n	s	s	x	同进程A/B可减少跨时段比较偏差	写ab_k1含sys.path/seed；循环按nw再按方案、每方案15次全测后换另一方案，不是逐trial交错或随机化；文件标题不决定方法	step147结果	p
 147	测量	K	K	m	u	x	s	s	x	-	批次A/B返回nw8 full64约97us与blocked107.1us等；保留顺序效应边界，不称逐trial交错已控制全部漂移	-	p
-148	测量	B	A	e	i	y	s	vs	x	同进程批次对比中full64更快可作为保留方案的局部依据	正式bench0.0394；actor称交错/当前clock根因强于实际证据，数据只有相邻固定顺序批次	-	p
+148	测量	K	A	e	i	y	s	vs	x	同进程批次对比中full64更快可作为保留方案的局部依据	正式bench0.0394；actor称交错/当前clock根因强于实际证据，数据只有相邻固定顺序批次	-	p
 149	测量	O	K	e	i	u	s	vs	x	实际spill统计可检验寄存器压力是否导致局部内存访问	导出当前PTX并重新ptxas装配，K1回显172B spill stores/loads及255reg；是此PTX重装配资源证据，不追溯证明所有旧版本spill	step150其他kernel	p
 150	测量	O	K	m	u	x	s	-	x	-	ptxas重装配K2a回显0spill/244reg、K2c112B spill/255reg；高寄存器不必然spill得到具体反例，无新候选编辑	-	p
 151	测量	K	P	e	p	u	s	vs	x	限制寄存器到128可能允许更多CTA隐藏K1等待	独立maxnreg扫描显著变慢，qe对照diff0不证明全部输出正确；未测出实际两CTA占用，也不能只凭静态spill字节说spill无成本	-	p
@@ -161,8 +161,8 @@
 162	探索代码	D	A	m	u	x	s	-	x	-	Read当前正式wrapper，自有代码不计知识访问	-	o
 163	修改代码	O	A	i	c	y	s	cs	x	新增oloc/qmA工作区并接通三pass可测试输出分解	成功正式cache与调用编辑，输出仍新建；不从161失败请求推断已产生缓存	step164/165测试	o
 164	测量	V	A	m	u	x	s	s	x	-	三个形状局部压力比约0.023/0.023/0.018；只验证当前有限输入，不证明数学重排在所有bf16输入等精度	-	p
-165	测量	B	A	e	i	u	s	vs	x	局部比值相近说明当前输出融合精度可接受	正式两次benchmark0.0124/0.0123且LOW，大幅退化；不把局部正确性通过当性能成功或严格数值恒等证明	-	p
-166	测量	B	A	e	i	u	s	vs	x	融合增加的K2a工作或资源可能解释性能回退	正式重测0.0123；独立prof_kernels签名未更新报TypeError，没有有效分阶段计时	step170–173修诊断	p
+165	测量	K	A	e	i	u	s	vs	x	局部比值相近说明当前输出融合精度可接受	正式两次benchmark0.0124/0.0123且LOW，大幅退化；不把局部正确性通过当性能成功或严格数值恒等证明	-	p
+166	测量	K	A	e	i	u	s	vs	x	融合增加的K2a工作或资源可能解释性能回退	正式重测0.0123；独立prof_kernels签名未更新报TypeError，没有有效分阶段计时	step170–173修诊断	p
 167	修改代码	K	M	e	i	u	f	vs	x	更新诊断调用接口才能区分算子回退与host因素	改prof脚本后超时，后续168/169证部分替换未生效；非正式candidate_edit	-	p
 168	测量	K	M	m	u	x	f	s	x	-	旧诊断调用仍缺qmA/T/H/NT参数，未取得性能数据	-	p
 169	探索代码	D	M	m	u	x	s	v	x	-	grep显示旧k2a/k2c调用仍在，解释字符串替换失败；未改正式候选	-	p
@@ -180,17 +180,17 @@
 181	回滚	O	A	i	c	y	s	c	x	恢复旧K2a可撤回输出融合	成功正式回退K2a，但其他接口仍待182/183接回，不当完整可运行状态	-	o
 182	回滚	O	A	i	c	y	s	c	x	恢复局部scan的K2c可撤回边界分解	成功正式回退K2c，wrapper尚待183	-	o
 183	回滚	O	A	i	c	y	s	cs	x	移除oloc/qmA工作区并恢复dispatch可完成回退	正式修改cache和wrapper，工作区重新计算而非缓存oracle答案	step184验证	o
-184	测量	B	A	m	u	x	s	s	x	-	回退后正式check PASS、两次benchmark0.0395/0.0398；不把此前退化版本结果覆盖掉	-	p
+184	测量	K	A	m	u	x	s	s	x	-	回退后正式check PASS、两次benchmark0.0395/0.0398；不把此前退化版本结果覆盖掉	-	p
 185	探索代码	D	K	e	i	n	s	vs	x	检查实际MMA指令类型可指导K1下一步改写	临时脚本加sys.path并调用kernel取得cubin；注释称只编译但代码实际launch且复用未初始化别名缓冲，不能作正确性或性能测量，仅保留编译产物信息	step186 SASS	p
 186	探索代码	D	K	m	u	x	s	-	x	-	nvdisasm静态SASS计数含320TF32/320BF16 HMMA及192SHFL；静态指令不等同动态耗时profile，不计外部知识访问	step187改写依据	o
 187	修改代码	O	K	e	c	y	s	v	x	bf16逆链及dot式cumsum可能减少所见TF32和shuffle指令	写sol_v4试验而非正式候选；指令存在有SASS依据，单项吞吐比例和性能贡献尚未隔离，代码仍有占位语法	step188/190修复	o
 188	修改代码	O	K	i	c	y	s	-	x	删占位残行可使v4形成可编译表达式	只改sol_v4.py，非正式candidate_edit	-	o
 189	测量	K	K	m	u	x	f	s	x	-	A/B临时脚本含导入路径/seed，但X在首dot后变fp32造成dtype编译失败，无对比时延	step190修cast	p
 190	修改代码	K	K	e	c	y	s	vs	x	每个dot后cast回bf16可维持逆链dtype一致	修sol_v4并运行三轮固定顺序批次A/B，每方案内15次，非逐trial随机交错；局部diff返回不能替代正式check	step191正式采用	o
-191	修改代码	B	K	e	i	y	s	vcs	x	同进程批次里v4较快值得移入正式pipeline验证	正式拼入v4，局部压力约0.019、正式check PASS、benchmark两次0.0401；同时改逆链和cumsum，不能拆出各自独立收益	-	o
+191	修改代码	K	K	e	i	y	s	vcs	x	同进程批次里v4较快值得移入正式pipeline验证	正式拼入v4，局部压力约0.019、正式check PASS、benchmark两次0.0401；同时改逆链和cumsum，不能拆出各自独立收益	-	o
 192	探索代码	D	K	e	i	u	s	vs	x	更新SASS可检查两项改写后的指令变化	临时脚本导入路径/设备状态写入并导出反汇编；实际静态计数TF32降64、BF16为480，不单独证明运行瓶颈	-	p
 193	测量	K	P	e	c	u	s	vs	x	转换/pack指令较多提示重新比较warp与stage配置	普通事件扫描含seed与导入路径，nw8约69us；静态指令频数不能直接当每类耗时占比	-	p
-194	测量	B	M	e	i	u	s	vs	x	更快的局部时延可能反映频率状态改善	正式三次0.0493，未回显实际时钟，不把“clocks shifted up”采信为已测根因	-	p
+194	测量	K	M	e	i	u	s	vs	x	更快的局部时延可能反映频率状态改善	正式三次0.0493，未回显实际时钟，不把“clocks shifted up”采信为已测根因	-	p
 195	测量	K	M	e	i	u	f	vs	x	刷新分阶段数据可核对当前较快正式分数	诊断仍用融合旧接口，四次均多传L失败，无新阶段时长；正式benchmark结果仍有效	step196/199修接口	p
 196	修改代码	O	M	e	c	y	s	v	x	K2c诊断应随正式回退恢复旧scan接口	只修prof_kernels的K2c调用，K2a仍未改，不是正式编辑	-	p
 197	测量	K	M	m	u	x	f	s	x	-	四形状仍因多传L失败，没有新增profile或阶段时长	step198/199定位K2a	p
@@ -204,7 +204,7 @@
 205	测量	K	P	m	u	x	f	s	x	-	标题称word-split但命令未变，仍相同单串参数错误；标题不代表动作实现	step206	p
 206	测量	K	P	e	c	y	s	vst	x	显式zsh字段展开可将形状串变为三个CLI参数	改用${=s}后四形状扫描成功；为早先同形状/解析失败提供实际shell原因证据，未改正式kernel	step207调dispatch	p
 207	修改代码	O	P	e	i	y	s	vc	x	按BH选G使K2a/K2c约128CTA可改善当前扫描实例	正式改G选择，来自206普通事件配置对照而非新的硬件profile；扫描有限、G选择仍非全局最优证明	step208正式验证	o
-208	测量	B	A	m	u	x	s	s	x	-	新G规则局部比0.023、正式check PASS，三次bench0.0401/0.0413/0.0406；不以旧0.0493替代当前返回	-	p
+208	测量	K	A	m	u	x	s	s	x	-	新G规则局部比0.023、正式check PASS，三次bench0.0401/0.0413/0.0406；不以旧0.0493替代当前返回	-	p
 209	测量	K	H	e	i	u	s	vs	x	对比host墙时与CUDA事件区间可探查提交开销	独立200次循环两种时间接近；事件跨整个提交循环本就可包含host enqueue空隙，不能由相近排除host瓶颈；含reference尺寸/seed/sys.path	step210外推另审	p
 210	写报告	O	H	e	i	w	s	v	x	wall等于GPU-span说明没有host gap且CUDA graphs无益	实际只备份正式版本并写DEVLOG；209事件区间也含提交空隙，该推理不成立，未直接测试graph收益；慢/快clock仍未实测	step211另写CUDA原型	a
 211	修改代码	O	K	e	i	n	s	vs	x	先验证mma与ldmatrix原语可降低手写CUDA集成错误	写cuda_helpers_test，含测试seed但未改正式solution；性能预算来自先验与有限探针，尚无完整CUDA K1测量	step217局部验证	o
@@ -350,7 +350,7 @@
 351	测量	V	K	e	c	w	c	vs	x	w/u staging只触自身列因而无跨warp竞态	忽略相同wn不同wm也读同列，不能证明race-free；debug寄存器dump还存在lane碰撞，重构只支持正dot实际被相加	-	p
 352	测量	V	K	e	c	y	s	vst	x	qe应q项减dot，旧CUDA写成加dot	修独立原型后qe由0.160降0.000732；旧reconstruction仍按加法打印不能反证新修复	step353同步正式实现	p
 353	测量	V	K	e	c	y	s	vcst	x	将减号修复同步正式solution可解决压力失败	正式候选修改并check返回PASS；不把ULP近零放大统计当大绝对误差	-	p
-354	测量	B	K	e	i	u	s	vs	x	CUDA K1替换可能改善正式端到端peak_fraction	正式benchmark0.0456/LOW；表示未达0.1门槛，非局部CUDA原型正确性结论	最后一次正式bench	p
+354	测量	K	K	e	i	u	s	vs	x	CUDA K1替换可能改善正式端到端peak_fraction	正式benchmark0.0456/LOW；表示未达0.1门槛，非局部CUDA原型正确性结论	最后一次正式bench	p
 355	探索代码	D	M	e	c	u	s	v	x	需确认LOW阈值和是否静默fallback	grep显示geomean阈值0.1；多处flush=True是输出刷新，不能单独认作cache刷新	-	p
 356	环境准备	O	D	m	u	x	s	s	x	-	独立进程_build_cuda_k1返回OK，仅证明此进程可构建；查询错误名称的内部flag均absent，未追溯证明上一bench分支	-	p
 357	测量	K	F	e	c	u	s	vs	x	逐形状拆K1/K2与整流水线可找新瓶颈	普通事件各测25次批次；full小于两独测之和，打印负launch-gap不是负launch开销；新进程build不独立证明前bench路径	-	p

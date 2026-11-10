@@ -1,0 +1,2798 @@
+{
+  "method": "同一AI研究助理冻结前逐项口径复核；不是盲复标，不计一致性样本",
+  "baseline_commit": "66c6ef5",
+  "scope": "175处KBH题目内benchmark用途、33处K09纯临时源码写入/编辑尝试、11处K09实际启动测量或读取计时结果的混合动作；不自动向其余步骤传播",
+  "corrections": [
+    {
+      "session_id": "K01",
+      "step_id": 47,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        146
+      ],
+      "review_input_sha256": "e70a96cc0e3ff14247e633dbc2e1a652d86a36f5de8012d31dfe1a5d99a0acc1"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 74,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        239
+      ],
+      "review_input_sha256": "70f7138ed67dfa7831dd5d63340d9d63c29e97c18f84aef84b03dae504fb9b70"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 75,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        241,
+        242
+      ],
+      "review_input_sha256": "8d0bf087694ee83484eff0416b4b4b12b0f658eca15c31e6d52adce36bf43dd5"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 96,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        309,
+        310,
+        311
+      ],
+      "review_input_sha256": "6da5a04af1670a07b928510dfc6a8d0b4efa99e57c271ed1fa9e0d05380fb904"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 115,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        377
+      ],
+      "review_input_sha256": "d762ed50d8d7b02aca56f8aeb6fe9ca60569c049abc0e64df79a8e04847e77d7"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 126,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        410
+      ],
+      "review_input_sha256": "c584006cc063da074c8166dab33992ce55b17fb66312900c53eeafb5d8a5bed3"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 127,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        414,
+        415
+      ],
+      "review_input_sha256": "9c5fe8366d3dd1a3447cfc122eddc017a5d4be601d016082f1e08e106af26fb3"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 142,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        477,
+        478,
+        479
+      ],
+      "review_input_sha256": "faa96bb1a9754eeb5d18c2812a9d5fc25b652e48df6f0fa17ff1c04fa0730c53"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 148,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        501,
+        502,
+        503
+      ],
+      "review_input_sha256": "4d092aab0bea8b067cf4c76bb5beb0dd80dddb65da73a56753cba1e7dcac86df"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 165,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        563,
+        564,
+        565
+      ],
+      "review_input_sha256": "8587fa67bc7aee19152cdf45c089128fb500010cd06209bb4cc029d5b3f6a06a"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 166,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        569,
+        570,
+        571
+      ],
+      "review_input_sha256": "49a23583a0b1e9bfa0e73518536ce5044d371488eb1792170c53c73db1b332a5"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 184,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        630
+      ],
+      "review_input_sha256": "b3f33e25a9c9e8fcb36df673226635f4024c5395b02bc85291180bb49e041afa"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 191,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        651,
+        652,
+        653
+      ],
+      "review_input_sha256": "b6bbea27ce621da63ef9c30d80b3faeccece24de439e56d1fb4a3a0581a2e26f"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 194,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        667,
+        668,
+        669
+      ],
+      "review_input_sha256": "68a31fcc62cc4fc16c08916f34624d8854d785d2b5b3ddac69f5f6d40b805377"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 208,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        724
+      ],
+      "review_input_sha256": "db58c8cf888e3763499545f8101233a5853e2a3565cb0d117c902680b96bbd14"
+    },
+    {
+      "session_id": "K01",
+      "step_id": 354,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1316,
+        1317,
+        1318
+      ],
+      "review_input_sha256": "f4ff9181203aa21dae6593bace7111bc4f400438067319e7d753a9b944d4c790"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 37,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        114
+      ],
+      "review_input_sha256": "cf745909a97128be501077008917b5be75ef77ef9c16286d1ff25c09f97442c5"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 44,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        132
+      ],
+      "review_input_sha256": "8121946fe4c4b6cc656acf275e8630d523b4fa470cd57589f750bcfc6342e064"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 45,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        136
+      ],
+      "review_input_sha256": "7f42230125589fd0824f9651ab6aa85c47f049147c4b474b287933f67f327042"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 87,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        256,
+        257
+      ],
+      "review_input_sha256": "9f7f882bdc5f515770b73d9007e815c9b3c64d269cc8a7c9bad21c12858694f4"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 91,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        267
+      ],
+      "review_input_sha256": "2c509cf36bbdfc778c824737f51385e73a38640cd6df76581d5d5d92ee5a35e8"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 99,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        290,
+        291
+      ],
+      "review_input_sha256": "fee6485d80023132ca1a85a9f07d0ad19d291e51b9ade916dd80d30bf3db2981"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 101,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        297
+      ],
+      "review_input_sha256": "b2791d3c3db46b2ef3348276e065530d285d2fbe6d5ea42e8d4de3d3b73e58e3"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 109,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        319
+      ],
+      "review_input_sha256": "76b1bf4f9440aec2d941ddd9bc47c4c8db0cef9a4b5bbd567529a8bfe5d7a068"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 112,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        330
+      ],
+      "review_input_sha256": "3316a0a4ffe899c8eb68fdec20603f2d8991653ece9e87e1ebdbb6b531f96779"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 114,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        335
+      ],
+      "review_input_sha256": "e5240422b3cc74eb4d7dc1aad4c22ecfe685e869fca6a5be000b745debec6c6a"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 115,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        339
+      ],
+      "review_input_sha256": "74ec8794b0a7c42c4dabaaed322636cc9ef45f59aaed7926fe835a1162ca02ff"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 140,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        415,
+        416
+      ],
+      "review_input_sha256": "11e81fd945d88452ed4142177e12ee11e8c38279c3c6b1f3559fd26bc3e3cfe1"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 142,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        422
+      ],
+      "review_input_sha256": "1156fedac088a175fb1036396f6c3de29839c4998f969244cc9f66d121dd4db6"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 144,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        427
+      ],
+      "review_input_sha256": "7f1dabdf4dc8ae347f897843d01548e89f2270ca5d08064e873e5093217a6c93"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 154,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        458
+      ],
+      "review_input_sha256": "6a24b49ac9cfcf363dceea396d00a3b833475e70c10c584d78b225f2a960722c"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 165,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        489
+      ],
+      "review_input_sha256": "e4f6d7eaca34250cc74e331afe65db4338e56f823017bf56a33b39a32821efcb"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 170,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        503,
+        504
+      ],
+      "review_input_sha256": "54fb8a3c1cd3888fc83f41050e5e1e2f1446c4d5b54cc18a99a8e6c1b3bd1608"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 191,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        565
+      ],
+      "review_input_sha256": "ad916912bd98e87f58f995e91cb9343d3492738d3e25efdaa67cc9660ccf9c91"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 207,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        607
+      ],
+      "review_input_sha256": "0fbf8380f10d0e720c6df1d66fac2ce83e38a8e2d80b945148bc34767f16bcf3"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 217,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        636,
+        637
+      ],
+      "review_input_sha256": "fa46e0341f7108a74b30dc3a44d110c39f7309adb065a8f20d322fa56591ed61"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 227,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        665
+      ],
+      "review_input_sha256": "3087a28ec856d5fd2708b51d5b0212e72bf8ae07d71ad7d0323f7891233cd404"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 228,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        667,
+        668
+      ],
+      "review_input_sha256": "1d6fb025abd7896b0ac198cad17b1c26d25af591ec74a41b1db99d0c88635313"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 230,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        674
+      ],
+      "review_input_sha256": "420101543653f238546104a603d361b28fe97e7b835dbc8b7d69d89c6c5a09f3"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 231,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        676,
+        677
+      ],
+      "review_input_sha256": "b389a4bb297492d9eec172625e23dd771531ea646e807fcebda523d3e12a20e2"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 233,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        683
+      ],
+      "review_input_sha256": "3ff34d606b9ca9e1733f1e98a442a6758dd51daf1f6d014298cb25da0ba5ce4e"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 235,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        688,
+        689
+      ],
+      "review_input_sha256": "c90b460fb960ab52d356990b6f82f7e58c08902c3a4ee4aea1a936df8448b5fd"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 240,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        705
+      ],
+      "review_input_sha256": "195f47dff0059eb265f0f2c5a5b8552d5f5ccf28566422dca5e88bac09e0978c"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 241,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        707,
+        708
+      ],
+      "review_input_sha256": "cb7b622e9f0d814c0c537b59bfbe3ee0a09215b5b90294309c8398d9ea8d6799"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 243,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        713
+      ],
+      "review_input_sha256": "0bcde3e2d44b20b888c4760d2e9a62dcac6f25e6699ec3809b3c3520a748c82e"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 249,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        731
+      ],
+      "review_input_sha256": "1d11518fbb95af3f0f0680b64d868446d2a0a289ffa06c195337624f9caf0faa"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 252,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        739
+      ],
+      "review_input_sha256": "908695ed098ca61e712f750e40e62af7ae213f2a7cd7832f92717ff5268d132a"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 254,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        746
+      ],
+      "review_input_sha256": "666887e7728b572b919b914867ce4246c9219f75f5edfc8590c4b75df4a166e7"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 262,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        773,
+        774
+      ],
+      "review_input_sha256": "ff1caecdf129f7538c67a5f4e4b841fb950b83937f7150977dc1107ea2a12bf5"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 264,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        780
+      ],
+      "review_input_sha256": "2f3a1b8281985b70498283d2e351e37bf08e5b3d9225d55824b07b489f1fc5f4"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 279,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        820
+      ],
+      "review_input_sha256": "d1b1210f82029c3257642ae68c266807ce5fc811cdb2b666e42648480c988b0f"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 283,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        832
+      ],
+      "review_input_sha256": "d867f23362bac170627db60ddb610d1f28d43ba3cc38c7afa6a24ac05994778e"
+    },
+    {
+      "session_id": "K07",
+      "step_id": 290,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        851
+      ],
+      "review_input_sha256": "02f4d0f01e4c83e38ad294f325b407ad848751dfa295f125867c9b91b1b4ec93"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 27,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        65,
+        66
+      ],
+      "review_input_sha256": "080c96fe0a4a4223222b19f6fe4c2186b22ae9b3258a069b3e70a5b2dd536ee9"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 28,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        68
+      ],
+      "review_input_sha256": "e20600ae01e0863760e22ba0d673e7ba1513d7ca2cf864da5b345defebc97492"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 32,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        76
+      ],
+      "review_input_sha256": "d12ebae65fdd92fad0e403f7107c8916e9bc557801a2545aaea065e01208089f"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 33,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        78
+      ],
+      "review_input_sha256": "42fa8ca2f688947470559f1fc3b85a3dcba28311b9c24efb22344b63d284ae6d"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 51,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        115
+      ],
+      "review_input_sha256": "662f118b9bb78eaa38babfb05f6b21c1ffe3fff608e7ed79db2b0f0ea63a5c71"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 52,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        117
+      ],
+      "review_input_sha256": "51dca1c50bcb8f98fea9c191611d47ad83bfccc8be9b339baf6a92be779443fc"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 60,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        133
+      ],
+      "review_input_sha256": "abbfe5354eba5444e8148a13699e1de9cfadc55a5eb31017690de4efcdc44cb5"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 61,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        135
+      ],
+      "review_input_sha256": "48bfe1d0d3cd321e7fd169c2c131325d48518852da65df1ff92e8b2553291497"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 73,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        160
+      ],
+      "review_input_sha256": "286882bd0e910e8a27ec7691c8b24ea51a2dc922596a91af92d0a7598a872e63"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 74,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        162
+      ],
+      "review_input_sha256": "e325ab6735d5941050a0a35ed0f0265168e76553ddf9b099fa51834938bf999d"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 80,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        174
+      ],
+      "review_input_sha256": "386aa53448820db680d84274209fe7d5f459b1ae2bf7e7c1dbd81428b5ace562"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 81,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        176
+      ],
+      "review_input_sha256": "0632921c4f25b5c7b1c0fb11038bda748cf8e3fbb6cd0663efb1c6a75e97c3f7"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 88,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        190
+      ],
+      "review_input_sha256": "1040e420dcfb48f4b2ee60eff68298d859a5661615c83489ca912ed076ddc4b7"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 89,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        192
+      ],
+      "review_input_sha256": "ec26ad4432f4669605051442bad8bbe8259bb6c460fcf9f379d7efa31e32afb9"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 103,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        220
+      ],
+      "review_input_sha256": "853a1bfe9f8a7841f649b84d33b33115ddd8ff25c2039751fb655366245e6e62"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 104,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        222
+      ],
+      "review_input_sha256": "985a2a48fb85b9dae846e406476f4461582017dd8fe27fd83ffa079c2c0a0385"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 113,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        241
+      ],
+      "review_input_sha256": "aa6cd4d5ea8216d0c93f56872887fb4df1fbd99a23bf64dd7d04315e23cc2160"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 114,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        243
+      ],
+      "review_input_sha256": "7ad49c4fd4f96ad7f15666ed5fcbe8be44aad19c0c6f14b3bac789d19ece51fd"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 127,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        269
+      ],
+      "review_input_sha256": "448d1133b37938e51b2629c7f26aad17a2fcc2f420c6313c3daade3af5823fe9"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 128,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        271
+      ],
+      "review_input_sha256": "013b829b572ba8edf2914fa579ef1ee771461b7cddfc45cd380a95c27dcf96d3"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 134,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        283
+      ],
+      "review_input_sha256": "6c507026327727d6a0f187ba51f9c4751846fd2002762f0a0ea2a0684c1252a6"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 135,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        285
+      ],
+      "review_input_sha256": "23ee0dca508e511d92d3364c4c724eb4a8254c19a23fe74d49e9aec2036f3390"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 139,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        293
+      ],
+      "review_input_sha256": "1b24197931eaed731cd930fa7117fa3cfed1a2f48d74511d7aeb9f0c5adbcc1a"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 140,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        295
+      ],
+      "review_input_sha256": "11877e2de3a3c043c185f4a305c90c4531f8cd1e45337b2b38d4fcd261ae0b9f"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 146,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        308
+      ],
+      "review_input_sha256": "102f737808b96b3943d691ef64d8bb3f68dff6b979633c309c80a7d47e18a090"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 147,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        310
+      ],
+      "review_input_sha256": "df0140e424fb9fd80b17b8c3997687c2925e7a6ab55160bc7f2d85cd0ca19d98"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 151,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        318
+      ],
+      "review_input_sha256": "8b199be7e7082b753c6acb39655e66ecadada0ce08db560add06f8fe600fd970"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 152,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        320
+      ],
+      "review_input_sha256": "d7406063f0d6451953bc685c48c75cd2d8b88851a5450d11d9bd485979ecd83f"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 154,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        324
+      ],
+      "review_input_sha256": "04fc63e34dd0980a16bbc0b4f6b66aa1b4f1f82a140d32297b99270720af11e3"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 155,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        326
+      ],
+      "review_input_sha256": "10378f2c15ff3fa824aae81cc1c1a1ca4d03a02c557bfc93328493ccf0dcf83a"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 168,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        353
+      ],
+      "review_input_sha256": "2866f83f9524492d796846ae7ab2f4bb0351100c365acfed208af1f29dac6b4e"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 169,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        355
+      ],
+      "review_input_sha256": "dd9225e4dfea62ba6c89eff462fb83756114ac54a6400f53683a532c81e6d7fb"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 175,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        367
+      ],
+      "review_input_sha256": "dc40f10c581d437471b7b7d3a7b4d989534bf6b480942e6f89109cefa7bb4b4e"
+    },
+    {
+      "session_id": "K08",
+      "step_id": 176,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        369
+      ],
+      "review_input_sha256": "29eb4a9c5fcd267ef10bb2fb2df398b7441332d226461cc17999d795abe56990"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 256,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        862,
+        863
+      ],
+      "review_input_sha256": "6e0e28110b2266394e9b9fc28f60b70c8bd4fff7afdf3abd5a50c700d806975f"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 259,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        873,
+        874,
+        875
+      ],
+      "review_input_sha256": "91a6270b23e0041b54aefecdefd09b18fe77e8c10af1191957a374b34cc168d9"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 263,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        889,
+        890,
+        891
+      ],
+      "review_input_sha256": "9a90a3db1a61704b661881fce7ebe02ea2d6fc06f60a10d45b5a3bf610def426"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 268,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        910,
+        911,
+        912
+      ],
+      "review_input_sha256": "ca57945ef05a766f3cbfd25229581d59483784b3b5c90f3e51312b34ded56e9e"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 291,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1001,
+        1002,
+        1003
+      ],
+      "review_input_sha256": "c71f89d883ab163f89bdfc0725f48c393a9ab89b03b9142dbc5477cffb40b223"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 293,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1011,
+        1012,
+        1013
+      ],
+      "review_input_sha256": "758c3d88fd09d2c4092af9516d2cbf19be0b935b6520d2c8b9418973af3ec6a6"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 297,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1026
+      ],
+      "review_input_sha256": "753dc0703bc0510b6e3b4493dbca1bb14ceb1308522f1c994a3cc2d2c67dedf0"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 337,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1178,
+        1179,
+        1180
+      ],
+      "review_input_sha256": "e82fc196588b81cedde7af30075e6dd86b28be65db1ba6732b53385af99ecb85"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 341,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1195
+      ],
+      "review_input_sha256": "463ed078836126064eb7b3d98bed714734b1f4d96b0ef74050edaeda18350f7e"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 344,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1203,
+        1204
+      ],
+      "review_input_sha256": "1c585c8f362327f7098e7a939008cdffe84d9b37277003433ca5456477a5316a"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 346,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1210,
+        1211
+      ],
+      "review_input_sha256": "9f8bbcc1582600f60dc81765e1ff2a95415944fac5084f42d419fdd17d81904e"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 347,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1213,
+        1214
+      ],
+      "review_input_sha256": "8385b52b48a1a8a2bfad4072473816ae436a68df722a308392d37798fb892c8a"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 348,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1216
+      ],
+      "review_input_sha256": "845d2acea4d4cf251463231697919c06da0ad43240e90040b4972240618cf728"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 352,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1228,
+        1229,
+        1230
+      ],
+      "review_input_sha256": "7d0d945ea0a6fb12659068e56dd8560d239ba67b538915fec3e5ca2b50f064bf"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 365,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1275,
+        1276,
+        1277
+      ],
+      "review_input_sha256": "a5965bc3a1d63033b58f32faaed093e31b00eeda6e62a76fb9186f5451f5b6a3"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 367,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1283,
+        1284,
+        1285
+      ],
+      "review_input_sha256": "213ccdc8cc6f17c6cd87fcbf02c091ed1d59dcf9c92c437f0f7e7ac8afab1d46"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 368,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1289,
+        1290,
+        1291
+      ],
+      "review_input_sha256": "25979029c14841c3982003acc5c1a3443b20593cee93e74c0ae8a489e962e0c6"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 370,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1295,
+        1296,
+        1297
+      ],
+      "review_input_sha256": "1635376e9660f2b0b3ef28ad3eecd454252f0ce1d10b73e1895f5e39c932813f"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 389,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1364
+      ],
+      "review_input_sha256": "9e48b95792378d696610f86957d6e36114e31582b57f1651df40e3890d36f5a5"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 392,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1375,
+        1376
+      ],
+      "review_input_sha256": "06798d3fce6934faebfcf4cc21f37de911884ba2cf085babb36dcf6dadb50a92"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 394,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1380,
+        1381,
+        1382
+      ],
+      "review_input_sha256": "52962ffe36a3b2777dd18a73dcfdceae9ce2edd9d674678f17968a54836bcd5c"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 398,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1395,
+        1396,
+        1397
+      ],
+      "review_input_sha256": "d01d92fcb1ec1bb7511c285c8b2aefb67c1e6833a14151550098734454a1b8a2"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 399,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1399,
+        1400
+      ],
+      "review_input_sha256": "30ebf7621bbccd87c42453f93b56ddae8e03ee353e8a1c0559fff3456cdabf0a"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 401,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1406
+      ],
+      "review_input_sha256": "aac71a1ffe0b4bfd7d8018f45cb5fe1599f09d0ff0e7f1230bcd39101b719a5f"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 405,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1421,
+        1422,
+        1423
+      ],
+      "review_input_sha256": "9e94d26ec92de03be44971d897bf3bbe6c71c06b7d56a2b7d8668532a06739c2"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 423,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1477,
+        1478
+      ],
+      "review_input_sha256": "f9dffb2067a2df1240b6abe6c033556d0bc2efd791dd71345e8858be86f0f821"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 428,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1494,
+        1495,
+        1496
+      ],
+      "review_input_sha256": "fb248de9092d9cac530c374896962c403146e0e3d8ae8d9958d169d697d50a23"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 430,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1502,
+        1503,
+        1504
+      ],
+      "review_input_sha256": "43ec16b6d4a1ea842b89b51cffe75fa3b33476f9d6fc8193718f04b3cb9503e8"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 436,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1526
+      ],
+      "review_input_sha256": "8d90206cb4d456f888f7c4d54b4aae08dd7811d854a7e3ecb0fb28740e2ef137"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 437,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1530,
+        1531,
+        1532
+      ],
+      "review_input_sha256": "8dbc20284b3d14ed96da0f58b27f76852f08d4cb71668b0266d57d923346a83d"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 456,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1587,
+        1588
+      ],
+      "review_input_sha256": "244ff93a6eaef03c5b92727d6758f1a7e12baa02a6a06a535335e3fda3ab7cdc"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 461,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1602,
+        1603,
+        1604
+      ],
+      "review_input_sha256": "2ab212d4b8c00d1b92066674925b46de8922abbbb281561319c5dd78d9bb30af"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 463,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1610,
+        1611,
+        1612
+      ],
+      "review_input_sha256": "74b60ffe78b0a49a94778075621f15b2abd57a722dec0294022d2f8bb696f296"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 465,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1618,
+        1619,
+        1620
+      ],
+      "review_input_sha256": "a027c6d5fa54880e8c586095786e8ab589420c90f8264d559e667f7ed76eaa51"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 468,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1630,
+        1631,
+        1632
+      ],
+      "review_input_sha256": "79ee7bc82abf269d481ea916c736ba093400a465ee78805c248069c4e937d493"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 496,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1712,
+        1713,
+        1714
+      ],
+      "review_input_sha256": "bbfd500cc004e39822432b2cfdba8fc0fa1c48f111271d3029420d2a74f2a201"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 505,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1743,
+        1744
+      ],
+      "review_input_sha256": "3edc504bd6deb3d645a2099bcc66db419e8786dd1188fa8b089f0115af4ad9b2"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 518,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1784,
+        1785,
+        1786
+      ],
+      "review_input_sha256": "bb8b2e5f9a1053ac25c582517d4ff906379d5442d85d7fc4d680ba632e1e913a"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 529,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1825,
+        1826
+      ],
+      "review_input_sha256": "a4ce0c3bc0d446e95d6ad5e522d3d4c0d898e90098264f17dad0b2986da5b2cc"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 536,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "按既有codebook，创建/修改临时诊断源码也记修改代码；candidate_edit继续仅记录正式候选。",
+      "source_lines": [
+        1846
+      ],
+      "review_input_sha256": "3bf504d9e814f06438c465e8fdb2bcd226a755e77d0d958b46f53d279a73463d"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 550,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        1900,
+        1901,
+        1902
+      ],
+      "review_input_sha256": "fdbc0a88884d782fc5a27c57326f59d0f835f9d1bce37617cbec4564ce58bb63"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 554,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "修改代码",
+      "reason": "请求改写已有prof脚本是编辑尝试，phase记修改代码；写入被拒，outcome失败及candidate_edit=false保持。",
+      "source_lines": [
+        1916,
+        1917,
+        1918
+      ],
+      "review_input_sha256": "c1f4026876f95da6932c240bd1590c34e3e429fa970a7b8cdc4838d3b4deb5fb"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 19,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        69,
+        70,
+        71
+      ],
+      "review_input_sha256": "65735150ef51fd492c43948c7668673b050801014967aaf90d3b186a92146323"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 20,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        73,
+        74
+      ],
+      "review_input_sha256": "6666e900cdccc31024da065cc9284fdf045b1ab6a43e1aa13ab27be754ef568c"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 21,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        76,
+        77
+      ],
+      "review_input_sha256": "ac97a22fe2daf1e7ec435f6ef3cfcbf69773745e928e66822c6150fce861b2a7"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 28,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        99,
+        100
+      ],
+      "review_input_sha256": "347fbe675889b9afd81371dab16cbe7d742d3cd0a448bcc53a28800b8fd9039d"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 32,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        111,
+        112
+      ],
+      "review_input_sha256": "11b218e93c83d004ba440ebf0885eedababd5179d3679ff9de8015a2b835daa8"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 36,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        120
+      ],
+      "review_input_sha256": "ed7937fdaa6ce8b8bbab669493a5f2ce8bea2692fe644178d28bc0d0d35529e6"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 43,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        143,
+        144
+      ],
+      "review_input_sha256": "8c25a9441fa56ebd45e1342044425d3010a6e2bfb4fd3537eeac9e73925260fb"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 46,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        150
+      ],
+      "review_input_sha256": "d8f8b0348efef5749a2ea7ffe06d9f8713da268abf1102c3f51562de09fccb01"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 48,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        155,
+        156
+      ],
+      "review_input_sha256": "122fd90808fbfef8d3211ef35832e5b2da3828fa354d039f465b89032c41577c"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 52,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        164
+      ],
+      "review_input_sha256": "21e6d52fb139b04853a4d88a6fcdade96cf68320a6429be314d992caa0d737da"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 55,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        174,
+        175
+      ],
+      "review_input_sha256": "6f1c3229a9c41abb2d0952f5b242314cb899b2b12012d8bd327229b0f3efa8d7"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 59,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        183
+      ],
+      "review_input_sha256": "6ef6f5831fd14b7506e5d893ae19c196df3072dc7d23f3439b5c6bcd867d4cd4"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 61,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        188,
+        189
+      ],
+      "review_input_sha256": "18c09e655f12936ca868ebbc05801693ebe2d4b165710f6addd1a9c9ebd61776"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 65,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        197
+      ],
+      "review_input_sha256": "c581366be70dbaf314549d9f2a6ca21cf294024c7a1c126b9771f71ee324955c"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 67,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        202,
+        203
+      ],
+      "review_input_sha256": "c0dce8e080bec13bcada19046edaa950c7970be7aecc84ce4f314ba64a7f1d90"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 71,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        211
+      ],
+      "review_input_sha256": "4c8ddadb227565a3d4e0fbbaac9cad32be6de7323cea387db71ec7c4fde62d05"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 78,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        230,
+        231
+      ],
+      "review_input_sha256": "5818c53be91c475493ac9b0bb50170a1c2939ada4eb6f774cc71409b20069600"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 84,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        245,
+        246
+      ],
+      "review_input_sha256": "20ea0c2cba482e48262a6c4294766a3f4dd1f0f2db4ed7a4ccc805e026c16e92"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 90,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        261,
+        262
+      ],
+      "review_input_sha256": "0ae510b2c1505eab3f3d5cf5a69029433af84651144d9cda09b7d4881c20d71e"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 103,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        295,
+        296
+      ],
+      "review_input_sha256": "03615c9df7ce6598b6080d0094da84f59a82cd40afcedba6d9e563f88576f6b1"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 110,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        315,
+        316
+      ],
+      "review_input_sha256": "64452023404c59a68627e7a98d4377b72a2b23bbb44e7f79e335d6dff0834d2f"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 112,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        322,
+        323
+      ],
+      "review_input_sha256": "2565091f70d26df9e4df1020b564398a3d59b2417f95e13b9a8b341006117544"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 115,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        329
+      ],
+      "review_input_sha256": "36e3c3792b9c66c59c1ff1ce8d5df3eb17a513426eb31c4162aae5beaeef72aa"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 122,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        345,
+        346
+      ],
+      "review_input_sha256": "446aa9fb2c3530d836d571869e056727b3dc19d749293c77bc44b96a01f326ac"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 129,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        364,
+        365
+      ],
+      "review_input_sha256": "6487b8b2d9b5e518558bb7bf63fe0ed117c46a9bbcbfb0397003ab6d15923550"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 131,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        371,
+        372
+      ],
+      "review_input_sha256": "ffd25753d75fd4f2f09f18c9a09d7c02556dc65c63c323567602743adfd672d6"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 135,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        380
+      ],
+      "review_input_sha256": "de016dcb0aeda795a43257a8616d472a46fe982e22113ea9a2a4d6d0c9bfcecd"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 146,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        410,
+        411
+      ],
+      "review_input_sha256": "a0e69206479f76cb9562d43859659d5b309b4582dcd0010f9f0baaa5b38e0bf0"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 166,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        461,
+        462
+      ],
+      "review_input_sha256": "502b0ce6b9f39b8d019fe3e569b0f78b0648d484f96e45823c8ea2ab40d6b758"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 169,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        470,
+        471
+      ],
+      "review_input_sha256": "1dd99474571256e5350bb9c3f908777a720f57333357ef5514d613ccde800486"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 172,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        477
+      ],
+      "review_input_sha256": "d0d9fde39087df1210d4bd106e495e802f8352c0373aff5d7449e52c57ab4f05"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 174,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        483,
+        484
+      ],
+      "review_input_sha256": "cdf8c04a79322a9220ad62d04fb027e1811aaad92c24225802a58ae4d46762ca"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 177,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        490
+      ],
+      "review_input_sha256": "16142aec18d22a00636a9b927ac5baf39cdfda85de5d778c019f860cfe2dd635"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 178,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        492,
+        493
+      ],
+      "review_input_sha256": "13c21a062265a4e1d3a4a08fc8abf74f674244b28c1f2c4595c71bc388a2045a"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 180,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        498,
+        499
+      ],
+      "review_input_sha256": "849841d625aa80427da39da7715a7c1171726a9d04bf95ddfd628d31f04f6c9b"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 183,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        505
+      ],
+      "review_input_sha256": "86267ce7d527bcc962c82165de623ce98c3809545a4436b2cbe0d0cc27c77acf"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 188,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        520,
+        521
+      ],
+      "review_input_sha256": "365c47eb5c27674efbf5d157921f3f0a8d6e0d18df338c2af6be1d261cf57aa0"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 191,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        527
+      ],
+      "review_input_sha256": "f0957f9555f0c1fa44702078b47333bd12f47b38e8a61820a7f74c08ba4e98cb"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 193,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        532,
+        533
+      ],
+      "review_input_sha256": "c0efccd6426664c6c16c626f82a8598bf6fe175835f5e4c9c8d5f992ce7a89f2"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 196,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        539
+      ],
+      "review_input_sha256": "c9e97926e9d1b8b407733919b3ea0552c465c13b7c29549a9d76f48b2cd9c631"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 208,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        570,
+        571
+      ],
+      "review_input_sha256": "34e43dcaca1597a2f457ede3e891ff36f180c3159bf9b9215e7c3ffe5d74c5b6"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 214,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        588,
+        589
+      ],
+      "review_input_sha256": "1e54308f2de883467498af6975b02c7ce9cf1bd9430f7a3c553ec96ab98bbd55"
+    },
+    {
+      "session_id": "K10",
+      "step_id": 219,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        602
+      ],
+      "review_input_sha256": "a038dff018e12a88f9c444553838919db8359681ea85bb225cf9be4d089dac01"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 22,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        78,
+        79,
+        80
+      ],
+      "review_input_sha256": "529fe28b0905e35d9fcd1d6d19a6b4e44e3e500639abf94ef8ec3b0511202be4"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 27,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        92
+      ],
+      "review_input_sha256": "abac0d95ab1b500f53b1baf6461c4b4d67ac7ca847b6d1cef9e0e779b1921eb3"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 28,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        94,
+        95
+      ],
+      "review_input_sha256": "60909f898c315414310984c9c1e9a2aa92f1c288987ac93c759e54bb8e9616d9"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 49,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        164,
+        165,
+        166
+      ],
+      "review_input_sha256": "99253b2eb95c8c07186ca27020132277dd10251b75bbc308dd56a6617449c7f7"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 54,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        178
+      ],
+      "review_input_sha256": "23c28d109c72c696821e782a998373d1a30fd1dd762e5098171831ff3a808c38"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 55,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        180,
+        181
+      ],
+      "review_input_sha256": "ed8ba0d07b721cbe5b61280d520ffc107f7291bc7a84144fd0958087b3be15f2"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 111,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        360,
+        361
+      ],
+      "review_input_sha256": "df2213f52b61262f94dd723d9b4c9e994f25e04c424fb47b1281b5f11314dd33"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 114,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        368
+      ],
+      "review_input_sha256": "753aa469e6abe341fd67818edeb360aa5c89ad22a8850a1aa4bbb781d9fa0b05"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 116,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        374
+      ],
+      "review_input_sha256": "7ee82a102901fa4794d9333dad9826dd6dfed67218d8fff56c35145c20369b85"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 117,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        376,
+        377
+      ],
+      "review_input_sha256": "5334d794e0ef0fbef5e24b96b9080a4cf67c0c7be2a67e0539c0c3c3799d3fc4"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 127,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        406,
+        407,
+        408
+      ],
+      "review_input_sha256": "689a9c12bcbe011c5259dac452170b4e7330bedf5e04599af4c08c67d58395c2"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 130,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        415
+      ],
+      "review_input_sha256": "2b26e27173986b8e8b430aa35b010fa82a7efb1fb1d3b4f39c0fb0d865c98006"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 132,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        420
+      ],
+      "review_input_sha256": "d6dea3b878adbf470ff3e3958f8a84c732b2cdd733002681e323816ce70742d1"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 134,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        426,
+        427
+      ],
+      "review_input_sha256": "0c0297a33eb67de5477ec9b449a6a48d129b1508d8d99f0cea232ddb323cc383"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 139,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        439
+      ],
+      "review_input_sha256": "793c911d97476e2c4eb39869b47830c89102446969a7ed208f803ab2ebd65f21"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 143,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        453,
+        454
+      ],
+      "review_input_sha256": "674cc7f375e580123804785dac00e6bd8321938280c9438556bf43b0ed10976b"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 148,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        466
+      ],
+      "review_input_sha256": "94d04f235c9b7896ec25f5dd875cf821877e684584522c3225fa511167142221"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 152,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        482,
+        483
+      ],
+      "review_input_sha256": "2d0ce61f1bba71b4e59a84324f3e1c2f23aba0da9738ae360fa37d59ac04aab4"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 155,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        490
+      ],
+      "review_input_sha256": "f123d690af9f048a52c55a99a99fcd3ce1e0f509d1dd6ce4ea651a87d8ed3261"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 157,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        495
+      ],
+      "review_input_sha256": "7b7e099be7c3c70676af0f0aa0b766fab4cc0e053bca75ce6b6c98a725e2e88e"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 176,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        553,
+        554,
+        555
+      ],
+      "review_input_sha256": "d0b1de6a55dfd5c97586f90e7a89bebf0b396808782cedeb1af69dfd851eb828"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 181,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        567
+      ],
+      "review_input_sha256": "0dd87bac284fca50a19afb861f573d3560401e72a86883cb7620959de3b45bff"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 187,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        587,
+        588
+      ],
+      "review_input_sha256": "c59c23b48aa2b0cbab3bd835b734c378682425004b8166f0f40562fbb7098d5d"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 190,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        595
+      ],
+      "review_input_sha256": "0bf789a2f8b66b7c071fbc237ea51233b4bb4e06f6be0425906b930fedadcaaf"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 195,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        611,
+        612
+      ],
+      "review_input_sha256": "f1a904147d8c2b9224af2b7d2a1016a537c6dc25ab2df1accf0905384443414f"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 200,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        624
+      ],
+      "review_input_sha256": "e543436cb6bbe7396253a2cbc2f43bd991f9b18a79ae84ab69d122f2c94c723e"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 202,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        630,
+        631
+      ],
+      "review_input_sha256": "96a50f71a650697353d70be3b1a1e3f3a591aa34709734add7f20b5c79e24476"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 205,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        638
+      ],
+      "review_input_sha256": "132ff61975a0ec48770aac562c2f7f8304838d6e44f562d8b7c85bbf4470f23b"
+    },
+    {
+      "session_id": "K12",
+      "step_id": 207,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        643
+      ],
+      "review_input_sha256": "81edb01a065591b810ce79e8e558619b05aa47e5c067b239e58e4704d7989f21"
+    },
+    {
+      "session_id": "K13",
+      "step_id": 91,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        345,
+        346,
+        347
+      ],
+      "review_input_sha256": "f441100824d949290121182b9ba6c29399290beea75e7db63e04274a90ea578d"
+    },
+    {
+      "session_id": "K13",
+      "step_id": 145,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        577,
+        578
+      ],
+      "review_input_sha256": "4a727a598503229bcdaf91a753c5e4b165fd77eabb130da8fbe1ae5cda879e65"
+    },
+    {
+      "session_id": "K13",
+      "step_id": 153,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        611
+      ],
+      "review_input_sha256": "1248c72d0f66244e10f289c83d92ed792e342c1e58d692c112d3dc1b2f700051"
+    },
+    {
+      "session_id": "K13",
+      "step_id": 156,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        625
+      ],
+      "review_input_sha256": "df4ee67e54f590438ba815fe26c59195572ffbd267fe8c1454d42cadf2407f4f"
+    },
+    {
+      "session_id": "K13",
+      "step_id": 163,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        660,
+        661
+      ],
+      "review_input_sha256": "baaf0860f0d6d3f0eb36531781d15215eb78fa1524a3ee001076601d266fc72d"
+    },
+    {
+      "session_id": "K13",
+      "step_id": 169,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        690,
+        691
+      ],
+      "review_input_sha256": "29a4986fa99624f874e4fbeea1ceefcc795bf6c9649e2c9b4f2af44abbb6f18b"
+    },
+    {
+      "session_id": "K13",
+      "step_id": 174,
+      "field": "tool",
+      "before": "端到端 benchmark",
+      "after": "kernel benchmark",
+      "reason": "实际为KBH题目内benchmark.py算子/子图计时或读取其结果，不是完整推理请求端到端测量；执行成功/失败/后台状态不变。",
+      "source_lines": [
+        712,
+        713,
+        714
+      ],
+      "review_input_sha256": "785d5cd34ae36824367764ac6907cff173a148a94d879a6151beaa52c105b39a"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 261,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "写临时变体后实际编译并执行cycles微基准，主要动作是测量。",
+      "source_lines": [
+        881,
+        882,
+        883
+      ],
+      "review_input_sha256": "f452d06b07012a08992af631fde891bcd343a1237a2c6d61207eddc4a846715b"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 274,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "写launch探针后实际执行计时；快速错误返回仍是失败的测量尝试，不能留在探索代码。",
+      "source_lines": [
+        932,
+        933,
+        934
+      ],
+      "review_input_sha256": "8396c5a168b6c46ec9a0bac0350368374714270b8f5030be7592e49f955e906c"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 279,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "实际编译/执行独立graph输出检查和两launch路径计时；不代表有效TopK收益。",
+      "source_lines": [
+        953,
+        954,
+        955
+      ],
+      "review_input_sha256": "94fd81de80fe8e3483888c6c5728a718612e3de43b6b8aae467666d1d81eae1e"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 280,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "实际写入并执行空kernel/调用路径计时。",
+      "source_lines": [
+        957,
+        958,
+        959
+      ],
+      "review_input_sha256": "7087ef1c381fe98c1ab337879dea24473914fb41abc1ffc3449674f2f04b4c34"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 285,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "写三种rebuild循环后实际执行cycles对照，同时dump SASS；主要是测量。",
+      "source_lines": [
+        978,
+        979,
+        980
+      ],
+      "review_input_sha256": "9ba92fe419b0a73b0e183038c57508c9f6be4d8ad306552c78c822aea133601f"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 304,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "写cal并实际发起计时/扫参，虽超时未回表仍是测量尝试。",
+      "source_lines": [
+        1057,
+        1058,
+        1059
+      ],
+      "review_input_sha256": "8e4f7ef483934703cb9cfca5957fc9956072ddd80d5e877ae5cb0fbba60501bd"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 307,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "读取已发起cal测量日志，回传空kernel和实际几何数据，按测量结果读取处理。",
+      "source_lines": [
+        1073,
+        1074
+      ],
+      "review_input_sha256": "f75856ee1dcffa892afaa2c940399d9916605f4402433f7f1173e11bc0ecabdd"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 308,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "继续读取同一cal几何计时表，不是读取源代码。",
+      "source_lines": [
+        1076,
+        1077,
+        1078
+      ],
+      "review_input_sha256": "1cb4eb77d3377019274de07ef05b93b2de7869ef52dfca108fdd725338820c3b"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 325,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "写phase2后实际后台启动对照测量；尚无完成结果不改变主要动作。",
+      "source_lines": [
+        1133,
+        1134
+      ],
+      "review_input_sha256": "69420b2bb4fa33b55dc77dccf34970146ea4efac4772ed798a254c383d906c87"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 335,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "写phase3后实际后台启动对照测量；未完成及错误探针限制保持原标。",
+      "source_lines": [
+        1167,
+        1168,
+        1169
+      ],
+      "review_input_sha256": "eb594666dc2471ac0cedc1bba77a0939a64c6c3c83aad76515a37aef4654b11f"
+    },
+    {
+      "session_id": "K09",
+      "step_id": 403,
+      "field": "phase",
+      "before": "探索代码",
+      "after": "测量",
+      "reason": "修脚本后实际执行四shape移除对照并回传计时表；诊断不正确变体仍归测量。",
+      "source_lines": [
+        1412,
+        1413
+      ],
+      "review_input_sha256": "1c328240dad7aec4f9223afaae5723c032cbe9d223e5ae0c1edaeb516420c3a4"
+    }
+  ]
+}

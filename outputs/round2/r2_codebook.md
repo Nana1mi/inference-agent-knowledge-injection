@@ -11,12 +11,13 @@ KBH的一个decision_step为工具返回边界之间连续的assistant记录，�
 ## 原有字段的操作定义
 
 - phase记本步主要实际动作：读代码=探索代码，测量调用=测量，真实profiler采样=profile，候选写入=修改代码，明确恢复=回滚，纯计划推导=提出假设，任务清单管理=其他，依赖/设备探测=环境准备。工具调用与文字计划冲突时依实际工具操作；批量动作按对优化决策最关键的动作，理由说明。
-- tool记主要用途而非工具品牌。check.py=正确性检查，benchmark.py=kernel benchmark；普通计时不等同NCU/nsys/torch profiler。仅命令名称含profile但未采样硬件指标，不记profile。
+- tool记主要用途而非工具品牌。check.py=正确性检查，benchmark.py=kernel benchmark；KBH的Model是题目算子或子图，正式全shape roofline benchmark及读取其结果仍归kernel benchmark；端到端 benchmark保留给完整推理请求/生成流程。普通计时不等同NCU/nsys/torch profiler。仅命令名称含profile但未采样硬件指标，不记profile。
 - layer记本步关注机制；融合gate/up/SwiGLU记算子融合，tile/warp布局记kernel，CPU映射/launch记runtime 与 host 开销，计时器/验收协议记测量工具。层次受任务约束，不能解释成自由选择优化对象。
 - hypothesis是本步实际据以决策的可检验机制，不把“运行下一测试”写成性能假设。无假设=null，origin=missing；明确表达机制=explicit，只有操作暗示机制=inferred。提出性能改善原因而尚未测量可记无证据；数据有误须有后续证伪记录，不能因最终失败倒推。
 - evidence是该机制是否有已观察数据支持：有/无/数据有误/不可判定；无机制记不适用。源码/理论分析可有依据但不算profile数据，rationale说明依据种类。outcome记本步返回的执行/测试结果，不把工具运行成功等同优化成功；未执行/无测试记未测，检查不通过记正确性不过，编译/导入/命令报错记失败，通过正确性或得到测量结果记成功。会话榜单最终结局另取selection，不被本步结果覆盖。
 - turning_point须有方向改变、旧结论被推翻或错误结论被接受的显式证据；普通参数微调不算。component只作公开的通用工作职责标签，不引用内部框架。
-- candidate_edit记录正式候选入口（KBH为solution.py）的实现写入；scratch中的探索性kernel、临时诊断脚本不算该字段，但实际代码修改仍记phase=修改代码。R4同时检查首个优化实现修改和首个正式入口修改，不能把两者混为一谈。时间不可靠则duration_seconds=null，不从导出连续秒或总时长均摊阶段耗时。
+- candidate_edit记录正式候选入口（KBH为solution.py）的实现写入；scratch中的探索性kernel、临时诊断脚本不算该字段，但实际代码修改仍记phase=修改代码；明确的写入尝试失败也按修改代码记录，outcome保留失败、candidate_edit不补true。R4同时检查首个优化实现修改和首个正式入口修改，不能把两者混为一谈。时间不可靠则duration_seconds=null，不从导出连续秒或总时长均摊阶段耗时。
+- 混合Bash动作按主要用途区分：写临时脚本后实际启动计时/扫参，或读取已发起测量的数值结果，归测量；超时或后台未回结果保留相应outcome。写辅助脚本后导出/检查PTX、SASS、编译元数据，主要用途仍是探索代码，不因出现文件写入机械改成修改代码。纯源码写入与这种混合动作分开复核。
 
 ## 新字段
 
@@ -29,3 +30,11 @@ KBH的一个decision_step为工具返回边界之间连续的assistant记录，�
 ## 一致性
 
 首次标注冻结后用种子2026111103抽ceil(20%×N)，用2026111104生成盲ID并打乱。第二次输入不含首次标签；两次均由同一AI研究助理完成。逐字段一致率包含null；名义类别计算Cohen κ=(Po-Pe)/(1-Pe)，单一常量导致Pe=1则κ=null并注明原因。文本hypothesis/rationale除精确字符串一致外另报是否有假设/来源等可比类别，不把近义改写的低字符串一致误当语义不一致。上下文记忆不能完全排除。
+
+[实验] 冻结前口径复核的逐项前后值、理由、原文行与输入哈希见[首标更正记录](../../data/annotations/r2_first_pass_corrections.json)。这不是看不到首标的复标，不计入一致率/κ。其余混合动作、假设分母及多来源知识事件仍须复核。
+
+[实验] 来源分别统计时采用“决策步×实际读取来源类别”单位，同类多文件在同一步合并，不声称文件频次或独立实验次数；一个步骤可含参考与SOTA两个事件。当前[来源复核表](../../data/annotations/r2_knowledge_source_reviews.json)覆盖84个读取步骤、85个类别事件，K12 step2的参考适配与SOTA未用分列。每步knowledge_use仍保留主对象，R4处理分布以来源事件表为准；这是冻结前回看，不计盲复标。
+
+[实验] K01 step1与K09 step230均先主动调用Skill，随后正文在独立user记录返回，分别为原始L8与L769；不归自动预加载。来源表的source_lines保留决策记录，knowledge_content_context_lines另定位正文并保存记录哈希；不能把“Launching skill”工具回执当作完整正文。类别事件数量也不等于工具调用次数。
+
+[实验] `python scripts/r2_validate_first_pass_audits.py`核对更正记录与基线提交的全部字段差异、当前3345步输入哈希、知识事件覆盖及两处Skill正文定位/哈希，结果见[机械校验](../../data/derived/r2_first_pass_audit_validation.json)。通过仅证明这些关联一致，不证明语义正确、盲复标一致或第二轮完成。

@@ -1,0 +1,29 @@
+{
+  "status": "passed",
+  "baseline_commit": "66c6ef5",
+  "annotated_steps": 3345,
+  "logged_corrections": 219,
+  "corrections_by_field": {
+    "tool": 175,
+    "phase": 44
+  },
+  "knowledge_steps": 84,
+  "source_category_events": 85,
+  "kbh_sessions": 14,
+  "source_events_by_kind": {
+    "环境技能": 5,
+    "参考实现": 21,
+    "SOTA入口": 13,
+    "库源码或文档": 45,
+    "其他网页片段": 1
+  },
+  "access_methods": {
+    "主动调用Skill后返回正文": 2,
+    "主动工具读取": 83
+  },
+  "not_certified": [
+    "semantic annotation quality",
+    "blind agreement",
+    "Round 2 completion"
+  ]
+}

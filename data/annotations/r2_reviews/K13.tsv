@@ -89,7 +89,7 @@
 88	修改代码	O	K	m	u	x	s	c	x	-	只删正式docstring的禁用词串，未改检查器或算法	-	o
 89	测量	V	K	m	u	x	f	s	x	-	正式候选因共享scalar与指针类型不匹配构建失败，尚无正确性PASS；PATH写入	step90修共享scalar传参	o
 90	修改代码	V	K	e	c	y	s	vcs	x	传共享scalar地址可修复构建类型错误	正式代码修指针后check PASS；显式PATH，只有当前检查范围内正确性证据	-	o
-91	测量	B	K	m	u	x	s	s	x	-	首次正式benchmark返回peak_fraction0.0242/LOW；保留榜单success，不能用阈值改写抽样结局	-	p
+91	测量	K	K	m	u	x	s	s	x	-	首次正式benchmark返回peak_fraction0.0242/LOW；保留榜单success，不能用阈值改写抽样结局	-	p
 92	修改代码	O	M	e	i	u	f	vs	x	正式候选比原型慢可能因为graph没有捕获或回放	写bench_debug但无法import solution，未取得新的graph状态证据；PATH写入	step93修import环境	p
 93	测量	O	M	m	u	x	s	s	x	-	诊断插入sys.path并设置reference全局形状；graphNoneFalse/ptr匹配True仅证对象存在和地址一致，不证图内容正确	-	p
 94	测量	O	M	e	i	u	f	vs	x	更完整benchmark路径能定位正式候选的额外开销	诊断仍缺导入路径而失败；无新数值支持	step95修路径	p
@@ -143,7 +143,7 @@
 142	探索代码	D	K	m	u	x	s	-	x	-	短Read自有正式候选，无新机制分析或代码写入	-	o
 143	修改代码	O	K	i	p	w	s	cs	x	CUB phaseB配warp phaseC可降低完整topk成本	成功重写正式solution.py；正式_launch epoch0可计算完整merge，与坏原型不同；依据的加速数据不等工作，持久图/输出/扩展与runtime属性写入	step144 PASS、145正式测量	o
 144	测量	V	K	m	u	x	s	s	x	-	清构建缓存后正式check PASS，PATH修改；通过不意味着早先坏原型时延有效	-	p
-145	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0249/LOW，不能用原型漏算profile替代此正式返回	-	p
+145	测量	K	K	m	u	x	s	s	x	-	正式benchmark0.0249/LOW，不能用原型漏算profile替代此正式返回	-	p
 146	测量	K	M	e	i	u	s	vs	x	图捕获或地址复用问题可能解释正式版与原型差距	回显graph存在且ptr匹配、墙时约42.34/23.2/35.28/24.99/22.93us；只缩小排查范围，PATH/sys.path写入	-	p
 147	测量	K	M	e	i	w	s	vs	x	同进程原型更快说明正式图仍有额外开销	proto17.6/formal39.92us工作量不同；再次使用漏merge基线，不能支持包装导致全部差距	step149再认epoch问题	p
 148	探索代码	D	M	m	u	x	f	vs	x	-	检查closure graph误取Tensor并调用upload，profile前即报attribute错误，无成功采样；PATH/sys.path写入	-	p
@@ -151,28 +151,28 @@
 150	修改代码	O	K	e	p	y	u	vcs	x	正确formal profile显示大K合并应恢复CUB phaseC	提交正式替换脚本并转后台，当前调用超时但非已证失败；step151证实写入、152 PASS；正式属性设置等持久状态保留	step151–153确认落盘和结果	o
 151	探索代码	D	K	m	u	x	s	-	x	-	读取后台输出及grep dispatch，确认150修改已落盘；尚不是正确性PASS或新代码编辑	-	o
 152	测量	V	K	m	u	x	s	s	x	-	清构建缓存并PATH运行正式check PASS，验证回退版本的当前测试范围	-	p
-153	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0275/LOW；回退后的正式收益以此返回为准	-	p
+153	测量	K	K	m	u	x	s	s	x	-	正式benchmark0.0275/LOW；回退后的正式收益以此返回为准	-	p
 154	profile	P	P	e	i	w	c	vs	x	扫描P可优化phaseB与phaseC工作量平衡	实际Torch profiler返回时延但多配置BAD；固定IB/IC dispatch未随P扩容导致少读，错误配置时延不支持调参结论	step162定位容量不匹配	p
 155	修改代码	V	H	e	c	y	s	vcs	x	末block在kernel内清counter可移除graph中的独立zero节点	正式加counter自复位并check PASS；把154 BAD归为epoch探针问题的说法未采信，162另证容量错误；PATH及持久图状态	step159变化输入进一步检查	o
-156	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0278/LOW；只记本次正式返回，不推定大幅加速	-	p
+156	测量	K	K	m	u	x	s	s	x	-	正式benchmark0.0278/LOW；只记本次正式返回，不推定大幅加速	-	p
 157	测量	K	H	e	i	y	s	vs	x	自定义__call__可减少nn.Module包装开销	module19.18/forward18.67/bare17.26us且确认自定义入口；有限干预支持局部host差异，PATH/sys.path写入	-	p
 158	修改代码	O	K	e	i	n	f	vs	x	uint64 reduce intrinsic可能减少值索引联合归约成本	scratch reduce_sync编译失败，没有新的正确性或性能支持；非正式候选修改	-	o
 159	测量	V	K	m	u	x	s	vs	x	-	对5形状各50次不同随机输入与ties的额外检查通过，较同输入warmup测试更强；仍是有限覆盖，PATH/sys.path/reference形状写入	-	p
 160	profile	P	K	e	c	y	s	vst	x	固定epoch0并清counter才能有效比较完整warp merge	正确重算probe检查OK，实际Torch profiler约20.1/11.1/28.7us；纠正早先坏图比较，PATH/sys.path写入	-	p
 161	profile	P	P	e	i	w	c	vs	x	正确counter协议下扫描P可比较不同分块配置	虽使用epoch0仍多项BAD；时延有返回但未匹配编译期容量，不作为错误配置的有效收益	step162明确原因	p
 162	修改代码	V	H	e	c	y	s	vcst	x	固定模板容量须匹配P且可移除已连续输入的contiguous包装	明确识别IB/IC硬编码造成154/161漏读，仅保留默认配置；正式删除x.contiguous后check PASS，未声称修好全扫描	step163正式测量	o
-163	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0284/LOW，保留原榜单success不重定义结果	-	p
+163	测量	K	K	m	u	x	s	s	x	-	正式benchmark0.0284/LOW，保留原榜单success不重定义结果	-	p
 164	profile	P	K	e	c	y	s	vs	x	容量匹配下增加线程数未必降低CUB4096排序成本	明确承认256×8只覆盖2048；正确比较256×16/512×8/1024×4得到10.41/11.43/15.65us，不泛化为库全局最优	-	p
 165	修改代码	O	M	e	i	u	f	vs	x	直方图独立成本可能限制radix select收益	写hist-only探针但变量作用域编译失败；本步没有新profile支持根本下限判断	step166修编译	p
 166	profile	P	K	e	c	y	s	vs	x	共享与私有直方图隔离探针可比较原子累计成本	修作用域后实际Torch profiler约8.05/15.45us；支持该hist探针成本，不是完整topk正确性或全局最优证明	-	p
 167	探索代码	D	K	e	i	u	s	v	x	当前设计已接近可达性能上限	只读自有formal片段并继续理论估算；没有充分证据支持所有替代算法均不可能更快	-	o
 168	修改代码	V	K	e	c	y	s	vcs	x	删除未用runtime属性设置与整理命名可清理正式实现	正式删无用cudaFuncSetAttribute并改helper名，check PASS；不把清理等同算法加速，PATH修改	-	o
-169	测量	B	K	e	i	u	s	vs	x	现有方案已基本最优可停止继续调优	正式benchmark0.0279/LOW；有分数不证明最优性，最终尚有174重测	step174最终正式返回	p
+169	测量	K	K	e	i	u	s	vs	x	现有方案已基本最优可停止继续调优	正式benchmark0.0279/LOW；有分数不证明最优性，最终尚有174重测	step174最终正式返回	p
 170	测量	K	H	e	i	y	s	vs	x	对当前正式实现graph比direct launch可降低墙时	匹配工作区/正确formal的普通事件比较约28.69vs37.47us等支持本地graph收益，不推出17us绝对硬下界；PATH/sys.path写入	-	p
 171	修改代码	O	M	e	i	u	f	vs	x	细分shape2阶段可检查是否还存在易优化成本	写clock64诊断，但共享scalar被写为s_last[0]导致编译失败，没有新增阶段profile；PATH写入	step172放弃该探针	p
 172	测量	V	K	e	i	u	s	vs	x	当前CUB排序已接近最优无需继续修改	实际清构建缓存并正式check PASS，framework为cuda_raw；失败诊断并未证实最优性，PATH写入	-	p
 173	测量	V	O	e	c	y	s	vs	x	匹配_dummy buffer可满足strict state_dict装载接口	本地Model与reference state_dict严格装载成功；仅导入reference不算重新读参考源码，PATH/sys.path写入	-	p
-174	测量	B	K	e	i	u	s	vs	x	测量固定开销限制本题可达peak_fraction	最终正式check PASS及benchmark0.0289/LOW；墙时30.4/22.304/30.560/22.112/21.552us，有限探针不证明其绝对下界解释	-	p
+174	测量	K	K	e	i	u	s	vs	x	测量固定开销限制本题可达peak_fraction	最终正式check PASS及benchmark0.0289/LOW；墙时30.4/22.304/30.560/22.112/21.552us，有限探针不证明其绝对下界解释	-	p
 175	探索代码	D	M	e	i	u	f	v	x	约17us开销使0.1阈值对所有实现均不可达	多种算法估算仍非穷尽证明；实际读memory目录失败，未新写记忆或取得测量	step176保存经验	a
 176	写报告	O	M	i	i	u	s	s	x	测量硬下界使所有kernel的几何均值被封顶约0.043	成功写持久memory；正文主动承认旧图stale-epoch漏merge，但把有限探针泛化为绝对floor/CUB最快仍未证实；有记忆写入不等于评估污染	-	a
 177	写报告	O	M	m	u	x	s	s	x	-	写MEMORY索引摘要，包含同一硬floor外推；无新实验，不能把跨会话保存当已观测后续复用	step176记忆正文	a

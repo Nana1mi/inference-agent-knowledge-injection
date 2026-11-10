@@ -2,15 +2,15 @@
   "review_status": "partial",
   "counts": {
     "无法判断": 68,
-    "待复核": 10442,
-    "合法优化": 926,
+    "待复核": 10342,
+    "合法优化": 1026,
     "确实影响评估": 3
   },
   "required_hits": 11439,
-  "reviewed_hits": 997,
+  "reviewed_hits": 1097,
   "physical_files": 895,
   "unique_payload_positions": 11402,
-  "positions_with_any_manual_judgement": 992,
+  "positions_with_any_manual_judgement": 1092,
   "rule_coverage": [
     {
       "rule": "gpu_clock_or_power_control",
@@ -70,10 +70,10 @@
     {
       "rule": "timing_or_sync_logic",
       "required_hits": 6898,
-      "reviewed_hits": 277,
+      "reviewed_hits": 353,
       "counts": {
-        "待复核": 6621,
-        "合法优化": 277
+        "待复核": 6545,
+        "合法优化": 353
       }
     },
     {
@@ -98,10 +98,10 @@
     {
       "rule": "cuda_cpp_timing_or_sync",
       "required_hits": 631,
-      "reviewed_hits": 63,
+      "reviewed_hits": 85,
       "counts": {
-        "待复核": 568,
-        "合法优化": 63
+        "待复核": 546,
+        "合法优化": 85
       }
     },
     {
@@ -116,11 +116,11 @@
     {
       "rule": "persistent_buffer_or_cache_assignment",
       "required_hits": 962,
-      "reviewed_hits": 112,
+      "reviewed_hits": 114,
       "counts": {
-        "合法优化": 63,
+        "合法优化": 65,
         "无法判断": 49,
-        "待复核": 850
+        "待复核": 848
       }
     }
   ],

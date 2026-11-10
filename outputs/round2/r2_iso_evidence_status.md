@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前190个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
+[实验] 目前198个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
 
 ## 已复核的三个关键区别
 
@@ -30,6 +30,8 @@
 
 ## 接下来的核验
 
+
+[实验] 追加顺位407/410/412/415/417/419/420/422共8份，仍未新增可靠成功GPU候选。407/417/422虽trajectory成功，实际分别为env查询/reload、Python prefix block元数据、明确device cpu的InputBatch构造。410/419实际回显cpu，419四shape收益有正有负；412用默认CPU的切片/empty-vs-zeros模拟，420是base64/BytesIO/PIL主机编码与Image.open路径，415用导入stub测block元数据。创建被拒时改查实际Read，不把拟写源码当既成执行；407虽追加配置实例化代码，数值返回未包含该项。全部创建/读取反馈、真实计时返回与结局指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 
 [实验] 追加顺位395/397/399/400/402/404共6份，仍未新增可靠成功GPU候选。397和399虽trajectory成功，实际分别明确CUDA unavailable与Using device: cpu；397首次create失败，按实际Read定位旧脚本，empty不fill对zeros的49–208x不能当GPU收益。395实回CPU attention；400有CUDA分支及完成同步，但返回不报实际设备，保留unknown。402的num_gpu_blocks513是NeuronWorker整数/属性操作，已核实际方法源码；404是Python prefix block元数据、hash及computed标记，非设备缓存读写。写入反馈、实际Read、数值与结局指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)和[运行索引](../../data/derived/r2_iso_index.json)。
 

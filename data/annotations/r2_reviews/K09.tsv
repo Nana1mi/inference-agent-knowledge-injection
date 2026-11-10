@@ -254,59 +254,59 @@
 253	N	O	K	e	i	u	f	vs	x	删merge大幅变快或因spill，应查编译	/tmp下uv缺torch提源失败，无新ptxas；nobar接近base不证所有barrier免费	step254	p
 254	E	O	K	m	u	x	s	-	x	-	ptxas四实例56/55/48/28regs、spill0；静态非实际profile	step255	p
 255	E	D	K	e	c	y	s	v	x	nomerge可能连shared传输也被删，应隔离原语	承认删项编译混杂，实际只读源码准备micro；无spill不排所有寄存器影响	step256	p
-256	E	O	K	e	c	y	u	vs	x	树合并成本或主要来自rebuild，应隔离原语	写mm.cu诊断不改正式候选；barriers proven free注释未被前探针证明	step257	p
+256	C	O	K	e	c	y	u	vs	x	树合并成本或主要来自rebuild，应隔离原语	写mm.cu诊断不改正式候选；barriers proven free注释未被前探针证明	step257	p
 257	M	K	K	m	u	x	s	-	x	-	1/16warp原语实测，rebuild1008/1165cycles；非端到端正确TopK收益	step258	p
 258	E	O	K	e	i	u	s	v	x	两独立merge近两倍或指吞吐限制而非延迟	实际只得静态指令mix，2倍不排调度/依赖混杂，无硬件stall采样	step259	p
-259	E	O	K	e	c	y	s	vs	x	分开测独立与依赖SHFL可检验原语吞吐解释	增诊断mode；所谓IADD实际q*3+1，编译器可改写	step260	p
+259	C	O	K	e	c	y	s	vs	x	分开测独立与依赖SHFL可检验原语吞吐解释	增诊断mode；所谓IADD实际q*3+1，编译器可改写	step260	p
 260	M	K	K	m	u	x	s	s	x	-	实回20独立/依赖SHFL一warp253/831、16warp642/848cycles；索引补丁仅诊断	step261	p
-261	E	K	K	e	i	u	s	vs	x	rebuild慢或来自索引/SEL指令，应测keys-only	keys-only rebuild1039并未优于索引1023，sort128才1794到990；不正确诊断非候选加速	step262	p
+261	M	K	K	e	i	u	s	vs	x	rebuild慢或来自索引/SEL指令，应测keys-only	keys-only rebuild1039并未优于索引1023，sort128才1794到990；不正确诊断非候选加速	step262	p
 262	E	O	K	e	c	y	s	vs	x	索引非唯一瓶颈，应查最小rebuild机器码	只得静态SHFL/VIMNMX序列，未采动态stall	step263	p
-263	E	O	K	e	i	u	u	vs	x	每阶段独立shuffle少或ILP饥饿，宽slot可降低每序列成本	ilp.cu同时改layout/跨lane阶段数且反复同序列，非单变量ILP证明	step264	p
+263	C	O	K	e	i	u	u	vs	x	每阶段独立shuffle少或ILP饥饿，宽slot可降低每序列成本	ilp.cu同时改layout/跨lane阶段数且反复同序列，非单变量ILP证明	step264	p
 264	M	K	K	m	u	x	s	-	x	-	W1/2/4/8一warp181/773/143/140cycles，W2非单调；非正式正确性测试	step265	p
 265	E	O	K	e	c	y	f	vs	x	W2异常或由编译生成，需逐实例反汇编	编译超时143仅见W1标题，不补成功反汇编	step266	p
 266	N	O	K	m	u	x	f	s	x	-	从缺失rb2.cu重定向产空w文件，ls存在不证源码有效	step267	p
 267	E	O	K	e	c	y	s	v	x	先前文件为空，应检查已编译ilp实例	静态W1/2/4/8 SHFL10/4/24/32含初始化与循环，非动态次数	step268	p
-268	E	O	K	e	c	u	u	vs	x	W2或编译器幂等消除，改测宽keys-only合并	幂等/DCE原因未证，285提出动态loop解释；wide诊断无正式候选改动	step269	p
+268	C	O	K	e	c	u	u	vs	x	W2或编译器幂等消除，改测宽keys-only合并	幂等/DCE原因未证，285提出动态loop解释；wide诊断无正式候选改动	step269	p
 269	M	K	K	m	u	x	s	-	x	-	wide排序/merge/indexrecover实回时延，未检验TopK值及索引正确性	step270	p
 270	M	K	H	e	i	u	s	vs	x	端到端或由CPU入口主导，需计issue与drain	3000未同步launch可背压；CPU7.125us不是纯launch固定开销	step273	p
 271	E	D	H	e	i	w	s	v	x	s0主要是7.1us CPU发射而非kernel	沿队列污染数字作排他归因，实际仅查driver调用；273自行纠正	step273	p
 272	E	D	H	m	u	x	s	-	x	-	读自己Plan与单次cuLaunch源码，非新外部知识	step273	o
 273	M	K	M	e	i	y	s	vs	x	长队列issue受背压，短批次才能近似入口成本	实际每批200不是文字64；五shape约1.23–1.31us，1024队列硬容量未证	step274	p
-274	E	K	H	e	i	u	f	vs	x	graph replay或能降CPU发射从而改善固定floor	capture/instantiate/upload/launch均未查返回，.592us后CUDA invalid argument，非成功重放收益	step279	o
+274	M	K	H	e	i	u	f	vs	x	graph replay或能降CPU发射从而改善固定floor	capture/instantiate/upload/launch均未查返回，.592us后CUDA invalid argument，非成功重放收益	step279	o
 275	E	D	H	e	i	u	s	v	x	错误或是stream capture污染allocator，graph仍省.68us	未查错误就先接受快返回；实际读自己候选准备集成	step276	o
 276	C	O	H	i	c	u	u	cs	x	为每个输出slot建graph并在输入指针变化时更新node	Destroy所属graph后保留nd且所有API不查错，pointer guard并非oracle缓存	step277/278/279	o
 277	C	O	H	i	c	u	u	cs	x	每次graph用当前xptr，地址变化更新参数	同地址仍GraphLaunch，不因地址相同跳过计算；缓存stream与输出池契约未验证	step278	o
 278	M	V	H	e	i	u	f	v	x	graph应保持输出，先跑正式check	check在isnan报CUDA invalid argument；不是已通过的graph候选	step279	o
-279	E	K	H	e	i	y	s	vs	x	早先graph低CPU时延可能是未查错误的失败返回	显式standalone初次launch输出7正确，SetParams失败后仍7非11；graph1.14vsdriver1.25us，不是TopK收益	step280	p
-280	E	K	M	e	c	y	s	vs	x	销毁graph后node句柄失效或导致更新失败，需重新校准floor	初始捕获何处失败仍无返回；新空kernel/noop实际2.240–3.872us，非先前统一3.97	step281	p
+279	M	K	H	e	i	y	s	vs	x	早先graph低CPU时延可能是未查错误的失败返回	显式standalone初次launch输出7正确，SetParams失败后仍7非11；graph1.14vsdriver1.25us，不是TopK收益	step280	p
+280	M	K	M	e	c	y	s	vs	x	销毁graph后node句柄失效或导致更新失败，需重新校准floor	初始捕获何处失败仍无返回；新空kernel/noop实际2.240–3.872us，非先前统一3.97	step281	p
 281	R	O	H	e	c	y	u	vcs	x	graph真实省幅小且参数更新错误，应恢复driver	实际删graph回tk_launch，graph removed True只证文本回滚，未在本步重跑check	step290	o
 282	E	D	K	m	u	x	s	k	a	-	再读reference的get_inputs为randn，后284/338–339据此讨论分布/精度；不保证仅有该分布测试	step284/338/339	m
 283	E	D	M	m	u	x	s	-	x	-	读当前harness容差及NaN/Inf检查，不自动证任意近似TopK安全	step284	p
 284	E	O	K	e	i	u	s	vs	x	randn可考虑radix/filter，但先核rebuild动态loop	实际静态56instr/4SHFL/分支；纯randn无对抗保证过强，numeric stress另有缩放	step285	p
-285	E	K	K	e	c	y	s	vs	x	S2原rebuild可能未展开，计数loop可改善	原1012、counted347、manual343cycles；同时移局部swap和改loop，SASS统计脚本全0未证具体展开数	step286/288	p
+285	M	K	K	e	c	y	s	vs	x	S2原rebuild可能未展开，计数loop可改善	原1012、counted347、manual343cycles；同时移局部swap和改loop，SASS统计脚本全0未证具体展开数	step286/288	p
 286	E	D	K	e	c	y	s	v	x	需辨continue与loop形状影响并查其余位置	明确承认改了两个因素；实际grep continue/unroll，不是独立因果实验	step288/289	o
 287	E	D	K	e	c	y	s	v	x	不是所有continue都处在需展开的loop里	读自身seed循环，未改正式候选	step295/296	o
 288	C	O	K	e	c	y	u	vc	x	将rebuild跨lane计数展开与局部swap分离	正式改五mask再S2局部swap；源码注释归因continue未单独验证	step290/292	o
 289	C	O	K	i	c	y	u	c	x	sortK同样将S2局部swap移出跨lane循环	rebuild和sort两改后才测，不能各自归因	step290/292	o
 290	M	V	K	m	u	x	s	s	x	-	TUNE0正式check PASS，有限测试不保证所有输入	step291	o
-291	M	B	M	e	i	u	s	v	x	需核clock后测展开版正式分数	实际2602MHz、memory14001；benchmark .0854 LOW，未执行此处clock重置	step292	p
+291	M	K	M	e	i	u	s	v	x	需核clock后测展开版正式分数	实际2602MHz、memory14001；benchmark .0854 LOW，未执行此处clock重置	step292	p
 292	M	K	K	e	i	y	s	vs	x	单次分数在旧噪声内，应同进程固定geometry对照	unab同时撤回rebuild及sort；s0 13.184到10.656us，方括号min/max非CI	step293	s
-293	M	B	K	e	i	y	s	v	x	交错对照指向收益，再跑五次正式值核稳定性	.0851/.0860/.0842/.0856/.0850均值.0852，约std.0007，不单凭其证明单因素收益	step294	s
+293	M	K	K	e	i	y	s	v	x	交错对照指向收益，再跑五次正式值核稳定性	.0851/.0860/.0842/.0856/.0850均值.0852，约std.0007，不单凭其证明单因素收益	step294	s
 294	E	D	K	e	c	u	s	v	x	其他shape小退或clock/噪声，仍查流式continue	2610vs2602不足证分数变化由clock引起；读自身bb循环	step295	o
 295	C	O	K	i	c	y	u	c	x	bb循环以guard代continue可能利编译	正式cnt非零guard仍保留overflow刷新/重测，不是跳过有效候选	step297/298	o
 296	C	O	K	i	c	y	u	c	x	seed j循环同样guard化	正式改cnt/overflow guards，两loop一起测	step297/298	o
-297	M	B	K	m	u	x	s	-	x	-	check PASS后三benchmark .0848/.0811/.0847，均值.0835；k1也漂移	step298	o
+297	M	K	K	m	u	x	s	-	x	-	check PASS后三benchmark .0848/.0811/.0847，均值.0835；k1也漂移	step298	o
 298	M	K	M	e	i	y	s	vs	x	k1未改却漂移，应用固定geometry交错对照流式改动	s0 10.560到10.784较慢，s1 8.064到7.872；范围不能作CI或删异常依据	step299	s
 299	A	O	M	e	i	u	s	v	x	四shape合计小幅正收益可留，old分散或污染	实际GPU0瞬时90%/1MiB，不证明外部co-tenant，也不证明较散列一定污染	step300	s
 300	N	O	M	e	i	y	s	v	x	瞬时利用率可能是上次工作尾声，应复查空闲	后见0%/1MiB/2602MHz；空闲快照不证整个测量期独占	step301	p
 301	E	D	M	e	i	u	s	v	x	GPU1的租户不应影响GPU0，可继续校准	只读自己empty/ab；GPU0孤立是自述而非锁/全时段证据	step302	p
 302	E	D	M	e	c	y	s	v	x	应按单次flush-event测floor并重调几何	读自己_tune，未在本步测量或改候选	step304	p
 303	E	D	P	e	i	u	s	v	x	少块不足利用SM或影响带宽，需查dispatch	理论推测，实际读自己tk_launch/默认geometry，无profile	step304	o
-304	E	K	M	e	c	u	f	vs	x	合并已变快，应同进程校准空kernel并重调geometry	写cal并运行超时143，无本步完成表；空kernel不承担TopK输入工作	step305/307	p
+304	M	K	M	e	c	u	f	vs	x	合并已变快，应同进程校准空kernel并重调geometry	写cal并运行超时143，无本步完成表；空kernel不承担TopK输入工作	step305/307	p
 305	M	K	M	e	i	u	u	v	x	超时或因编译慢而非测量，应后台再跑	只收到后台启动ID，未量到编译耗时以证原因	step307	p
 306	E	D	K	e	c	y	s	v	x	应查funnel结构找到下一改动点	读自己tree_reduce两barrier结构，无外部知识	step307	o
-307	E	K	M	e	i	y	s	v	x	串行funnel或关键，仍需实际计时校准	只读cal日志已有空kernel约3.1–3.4us，4way/顺序merge未实现	step308	p
-308	E	K	M	e	i	y	s	vt	x	此前floor5.2可能重复相加，应按3.1–3.4修正	承认旧成本模型错误；0.224空工作ceiling仍依赖条件，不是可达算法证明	step309/354	p
+307	M	K	M	e	i	y	s	v	x	串行funnel或关键，仍需实际计时校准	只读cal日志已有空kernel约3.1–3.4us，4way/顺序merge未实现	step308	p
+308	M	K	M	e	i	y	s	vt	x	此前floor5.2可能重复相加，应按3.1–3.4修正	承认旧成本模型错误；0.224空工作ceiling仍依赖条件，不是可达算法证明	step309/354	p
 309	E	D	K	e	i	u	s	v	x	扣floor后s0非内存开销很大，应用NCU而非继续猜测	只查自己prof/NCU路径；655GB/s即理论极限与几何全局最优均未证	step310	p
 310	P	N	M	m	u	x	f	s	x	-	NCU请求过滤后无输出，不补采样成功	step311	p
 311	P	N	M	m	u	x	f	s	x	-	原始NCU回ERR_NVGPUCTRPERM及encoding错误，无性能指标	step312	p
@@ -323,7 +323,7 @@
 322	P	N	M	m	u	x	u	s	x	-	写nall后台五shape sweep，仅启动未回指标	step326	p
 323	E	D	K	e	c	y	s	v	x	需诊断funnel/grid/compaction各阶段影响	读当前streaming源码准备主动错误探针，尚无时延	step325	p
 324	E	D	K	e	c	y	s	v	x	s0一tile/warp无流式摊销，末块grid merge或关键	实际读last-block计数归约，无自旋等待循环；nall仅标题未回指标	step325/326	p
-325	E	K	M	e	c	u	u	vs	x	删grid/tree/sort/stream可帮助诊断阶段成本	phase2明确错误不发布，但源码相减非独立精确成本；后台未完成	step334	p
+325	M	K	M	e	c	u	u	vs	x	删grid/tree/sort/stream可帮助诊断阶段成本	phase2明确错误不发布，但源码相减非独立精确成本；后台未完成	step334	p
 326	P	N	K	e	i	u	s	v	x	s0或需全新并行结构，仍应等阶段结果	实际NCU返回前三shape：s0 barrier21.54/dram3.95，s2 long19.60大于barrier16.02	step327	p
 327	E	N	K	e	p	w	s	v	x	所有shape barrier最高且tree尾barrier是主因	s2已反例；整kernel stall不能单独定位第二barrier，double-buffer只想法未实现	step328	p
 328	C	O	K	e	c	y	u	vc	x	上下层scratch区间不交，可删尾barrier并省无用stores	正式tree同时改写入warp和barrier，非profile单独证明，后333有限check	step333/335	o
@@ -333,24 +333,24 @@
 332	C	O	K	e	c	y	u	vc	x	下一list预取与当前rebuild重叠可隐延迟	正式grid merge软件流水线，cold L2及重叠效果未在本步采样验证	step333/335	o
 333	M	V	K	m	u	x	s	-	x	-	三处组合改动后正式check PASS	step337	o
 334	M	K	M	m	u	x	f	-	x	-	phase2按旧锚点读到不匹配源码而anchor缺失，未产阶段计时；具体读取时序未证	step335	p
-335	E	K	M	e	c	y	u	vs	x	候选修改竞态破坏phase2，需重建合并对照脚本	phase3 old3只撤tree/fence仍保留pipeline，不是声称撤三处；错误删项变体仍非精确可加成本	step336/337	p
+335	M	K	M	e	c	y	u	vs	x	候选修改竞态破坏phase2，需重建合并对照脚本	phase3 old3只撤tree/fence仍保留pipeline，不是声称撤三处；错误删项变体仍非精确可加成本	step336/337	p
 336	M	K	M	e	i	u	s	v	x	s0少块和tail同步或主因，但可行增益或有限	实际phase3完整表，s0base9.152/old3 9.216，s1 7.520/8.384；不是三改联合对照	step337	p
-337	A	B	K	e	c	u	u	v	x	tree/dead-store组合s1/s2有收益可留，grid剩余1.4us属同步	从错误删项差值再相减不能证纯同步1.4；三次正式benchmark转后台未本步回分数	step341/342	s
+337	A	K	K	e	c	u	u	v	x	tree/dead-store组合s1/s2有收益可留，grid剩余1.4us属同步	从错误删项差值再相减不能证纯同步1.4；三次正式benchmark转后台未本步回分数	step341/342	s
 338	E	D	M	e	c	y	s	vt	x	同RUN_DIR可重入意味着自己的后台计时可并行，应等前测完	识别锁不能证自并发隔离；keys打包低7bit只是近似排序构想，未正式实现	step339	p
 339	E	D	H	e	i	u	s	v	x	固定调用floor跨shape占大比例，应查harness入口	读Model和timing grep，近似128ulp/tolerance讨论不等于已通过新候选	step340	p
 340	E	D	M	m	u	x	s	-	x	-	实际time_fn在event内with no_grad/star调用；后台结果glob失败仅定位文件	step341/345	p
-341	M	B	K	m	u	x	s	-	x	-	后台正式日志实回末次.0894 LOW，非单独barrier因果证明	step342	o
+341	M	K	K	m	u	x	s	-	x	-	后台正式日志实回末次.0894 LOW，非单独barrier因果证明	step342	o
 342	E	D	M	e	i	u	s	v	x	phase与正式时长差或来自调参/进程/flush，应读ab	三分数.0856/.0901/.0894；ab确有同128MiB flush但缺no_grad，读自己脚本非外部知识	step343/345	p
 343	E	D	P	e	c	y	s	v	x	geometry不同或解释phase与正式差，需看实际tuner选择	读自己_tune，未测同shape同geometry反事实	step344	o
-344	M	B	M	e	i	u	s	vs	x	tuner含baseline取最小，差或来自测量上下文	DEBUG实回s1 512/1、s2 128/16，正式.0915；含baseline不保证真实最优	step345	p
+344	M	K	M	e	i	u	s	vs	x	tuner含baseline取最小，差或来自测量上下文	DEBUG实回s1 512/1、s2 128/16，正式.0915；含baseline不保证真实最优	step345	p
 345	E	D	M	e	c	u	s	v	x	约1.9us差或是event内no_grad CPU成本，应对照	实际读flush源码；同配置/上下文因素未隔离，先称全由no_grad证据不足	step346/353	p
-346	E	O	M	e	c	y	u	vs	x	bare/star/no_grad四调用交错可检验1.9us来源	写ovh空kernel与real诊断，不改正式harness；最初不同frame层数待修	step347/348/349	p
-347	E	O	M	e	c	y	u	vs	x	额外frame数混杂，应各调用同样层数	只改scratch mk_variants，未改正式候选	step348	p
-348	E	O	M	m	u	x	u	s	x	-	补四wrapper同签名，使对照统一层数，尚未实测	step349	p
+346	C	O	M	e	c	y	u	vs	x	bare/star/no_grad四调用交错可检验1.9us来源	写ovh空kernel与real诊断，不改正式harness；最初不同frame层数待修	step347/348/349	p
+347	C	O	M	e	c	y	u	vs	x	额外frame数混杂，应各调用同样层数	只改scratch mk_variants，未改正式候选	step348	p
+348	C	O	M	m	u	x	u	s	x	-	补四wrapper同签名，使对照统一层数，尚未实测	step349	p
 349	M	K	M	m	u	x	f	-	x	-	实际C++缺getCurrentCUDAStream与CUDA编译torch头错误，无计时	step350/352	p
 350	E	D	M	e	i	u	s	v	x	可简化为默认stream避编译问题	仅查自己当前stream源码，未实际采用legacy0，也不证所有harness为legacy0	step351/352	p
 351	E	D	M	e	c	y	s	v	x	应沿已工作的CPP/CUDA分离与手动binding方式修probe	读自己launcher，不是新查第三方API知识	step352	p
-352	E	O	M	e	i	u	u	vs	x	若floor可加则2MiB读太快，flush或未驱逐，应同时比较	重写ovh修构建、测flush/no_grad；空kernelfloor纯可加假设未证，不能先断L2常驻	step353	p
+352	C	O	M	e	i	u	u	vs	x	若floor可加则2MiB读太快，flush或未驱逐，应同时比较	重写ovh修构建、测flush/no_grad；空kernelfloor纯可加假设未证，不能先断L2常驻	step353	p
 353	M	K	M	m	u	x	s	-	x	-	三shape完整表：s4noflush4.160/z1286.080，bare6.208/ng6.080；NOP s0 3.424非统一2.2	step354	p
 354	E	D	M	e	i	y	s	vt	x	no_grad/star差在噪声内，flush确影响时延，应重估floor并取真kernel时长	修正先前解释；不证明Python绝不落事件窗、每byte都cold或floor统一可加	step355	p
 355	P	N	M	e	i	u	u	v	x	默认geometry近调参值足区分3us与7us，应取NCU时长/流量	只回各shape encoding尾，当前无可读指标；不补成功计数或默认与调参完全等价	step356	p
@@ -363,12 +363,12 @@
 362	C	O	K	i	c	y	u	c	x	keys-only take_top省索引寄存器搬移	正式加helper仍需后续恢复实际值/索引	step363/364	o
 363	C	O	K	i	c	u	u	c	x	低7bit编码位置后恢复精确key/index或在容差内保持结果	正式SEED0 coarse排序可交换近值，monotone只证粗序不证精确序；需有限check	step364/366	o
 364	M	V	K	e	c	y	s	v	x	需验证live sentinel及恢复索引，运行正式check	实际PASS；有限分布不证任意输入coarsening正确	step365/366	o
-365	E	O	M	i	c	y	u	s	x	固定geometry比较新prime与旧索引shuffle并含控制shape	写kprime.py按整prime块撤回，尚未运行，不改正式候选	step366	p
+365	C	O	M	i	c	y	u	s	x	固定geometry比较新prime与旧索引shuffle并含控制shape	写kprime.py按整prime块撤回，尚未运行，不改正式候选	step366	p
 366	M	K	K	m	u	x	s	-	x	-	SEED0 s0 10.080→8.128/s2 10.112→8.128us，s1控制8.192→8.256；范围非CI	step367	o
-367	A	B	K	e	c	y	s	v	x	SEED0对照收益可留，正式三次核验	实际.0942/.0945/.0947均LOW，非预测.100；不同测量条件不强行外推单因素幅度	step368	s
-368	E	O	P	e	i	u	u	vs	x	prime变便宜或改变最优geometry，应扩筛选外候选	正式分数低于预测，调参/噪声解释未隔离；仅写geo2	step369	o
+367	A	K	K	e	c	y	s	v	x	SEED0对照收益可留，正式三次核验	实际.0942/.0945/.0947均LOW，非预测.100；不同测量条件不强行外推单因素幅度	step368	s
+368	C	O	P	e	i	u	u	vs	x	prime变便宜或改变最优geometry，应扩筛选外候选	正式分数低于预测，调参/噪声解释未隔离；仅写geo2	step369	o
 369	M	K	P	m	u	x	s	-	x	-	geo2有限几何实表，不能据最佳有限配置证明全局最优	step370	o
-370	E	O	M	e	c	u	u	vs	x	重复阶段比删除更少干扰下游，可诊断边际成本	dbl编译多变体并非同binary；重复tree用已变queue可能不正确，重复load也可被优化掉，无逐变体check	step397/398	p
+370	C	O	M	e	c	u	u	vs	x	重复阶段比删除更少干扰下游，可诊断边际成本	dbl编译多变体并非同binary；重复tree用已变queue可能不正确，重复load也可被优化掉，无逐变体check	step397/398	p
 371	N	O	M	m	u	x	u	-	x	-	nvidia-smi查询120秒后转后台，只是活查询未回GPU状态	step372/373	p
 372	N	O	M	e	i	u	u	v	x	smi等待或指GPU坏状态/争用，应查输出	后台文件仍空，不能按空文件判terminal或驱动坏	step373/378	p
 373	N	O	M	e	i	y	f	v	x	需超时查询并查忙进程	smi-L25秒124、ps见另一Python100%CPU；未证GPU驱动错误	step374	p
@@ -387,23 +387,23 @@
 386	E	D	K	e	c	u	s	v	x	无spill故收益纯来自SHFL且shuffle单元为瓶颈	无spill只排spill解释，不排其他codegen/occupancy；读自己mx_kernel，无动态SHFL瓶颈反证	step387	p
 387	T	O	M	e	i	u	s	v	x	mx或受block同步/冷读限制，先等锁再测	owner仍6422且另benchmark12:28；以1024threads解释旧NCU3.84us错，旧实际512	step388/390	p
 388	H	O	M	e	i	u	u	v	x	需实测2MiB到大buffer带宽，不沿1800GB/s假设	只有实质计划文本，尚未创建或执行probe	step389	p
-389	E	O	M	i	i	u	u	s	x	独立rd4/rd4x4可估读带宽曲线及s4余量	写bw.py含warp max并非纯load；输出未含blockIdx.x，多block竞争同slot，非TopK严格下界	step391/393	p
+389	C	O	M	i	i	u	u	s	x	独立rd4/rd4x4可估读带宽曲线及s4余量	写bw.py含warp max并非纯load；输出未含blockIdx.x，多block竞争同slot，非TopK严格下界	step391/393	p
 390	N	O	M	e	i	u	s	v	x	后台任务或已完锁可用，需读真实状态	读到query100%/1MiB/2602和无owner；快照不证随后全程独占	step391	p
 391	M	K	M	e	i	u	f	v	x	锁可用后可测带宽底线	实际PyCapsule函数需一arg而f()无arg报TypeError，无带宽表	step392	p
-392	E	O	M	e	c	y	u	vs	x	mx callable需lambda补x才能与无参probe统一	仅改scratch/bw调用包装，不改正式candidate/harness	step393	p
+392	C	O	M	e	c	y	u	vs	x	mx callable需lambda补x才能与无参probe统一	仅改scratch/bw调用包装，不改正式candidate/harness	step393	p
 393	M	K	M	m	u	x	s	-	x	-	实际曲线s4最佳读max约5.024us；大buffer约1400–1450GB/s是采样值非硬件上限	step394	p
-394	E	O	M	e	i	u	u	vs	x	观测峰约1450而2MiB约5us，s4余量或仅.7us	有限实现不能称绝对峰/ceiling；扩bw全部shape，还扣固定2.2us未证可加	step395/396	p
+394	C	O	M	e	i	u	u	vs	x	观测峰约1450而2MiB约5us，s4余量或仅.7us	有限实现不能称绝对峰/ceiling；扩bw全部shape，还扣固定2.2us未证可加	step395/396	p
 395	M	K	M	m	u	x	s	-	x	-	五shape执行但tail仅部分表；不补未见s0数字	step396	p
 396	M	K	M	e	c	y	s	v	x	应保存全日志核对s0/s1而非截断tail	实际重跑s0最优3.520、s1 5.280us，同诊断多split输出竞争限制下界解释	step397	p
 397	M	K	M	e	i	u	s	v	x	按读探针ceiling看s0/s3余量，需阶段重复归因	dbl实回多变体表；所谓绝对ceiling .162非数学界，重复未检验等价	step398	p
-398	E	O	M	e	i	u	u	vs	x	s0 trees/s2 prime重要而s1/s3剩余或grid或冷读	把不同重复差值当独立组件成本未证；写rm错误删项诊断，无正式编辑	step399	p
-399	E	O	M	e	c	y	u	vs	x	load-only仍含prime，应重名并组合删阶段	reject-all常量continue可使流式load死代码；无tree时大多数warp结果不消费，不能称保同读路径	step400/403	p
+398	C	O	M	e	i	u	u	vs	x	s0 trees/s2 prime重要而s1/s3剩余或grid或冷读	把不同重复差值当独立组件成本未证；写rm错误删项诊断，无正式编辑	step399	p
+399	C	O	M	e	c	y	u	vs	x	load-only仍含prime，应重名并组合删阶段	reject-all常量continue可使流式load死代码；无tree时大多数warp结果不消费，不能称保同读路径	step400/403	p
 400	M	K	M	m	u	x	f	s	x	-	sed改打印引入f-string引号语法错，无时延表	step401	p
-401	E	O	M	m	u	x	u	s	x	-	打印差值先存work修f-string，独立诊断脚本	step402	p
+401	C	O	M	m	u	x	u	s	x	-	打印差值先存work修f-string，独立诊断脚本	step402	p
 402	M	K	M	m	u	x	f	-	x	-	extension含+造成编译失败，未产阶段时延	step403	p
-403	E	K	M	e	c	y	s	vs	x	清理extension名可运行删项诊断	修名后有四shape表，错误变体快不计TopK收益；load+prime s2甚至低于所谓read floor	step404	p
+403	M	K	M	e	c	y	s	vs	x	清理extension名可运行删项诊断	修名后有四shape表，错误变体快不计TopK收益；load+prime s2甚至低于所谓read floor	step404	p
 404	E	D	K	e	c	u	s	v	x	grid fold或s0最大成本，应查尾声	差值非可加纯成本；源码last-block计数没有等待自旋循环，spinning用词不实	step405	p
-405	E	O	P	e	c	y	u	vs	x	nit1可删整个流式路径，应扩一tile几何	写geo3包括384threads，现tree要求2幂warp未正确性验证；no-stream本身不保整体快	step406/412	o
+405	C	O	P	e	c	y	u	vs	x	nit1可删整个流式路径，应扩一tile几何	写geo3包括384threads，现tree要求2幂warp未正确性验证；no-stream本身不保整体快	step406/412	o
 406	M	K	P	m	u	x	s	-	x	-	geo3运行只回五标题，本步没可读细项，不据标题补最佳	step407	o
 407	M	K	P	m	u	x	s	-	x	-	实读geo3全表：s2 256/16 8.256；s3 384/8 7.104尚不正确，412纠正	step408/412	o
 408	E	D	P	e	c	u	s	v	x	one-tile几何较快且tiles>=1筛掉384/8，应改tuner	384threads非2幂warp结果无效；先称4.3%有效收益过早，源码筛选覆盖确缺	step410/412	o
@@ -421,21 +421,21 @@
 420	E	D	M	e	c	y	s	v	x	相同geometry重复候选差2–3.5%，选择需留余量	发现s0 0/0=512/64、s2=256/16；单次差不能钉死普遍noise floor，宣称margin但本步只读源码	step421/429	p
 421	E	D	K	e	c	y	s	v	x	SEED1下降sort加低7bit源编码或省shuffle	实际grep自身helper，未正式编辑margin或prime	step423/424	o
 422	E	D	K	m	u	x	s	-	x	-	读自己sort128 keys-only helper，非新外部知识	step423	o
-423	E	O	K	e	c	y	u	vs	x	SEED1 keys-only descending可省索引/反转shuffle	仅写scratch kprime2构造两编译变体；误差打印不assert，低7bit粗序不保证任意输入精确	step424	o
+423	C	O	K	e	c	y	u	vs	x	SEED1 keys-only descending可省索引/反转shuffle	仅写scratch kprime2构造两编译变体；误差打印不assert，低7bit粗序不保证任意输入精确	step424	o
 424	M	K	K	m	u	x	s	s	x	-	有限五shape dv/gather均0，s3 8.096→7.392但未正式落地；其他控制也有漂移	step425	o
 425	M	K	M	e	i	u	s	vs	x	s3 8.7%或真收益，须在调参几何重复确认	kprime3 import kprime2先跑全部顶层测量；后21轮s3default7.264→7.200、512/8 7.008→7.136，不复现8.7%	step426	p
 426	E	D	M	e	i	y	s	vt	x	先前8.7%不复现，应重估噪声并查正式测量	重复配对不稳支持撤回强结论；doubling是多编译variant非所谓同binary，跨进程base差不独证原因	step427/428	p
 427	E	D	M	m	u	x	s	-	x	-	读真实time_fn，event内no_grad与flush/sync未被候选修改	step428	p
-428	E	O	M	e	i	u	u	vs	x	clock漂移或主因，应测多次50-trial median和clock	写noise.py；ab median5多轮不等于正式median50，未先证σ同分布	step429	p
+428	C	O	M	e	i	u	u	vs	x	clock漂移或主因，应测多次50-trial median和clock	写noise.py；ab median5多轮不等于正式median50，未先证σ同分布	step429	p
 429	M	K	M	m	u	x	s	-	x	-	同进程10个50-trial样本std1–1.8%而s0 4.4%；clock0-0为失败占位非实际0MHz	step430	p
-430	E	O	M	e	i	u	u	vs	x	小同进程波动与大跨进程差或源输入分配而非clock	clock未成功采样不能排clock；写addr测多个输入位置，输出地址仍是另一因素	step431	p
+430	C	O	M	e	i	u	u	vs	x	小同进程波动与大跨进程差或源输入分配而非clock	clock未成功采样不能排clock；写addr测多个输入位置，输出地址仍是另一因素	step431	p
 431	M	K	M	m	u	x	s	-	x	-	s3八分配7.760–7.904、s0 8.256–8.416均1.9%，只限制当前样本输入地址解释	step432	p
 432	M	K	M	e	i	u	s	vs	x	地址差较小，热/clock漂移或解释跨进程差，应长期采样	实际drift60×50仅.3秒非分钟；HELD1只用于只读smi query且参数失败，无clock数据	step433	p
 433	E	D	H	e	c	u	s	v	x	noise与drift或只差no_grad约.6us，应看每call	跨脚本仍有热身/事件包装等因素，不能直接唯一归因；只读自身launcher	step434	p
 434	M	K	M	e	i	y	s	vs	x	同进程交错五调用方式可检验no_grad的.6us效应	实回s3 ng+.624、s0 ng-.528、s4-.128；方向依shape，单次实验不证机制或永久零成本	step435	p
 435	M	V	M	e	i	u	s	v	x	应让开发ruler匹配正式调用方式并核tuner修复	只是正式check PASS，本步没有实改ab；正负差表明旧跨脚本解释不足，不代表模式效果机制已知	step436	p
-436	M	B	P	m	u	x	s	-	x	-	正式三次.0956/.0937/.0901均LOW，新tuner无可靠提升证据	step437	s
-437	E	O	K	e	i	u	u	vs	x	histogram选择或替代每warp全排序和block树	写hprobe仅计hist/scan非完整TopK；输出忽略row使s2跨row竞争，0.0931±2.5%是三样本相对population std	step438/439	o
+436	M	K	P	m	u	x	s	-	x	-	正式三次.0956/.0937/.0901均LOW，新tuner无可靠提升证据	step437	s
+437	C	O	K	e	i	u	u	vs	x	histogram选择或替代每warp全排序和block树	写hprobe仅计hist/scan非完整TopK；输出忽略row使s2跨row竞争，0.0931±2.5%是三样本相对population std	step438/439	o
 438	M	K	K	m	u	x	s	-	x	-	hist诊断s0 read4.560/hist4.592/current8.384，s2 4.880/6.208/8.176；不是完整hist候选收益	step439	p
 439	E	D	K	e	i	u	s	v	x	s0 hist额外.032可视近免费，余选择/排序或只需1.5us	微probe差不足证明完整路径成本或可达6.1us；实际只读grid尾声	step440/447	o
 440	C	O	K	e	c	y	u	vc	x	两种block算法可共享grid尾声，应提成helper	正式提取尚未修声明顺序与sflag指针，未在本步编译验证	step443/444	o
@@ -454,19 +454,19 @@
 453	C	O	D	i	c	y	u	c	x	hist每线程一float4须适配切片并扩shared，否则回退旧算法	正式检查per4<=threads、k1回退，hs shared至少512+2K+4；未测性能/正确性	step454/456	o
 454	C	O	D	i	c	y	u	c	x	make_callable增加algo参数	正式只扩接口，仍需pybind默认参数对齐	step455	o
 455	C	O	D	i	c	y	u	c	x	pybind algo默认0以保持旧路径	正式加默认0，不把未测hist当正式已获收益	step456	o
-456	E	O	M	e	c	y	u	vs	x	先比两算法值/索引再按几何计时	写hsel逐shape finite误差阈值1e-4，仅初始检查打印；algo1某些几何可回退0	step458	o
+456	C	O	M	e	c	y	u	vs	x	先比两算法值/索引再按几何计时	写hsel逐shape finite误差阈值1e-4，仅初始检查打印；algo1某些几何可回退0	step458	o
 457	N	O	M	m	u	x	s	-	x	-	GPU0 query idle1MiB/2602MHz，非完整独占证明	step458	p
 458	M	K	K	m	u	x	s	-	x	-	两算法有限五shape dv/gather0，但实际radix四shape11.1–11.8us均慢于sort7.2–8.8	step459	o
 459	E	O	K	e	i	u	s	vs	x	近恒11us或来自固定serial walk，应查编译	实际HELD1 import solution dump源码，尚未ptxas；时长平坦不独证单一机制	step460	p
 460	E	O	K	m	u	x	s	s	x	-	实际静态ptxas hs1/2为39/45regs、spill0；不当动态profile	step461	p
-461	E	O	M	e	c	u	u	vs	x	需错删levels/walk/atomics/sort隔离hist成本	hbreak明确错误诊断；常数bin384不保后续分布/控制流，删atomics或改阈值及编译路径	step462/463	p
+461	C	O	M	e	c	u	u	vs	x	需错删levels/walk/atomics/sort隔离hist成本	hbreak明确错误诊断；常数bin384不保后续分布/控制流，删atomics或改阈值及编译路径	step462/463	p
 462	M	K	M	m	u	x	s	-	x	-	hbreak实表s0 full10.944/no-walk8.864，s2 11.040/8.896；错变体非正确收益	step463	p
-463	E	O	M	e	c	u	u	vs	x	walk或解释全部回退，其余差或grid，应测split与删grid	常数阈值错探针差不能证walk全部纯成本或per-block免费，写gridcost未正式改算法	step464/465	p
+463	C	O	M	e	c	u	u	vs	x	walk或解释全部回退，其余差或grid，应测split与删grid	常数阈值错探针差不能证walk全部纯成本或per-block免费，写gridcost未正式改算法	step464/465	p
 464	M	K	M	m	u	x	s	-	x	-	实回splits sweep及错删fold/fence/grid表，不把差精确相加	step465	p
-465	E	O	M	e	c	w	u	vs	x	需同入口测read floor并测从未尝试的split1	同入口纠偏有据但此前369/407等已测split1；floor2条件输出及删尾声改变实际工作	step466	p
+465	C	O	M	e	c	w	u	vs	x	需同入口测read floor并测从未尝试的split1	同入口纠偏有据但此前369/407等已测split1；floor2条件输出及删尾声改变实际工作	step466	p
 466	M	K	M	m	u	x	s	-	x	-	floor2 s0 read3.328/select7.488/full10.912，s1 1024/1最快8.064，s2/s3 split1更慢	step467	p
 467	E	D	H	e	i	u	s	v	x	read小于总时延，选择仍有成本且launch侧可再查	跨probe差不证精确3.5–4us选择；只读Model，尚未CPU侧新测量	step468	p
-468	E	O	M	e	i	u	u	vs	x	二kernel方案需知道同call多次launch的边际成本	写launch空/tiny诊断不改正式候选；NOP和real不同入口/数据，不能先当统一固定税	step469	p
+468	C	O	M	e	i	u	u	vs	x	二kernel方案需知道同call多次launch的边际成本	写launch空/tiny诊断不改正式候选；NOP和real不同入口/数据，不能先当统一固定税	step469	p
 469	M	K	M	m	u	x	s	-	x	-	实际0/1/2/3/4NOP为2.368/4.128/5.584/6.896/7.984us，tiny大幅更慢	step470	p
 470	C	O	K	e	i	u	u	vc	x	聚合同bin atomics加固定两级scan或降选择成本	正式只加sw指针布局，本步无scan改写或性能；no-atomics错探针非纯原子成本	step471/472	o
 471	C	O	K	i	c	u	u	c	x	warp match合并同bin写，再32粗桶/16细桶扫描	正式同时换atomics和scan；新__shfl_sync全mask却在lane0 guard内，引入后续挂起	step473/522/523	o
@@ -494,7 +494,7 @@
 493	E	D	K	m	u	x	s	-	x	-	读自己grid_finish及hist开头，未改代码	step494	o
 494	E	D	K	e	c	u	s	v	x	grid发布只warp0有效，疑点在hist同步	实际读完整hist；推断排除若干布局，尚未定位错误	step495/522	o
 495	E	D	K	e	i	u	s	v	x	挂起或来自早退barrier/warp操作/sort循环，需继续定位	实际只查sortK有界循环，未证明早退barrier发散或sort无限	step496	o
-496	E	O	M	e	c	y	u	vs	x	print-before-launch加sync-after可定位挂起shape/算法	写hang.py，各次迭代明确标识；尚未执行，错误probe不当正式得分	step497/504	p
+496	C	O	M	e	c	y	u	vs	x	print-before-launch加sync-after可定位挂起shape/算法	写hang.py，各次迭代明确标识；尚未执行，错误probe不当正式得分	step497/504	p
 497	M	K	M	m	u	x	u	-	x	-	localizer600秒转后台，tail尚未回内容，不算已知编译中	step500/503	p
 498	E	D	K	e	i	u	s	v	x	可能是布局/编译等待，应核启动条件	把shared unsigned偏移当byte误算，实际读make_callable；未新定位挂点	step499/500	p
 499	E	D	D	e	c	y	s	v	x	需确认selector与launch参数匹配	读Plan/init/launch，并非新实际profile	step500	o
@@ -503,7 +503,7 @@
 502	N	O	M	e	i	u	s	v	x	可能FileBaton旧锁阻塞import，需查所有build锁	查实际两root未见lock文件，未支持旧锁假设	step503	p
 503	N	O	M	e	c	y	s	v	x	无锁后应看真实进程状态/设备	PID1309720 100%CPU/29nvidiafd/36threads、GPU0 100%816MiB，支持执行驻留非仅编译	step504	p
 504	M	K	M	e	c	y	s	vt	x	tail等EOF使日志空，应杀已核自己的任务后直重定向	实际GPU释放后新log built、s0algo0 OK、algo1 launching无retired，定位到algo1而非仅import	step505/522	p
-505	E	O	M	e	c	y	u	vs	x	已定位s0algo1，需sanitizer查同步或内存	写san一launch同步脚本，尚未启动检测	step506/510	p
+505	C	O	M	e	c	y	u	vs	x	已定位s0algo1，需sanitizer查同步或内存	写san一launch同步脚本，尚未启动检测	step506/510	p
 506	N	O	M	m	u	x	f	-	x	-	pkill-f含自身shell同pattern风险，命令exit1无san日志；具体失败根因未证	step507/508	p
 507	E	D	M	m	u	x	f	-	x	-	san.log不存在，不能补已运行sanitizer或零错误结论	step508	p
 508	N	O	M	e	i	u	s	v	x	无日志或工具/命令问题，先查sanitizer存在	实际which与CUDA路径都有compute-sanitizer，不能归工具缺失	step509/510	p
@@ -516,7 +516,7 @@
 515	N	O	M	e	i	u	s	v	x	应查uv锁和build锁而非重启猜测	实际有/kbh gpu-lock-exec benchmark及自己wrapper，未见build locks	step516	p
 516	N	O	M	e	c	y	f	v	x	自己在机器锁队列，应延长run等待	pkill-f/重启组合exit1无新handle，不补nohup实际存活	step517/518	p
 517	N	O	M	m	u	x	s	-	x	-	pgrep只匹配查询shell，rc0不证明queued hang启动	step518	p
-518	E	O	M	e	c	u	u	vs	x	建多截断变体可二分挂点，分离build/run模式	写bisect.py却遮蔽stdlib bisect；无参build分支意图不GPU，synccheck无结论仍误称排除发散	step519/520	p
+518	C	O	M	e	c	u	u	vs	x	建多截断变体可二分挂点，分离build/run模式	写bisect.py却遮蔽stdlib bisect；无参build分支意图不GPU，synccheck无结论仍误称排除发散	step519/520	p
 519	N	O	M	m	u	x	u	s	x	-	HELD1后台无参build仅启动，尚未构建成功或测kernel	step520	p
 520	E	D	M	e	i	u	f	v	x	循环布局看似有界，应查build日志	实际torch.SymInt circular import，shared words/bytes推导仍混；未得到二分GPU结果	step521	p
 521	N	O	M	e	c	y	u	vs	x	bisect.py遮蔽stdlib，应重命名cut.py	实际mv后后台无参HELD1重build，仅启动未回成功	step522	p
@@ -527,14 +527,14 @@
 526	N	O	M	m	u	x	u	-	x	-	sleep后日志空、只见timeout/wrapper进程，尚未证明Python已跑	step527/538	p
 527	N	O	M	e	c	y	s	v	x	wrapper先拿机器锁连build也等，应查holder	宽ps预览非锁owner证明，后538 lslocks才区分持锁与等待	step528/538	p
 528	N	O	M	e	c	y	f	vs	x	可先无GPU import暖编译后再排队测	含pkill-f自身匹配风险的组合exit1，无compiled日志，不能归tail隐藏编译错误	step529/530	p
-529	E	O	M	e	i	u	u	vs	x	独立warm脚本可仅import编译且不测GPU	写warm导solution不构Model，无显式张量分配/launch；无CUDA context强保证未查内部初始化	step530	p
+529	C	O	M	e	i	u	u	vs	x	独立warm脚本可仅import编译且不测GPU	写warm导solution不构Model，无显式张量分配/launch；无CUDA context强保证未查内部初始化	step530	p
 530	N	O	M	m	u	x	s	s	x	-	HELD1 warm实际compiled/EXIT0，不是kernel正确性或性能	step531	p
 531	M	V	K	e	c	y	u	v	x	编译完后排队长timeout验证所有shape	仅后台handle未回结果，不补成功	step534/542	o
 532	E	D	K	e	c	y	s	v	x	应查其余lane guard附近warp intrinsic	grep42位置/三行上下文，非完整控制流静态证明，无新增候选编辑	step533	o
 533	T	O	M	e	i	u	f	v	x	应等radix验证再叠优化	sleep240+查询被工具拒绝，未实际等或读，后用Monitor	step534	p
 534	T	O	M	m	u	x	u	-	x	-	Monitor仅启动按EXIT标志等文件，不是已完成正确性结果	step542	p
 535	E	D	M	e	c	y	s	v	x	需同进程比较各算法合适几何，先查ab接口	读自己ab仍无no_grad的median5 burst，无新外部知识	step536	p
-536	E	O	P	i	c	y	u	s	x	radix可行切片限制几何，应与sort各自最佳候选比较	写rgeo四shape多几何，无正式候选编辑/未测	step542/544	o
+536	C	O	P	i	c	y	u	s	x	radix可行切片限制几何，应与sort各自最佳候选比较	写rgeo四shape多几何，无正式候选编辑/未测	step542/544	o
 537	N	O	M	e	c	u	s	v	x	应核实际algo回退与锁状态，coarse9bit不能随意停	实际hang3空且仅ps wrapper，不证哪个持锁；17/23bit只推测未实现	step538/542	p
 538	N	O	M	e	i	y	s	v	x	wrapper可能也在等待，需lslocks核真holder	实际/kbh wrapper WRITE，多个flock WRITE*等待；glob日志读取失败，不能用文件mtime量完整持锁期	step539	p
 539	N	O	M	e	c	y	s	v	x	清自己被杀父进程的孤儿flock队列，保活run	两个PPID1、一个有wrapper父；host/container同锁推断与记录一致，未见bind mount inode验证	step540	p
@@ -548,11 +548,11 @@
 547	N	O	M	e	i	u	s	v	x	smi超时或driver坏/重载，应短查询	实际query成功GPU0 100%/1MiB；不能单凭利用率断故障或无限驻留	step548/549	p
 548	N	O	M	e	i	u	s	v	x	100%但极少memory或残kernel/报告伪影，应重复采样	GPU0五次100%4MiB、compute apps仅GPU1 vLLM，不证具体故障来源	step549	p
 549	N	O	M	e	i	u	s	v	x	低memory无apps或孤儿kernel，功耗可鉴别是否真实负载	实际GPU0 75.85W/600W/P0，低功耗不能决定所有类型工作/报告错误；宽ps只预览	step550	p
-550	M	B	M	e	i	u	u	vs	x	低功耗和旧成绩近似或证利用率陈旧，应继续正式check加bench	本步预暖后真实flock内HELD1 check&&bench后台启动；旧kernel残留根因/无污染未证	step552/553	o
+550	M	K	M	e	i	u	u	vs	x	低功耗和旧成绩近似或证利用率陈旧，应继续正式check加bench	本步预暖后真实flock内HELD1 check&&bench后台启动；旧kernel残留根因/无污染未证	step552/553	o
 551	E	D	K	m	u	x	s	-	x	-	读grid_finish及hist开头，未新改候选	step552	o
 552	E	D	M	e	i	u	s	v	x	fold已跨warp并行，时延预算差需NCU证据	实际which工具及run1已回.0940 LOW/EXIT0；no_instruction等同icache miss未证，未新采profile	step553/556	p
 553	M	V	K	e	i	u	s	v	x	应看正式check及tuner选择确认s3回退	实际grep只PASS、无tune输出；不证明tuner未运行	step554/557	o
-554	E	O	M	e	i	w	f	vs	x	无debug输出即tuner默认关闭，需新prof脚本定位	该推断与557源码默认1矛盾；写prof被未Read旧文件规则拒绝，没实际改脚本	step555/558	p
+554	C	O	M	e	i	w	f	vs	x	无debug输出即tuner默认关闭，需新prof脚本定位	该推断与557源码默认1矛盾；写prof被未Read旧文件规则拒绝，没实际改脚本	step555/558	p
 555	E	D	M	e	c	y	s	v	x	写旧prof前应读现有内容	实际读旧三launch脚本，未新写/未新profile	step556	p
 556	P	N	M	e	c	u	u	vs	x	旧prof+TUNE0可测最弱两shape，需真实计数	真实flock包裹下HELD1后台NCU，仅启动；TUNE0 profile仍是analytic非调参配置	step559	p
 557	E	D	P	e	c	y	s	v	x	应核tuner真实门控和默认	grep明确_TUNE默认1、DEBUG默认0，1233行；反驳554无debug即tuner未跑	step558	p
