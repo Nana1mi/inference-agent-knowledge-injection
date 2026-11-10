@@ -70,8 +70,8 @@
     {
       "session_id": "K12",
       "required": 230,
-      "reviewed": 0,
-      "complete": false
+      "reviewed": 230,
+      "complete": true
     },
     {
       "session_id": "K13",

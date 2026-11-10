@@ -7,7 +7,7 @@ import argparse
 import re
 from r2_io import ROOT, RAW, DERIVED, load
 
-CUE = re.compile(r'device|cuda|gpu|cpu|synchronize|elapsed_time|sys\.modules|^\s*def\s', re.I | re.M)
+CUE = re.compile(r'device|cuda|gpu|cpu|synchronize|elapsed_time|sys\.modules|^\s*(?:async\s+)?def\s|\btime\.(?:time|perf_counter|monotonic)\s*\(', re.I | re.M)
 
 def main():
     parser = argparse.ArgumentParser()

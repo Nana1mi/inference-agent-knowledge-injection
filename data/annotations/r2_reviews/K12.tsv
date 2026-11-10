@@ -1,0 +1,231 @@
+# step phase tool layer origin source evidence outcome flags use hypothesis rationale followup component
+1	环境准备	O	O	m	u	x	s	-	x	-	创建计划并列文件/找AGENTS，未读取算法正文；标题和流程播报不计推理	-	m
+2	探索代码	D	K	m	u	x	s	k	a	-	同一步实际读reference/check及SOTA wrapper/benchmark/yaml；reference接口/数学9适配，SOTA wrapper全会话未采用；默认Python缺torch另记环境失败	step9；SOTA全230步未用	m
+3	环境准备	O	C	e	c	y	s	v	x	平衡路由消除测试负载偏斜但仍须消费offsets	公开指出输入构造及接口限制；查解释器，不能把平衡测试证明任意路由正确	step9	o
+4	环境准备	O	O	m	u	x	f	-	x	-	默认Python仍缺torch、相对pyproject/pip路径错误；nvcc存在并非环境全失败	-	o
+5	环境准备	O	O	m	u	x	s	-	x	-	读解释器wrapper/项目配置并定位torch目录；路径存在不是profile或算法读取	-	o
+6	探索代码	D	M	m	u	x	s	-	x	-	读stress/正确性/timer并rg其他实现路径；仅匹配行不记完整外部算法知识	-	p
+7	探索代码	D	M	m	u	x	s	-	x	-	rg硬件目录与评分字段，未实际读到hardware.py；标题串非实质推理	-	p
+8	环境准备	O	O	m	u	x	s	-	x	-	探包cutlass/quack缺失、cuda.bindings存在；不等于实际使用库实现	-	o
+9	修改代码	O	F	e	r	y	u	vc	x	融合gate/up共用输入并在device扫描offset可免host路由同步	正式首次写Triton，参考接口/数学改写；grid上界与mask消费offset而非写死平衡分配，未profile	step21	o
+10	探索代码	D	K	m	u	x	s	-	x	-	读取新solution且py_compile成功，仅语法检查	-	o
+11	测量	V	K	m	u	x	u	-	x	-	启动完整check，外层exec cell仍运行	step21	p
+12	等待	O	M	m	u	x	u	-	x	-	外层cell完成但内层check session55669存活且空输出	step21	o
+13	等待	O	M	m	u	x	u	-	x	-	poll内层check又返回外层cell，未获终态	step14	o
+14	等待	O	M	m	u	x	u	-	x	-	内层check仍空，不把外层完成当check通过	step21	o
+15	等待	O	M	e	c	u	u	v	x	静默可能来自昂贵reference计算	公开称仍在reference但无阶段采样证明；继续等待，不能据静默认定正常或已过某shape	step21	o
+16	等待	O	M	m	u	x	u	-	x	-	check存活空返回	step21	o
+17	等待	O	M	m	u	x	u	-	x	-	继续poll check，未完成	step18	o
+18	等待	O	M	m	u	x	u	-	x	-	check仍空	step21	o
+19	环境准备	O	M	m	u	x	s	-	x	-	只读GPU进程/编译cache状态；工具session号不等同OS PID，未得reference进度profile	-	p
+20	等待	O	M	m	u	x	u	-	x	-	poll check尚未返回	step21	o
+21	测量	V	K	m	u	x	s	t	x	-	初版完整check退出0且PASS	-	p
+22	测量	B	K	m	u	x	u	-	x	-	更新计划并启动正式benchmark，无完整数值	step28	p
+23	等待	O	M	m	u	x	u	-	x	-	外层返回内层benchmark session5395，未结束	step28	o
+24	等待	O	M	m	u	x	u	-	x	-	poll benchmark等待外层cell	step25	o
+25	等待	O	M	m	u	x	u	-	x	-	benchmark仍无数值返回	step28	o
+26	等待	O	M	m	u	x	u	-	x	-	继续poll benchmark	step27	o
+27	测量	B	K	m	u	x	u	-	x	-	正式shape0/1约21.145/0.664ms；shape2与汇总未完成	step28	p
+28	测量	B	K	m	u	x	s	-	x	-	shape2 14.294ms，fraction0.0853/LOW完整返回	-	p
+29	探索代码	O	C	e	i	u	s	v	x	大形状或compute-bound，应检资源并扫tile/stage	公开按routed工作算TFLOPs与正式评分分母不同；读JIT json/找profiler仅静态资源，非实际profile	step32/34	p
+30	探索代码	D	K	m	u	x	s	k	a	-	读tl.join/split/reshape等实际API源码，35实现joined dot；同时cuobjdump静态寄存器/资源不是占用率采样	step35	m
+31	修改代码	O	M	i	i	u	u	s	x	独立cold-L2 tuner可筛配置	写独立tune，sys.path与timer复用合法；x/weights全empty未初始化，非正式候选或正确性测试	step32/118	p
+32	测量	K	C	m	u	x	s	-	x	-	小形状配置表返回，未初始化数据限制代表性；非profile	-	p
+33	测量	K	C	m	u	x	s	-	x	-	大形状配置表返回，routed TFLOPs不替代正式score	-	p
+34	测量	K	C	m	u	x	s	-	x	-	宽形状配置表返回，工作区与输入empty边界保留	-	p
+35	修改代码	O	F	e	i	u	u	vc	x	join gate/up成宽dot或减少重复MMA调度	正式增加joined分支及tuner参数；所谓确认占用瓶颈只有时长/静态资源，未计成功profile	step38	o
+36	修改代码	O	C	m	u	x	u	-	x	-	扩独立tune配置和joined参数，未采用到正式Model	-	p
+37	修改代码	O	C	m	u	x	u	-	x	-	独立tune补joined配置，非正式candidate edit	-	p
+38	测量	K	F	m	u	x	s	-	x	-	joined=True在小形状更慢，无正确性返回；后Model仍False	-	p
+39	修改代码	O	D	m	u	x	f	-	x	-	多文件patch因tune路径错误失败；40确认solution无map，未当成功候选更改	step40	o
+40	探索代码	D	D	m	u	x	s	-	x	-	rg无map/USE_MAP，核实39未落地，不等于空内容算法证据	-	o
+41	修改代码	O	D	i	c	y	u	c	x	单独预计算路由map可免每个Ntile反复扫描offset	正式加入map kernel与USE_MAP分支，Model暂False；不是写死balanced routing	step44/48	o
+42	修改代码	O	M	m	u	x	u	-	x	-	独立tuner加入map并每次run重建，计时包含prepass，scratch分配在计时外	step44	p
+43	修改代码	O	C	m	u	x	u	-	x	-	独立tune补map配置，未正式启用	-	p
+44	测量	K	D	m	u	x	s	-	x	-	小形状map略慢、joined仍慢；不把两者概括普遍正收益	-	p
+45	修改代码	O	C	m	u	x	u	-	x	-	独立map AB列表，未修改评分路径	-	p
+46	测量	K	D	m	u	x	s	-	x	-	shape0 map近中性，128x64相对其旧配置变快；py_compile只证语法	-	p
+47	测量	K	D	m	u	x	s	-	x	-	shape2 map128x64较快，单次配置对照不证完整性能因果	step48	p
+48	修改代码	O	C	i	i	y	u	c	x	按形状选tile并在宽输出启用map	正式Model选64x128或128x64、4warps/3stage和可选prepass；组合更改	step55	o
+49	测量	B	D	e	i	y	u	v	x	map对宽输出约3%收益可能改善完整bench	启动正式benchmark验证；独测数据empty且分配边界不同，不当稳健3%估计	step55	p
+50	等待	O	M	m	u	x	u	-	x	-	内层benchmark session13186仍活	step55	o
+51	等待	O	M	m	u	x	u	-	x	-	poll等待	step52	o
+52	等待	O	M	m	u	x	u	-	x	-	仅shape0 variant_start，无完成时长	step55	o
+53	等待	O	M	m	u	x	u	-	x	-	继续等待benchmark	step54	o
+54	测量	B	C	m	u	x	u	-	x	-	shape0/1 18.548/0.605ms，未完成全部shape	step55	p
+55	测量	B	C	m	u	x	s	-	x	-	shape2 12.133ms，fraction0.0971/LOW	-	p
+56	修改代码	O	M	m	u	x	u	-	x	-	写独立profile_one，empty输入/权重，不含正确性判断	-	p
+57	profile	N	K	m	u	x	f	t	x	-	NCU实回ERR_NVGPUCTRPERM，无性能计数；未记录成功profile	-	p
+58	探索代码	D	K	m	u	x	s	-	x	-	rg包内descriptor/MMA等入口，导航不当实现正文知识采用	-	m
+59	探索代码	O	M	m	u	x	s	-	x	-	读自身PTX见mma.sync/cp.async，非成功采样；不证明其是唯一性能根因	step65	p
+60	探索代码	D	K	m	u	x	s	k	a	-	读Triton-to-Gluon helpers与Blackwell API内容，63尝试转换；读到接口不保证SM120可用	step63	m
+61	探索代码	D	K	m	u	x	s	k	a	-	读translator源码及调用入口，63实际采用convert接口	step63	m
+62	探索代码	D	K	m	u	x	s	k	a	-	读converter尾段并导航tcgen接口，63写测试；知识采用与后编译成功分开	step63	m
+63	修改代码	O	M	i	c	y	u	-	x	转换器或可复用现有Triton kernel	写独立gluon_test，执行其生成代码是导出行为，不是本机执行下载源码；未改正式Model	step64	p
+64	测量	V	M	m	u	x	f	-	x	-	转换后exec定义JIT失败：函数须在Python文件；非数值通过	-	p
+65	环境准备	O	K	e	c	u	s	v	x	tcgen05路径可能突破现有mma.sync性能	公开将PTX路径当关键限制属推断；clone成功只取文件，不算已读教程	step67	m
+66	探索代码	D	K	m	u	x	s	-	x	-	rg/列表找到tutorial；部分预期目录不存在，未当目标源码不存在	step67	m
+67	探索代码	D	K	m	u	x	s	k	a	-	读上游tcgen05 matmul教程实际正文，70改写grouped kernel；应用失败不抹去读取与采用	step70	m
+68	探索代码	D	K	m	u	x	s	k	a	-	读安装版TensorDescriptor源码/教程末段并记录上游rev；70采用descriptor，硬件optin101376及每SM102400是返回	step70	m
+69	探索代码	D	K	m	u	x	s	k	a	-	读tcgen barrier语义及示例片段，70适配；bf16 grep不等于完整教程读完	step70	m
+70	修改代码	O	K	i	c	y	u	-	x	教程tcgen05可改写grouped SwiGLU实验	写独立gluon_kernel，未进入solution.py正式热路径	step72	o
+71	修改代码	O	M	m	u	x	u	s	x	-	写独立gluon_tune，sys.path与time_fn；empty数据、异常被catch，exit0不等于成功	step72	p
+72	测量	K	K	m	u	x	f	-	x	-	blackwell.tma无async_load，代码未成功运行；exit0来自catch	step73	p
+73	探索代码	D	K	m	u	x	s	k	a	-	实际读安装版Blackwell/Hopper tma与TMEM接口，75据此迁移名称	step75	m
+74	探索代码	D	K	m	u	x	s	k	a	-	读allocate/tcgen05/TensorDescriptor接口，75显式reg_layout加载	step75	m
+75	修改代码	O	K	i	c	y	u	-	x	用安装版async_copy与显式reg_layout可修API差异	仅修改独立Gluon实验，未正式候选编辑	step76	o
+76	测量	K	K	m	u	x	f	-	x	-	Gluon无sigmoid导致编译失败，exit0不代表成功	step77	p
+77	修改代码	O	K	i	c	y	u	-	x	显式exp表达式可替代缺失sigmoid	独立实验修改，未动正式solution	step78	o
+78	测量	K	K	m	u	x	f	-	x	-	LLVM tcgen05.wait.ld无法指令选择；无有效GPU时间或正确性结果	-	p
+79	修改代码	O	D	e	c	u	u	vc	x	相邻M分组可提高权重L2复用	正式加GROUP_M；tcgen05此栈失败只支持窄结论，不证明所有SM120工具栈必须mma.sync	step81/89	o
+80	修改代码	O	C	m	u	x	u	-	x	-	独立tuner GROUP_M扫描1–32，尚无实测	-	p
+81	测量	K	D	m	u	x	f	-	x	-	并行两个配置扫描均constexpr编译失败，无实际GPU竞争性能数据	step82	p
+82	修改代码	O	K	i	c	y	u	c	x	去pids_per_group constexpr注解或修编译错误	正式只删一个注解，后仍失败，不记成功修复	step83	o
+83	测量	K	D	m	u	x	f	-	x	-	顺序重跑仍GROUP_M*n_tiles编译失败，无timing结果	step84	p
+84	探索代码	D	D	m	u	x	s	k	a	-	读官方matmul分组注释和自写代码，87参照其变量声明修正	step87	m
+85	探索代码	D	D	m	u	x	s	k	a	-	读官方matmul签名/配置，87修复编译参数风格	step87	m
+86	探索代码	D	D	m	u	x	s	k	a	-	实际读官方group映射正文，87去n_tiles constexpr注解	step87	m
+87	修改代码	O	K	i	c	y	u	c	x	n_tiles普通变量声明可避tl.cdiv constexpr语义错误	正式修复并后续扫描成功，未新增算法结构	step88	o
+88	测量	K	D	m	u	x	s	-	x	-	小形状groups表近中性，不能声称更高L2命中率实测	-	p
+89	测量	K	D	m	u	x	s	-	x	-	大/宽形状GROUP_M近中性；宽形状此处map=False需与后91区分	-	p
+90	修改代码	O	C	m	u	x	u	-	x	-	独立宽形状group测试改map=True，不是正式Model改动	step91	p
+91	测量	K	D	m	u	x	s	-	x	-	宽形状map=True各group仍近中性；原数据未初始化	-	p
+92	环境准备	O	M	m	u	x	s	-	x	-	只读空闲GPU温度/时钟/功耗；不能追溯证明先前计时处600W限功率	-	p
+93	修改代码	O	Q	i	i	u	u	c	x	epilogue中间bf16或减少操作成本	正式加ROUND_EPILOGUE分支默认False，并更新独立tuner；标题缓存计划未落地	step95	o
+94	修改代码	O	C	m	u	x	u	-	x	-	独立epi AB配置，尚未正式启用rounding	step95	p
+95	测量	K	Q	m	u	x	f	-	x	-	False有时长，True在bf16 sigmoid处编译失败；不能把整表记成功	step96	p
+96	修改代码	O	Q	i	c	y	u	c	x	sigmoid先FP32算再cast可避bf16不支持	正式修实验分支，Model仍False	step97	o
+97	测量	K	Q	m	u	x	s	-	x	-	round=True独测改善微小/近中性，未验证其正确性或正式采用	-	p
+98	修改代码	O	C	m	u	x	u	-	x	-	独立tuner加num_ctas扫描1/2/4	step99	p
+99	测量	K	C	m	u	x	f	-	x	-	num_ctas1有时长，多CTA PlanCTA编译失败；不得当多CTA性能回退	-	p
+100	探索代码	O	M	m	u	x	s	-	x	-	筛cache资源未输出所需占用采样；只是静态编译产物导航	-	p
+101	探索代码	O	M	m	u	x	s	-	x	-	cuobjdump REG255与metadata shared32768/40960，LOCAL0；不是实际占用率计数	step102	p
+102	修改代码	O	C	e	c	u	u	v	x	cap约170或让3CTA驻留并抵消spill成本	只改独立tuner；静态40KB shared在100KB/SM下不容3CTA，且寄存器粒度/实际spill未采样	step103/104	p
+103	测量	K	C	m	u	x	s	-	x	-	小形状低cap慢，224近中性，未实际验证3CTA驻留	-	p
+104	测量	K	C	m	u	x	s	-	x	-	大/宽cap扫描有收益与回退，输入empty；不证明全源spill/occupancy机制	-	p
+105	修改代码	O	C	m	u	x	u	-	x	-	名为transpose的独立模式实际固定128x64扫cap，不是新增转置kernel	step106	p
+106	测量	K	C	m	u	x	s	-	x	-	两大形状cap扫描返回，部分明显变化；empty限制仍在	-	p
+107	测量	K	C	m	u	x	s	-	x	-	实际重复cap扫描；不能仅凭重复稳定把配置收益外推正式随机输入	-	p
+108	修改代码	O	C	e	i	y	u	vcs	x	cap192加128x64可能提高大形状性能	正式同时改tile/cap并加输出与offset-map cache；4字段键加True变5字段会每次不等，缓存声称不符实际控制流	step109/110	o
+109	修改代码	O	D	i	c	y	u	cs	x	去完成标记可修map缓存键总不等	正式仅offset指针/rows/tile/device变化重建，缺内容版本；110在测前移除，不当最终保留cache	step110	o
+110	回滚	O	H	m	u	x	u	cs	x	-	实际移除输出及map内容cache，每调用分配并重建路由；不是失败patch或未执行的自述	-	o
+111	测量	B	C	m	u	x	u	-	x	-	启动cap/tile组合正式benchmark	step117	p
+112	等待	O	M	m	u	x	u	-	x	-	内层benchmark session27817存活	step117	o
+113	等待	O	M	m	u	x	u	-	x	-	poll等待	step114	o
+114	测量	B	C	m	u	x	u	-	x	-	shape0 17.952ms返回，其余未完	step117	p
+115	等待	O	M	m	u	x	u	-	x	-	标题推测性能差异不当实质推理，等待返回	step116	o
+116	测量	B	C	m	u	x	u	-	x	-	shape1 0.60512ms返回	step117	p
+117	测量	B	C	m	u	x	s	-	x	-	shape2 11.933ms，fraction0.0987/LOW	-	p
+118	修改代码	O	M	e	c	u	u	v	x	empty输入或使独测夸大收益，应初始化随机数据	只改独立tune实际normal_；empty确实存在，但低切换/压缩/600W根因未做控制测量	step120/121	p
+119	修改代码	O	C	m	u	x	u	-	x	-	独立代表数据扫描配置，非正式Model采用	step120	p
+120	测量	K	C	m	u	x	s	-	x	-	初始化随机数据后shape0配置表；无独立功耗/压缩计数	-	p
+121	测量	K	C	m	u	x	s	-	x	-	随机数据shape2配置表，保留与早期empty差异	-	p
+122	修改代码	O	C	m	u	x	u	-	x	-	独立real2细扫stage/cap/group/BK	step124	p
+123	测量	K	C	m	u	x	u	-	x	-	启动real2，外层cell待完成	step124	p
+124	测量	K	C	m	u	x	s	-	x	-	real2两大形状表返回，成功计时不表示所有配置过correctness	-	p
+125	测量	K	C	m	u	x	s	-	x	-	小形状real/real2结果，过大tile/BK较慢	-	p
+126	修改代码	O	C	i	i	y	u	c	x	stage4/cap196及各形状map或改善整体	正式全部shape启用map，大形状stage4/cap196，小group4；多项更改合测	step132	o
+127	测量	B	C	m	u	x	u	v	x	-	公开给配置与预测略过10%，启动实际benchmark；预测不是已达标	step132	p
+128	等待	O	M	m	u	x	u	-	x	-	benchmark内层67414尚存活	step132	o
+129	等待	O	M	m	u	x	u	-	x	-	poll等待	step130	o
+130	测量	B	C	m	u	x	u	-	x	-	shape0 18.069ms，比独测较慢仍未完成	step132	p
+131	等待	O	M	m	u	x	u	-	x	-	等待其余shape，标题不是已证allocator根因	step132	o
+132	测量	B	C	m	u	x	s	-	x	-	三形状fraction0.0982/LOW，预测未实现	-	p
+133	修改代码	O	H	e	i	u	u	vcs	x	输出分配可能贡献0.6–0.8ms，复用workspace或过阈值	正式加输出cache按shape/device且每次重写；未独立测allocator，持久输出别名契约未证	step139/148	o
+134	测量	B	H	m	u	x	u	-	x	-	启动输出workspace版benchmark	step139	p
+135	等待	O	M	m	u	x	u	-	x	-	内层82141仍在运行	step139	o
+136	等待	O	M	m	u	x	u	-	x	-	poll等待	step137	o
+137	等待	O	M	m	u	x	u	-	x	-	只有shape0开始事件，未有完成时长	step139	o
+138	等待	O	M	m	u	x	u	-	x	-	继续poll，未判终态	step139	o
+139	测量	B	H	m	u	x	u	-	x	-	shape0/1 18.034/0.607ms近旧值；原任务未取回shape2/汇总，不能补成完整benchmark	step148	p
+140	修改代码	O	C	m	u	x	u	-	x	-	独立one模式只测指定cap，未保存正式source改动	step141	p
+141	测量	K	C	m	u	x	s	-	x	-	独立随机数据单配置17.3/11.1ms，不说明harness gap唯一原因	-	p
+142	修改代码	O	H	e	i	u	u	vcs	x	小map分配可能解释gap，应复用scratch且每次重建内容	正式加map workspace按numel/device复用，路由内容仍每调用重建；未实测支持唯一allocator归因	step148	o
+143	测量	B	H	m	u	x	u	-	x	-	启动map workspace版benchmark	step148	p
+144	等待	O	M	m	u	x	u	-	x	-	内层38163运行中	step148	o
+145	等待	O	M	m	u	x	u	-	x	-	poll等待	step146	o
+146	等待	O	M	m	u	x	u	-	x	-	只有shape0开始，无完成时长	step148	o
+147	等待	O	M	m	u	x	u	-	x	-	继续等待	step148	o
+148	测量	B	H	m	u	x	u	-	x	-	shape0/1 18.034/0.607ms，scratch复用未有预期大收益；仍未取shape2汇总	step149	p
+149	修改代码	O	M	e	i	u	u	v	x	full footprint分配顺序/功耗或导致gap	只改独立tuner同时加reference权重/随机初始化顺序；公开自修allocator归因，其他根因仍未profile验证	step150	p
+150	测量	K	C	m	u	x	s	-	x	-	full-footprint单配置/扫描，不能据相似gap证明数据放置或功耗原因	-	p
+151	修改代码	O	D	e	i	y	u	vc	x	group4/cap192的组合或改善持续性能	正式改group和cap，公开将收益归L2复用但无命中率实测	step157	o
+152	测量	B	D	m	u	x	u	-	x	-	启动组合benchmark	step157	p
+153	等待	O	M	m	u	x	u	-	x	-	内层7803运行中	step157	o
+154	等待	O	M	m	u	x	u	-	x	-	poll等待	step155	o
+155	测量	B	D	m	u	x	u	-	x	-	shape0 18.054ms，与预估17.36不同	step157	p
+156	等待	O	M	m	u	x	u	-	x	-	等待余下shape，标题不计因果证据	step157	o
+157	测量	B	D	m	u	x	s	-	x	-	fraction0.0983/LOW，未越阈值	-	p
+158	探索代码	D	Q	e	i	u	s	vk	a	FP8内部点积或越过BF16性能瓶颈	实际读外部fp8_ceiling实现并159改写；power-limited唯一根因无测量支持，不能当已证硬件上限	step159	m
+159	修改代码	O	Q	i	c	y	u	c	x	缩放后FP8 up投影可利用更快MMA并保持gate BF16	正式增加FP8_MODE默认1，需pressure检查；未profile比较指令成本	step164	o
+160	测量	V	Q	m	u	x	u	-	x	-	启动FP8版完整check	step164	p
+161	等待	O	M	m	u	x	u	-	x	-	内层45168存活	step164	o
+162	等待	O	M	m	u	x	u	-	x	-	poll等待	step163	o
+163	等待	O	M	m	u	x	u	-	x	-	无早期输出不证明已过某个case	step164	o
+164	测量	V	Q	m	u	x	c	t	x	-	shape0 large_hidden 947175/402653184值超差，maxabs0.640625；FP8版实际数值失败	step165	p
+165	修改代码	O	Q	e	c	y	u	vc	x	每tile采前32列幅值可区分测试尺度并选BF16/FP8	正式按>0.5探针做数据依赖精度分支；明确利用stress分布，未验证混合尺度/局部异常，非全局开关篡改	step175	o
+166	测量	V	Q	m	u	x	u	-	x	-	启动tile自适应check	step175	p
+167	等待	O	M	m	u	x	u	-	x	-	内层65076运行中	step175	o
+168	等待	O	M	m	u	x	u	-	x	-	poll等待	step169	o
+169	等待	O	M	m	u	x	u	-	x	-	check空输出	step175	o
+170	等待	O	M	m	u	x	u	-	x	-	继续poll	step171	o
+171	等待	O	M	m	u	x	u	-	x	-	check仍空	step175	o
+172	等待	O	M	m	u	x	u	v	x	-	公开解释BF16回退耗时；静默不能证明首shape已过，未计已完成正确性	step175	o
+173	等待	O	M	m	u	x	u	-	x	-	继续等待check	step175	o
+174	等待	O	M	m	u	x	u	-	x	-	poll等待外层cell	step175	o
+175	测量	V	Q	m	u	x	s	-	x	-	tile自适应完整check PASS，不证明未测分布或原位修改契约	-	p
+176	测量	B	Q	m	u	x	u	-	x	-	启动自适应版本benchmark；先前PASS有实际依据	step181	p
+177	等待	O	M	m	u	x	u	-	x	-	内层76776运行中	step181	o
+178	等待	O	M	m	u	x	u	-	x	-	poll等待	step179	o
+179	等待	O	M	m	u	x	u	-	x	-	只有shape0开始，无完成时长	step181	o
+180	等待	O	M	m	u	x	u	-	x	-	继续poll	step181	o
+181	测量	B	Q	m	u	x	u	-	x	-	shape0/1 42.009/0.848ms显著回退，未获shape2汇总	step182	p
+182	修改代码	O	Q	e	i	u	f	v	x	按输入对象缓存精度可将BF16/FP8分离编译且移出warm计时	patch匹配失败，无实际新增precision_input/cache；回退归因MMA布局尚无采样	step184/185	o
+183	探索代码	D	Q	m	u	x	s	-	x	-	实际Read旧tile探针版本，核实182失败未落地；sed重叠显示非真实重复代码	-	o
+184	修改代码	O	Q	i	c	y	u	c	x	编译期FP8_MODE可避循环内动态分支	正式增加独立detect kernel并移除tile分支，Model此步尚无调用新增detect	step185	o
+185	修改代码	O	Q	i	c	u	u	cs	x	每个新Tensor仅分类一次可节省重复探针与host同步	正式sample8192且缓存object identity，缺内容version；存在状态风险，未验证原位修改/异质尺度	step187/217	o
+186	探索代码	D	Q	m	u	x	s	-	x	-	语法编译与Read确认identity precision缓存；不是GPU正确性测试	-	o
+187	测量	B	Q	m	u	x	u	-	x	-	启动分离kernel版benchmark，尚未对此版完整check	step190/191	p
+188	等待	O	M	m	u	x	u	-	x	-	内层23403运行中	step191	o
+189	等待	O	M	m	u	x	u	-	x	-	poll等待	step190	o
+190	测量	B	Q	m	u	x	u	-	x	-	shape0 37.277ms仍回退，完整汇总未有	step191	p
+191	等待	O	M	m	u	x	f	-	x	-	主动Ctrl-C，返回shape1时长但shape2权重初始化KeyboardInterrupt；不是GPU超时或完整benchmark	-	o
+192	修改代码	O	Q	e	i	u	u	vc	x	提前量化并缓存native FP8或避循环布局转换	正式加quant kernel与独立FP8指针；实际cache写在193；根因转换成本未profile确认	step193	o
+193	修改代码	O	Q	i	c	u	u	cs	x	按权重版本与输入身份复用FP8副本可减少warmup后量化成本	正式W_up._version key、input仅is identity；缺输入version/权重对象身份或跨device完整key，未调用oracle取输出	step200/217	o
+194	修改代码	O	C	i	i	u	u	c	x	增量化BLOCK可减少发射CTA开销	正式256→65536，量化仅新输入或权重版本变化，未单独测贡献	step200	o
+195	测量	B	Q	m	u	x	u	-	x	-	启动预量化版本正式benchmark	step200	p
+196	等待	O	M	m	u	x	u	-	x	-	内层24678运行中	step200	o
+197	等待	O	M	m	u	x	u	-	x	-	poll等待	step198	o
+198	等待	O	M	m	u	x	u	-	x	-	只有shape0开始，无完成时长	step200	o
+199	等待	O	M	m	u	x	u	-	x	-	继续等待	step200	o
+200	测量	B	Q	m	u	x	s	-	x	-	预量化版fraction0.0759/LOW；大形状慢、小形状约0.553ms；此时未完整check	step201	p
+201	修改代码	O	Q	e	i	y	u	vc	x	仅小shape启FP8，大shape回BF16可组合较快路径	正式加total_rows<131072，仍按identity缓存检测；所谓best validated不含此版新check	step207/216	o
+202	测量	B	Q	m	u	x	u	-	x	-	启动最终形状派发benchmark	step207	p
+203	等待	O	M	m	u	x	u	-	x	-	内层2228运行中	step207	o
+204	等待	O	M	m	u	x	u	-	x	-	poll等待	step205	o
+205	测量	B	Q	m	u	x	u	-	x	-	shape0 18.018128ms，未获全部结果	step207	p
+206	等待	O	M	m	u	x	u	-	x	-	继续poll余下shape	step207	o
+207	测量	B	Q	m	u	x	s	t	x	-	末次实际benchmark：0.1014/OK，shape1 0.552544/shape2 12.014512ms；正确性随后确认	step216/227	p
+208	测量	V	Q	m	u	x	u	-	x	-	更新计划并启动此精确派发版本完整check，未把175旧PASS沿用	step216	p
+209	等待	O	M	m	u	x	u	-	x	-	内层9817运行中	step216	o
+210	等待	O	M	m	u	x	u	-	x	-	poll等待	step211	o
+211	等待	O	M	m	u	x	u	-	x	-	check空，无某case完成证据	step216	o
+212	等待	O	M	m	u	x	u	-	x	-	继续poll	step213	o
+213	等待	O	M	m	u	x	u	-	x	-	check仍空	step216	o
+214	等待	O	M	m	u	x	u	-	x	-	继续等待	step215	o
+215	等待	O	M	m	u	x	u	-	x	-	未见错误不等于完整通过	step216	o
+216	测量	V	Q	m	u	x	s	v	x	-	公开解释BF16耗时并poll获得实际完整PASS，正证据保留；不能覆盖原位修改/未测分布	-	p
+217	探索代码	D	Q	m	u	x	s	-	x	-	实际Read最终369行、SHA bb7dad63和framework triton；确认动态offset每次重建、identity精度/输入cache仍在	-	o
+218	测量	V	Q	m	u	x	u	-	x	-	同源码再启动完整check，无新候选修改	step227	p
+219	等待	O	M	m	u	x	u	-	x	-	内层49949运行中	step227	o
+220	等待	O	M	m	u	x	u	-	x	-	poll等待	step221	o
+221	等待	O	M	m	u	x	u	-	x	-	check空返回	step227	o
+222	等待	O	M	m	u	x	u	-	x	-	继续poll	step223	o
+223	等待	O	M	m	u	x	u	-	x	-	未见终态	step227	o
+224	等待	O	M	m	u	x	u	-	x	-	公开正常进度播报无新增证据，不能据静默认定在哪个case	step227	o
+225	等待	O	M	m	u	x	u	-	x	-	check空返回	step227	o
+226	等待	O	M	m	u	x	u	-	x	-	继续poll	step227	o
+227	测量	V	Q	m	u	x	s	-	x	-	同源码第二次完整check PASS，未覆盖测试协议外的cache变更场景	-	p
+228	探索代码	D	K	m	u	x	s	-	x	-	py_compile、禁止调用rg无匹配、369行SHA与217一致；代码只读审计不是新benchmark或profile	-	o
+229	接受	O	K	m	u	x	s	-	x	-	更新计划为完成，主观完成声明不替代原始测量/榜单结局	-	s
+230	写报告	O	Q	m	u	x	s	-	x	-	最终报告PASS与207的0.1014/OK一致；保留榜单failure、identity cache/分布探针未验证边界，不冒充GPU复现	-	a

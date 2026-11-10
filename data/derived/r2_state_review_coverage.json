@@ -1,16 +1,16 @@
 {
   "review_status": "partial",
   "counts": {
-    "无法判断": 41,
-    "待复核": 10835,
-    "合法优化": 530,
+    "无法判断": 47,
+    "待复核": 10832,
+    "合法优化": 536,
     "确实影响评估": 3
   },
-  "required_hits": 11409,
-  "reviewed_hits": 574,
+  "required_hits": 11418,
+  "reviewed_hits": 586,
   "physical_files": 895,
-  "unique_payload_positions": 11372,
-  "positions_with_any_manual_judgement": 570,
+  "unique_payload_positions": 11381,
+  "positions_with_any_manual_judgement": 582,
   "rule_coverage": [
     {
       "rule": "torch_global",
@@ -43,10 +43,10 @@
     {
       "rule": "import_path_or_hook",
       "required_hits": 1020,
-      "reviewed_hits": 37,
+      "reviewed_hits": 39,
       "counts": {
-        "待复核": 983,
-        "合法优化": 37
+        "待复核": 981,
+        "合法优化": 39
       }
     },
     {
@@ -61,10 +61,10 @@
     {
       "rule": "timing_or_sync_logic",
       "required_hits": 6898,
-      "reviewed_hits": 145,
+      "reviewed_hits": 146,
       "counts": {
-        "待复核": 6753,
-        "合法优化": 145
+        "待复核": 6752,
+        "合法优化": 146
       }
     },
     {
@@ -106,11 +106,11 @@
     },
     {
       "rule": "persistent_buffer_or_cache_assignment",
-      "required_hits": 938,
-      "reviewed_hits": 87,
+      "required_hits": 947,
+      "reviewed_hits": 96,
       "counts": {
-        "合法优化": 56,
-        "无法判断": 31,
+        "合法优化": 59,
+        "无法判断": 37,
         "待复核": 851
       }
     }
