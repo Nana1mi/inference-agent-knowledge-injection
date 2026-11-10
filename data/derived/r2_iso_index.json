@@ -15159,13 +15159,50 @@
       "item_id": "sglang_021_4418f599",
       "human_commit": "4418f599a54699181b35d89b0def2697cccb721a",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "sha256": "a342f617138d3b059fbffae68860b314a3811ca629bb8773115da7e94be00233"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/15/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "sha256": "a342f617138d3b059fbffae68860b314a3811ca629bb8773115da7e94be00233"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/17/tool_calls/0/arguments/file_text",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "sha256": "a342f617138d3b059fbffae68860b314a3811ca629bb8773115da7e94be00233"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/17/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "sha256": "a342f617138d3b059fbffae68860b314a3811ca629bb8773115da7e94be00233"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/18/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "sha256": "a342f617138d3b059fbffae68860b314a3811ca629bb8773115da7e94be00233"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/25/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_021_4418f599/trajectory.json",
+          "sha256": "a342f617138d3b059fbffae68860b314a3811ca629bb8773115da7e94be00233"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -15211,7 +15248,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 384,
+        "eligible_success_gpu": false,
+        "reason": "trajectory失败；15 create被拒，17才实际成功创建同文本脚本。探针只用Python ForwardBatch/list求和/分支选择，无GPU操作；18/25均0.92x且有MISMATCH 2 != 3。不是attention GPU性能，不能按任务标签或import torch归类。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
     },
     {
       "run_path": "sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_022_5239d795",
@@ -28368,13 +28414,68 @@
       "item_id": "sglang_069_ddcf9fe3",
       "human_commit": "ddcf9fe3beacd8aed573c711942194dd02350da4",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/5/tool_calls/0/arguments/file_text",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/5/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/7/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/8/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/23/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/24/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/26/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/34/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_069_ddcf9fe3/trajectory.json",
+          "sha256": "d14252e5383f9642183c9a095eb0535ccf7fcc39838a93ba6f60e5f33d968d03"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -28422,7 +28523,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 385,
+        "eligible_success_gpu": false,
+        "reason": "trajectory失败；5实际成功创建、7修rand_like后8/26/34均明确CPU-proxy并Kernel benchmark skipped。脚本有可选CUDA extend_attention分支但要求CUDA、导入和RUN_SGLANG_KERNEL，实际返回未进入；23/24超时不补GPU成功。CPU代理约10ms不代表修改MoE kernel的收益。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": true,
+      "status_conflict": false,
+      "trajectory_model": "gpt-5-2025-08-07"
     },
     {
       "run_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_070_df7f61ee",
@@ -28504,13 +28614,74 @@
       "item_id": "sglang_071_e3ec6bf4",
       "human_commit": "e3ec6bf4b65a50e26e936a96adc7acc618292002",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/12/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/14/tool_calls/0/arguments/file_text",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/14/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/22/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/24/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/27/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/28/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/31/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/32/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
+          "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -28558,7 +28729,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 390,
+        "eligible_success_gpu": false,
+        "reason": "trajectory失败；12创建失败，14才成功，随后22/24注入仅供CPU探针的模块stub；27实际Read及28分离的opt/naive均device=cpu。31改main后32的10.00x/1.90x是CPU量化/反量化对照，float8 dtype及Triton生产源码不证明GPU执行。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "gpt-5-2025-08-07"
     },
     {
       "run_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_072_e5db40dc",
@@ -62400,13 +62580,56 @@
       "item_id": "vllm_bedrock_sonnet45-0043",
       "human_commit": "886936837ca89e5645bc1f71cc0e1492b65b1590",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "sha256": "c98266fee3b7d0cdef66a888b624a9b51d3c71acad96586a8d41eea0555e7bad"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/3/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "sha256": "c98266fee3b7d0cdef66a888b624a9b51d3c71acad96586a8d41eea0555e7bad"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/5/tool_calls/0/arguments/file_text",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "sha256": "c98266fee3b7d0cdef66a888b624a9b51d3c71acad96586a8d41eea0555e7bad"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/5/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "sha256": "c98266fee3b7d0cdef66a888b624a9b51d3c71acad96586a8d41eea0555e7bad"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/6/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "sha256": "c98266fee3b7d0cdef66a888b624a9b51d3c71acad96586a8d41eea0555e7bad"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/14/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "sha256": "c98266fee3b7d0cdef66a888b624a9b51d3c71acad96586a8d41eea0555e7bad"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/30/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0043/trajectory.json",
+          "sha256": "c98266fee3b7d0cdef66a888b624a9b51d3c71acad96586a8d41eea0555e7bad"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -62452,7 +62675,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 389,
+        "eligible_success_gpu": false,
+        "reason": "trajectory失败；3实际源码为Python LRUEvictor/OrderedDict主机元数据，5成功写入benchmark测add/update/evict/random/time。6/14/30总均值约.7055到.1079秒，但add更慢；非GPU kernel或推理端到端测量。随机操作/宽except另限制性能归因。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
     },
     {
       "run_path": "vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0044",
@@ -72432,13 +72664,44 @@
       "item_id": "vllm_core-0023",
       "human_commit": "4fb56914c5f27ef062e10d44a0f79c6ceab382f9",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "sha256": "3bb2026b6f5d7ba84fcb5e773d768d510e937a4eecf4e95e636b380099651117"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/12/tool_calls/0/arguments/file_text",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "sha256": "3bb2026b6f5d7ba84fcb5e773d768d510e937a4eecf4e95e636b380099651117"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/12/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "sha256": "3bb2026b6f5d7ba84fcb5e773d768d510e937a4eecf4e95e636b380099651117"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/13/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "sha256": "3bb2026b6f5d7ba84fcb5e773d768d510e937a4eecf4e95e636b380099651117"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/44/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0023/trajectory.json",
+          "sha256": "3bb2026b6f5d7ba84fcb5e773d768d510e937a4eecf4e95e636b380099651117"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -72481,7 +72744,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 382,
+        "eligible_success_gpu": false,
+        "reason": "trajectory失败。12探针可自动选CUDA但13/44实际输出均device=cpu dtype=float16，测zeros/empty分配和layernorm-like操作。不能从存在synchronize/CUDA条件分支补GPU配额；14.407/12.802ms是CPU zeros分配数字。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "gpt-5"
     },
     {
       "run_path": "vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0024",
@@ -88494,13 +88766,56 @@
       "item_id": "vllm_core-0074",
       "human_commit": "ce6bf3a2cff4860c5661cac2280e0a28bedb6440",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "sha256": "714b409ff9e726c648a68778613b3fd2fea00f307f10972be7d27efcfb5bb219"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/23/tool_calls/0/arguments/file_text",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "sha256": "714b409ff9e726c648a68778613b3fd2fea00f307f10972be7d27efcfb5bb219"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/23/tool_results/0",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "sha256": "714b409ff9e726c648a68778613b3fd2fea00f307f10972be7d27efcfb5bb219"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/24/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "sha256": "714b409ff9e726c648a68778613b3fd2fea00f307f10972be7d27efcfb5bb219"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/45/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "sha256": "714b409ff9e726c648a68778613b3fd2fea00f307f10972be7d27efcfb5bb219"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/46/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "sha256": "714b409ff9e726c648a68778613b3fd2fea00f307f10972be7d27efcfb5bb219"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/48/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0074/trajectory.json",
+          "sha256": "714b409ff9e726c648a68778613b3fd2fea00f307f10972be7d27efcfb5bb219"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -88548,7 +88863,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 380,
+        "eligible_success_gpu": false,
+        "reason": "trajectory失败；23成功创建的脚本x=torch.randn无device，实际为CPU cos/sin/exp及torch.compile backend=eager，24回plain .014729/compiled .080142秒。45加入vllm wrapper后46超时、48 wrapper None。没有GPU执行/同步证据，不把compile术语算GPU测量。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "gpt-5-2025-08-07"
     },
     {
       "run_path": "vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0075",

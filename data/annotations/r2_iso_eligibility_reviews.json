@@ -2264,6 +2264,98 @@
         "trajectory.json#/agent_steps/10/tool_results/0",
         "trajectory.json#/agent_steps/11/tool_results/0/result"
       ]
+    },
+    {
+      "order": 380,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；23成功创建的脚本x=torch.randn无device，实际为CPU cos/sin/exp及torch.compile backend=eager，24回plain .014729/compiled .080142秒。45加入vllm wrapper后46超时、48 wrapper None。没有GPU执行/同步证据，不把compile术语算GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/23/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/23/tool_results/0",
+        "trajectory.json#/agent_steps/24/tool_results/0/result",
+        "trajectory.json#/agent_steps/45/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/46/tool_results/0/result",
+        "trajectory.json#/agent_steps/48/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 382,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败。12探针可自动选CUDA但13/44实际输出均device=cpu dtype=float16，测zeros/empty分配和layernorm-like操作。不能从存在synchronize/CUDA条件分支补GPU配额；14.407/12.802ms是CPU zeros分配数字。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/44/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 384,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；15 create被拒，17才实际成功创建同文本脚本。探针只用Python ForwardBatch/list求和/分支选择，无GPU操作；18/25均0.92x且有MISMATCH 2 != 3。不是attention GPU性能，不能按任务标签或import torch归类。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/15/tool_results/0",
+        "trajectory.json#/agent_steps/17/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/17/tool_results/0",
+        "trajectory.json#/agent_steps/18/tool_results/0/result",
+        "trajectory.json#/agent_steps/25/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 385,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；5实际成功创建、7修rand_like后8/26/34均明确CPU-proxy并Kernel benchmark skipped。脚本有可选CUDA extend_attention分支但要求CUDA、导入和RUN_SGLANG_KERNEL，实际返回未进入；23/24超时不补GPU成功。CPU代理约10ms不代表修改MoE kernel的收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/7/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/8/tool_results/0/result",
+        "trajectory.json#/agent_steps/23/tool_results/0/result",
+        "trajectory.json#/agent_steps/24/tool_results/0/result",
+        "trajectory.json#/agent_steps/26/tool_results/0/result",
+        "trajectory.json#/agent_steps/34/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 389,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；3实际源码为Python LRUEvictor/OrderedDict主机元数据，5成功写入benchmark测add/update/evict/random/time。6/14/30总均值约.7055到.1079秒，但add更慢；非GPU kernel或推理端到端测量。随机操作/宽except另限制性能归因。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_results/0/result",
+        "trajectory.json#/agent_steps/5/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/6/tool_results/0/result",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/30/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 390,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；12创建失败，14才成功，随后22/24注入仅供CPU探针的模块stub；27实际Read及28分离的opt/naive均device=cpu。31改main后32的10.00x/1.90x是CPU量化/反量化对照，float8 dtype及Triton生产源码不证明GPU执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/14/tool_results/0",
+        "trajectory.json#/agent_steps/22/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/24/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/27/tool_results/0/result",
+        "trajectory.json#/agent_steps/28/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/31/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/32/tool_results/0/result"
+      ]
     }
   ]
 }

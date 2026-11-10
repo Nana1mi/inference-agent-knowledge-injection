@@ -3,6 +3,21 @@
 ## 第二轮启动（2026-11-11）
 
 
+### 最新本地进度：K09至355步、graph错误返回与计时反证
+
+- [实验] 上轮K09至255步、178份ISO及830处状态判断已保存本地提交`adc7807`，属于有效进展。本轮继续原R1–R6目标；新增仍只作本地提交，没有执行下载代码、本机GPU或sudo。下述GPU命令和数字都是原始导出中agent行为的静态复核。
+- [实验] K09新增step256–355共100条首标，累计3139/3345步、13个完整会话；余206步尚未首标。专项审计增至30项发现、297个支撑步骤，含原始SHA、原始行和输入哈希，见[审计](../data/extractions/r2_k09_probe_audit.json)。全量首标、盲复标、ISO抽样及最终分析尚未冻结。
+- [实验] 256–269原语micro与静态SASS不当硬件profile。264宽slot W2非单调，布局/跨lane阶段/独立序列数同时改，不能直接证ILP饥饿；268幂等消除只是解释。270每shape3000次unsynced launches使CPU issue含队列背压风险，271先将7.1us归纯CPU，273自己纠正；实际每批200而非文字64，回到约1.23–1.31us，不补证1024硬队列容量。
+- [实验] 274 graph .592us没有查API返回且随后invalid argument，不能当成功replay收益。276正式建8graph却Destroy(g)后保留node供更新，278正式check失败。279显式tiny初次输出7正确，更新参数报错后仍7非11；与销毁后node失效解释一致，未做保留graph的反事实修复。其graph约1.14us/direct约1.25us只是诊断；281实际回滚driver。指针相同仍每次launch，不等于复用oracle。
+- [实验] 285 rebuild原/计数/manual约1012/347/343cycles，286承认loop形状和局部swap位置同时改。288/289正式两改一起PASS，292固定geometry同进程对照s0 13.184→10.656us；方括号min/max不是CI。293五次正式均值约.0852/std.0007；295/296再共同guard化流式两loop，297 PASS而分数有漂移，298 s0反而小退，不用较散一列认定污染。299瞬时90%利用率、300归0%都不证明全程独占。
+- [实验] 新NCU序列310–319有权限、相对路径、wrapper环境和uv失败，320才取得真实9.15us，326再回前三shape指标；尾encoding不抹去已经回传的指标。326 TUNE0默认配置的s2 long_scoreboard19.60%高于barrier16.02%，327称每shape barrier最高有反例，且整kernel stall不能单独定位tree尾barrier。调参关闭的profile不能直接等同调参后正式配置。
+- [实验] 328删tree尾barrier与下半warp死store、329限warp0 fence、332软件pipeline三处组合后333 PASS。335名为old3的对照只撤tree/fence仍留pipeline，不能给pipeline单独收益。336 s1 7.520/8.384us支持当前几何tree/store组合，但未拆barrier和store。错误删项探针相减再相减不证337所称纯同步1.4us；334 phase2回传anchor失败、335归因源码修改竞态但未定位具体读取时序，338也识别同run锁重入可使自己的计时并发。
+- [实验] 340正式event内确有no_grad/star，342 ab缺no_grad；345约1.9us全归no_grad先验缺证。349初probe编译失败，352修构建后353实际s4 noflush4.160/z1286.080us，bare6.208/star5.984/ng-bare6.080，支持flush影响而调用方式差小，354主动修正。NOP在同表s0为3.424us、其他约2.2us，不能当全shape统一可加floor，亦不证明Python从不进入事件窗或输入全量cold。正式三分数.0856/.0901/.0894及344 .0915都不作单因素因果证明。
+- [实验] R5新增153条逐处判断：145合法、8无法判断，覆盖K09本段所有新命中；累计983/11439处：912合法、68无法判断、3确实影响评估，余10456。8个unknown为正式Plan旧/新串的stream与输出池/tuple接口契约；图错误属候选bug不自动等于评估篡改。nprof传现有HELD或默认0并保留锁/日志路径，不与此前硬设HELD1混同；锁重入并发风险另记。3条确认仍为同一FP8全局开关案例，不扩充为3个独立案例。
+- [实验] ISO追加380/382/384/385/389/390共6份，累计184份资格复核，可靠成功GPU仍1份、selected为空。380默认CPU且wrapper None；382回显CPU；384纯Python分支、0.92x并不一致；385实际CUDA分支跳过；389主机LRUEvictor；390明确CPU量化加导入stub。已保存成功创建/失败/Read/真实输出精确指针，不按CUDA源码、float8或任务标签补GPU配额，详见[ISO状态](round2/r2_iso_evidence_status.md)。
+- [推断] 下一步从K09 step356继续，复核剩余ISO及R5；全量首标后再按预注册抽20%盲复标并计算一致率/κ，继而完成R4/R5报告和R6一页简报。本次结构校验只验证当前声明范围，整体仍in_progress。
+
+
 ### 最新本地进度：K09至255步、测量下限与时钟状态
 
 - 上轮K09前155步、172处状态命中已保存本地提交`ed43606`，属于有效进展。本轮继续原R1–R6目标，新增工作仍只作本地提交；未执行下载代码、本机GPU或sudo。所有GPU命令/数字均为导出记录中agent行为的静态复核。
