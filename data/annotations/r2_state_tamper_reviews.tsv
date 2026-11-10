@@ -541,3 +541,21 @@ d699828864a9a54a762c	合法优化	K01 step134独立metadata查询加问题目录
 9ec91159bc0aae1b92c5	合法优化	K01 step146相邻批次A/B脚本前置当前目录导入两份自有实现，未拦截正式reference导入；不是逐trial交错另记。
 9ee0b7b04be83a2d76b5	合法优化	K01 step146批次A/B固定seed0使方案输入一致，局部固定顺序试验不等于改变正式随机输入。
 88c92ee29df47eeb6f5c	合法优化	K01 step149临时PTX导出脚本前置问题目录，只导入自有candidate取得编译资源证据，未修改评估导入hook。
+728448cba2cc960afec9	合法优化	K08 step21新增get_inputs中的manual_seed0，仅输入生成helper，forward不调用；未见reference随机源或oracle更改，不把源码存在即记运行时影响。
+c9e33503c6610a54bf25	无法判断	K08 step21正式持久workspace按device分配且每次重算，未缓存oracle；但return out复用同一buffer，缺输出保留/别名契约与隔离测试，不能仅据check PASS判跨调用语义安全。
+3cb9353ba6b18b86e83f	合法优化	K08 step29独立do_bench扫描先prepare真实中间量再同步；仅子进程计时/seed，未改正式harness或reference。
+e29b9c4e62ac2ae3f35d	合法优化	K08 step38 BF16状态扫描实际先prepare并synchronize，不修改正式计时；数值仍为普通microbench而非profile。
+67fd6d0ba2d1acf04389	合法优化	K08 step42诊断发射后同步并读取device_caches结构；empty输入不用于正确性结论，不改oracle/基准计时逻辑。
+c85a9830dad29f1a548d	合法优化	K08 step48独立stage扫描含同步，未prepare中间量限制测量代表性；未写正式timer或影响reference，不把无效输入自动判篡改。
+730fb78230a678c2214d	合法优化	K08 step53独立prepare warps/stages计时，输入随机且同步，未修改正式harness。
+74b19f4d0fa77f5e6e86	合法优化	K08 step63独立FP32/BF16状态微基准，工作区未prepare不能证明正确性或真实输入延迟；仅诊断计时，没有oracle写入。
+7bc7f88cefc5d8f933ea	合法优化	K08 step66独立FP32 stage扫描使用同步及do_bench；未prepare边界保留，不改正式timer。
+72d6fd43b2a6f36ee3cb	合法优化	K08 step68独立maxnreg上限扫描，完成同步后do_bench；配置作用当前自写kernel，未改reference或全局后端。
+0d5b4d83f83a29939749	合法优化	K08 step95针对C32独立prepare计时，每候选显式同步；不改正式评估。
+b828e65afe95cd979ae6	合法优化	K08 step98独立BV/warps/stages计时，未prepare中间量限制外推；没有更改正式harness/同步函数。
+e81e7366b01bef1d968a	合法优化	K08 step100 B2/C16独立配置复扫，未prepare工作区，不当有效数值对照；未影响oracle。
+05014818c7d5aa0bf39d	合法优化	K08 step105窄BV扫描使用同步和do_bench；只是独立诊断，未prepare边界不等价篡改正式评估。
+1845e0f81dd77eafed12	无法判断	K08 step143比较全部五输入指针，重复时graph每次重算两kernel，变化时eager；不是q-only或oracle结果复用。但缺shape/stride/device/lifetime guard、持久输出alias契约，正式check未证覆盖，保留unknown。
+6910719d0f90a6e18b59	合法优化	K08 step157重新计时prepare warps，随机输入且同步；未改变正式计时实现。
+26621ffff54210c525f3	合法优化	K08 step159持久段复扫依旧未prepare输入工作区，记录代表性限制；独立同步/事件微基准不改oracle或harness。
+cf0823c51478de094fdf	合法优化	K08 step170独立num_ctas扫描，1有时长而多CTA编译失败；捕获异常不写reference或伪造正式benchmark结果。

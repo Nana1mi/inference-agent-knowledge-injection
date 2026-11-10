@@ -1,0 +1,181 @@
+# step phase tool layer origin source evidence outcome flags use hypothesis rationale followup component
+1	探索代码	D	K	m	u	x	s	k	a	-	读reference数学、接口及检查/benchmark；正式21按递推和WY适配，不把流程播报计推理	step21	m
+2	探索代码	D	K	m	u	x	s	k	n	-	实际读SOTA adapter与任务配置；后续访问FLA算法源码单列，不等于采用此wrapper；回显torch2.11/Triton3.6/SM120	全180步核对	m
+3	探索代码	O	K	e	c	y	s	v	x	固定64token/128状态可用持久递推或tensor-core分段	公开比较两种结构，定位本地FLA包缺失；仅find/spec未读算法知识	step21	m
+4	环境准备	O	O	m	u	x	f	-	x	-	git命令不存在，clone未执行；不记知识读取	-	o
+5	探索代码	J	K	m	u	x	s	k	n	-	web返回FLA发布说明/论文等片段，未获目标kernel正文；不把搜索命中当算法采用	step8另读正文	m
+6	环境准备	O	O	m	u	x	f	-	x	-	curl不存在，归档下载未完成；未读源码	-	o
+7	环境准备	O	O	m	u	x	s	-	x	-	Python下载/解包FLA后仅列文件，正文读取在8/10/11	-	o
+8	探索代码	D	K	m	u	x	s	k	a	-	实际读FLA chunk/forward/wy源码，原返回有截断；21适配WY与分段状态，不声称逐字搬运全部源码	step21	m
+9	探索代码	D	K	m	u	x	s	-	x	-	rg列函数和路径是导航；不单据函数名记新增知识内容读取	-	m
+10	探索代码	D	K	m	u	x	s	k	a	-	读FLA intra、64行分块状态及输出/cumsum；21两半状态与WY作结构适配，原返回截断边界保留	step21	m
+11	探索代码	D	K	m	u	x	s	k	a	-	读intra/token-parallel及状态更新正文；21选持久双64行状态，未调用禁止FLA入口	step21	m
+12	探索代码	D	M	m	u	x	s	-	x	-	读正式计时/正确性/stress源码；L2刷新和每次事件同步不等于实际profile	-	p
+13	探索代码	D	M	m	u	x	f	-	x	-	rg定位硬件目录但hardware.py不存在，未获得该文件内容	-	p
+14	探索代码	D	M	m	u	x	s	-	x	-	实际评分库bf16=500TF及带宽1800；与K07的200TF区分，非硬件实测	-	p
+15	环境准备	O	F	e	r	y	f	v	x	持久递推融合输出可免状态和修正值落显存	公开给出结构机制；FlashKDA main分支下载404，不能记成功知识访问	step17/21	m
+16	探索代码	J	K	m	u	x	s	-	x	-	搜索FlashKDA仓库与master分支线索，返回元数据不当目标实现读取	step17	m
+17	探索代码	D	K	m	u	x	s	k	a	-	master归档成功并读取README；16token/two-stage设计在21实现，性能表不当本机结果	step21	m
+18	探索代码	D	F	m	u	x	s	k	a	-	实际读FlashKDA K1/K2/launch及deep-dive；21改写为Triton准备加持久递推，非现成库调用	step21	m
+19	探索代码	D	O	m	u	x	s	k	n	-	读FlashKDA setup与CUTLASS依赖；全会话未构建此扩展，不把读取构建配置记采用	全180步	m
+20	探索代码	D	F	m	u	x	s	k	a	-	读K2双k/q状态投影、INV修正和更新正文；21可见同结构适配，未复制CuTe实现	step21	m
+21	修改代码	O	F	i	r	y	u	cs	x	16token WY加持久递推可减少状态中间存取	正式首次写solution；参考与FLA/FlashKDA适配，设备键workspace和持久输出存在，尚无check；不把代码注释计公开推理	step26	o
+22	测量	V	K	m	u	x	u	-	x	-	启动正式check，只有文件和后台session，尚无通过证据	step23	p
+23	测量	V	K	m	u	x	f	-	x	-	编译拒绝非constexpr全局LOG2E；建议环境变量是错误文本，agent未设置	step24	p
+24	修改代码	O	K	i	c	y	u	c	x	显式tl.constexpr可修复编译全局常量约束	正式改常量类型，不设置TRITON绕过开关	step26	o
+25	测量	V	K	m	u	x	u	-	x	-	重新启动check，后台未完	step26	p
+26	测量	V	K	m	u	x	s	t	x	-	初版正式check返回PASS；不等价任意输入范围数学证明	-	p
+27	测量	B	K	e	i	u	u	v	x	低并行持久状态pass可能主导，应调值列宽和launch	公开提出瓶颈先验；当前只有check未做profile，启动benchmark尚未返回	step28	p
+28	测量	B	K	m	u	x	s	-	x	-	正式benchmark初版fraction0.0239/LOW；测量完成不等于达阈值	-	p
+29	测量	K	C	i	i	u	u	s	x	扫BV和warps可优化持久段	独立do_bench先准备真实输入中间量，子进程manual_seed；普通计时非profile	step30	p
+30	测量	K	C	m	u	x	s	-	x	-	各形状prep/持久段配置数值返回，BV16/4warps较快；不作NCU证据	step31	p
+31	修改代码	O	C	i	i	y	u	c	x	选择实测较快BV16	正式32降16，依据普通计时；不是profile数据类别	step33	o
+32	测量	B	C	m	u	x	u	-	x	-	启动正式benchmark未完	step33	p
+33	测量	B	C	m	u	x	s	-	x	-	fraction0.0288/LOW；与初版比有改善但未达阈值	-	p
+34	修改代码	O	Q	e	i	u	u	vc	x	BF16驻留状态可降低寄存器压力并拓宽切片	公开称profiling但仅普通计时；正式改状态精度，无寄存器压力采样支持该机制	step37/39	o
+35	测量	V	Q	m	u	x	u	-	x	-	启动BF16状态check	step37	p
+36	等待	O	M	m	u	x	f	-	x	-	工具参数JavaScript语法错误，未成功poll原任务	step37	o
+37	测量	V	Q	m	u	x	s	-	x	-	修复poll后实际check PASS	-	p
+38	测量	K	C	i	i	u	u	-	x	BF16状态下扫BV/warps可验证配置收益	独立microbench先prepare真实随机输入中间量再同步扫描；普通计时非profile	step39	p
+39	测量	K	C	m	u	x	s	-	x	-	返回BF16配置计时；与30相比未见预期明显加速或更宽切片获益，不能证明寄存器机制	-	p
+40	探索代码	O	M	m	u	x	u	-	x	-	发射诊断后尝试读取JIT.cache，等待返回；不是正式候选编辑	step41	p
+41	探索代码	O	M	m	u	x	f	-	x	-	JITFunction无cache属性，元数据读取失败	step42	p
+42	探索代码	O	M	m	u	x	u	-	x	-	改用device_caches查看编译对象，后台未完	step43	p
+43	探索代码	O	M	m	u	x	s	-	x	-	返回cache结构但循环遍历得到key类型，不当性能profile	-	p
+44	探索代码	O	M	m	u	x	u	-	x	-	针对四组BV/warps读取kernel metadata及asm键；非采样	step45	p
+45	探索代码	O	M	m	u	x	s	-	x	-	返回共享内存14592/15872/18432/23552等编译元数据，不报告实际寄存器占用	-	p
+46	探索代码	O	M	m	u	x	u	-	x	-	读取PTX的local指令计数，编译诊断非GPU采样	step47	p
+47	探索代码	O	M	m	u	x	s	-	x	-	PTX ld.local/st.local均0不能独立证明ptxas机器码无spill或高占用	-	p
+48	测量	K	C	i	i	u	u	-	x	流水stages可能改善持久段	扫1–5 stage普通计时；输入中间量未prepare，结果边界保留	step49	p
+49	测量	K	C	m	u	x	s	-	x	-	stages3比2快，继续增加无清楚收益；非profile	step50	p
+50	修改代码	O	C	i	i	y	u	c	x	采用独测较快stage3	正式持久段stage2→3，待整体benchmark	step52	o
+51	测量	B	C	m	u	x	u	-	x	-	启动正式benchmark	step52	p
+52	测量	B	C	m	u	x	s	-	x	-	fraction0.0334/LOW，保存正式结果	-	p
+53	测量	K	C	i	i	u	u	-	x	准备段warps/stages可单独调优	扫prepare配置，使用随机输入；不产生正式候选编辑	step55	p
+54	等待	O	M	m	u	x	u	-	x	-	poll无输出且未见终态，保持等待	step55	o
+55	测量	K	C	m	u	x	s	-	x	-	返回prepare配置表，2warps比4/8快，stages影响小	step56	p
+56	修改代码	O	C	i	i	y	u	c	x	准备段选2warps	正式改prepare启动参数，尚未单独整体复测	step61	o
+57	修改代码	O	F	i	c	y	u	c	x	将beta预乘进WY可减少持久段load和乘法	正式改INV列缩放并移除beta访问；与56组合后测，不能分摊独立收益	step59/61	o
+58	测量	V	F	m	u	x	u	-	x	-	启动融合beta版本check	step59	p
+59	测量	V	F	m	u	x	s	-	x	-	正式check PASS	-	p
+60	测量	B	F	m	u	x	u	-	x	-	启动正式benchmark	step61	p
+61	测量	B	F	m	u	x	s	-	x	-	fraction0.0394/LOW；含warps和beta两改，不独立归因	-	p
+62	修改代码	O	Q	i	i	u	u	c	x	保留FP32/BF16状态开关以比较	正式增加USE_FP32分支，默认仍False；尚非采用FP32	step64	o
+63	测量	K	Q	i	i	u	u	-	x	FP32状态或比BF16更快	独立比较精度及BV，未prepare工作区，不声称有效数值对照	step64	p
+64	测量	K	Q	m	u	x	s	-	x	-	True/BV16在表中更快，作为配置线索不量化真实输入收益	step65	p
+65	修改代码	O	Q	i	i	y	u	c	x	采用独测较快FP32状态	正式默认USE_FP32=True；后72做check	step72	o
+66	测量	K	C	i	i	u	u	-	x	FP32状态下stage3附近可能最佳	独立扫2–6stage，工作区未准备；非profile	step67	p
+67	测量	K	C	m	u	x	s	-	x	-	stage3较快，4–6未改善	-	p
+68	测量	K	C	i	i	u	u	-	x	限制maxnreg或改善并发	独立寄存器上限扫描，未修改正式maxnreg	step69	p
+69	测量	K	C	m	u	x	s	-	x	-	默认较快，64显著变慢；不能仅凭时长诊断spill	-	p
+70	修改代码	O	K	e	c	y	u	vc	x	私有tile/head连续布局可减少分段访问	公开称profile但无采样；源码确有H步长，正式重排workspace；与65精度变化组合待整体结果	step72/74	o
+71	测量	V	K	m	u	x	u	-	x	-	启动重排后check	step72	p
+72	测量	V	K	m	u	x	s	-	x	-	正式check PASS	-	p
+73	测量	B	K	m	u	x	u	-	x	-	启动正式benchmark	step74	p
+74	测量	B	K	m	u	x	s	-	x	-	fraction0.0407/LOW，相比61同时更改精度/布局不拆归因	-	p
+75	探索代码	D	K	m	u	x	s	-	x	-	读取当前solution全文，不计读取自己候选为外部知识	-	o
+76	修改代码	O	C	i	i	u	u	c	x	参数化内部分块C可探索更大tile	正式去掉写死16并改循环/工作区索引，未独立验证	step79	o
+77	修改代码	O	C	i	i	u	u	cs	x	C32可能减少持久递推轮数	正式Model和workspace改self.inner32，并传C；分配cache结构跟随	step79/81	o
+78	测量	V	C	m	u	x	u	-	x	-	启动C32正式check	step79	p
+79	测量	V	C	m	u	x	s	-	x	-	C32 check PASS	-	p
+80	测量	B	C	m	u	x	u	-	x	-	启动C32 benchmark	step81	p
+81	测量	B	C	m	u	x	s	-	x	-	fraction0.0421/LOW，保留各形状差异	-	p
+82	修改代码	O	C	i	i	u	u	c	x	按B在16/64之间选择tile	正式自适应C，尚未验证64资源容量	step84	o
+83	测量	V	C	m	u	x	u	-	x	-	启动C64分支check	step84	p
+84	测量	V	C	m	u	x	f	t	x	-	共享请求137216超101376，编译资源失败而非数值不等	step85	p
+85	修改代码	O	C	i	c	y	u	c	x	降低C64流水可缓解共享内存容量	正式C64 stages2，其余3；错误给实际容量证据，不记profile	step87	o
+86	测量	V	C	m	u	x	u	-	x	-	启动降stages后check	step87	p
+87	测量	V	C	m	u	x	s	-	x	-	正式check PASS	-	p
+88	测量	B	C	m	u	x	u	-	x	-	启动16/64自适应benchmark	step89	p
+89	测量	B	C	m	u	x	s	-	x	-	fraction0.0314/LOW，性能回退，不因PASS保留为有效优化	step90	p
+90	回滚	O	C	i	i	y	u	ct	x	64tile整体慢应回32	正式回16/32及stage3	-	o
+91	修改代码	O	C	i	i	u	u	c	x	B2的更小C8或增加并行	正式试8/32；未验证tensor-core维度约束	step93	o
+92	测量	V	C	m	u	x	u	-	x	-	启动C8 check	step93	p
+93	测量	V	C	m	u	x	f	-	x	-	BF16 dot K需至少16，C8编译失败；非数值正确性失败	step94	p
+94	回滚	O	C	i	c	y	u	c	x	C8违反dot约束应回16	正式恢复16/32	-	o
+95	测量	K	C	i	i	u	u	-	x	C32的prepare需重新调warps	扫准备段warps/stages，未改正式配置	step97	p
+96	等待	O	M	m	u	x	u	-	x	-	poll无输出，未完成证据	step97	o
+97	测量	K	C	m	u	x	s	-	x	-	C32返回4warps较快，stages影响小	step102	p
+98	测量	K	C	i	i	u	u	-	x	C32持久段需更窄BV和stage扫描	普通计时使用未prepare中间量，保留代表性限制	step99	p
+99	测量	K	C	m	u	x	s	-	x	-	返回BV8/4warps等表；与C16分开比较	step102	p
+100	测量	K	C	i	i	u	u	-	x	C16下BV16附近或仍最佳	B2单形状配置复扫，工作区未prepare	step101	p
+101	测量	K	C	m	u	x	s	-	x	-	C16 BV16/4warps较快，保存配置依据	step102	p
+102	修改代码	O	C	i	i	y	u	c	x	按C分别采用prepare warps和持久BV	正式prepare2/4及BV16/8；整体复测在104	step104	o
+103	测量	B	C	m	u	x	u	-	x	-	启动自适应配置benchmark	step104	p
+104	测量	B	C	m	u	x	s	-	x	-	fraction0.0447/LOW；正式结果与独测分开	-	p
+105	测量	K	C	i	i	u	u	-	x	更窄BV或改善薄形状并发	扫BV1–8/warps，未prepare工作区	step106	p
+106	测量	K	C	m	u	x	s	-	x	-	过窄BV显著慢，未按极端并发先验采用	-	p
+107	修改代码	O	Q	e	i	u	u	vc	x	FP8存储私有衰减视图可降低带宽而保留BF16点积	正式先将kd/qd/kr三个数组改FP8；公开称Q/K但实际还包括restored key，待check	step109	o
+108	测量	V	Q	m	u	x	u	-	x	-	启动FP8存储check	step109	p
+109	测量	V	Q	m	u	x	f	-	x	-	block指针FP8与BF16 store值不匹配，编译失败	step110	p
+110	修改代码	O	Q	i	c	y	u	c	x	显式cast可修复FP8 store类型	正式增加tl.float8e4nv store	step112	o
+111	测量	V	Q	m	u	x	u	-	x	-	启动显式cast后check	step112	p
+112	测量	V	Q	m	u	x	s	-	x	-	正式check PASS，未证明性能受益	-	p
+113	测量	B	Q	m	u	x	u	-	x	-	启动FP8存储benchmark	step114	p
+114	测量	B	Q	m	u	x	s	-	x	-	fraction0.0351/LOW，三视图FP8存储回退	step115	p
+115	回滚	O	Q	i	i	y	u	c	x	FP8存储带转换整体慢应回退	正式恢复三视图BF16；后116再试不同FP8计算路径	-	o
+116	修改代码	O	Q	i	i	u	u	c	x	FP8存储和FP8点积配合或避免转换代价	正式再改五类中间量及投影/修正/更新FP8 dot，非仅重复存储试验	step118	o
+117	测量	V	Q	m	u	x	u	-	x	-	启动更广FP8版本check	step118	p
+118	测量	V	Q	m	u	x	f	-	x	-	INV dot的K需至少32而C16，编译失败；全变体都PASS主张不成立	step119	p
+119	修改代码	O	Q	i	c	y	u	c	x	保留INV和修正值BF16可避C16 FP8维度约束	正式回退局部精度但保留restored-key FP8更新，仍待验证	step121	o
+120	测量	V	Q	m	u	x	u	-	x	-	启动局部回退check	step121	p
+121	测量	V	Q	m	u	x	f	-	x	-	更新dot同样因C16不满足K32失败，非数值误差	step122	p
+122	修改代码	O	Q	i	c	y	u	c	x	restored-key更新回BF16可避K32约束	正式改store和dot但首次匹配误改workspace kd类型，123/124纠正	step123/124	o
+123	探索代码	D	Q	m	u	x	s	-	x	-	实际Read显示kd BF16/qd FP8/kr FP8，与刚改store不一致	step124	o
+124	修改代码	O	Q	i	c	y	u	c	x	纠正workspace顺序使kd/qd FP8而kr BF16	正式修复数组dtype；不是新的性能收益证据	step126	o
+125	测量	V	Q	m	u	x	u	-	x	-	启动纠正后check	step126	p
+126	测量	V	Q	m	u	x	s	-	x	-	正式check PASS，FP8仅kd/qd与投影保留	-	p
+127	测量	B	Q	m	u	x	u	-	x	-	启动混合精度benchmark	step128	p
+128	测量	B	Q	m	u	x	s	-	x	-	fraction0.0459/LOW，比104小幅改善；不单独归因带宽或FP8 compute	-	p
+129	修改代码	O	Q	i	i	u	u	c	x	只在C32启用restored-key FP8更新或绕过K32限制	正式新增KR_FP8条件分支与dtype，C16保持BF16	step133/135	o
+130	探索代码	D	Q	m	u	x	s	-	x	-	Read两段sed区间重叠造成重复行显示；不是文件真实重复输出buffer	step131	o
+131	修改代码	O	Q	m	u	x	f	-	x	-	试删所疑重复buffer的patch匹配失败，未修改正式候选	-	o
+132	测量	V	Q	m	u	x	u	-	x	-	启动KR_FP8条件版本check	step133	p
+133	测量	V	Q	m	u	x	s	-	x	-	正式check PASS	-	p
+134	测量	B	Q	m	u	x	u	-	x	-	启动条件版本benchmark	step135	p
+135	测量	B	Q	m	u	x	s	-	x	-	fraction0.0459/LOW，四形状有不同波动，不当净改善	-	p
+136	修改代码	O	Q	i	i	u	u	c	x	C32可进一步启用INV/score FP8计算	正式MAT_FP8分支，C16不启用	step138/140	o
+137	测量	V	Q	m	u	x	u	-	x	-	启动MAT_FP8 check	step138	p
+138	测量	V	Q	m	u	x	s	-	x	-	正式check PASS	-	p
+139	测量	B	Q	m	u	x	u	-	x	-	启动MAT_FP8 benchmark	step140	p
+140	测量	B	Q	m	u	x	s	-	x	-	fraction0.0455/LOW，未改善；保留性能回退	step141	p
+141	回滚	O	Q	i	i	y	u	c	x	KR/MAT FP8未带收益应恢复更高精度	正式两分支False与相应BF16workspace；kd/qd及state投影仍FP8	-	o
+142	探索代码	D	Q	m	u	x	s	-	x	-	读当前solution并扫禁止名称，无匹配；不把自读源码算知识访问	-	o
+143	修改代码	O	H	e	c	y	u	vcst	x	相同五输入指针的重复调用可图重放减少host launch	正式图捕获/重放，两kernel每次仍计算；未知metadata/lifetime/输出别名契约，不能据指针判同内容或直接判结果cache	step145/147	o
+144	测量	V	H	m	u	x	u	-	x	-	启动graph版本check	step145	p
+145	测量	V	H	m	u	x	s	-	x	-	正式check PASS不证明覆盖重复地址原位变更或输出保留	-	p
+146	测量	B	H	m	u	x	u	-	x	-	启动graph benchmark	step147	p
+147	测量	B	H	m	u	x	s	-	x	-	fraction0.0494/LOW；图重放有整体变化，未独立测host launch分项	-	p
+148	修改代码	O	Q	i	i	u	u	c	x	prepare的qk/kk点积FP8可能更快	正式把临时q_forward/k_forward/k_inverse dot操作数改FP8，非仅workspace压缩	step150/152	o
+149	测量	V	Q	m	u	x	u	-	x	-	启动prepare FP8 dot版本check	step150	p
+150	测量	V	Q	m	u	x	s	-	x	-	正式check PASS	-	p
+151	测量	B	Q	m	u	x	u	-	x	-	启动prepare FP8 dot benchmark	step152	p
+152	测量	B	Q	m	u	x	s	-	x	-	fraction0.0502/LOW；保存实际结果，不当普遍FP8收益	-	p
+153	修改代码	O	C	i	i	u	u	c	x	FP8 prepare下统一C32或改变最优tile	正式所有形状inner32，未先check直接benchmark	step155	o
+154	测量	B	C	m	u	x	u	-	x	-	启动统一C32 benchmark	step155	p
+155	测量	B	C	m	u	x	s	-	x	-	fraction0.0490/LOW，整体回退，不能只看某形状较快	step156	p
+156	回滚	O	C	i	i	y	u	c	x	恢复16/32自适应	正式撤销统一C32	-	o
+157	测量	K	C	i	i	u	u	-	x	新prepare FP8计算需复核warps	独立扫2/4/8；输入随机，非profile	step158	p
+158	测量	K	C	m	u	x	s	-	x	-	C16偏2warps/C32偏4，支持维持现配置	-	p
+159	测量	K	C	i	i	u	u	-	x	混合精度后持久段stage/BV或需调整	独立复扫，工作区仍未prepare，不当正确性验证	step161	p
+160	等待	O	M	m	u	x	u	-	x	-	poll暂空，无完成结论	step161	o
+161	测量	K	C	m	u	x	s	-	x	-	表中C32/BV8 stage4略快，C16 stage3；配置线索非硬件profile	step162	p
+162	修改代码	O	C	i	i	y	u	c	x	C32采用stage4而C16保留3	正式按inner选择stage，待167/169整体检查	step169	o
+163	修改代码	O	K	m	u	x	u	c	x	-	清理USE_FP32/KR/MAT分支，保留FP32state与BF16 INV/kr；未回退投影FP8	step167	o
+164	探索代码	D	K	m	u	x	s	-	x	-	读launch/graph部分并py_compile成功，只证语法不是GPU正确性	-	o
+165	探索代码	D	Q	m	u	x	s	-	x	-	实际Read确认kd/qd FP8、kr BF16、gate FP32、INV/score BF16及device-key workspace	-	o
+166	测量	V	Q	m	u	x	u	v	x	-	公开总结混合精度并启动最终check；曾有多个编译失败，不按每版皆通过描述	step167	p
+167	测量	V	Q	m	u	x	s	-	x	-	正式check PASS	-	p
+168	测量	B	Q	m	u	x	u	-	x	-	启动clean-run benchmark	step169	p
+169	测量	B	Q	m	u	x	s	-	x	-	fraction0.0507/LOW及0.069424/0.131120/0.159328/0.070752ms；后来回滚gate后未再benchmark	-	p
+170	测量	K	C	i	i	u	u	-	x	多CTA cluster或提升持久段并发	独立num_ctas1/2/4/8扫描，未改solution默认	step171	p
+171	测量	K	C	m	u	x	f	-	x	-	num_ctas1有时长，2/4/8实际PlanCTA编译失败；部分成功不抹去失败	-	p
+172	修改代码	O	Q	i	i	u	u	c	x	gate_total BF16存储或进一步减带宽	正式gate store与buffer FP32→BF16	step174/176	o
+173	测量	V	Q	m	u	x	u	-	x	-	启动gate BF16 check	step174	p
+174	测量	V	Q	m	u	x	s	-	x	-	正式check PASS	-	p
+175	测量	B	Q	m	u	x	u	-	x	-	启动gate BF16 benchmark	step176	p
+176	测量	B	Q	m	u	x	s	-	x	-	末次实际benchmark fraction0.0503/LOW；与169版本区分	step177	p
+177	回滚	O	Q	i	i	y	u	c	x	gate BF16无收益应恢复FP32	正式回滚gate精度；与169相同源码配置不等于新测得0.0507	-	o
+178	测量	V	K	m	u	x	u	-	x	-	启动最终check及禁止名扫描/framework输出；尚未返回	step179	p
+179	测量	V	K	m	u	x	s	-	x	-	最终实际PASS与triton；末版无新benchmark	-	p
+180	写报告	O	K	m	u	x	s	-	x	-	最终报告引用169的0.0507及四形状舍入值，不冒充177后新实测；保留榜单failure与LOW	-	a
