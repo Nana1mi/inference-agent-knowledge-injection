@@ -1,0 +1,169 @@
+# Explicit first-pass per-step review. Same codes as r2_compile_reviews.py.
+1	E	O	F	m	u	x	u	-	x	-	仅列问题目录；公开文字是探索动作播报，无可见机制理由	-	m
+2	E	D	F	m	u	x	u	k	a	-	实际读取reference接口和双GEMM/SwiGLU数学定义；step40的Triton候选按该接口改写计算	step40:L122–124	o
+3	E	D	M	m	u	x	u	-	x	-	读取check及验收范围，无实际检查执行；本步thinking只列待读文件	-	m
+4	E	D	M	m	u	x	u	-	x	-	读取benchmark计分与计时调用，不把源码读取计为profile	-	m
+5	E	D	F	m	u	x	u	k	n	-	读取sota.py入口；当前后续可见部分尚未移用，待完整会话复核用途	待完整会话SOTA调用/改写复核	o
+6	E	D	F	m	u	x	u	-	x	-	读取shape配置，不把题目参数本身计为外部参考知识	-	m
+7	E	D	M	m	u	x	u	-	x	-	读取problem.yaml计分/精度与依赖约定，没有产生实测数据	-	m
+8	E	O	F	e	c	u	u	v	x	路由由参考函数平衡分配，但正确实现应兼容变长expert区间	根据已读reference与shape作代码分析并列目录找harness，尚未验证自写实现的通用路由正确性	-	m
+9	N	O	O	m	u	x	f	-	x	-	查GPU与Python环境；nvidia-smi可读而python缺torch，设备识别不是kernel性能数据	-	k
+10	N	O	O	m	u	x	u	-	x	-	寻找uv/venv并读取项目配置，只为解决解释器缺包	-	k
+11	E	D	M	m	u	x	u	-	x	-	读取硬件文件和L2-flush计时器；该快照BF16常量与K02不同，不擅自归一分数	-	m
+12	N	O	F	e	c	w	f	v	x	大shape0可能是显存带宽受限且peak_fraction上限约0.48	按源码算实际6.597e12FLOPs却只用3.43ms带宽下界；500TFLOPS下计算下界13.19ms更大，所述上限遗漏计算约束。实际工具仍检查解释器且缺torch	-	m
+13	N	O	O	m	u	x	u	-	x	-	列出环境和搜索venv，不读取优化参考实现或运行GPU计时	-	k
+14	N	O	O	m	u	x	u	-	x	-	使用主venv成功识别torch2.11/cu130与设备；本步没有实质推理块	-	k
+15	E	D	M	e	c	u	u	v	x	需确认stress缩放与BF16容差以约束后续精度选择	根据已见设备占用与验证协议选择GPU0，实际读numeric_stress/correctness，未改变设备全局设置	-	m
+16	N	O	O	m	u	x	u	-	x	-	查询nvcc、ncu和CUTLASS可用性；没有实际启动profiler	-	k
+17	M	K	F	e	c	w	s	vs	x	大shape0受带宽限制，融合双GEMM可降低访存量	此前roofline错将shape0判为带宽主导，本步仍沿用；实际已测cuBLAS和eager GPU天花板并写独立同步/计时脚本、关闭grad，不是NCU采样	-	p
+18	N	O	K	e	i	n	u	v	x	若当前Triton选择合适MMA路径可接近cuBLAS吞吐	根据前步实际吞吐考虑实现路线，实际只定位CUTLASS和安装包；未证明tcgen05架构兼容	-	o
+19	M	K	K	m	u	x	s	s	x	-	生成独立dense Triton计时脚本并测多个配置，部分参数错误/编译告警单列；取得有效TFLOPS但非正式候选验收	-	p
+20	E	D	K	e	c	y	u	v	x	配置tuple的位置参数错位把warps设成3导致前步断言	根据脚本签名定位参数问题，实际查看CUTLASS版本与例程目录，尚未修改正式候选	-	o
+21	M	K	K	m	u	x	s	s	x	-	继续独立dense配置测试；含缺stages和共享内存超限错误，仍有有效371TFLOPS配置，不以命令总体成功掩盖配置失败	-	p
+22	E	D	K	e	c	y	u	v	x	99KB每block共享内存上限限制可用流水级数与tile组合	从实测编译资源报错与吞吐提出约束，实际读取CUTLASS版本和Sm120例程位置	-	o
+23	E	D	K	e	c	u	f	v	x	检查实际PTX可判定现有Triton是否走tcgen05而非凭版本猜测	写dump脚本尝试读取编译产物，但导入scratch失败，没有验证指令路径	-	o
+24	E	D	K	e	c	y	u	vs	x	将cwd加入模块搜索路径可使独立PTX探针导入同目录scratch模块	在探针文件加sys.path后成功读到mma.sync及静态regs/spills/smem；属于编译产物分析，未做硬件profile采样	-	o
+25	M	K	K	e	i	w	f	vs	x	换TMA描述符载入应让当前Triton触发tcgen05	根据通用Blackwell印象设计独立dense测试；首先编译失败，step28修复后仍mma.sync，推翻TMA必然触发的主张；本步写探针含导入路径设置	step28:L83–87	o
+26	M	K	K	e	c	u	f	v	x	编译错误可能来自描述符block_shape或pid计算不匹配	重跑探针想扩大错误输出但异常仍被脚本截断，尚不能确定归因	-	o
+27	M	K	K	m	u	x	f	vs	x	-	写独立异常探针并执行，得到dot归约维不一致；写入sys.path以导入scratch，未改正式候选	-	o
+28	M	K	K	e	c	y	s	v	x	描述符载入的B已为BK乘BN，再转置会破坏dot归约维	根据编译异常去掉b.T后测试可运行且正确；部分配置超共享内存单列，PTX仍没有tcgen05	-	o
+29	E	D	K	e	c	u	u	v	x	MMA版本选择可能被SM120兼容条件限制	根据实际TMA产物仍mma.sync转查编译器；shell glob有报错，未取得明确gating条件	-	o
+30	E	D	K	m	u	x	u	-	x	-	读取TTGIR pass管线，只有架构值与待读行号说明，不足以确认tcgen05支持	-	o
+31	E	D	K	e	c	u	f	vs	x	IR中accelerate-matmul后的布局可说明为什么没选MMAv5	用MLIR_ENABLE_DUMP环境写入生成编译IR；后续shell表达式报错但dump已生成，不是NCU硬件采样	-	o
+32	E	D	K	m	u	x	u	-	x	-	读取IR实际看到versionMajor2；无可见推理，也没有运行时硬件profile	-	o
+33	E	D	K	e	c	u	u	v	x	版本门控可能仅允许SM100或SM110使用MMAv5	根据IR版本与目标解析作猜测，转查二进制字符串；出现tcgen05符号不证明本架构可运行	-	o
+34	M	K	K	e	i	u	s	vs	x	将B重排成K连续布局可能满足MMAv5选择条件	提出布局候选解释并写独立TMA测试，实际仍tcgen05为0；未取得必要/充分条件源码，因此归因未证实	-	o
+35	M	K	K	e	c	y	s	vs	x	与任务相同的分组GEMM维度可能低于4096立方dense吞吐，需按真实形状评估上限	根据先前shape差异写cuBLAS精确形状与bmm测量，约290–341TFLOPS；独立脚本关闭grad并自定义计时，不是正式评分	-	p
+36	M	K	K	e	c	y	s	vs	x	MMA指令发射天花板可能高于当前Triton的385TFLOPS，尚有实现优化空间	构造独立CUDA指令微基准报告543.4TFLOPS；数值是原轨迹观测，未由本研究复现，不推出端到端可达同值	-	p
+37	O	O	F	e	c	y	u	vt	x	已测MMA吞吐表明无需先换指令集，可先建立正确的Triton融合基线再调实现	依据前步报告改变对tcgen05必要性的判断并创建任务；仍未写正式候选	-	o
+38	O	O	K	m	u	x	u	-	x	-	创建后续自写CUDA优化任务，不能把描述里的cp.async/ldmatrix当已实现或采样	-	o
+39	O	O	F	m	u	x	u	-	x	-	更新Triton基线任务状态，无执行或测量	-	o
+40	C	O	F	i	i	n	u	c	x	融合gate/up并在epilogue做SwiGLU可减少重复输入和中间读写	首次写入solution.py实现可变M分组GEMM，理由主要在代码与前步计划；实际未profile采样，理论收益尚未正式验证	-	o
+41	M	V	F	m	u	x	f	s	x	-	试图创建并运行自定义正确性/计时脚本，但相对cwd导致路径不存在，未执行有效检查	-	o
+42	C	O	M	m	u	x	u	vs	x	-	根据scratch/scratch路径判断cwd已变，改绝对路径写诊断脚本；含sys.path和reference形状设置，非正式候选写入	-	o
+43	M	V	F	m	u	x	f	-	x	-	运行自定义正确性脚本，Triton调用缺ROUGH常量而报错，尚无数值正确性结论	-	o
+44	M	V	F	i	c	y	c	c	x	移除无用ROUGH参数可使候选实际运行	工具同时改solution并重跑，返回大量错误元素；主要结果为正确性不通过，未误记编译成功为优化成功	-	o
+45	C	O	K	e	c	y	u	vct	x	网格上界漏乘N维tile数使多数输出未写入并产生不可能的过快计时	结合错误数据与源码检查定位max_tiles，补乘num_n；这是明确推翻先前看似高速结果	-	o
+46	M	V	F	m	u	x	c	-	x	-	修复网格上界后仍有大量错误元素，证明尚有其他寻址/调度问题	-	o
+47	C	O	M	e	c	u	u	vs	x	expert扫描或早退条件可能导致实际执行tile不足	根据仍过快且错误的结果写打印tile映射的诊断kernel；未改正式候选，本步有sys.path设置	-	o
+48	M	V	K	m	u	x	c	-	x	-	执行tile映射诊断得到unique1025而expected1024，存在重复/越界映射证据，不当作正确性通过	-	o
+49	C	O	K	e	c	y	u	vc	x	expert扫描只累加M tile却把local按M乘N映射，导致区间分配少算N维	结合映射诊断与源码定位第二个N维漏算，修改每expert tiles计数；方向未另起支线，属连续正确性修复	-	o
+50	M	V	F	m	u	x	s	-	x	-	快速检查三shape均OK并得到正常数量级耗时，尚非完整check.py含stress验收	-	o
+51	C	O	M	e	c	u	u	vs	x	两dot资源压力或expert扫描开销可能降低已正确kernel的吞吐	根据正确性/吞吐结果列竞争机制，写配置扫描脚本分离；含sys.path和自定义同步计时，尚无profiler指标	-	p
+52	M	K	K	m	u	x	s	-	x	-	执行现有kernel配置扫描取得各shape最佳耗时及资源失败；普通benchmark不算NCU采样	-	p
+53	C	O	M	e	c	u	u	vs	x	全shape约0.098的计分估算提示当前实现仍有结构性限制，需采样区分mask/扫描与流水问题	准备单kernel的NCU运行入口并打印静态regs/spills；实际只写prof_one.py，未在本步执行NCU	-	p
+54	P	N	K	m	u	x	s	s	x	-	首次实际NCU采样，返回SM/DRAM吞吐与理论/实得occupancy；命令临时改PATH，区别于前面仅静态产物检查	-	p
+55	P	N	K	e	p	y	s	vs	x	低occupancy和低issue利用率可能使计算吞吐未达指令微基准上限	依据NCU occupancy约16.6%及吞吐数据提出流水/延迟候选机制，再实际采样pipe指标；有数据支持问题存在，未隔离单因果	-	p
+56	O	O	K	e	p	y	u	vt	x	既有profile显示通用Triton实现仍有延迟与资源利用空间，可转自写CUDA控制流水	结合pipe与warp latency读数改变实现路线并完成任务1；实际工具仅任务状态，未把计划当CUDA代码已完成	-	o
+57	O	O	K	m	u	x	u	-	x	-	更新自写CUDA任务进行中，无测量和候选写入	-	o
+58	C	O	K	m	u	x	u	-	x	-	开始写CUDA替代实现但有占位函数，位置在scratch尚未接正式solution；没有推理或编译结果	-	o
+59	C	O	K	e	i	n	u	v	x	显式cp.async/ldmatrix线程映射与分组查找可减少自动生成代码限制	对多种映射方案作源码层设计并补全scratch实现；吞吐改善未测，未把先验设计当已有profile结论	-	o
+60	C	O	K	e	c	y	u	v	x	B片段布局和host launcher需与mma.sync操作数映射及线程数一致	复核自己代码的ldmatrix寄存器映射并重写完整launch封装；接口一致性依据源码，性能尚未验证	-	o
+61	C	O	M	m	u	x	u	vs	x	-	写CUDA实现的独立参考/计时测试，含sys.path设置、transpose权重和对照运算，不写正式评分器	-	p
+62	M	V	K	m	u	x	f	-	x	-	首次构建/测试CUDA模块在编译阶段失败，没有有效正确性或性能结果	-	o
+63	C	O	K	e	c	u	u	v	x	CUDA stream查询所需声明可能缺少对应头文件	根据编译报错补ATen CUDAContext头文件，尚未证明能解决构建	-	o
+64	M	V	K	m	u	x	f	-	x	-	重编译仍因torch模板头文件报错失败，不能把前次include补充算验证成功	-	o
+65	M	V	K	e	c	u	f	v	x	较轻的c10 CUDAStream头及显式stream转换可能绕开ATen头兼容问题	同时改scratch源并重建，但List_inl相关错误仍在；无GPU运行结果	-	o
+66	M	V	K	e	c	u	f	v	x	抑制nvcc host pass的template-body诊断可能使模块编译通过	添加编译选项再试仍失败；把报错归为工具链问题而非已证kernel缺陷	-	o
+67	C	O	K	e	c	u	f	vt	x	将torch host wrapper与纯C ABI CUDA分开或可避免nvcc解析torch模板头	明确改变模块构建结构，但Write被文件已修改的校验拒绝，本步没有实际写入成功	-	o
+68	E	D	K	m	u	x	u	-	x	-	按工具要求重读scratch源开头恢复文件状态；不是参考知识读取	-	o
+69	C	O	K	i	c	u	u	-	x	分离host wrapper与CUDA代码可能绕开头文件兼容错误	重试成功写入上一方案到scratch，但没有本步推理或编译验证	-	o
+70	M	V	K	m	u	x	f	-	x	-	分离源码后的构建仍遇到torch头文件模板错误，没有GPU测试结果	-	o
+71	E	D	K	e	c	u	u	v	x	load_inline可能自动在cuda_sources前添加torch头文件，令手工分离失效	依据仍出现的报错转查已安装cpp_extension源码；此时尚未读到目标函数正文	-	o
+72	E	J	K	m	u	x	u	k	n	-	读到cpp_extension文件中ARCH_LIST等文档段而非load_inline目标实现，未用于当前修复，step75–78改查正确源码并修复	step75–78:L240–251	o
+73	E	D	K	m	u	x	u	-	x	-	按函数边界awk检索没有返回目标源码，未取得新接口证据	-	o
+74	E	D	K	m	u	x	u	-	x	-	grep头文件名确定实际行号；片段同时含注释和插入位置，尚未读完整条件分支	-	o
+75	E	D	K	m	u	x	u	-	x	-	读取load_inline的cpp_sources处理与no_implicit_headers条件，实际源码而非文档预加载	-	o
+76	E	D	K	e	c	y	u	v	x	生成的cuda.cu可能被工具添加隐式torch头，导致手工拆分仍失效	质疑缓存和自动插入两种解释并读取真实生成文件，看到torch/types.h位于头部，支持隐式头路径	-	o
+77	E	D	K	e	c	y	u	v	x	no_implicit_headers参数可能同时控制CUDA源文件的types.h自动插入	根据生成文件与cpp条件定位到CUDA条件分支，读到其判断，尚未实施修复	-	o
+78	C	O	K	e	c	y	u	v	x	设置no_implicit_headers可让纯C ABI CUDA避免不兼容torch模板头	把刚读到的控制参数加入scratch模块构建调用，保留host wrapper显式头；本步未重编译	-	o
+79	M	V	K	m	u	x	c	-	x	-	构建终于成功，但多个配置输出BAD且后续启动invalid argument；部分通过不代表实现整体正确	-	o
+80	C	O	H	e	c	y	u	vs	x	按STAGES全局复用smem属性缓存会漏设不同模板实例的launch属性	根据invalid argument与源码改成每个模板实例的static缓存，并设置cudaFunc属性；引入/改动进程级cache，非评分器替换	-	o
+81	M	V	K	e	c	y	c	vs	x	同输入重复输出差异可能揭示流水竞争而非单纯BF16舍入	实际对照两次结果，s3跨运行差异约0.1077且大量错误，其他配置也非零；显式sys.path与RNG设置	-	o
+82	M	V	K	e	c	u	c	vs	x	强制wait_group0排空异步请求可检验等待组计数是否导致竞争	修改scratch同步后重复对照，s3暂时确定但其他配置仍变；不能由其中一个配置稳定宣称全部正确，显式路径/RNG设置	-	o
+83	M	V	K	e	c	y	c	vs	x	剩余跨运行差异需按元素定位以区分舍入与未正确同步的访存	取得大量输出元素差异并打印位置/参考值，支持继续追查race；显式sys.path/RNG设置	-	o
+84	M	V	K	e	c	u	c	vs	x	用同步ld/st替换cp.async可区分异步等待与其他计算/索引错误	改scratch载入路径并重复测试，仍非确定且s2巨大误差，尚不能确认单一根因；显式路径/RNG设置	-	o
+85	M	V	K	e	c	u	u	vs	x	compute-sanitizer racecheck可能更直接定位共享内存竞争	实际运行racecheck但本步过滤后无输出，不能把空输出当零hazard；显式sys.path/RNG设置	-	o
+86	M	V	K	m	u	x	s	s	x	-	重跑微型shape racecheck并保存日志，明确返回0 hazards；只支持该测试范围，不证明全shape正确	-	o
+87	M	V	K	e	c	y	c	vs	x	错误可能随K循环长度扩大而显现，需递增H定位边界	从H512扩大到1024/2048得到极大数或NaN与重复差异，微型racecheck通过不能覆盖；显式路径/RNG设置	-	o
+88	M	V	K	e	c	y	c	vt	x	预取把下一批数据写入刚读槽而非下一读者期待槽，导致陈旧/未初始化数据	依据循环不变式定位ring写槽错位，恢复异步并修复后部分配置误差降至舍入量级，但s3仍BAD；明确修复方向转折	-	o
+89	M	V	K	e	c	y	c	vs	x	仅s3仍错表明还有阶段数相关的竞争或索引问题	删超smem配置并对s3实际racecheck，返回6 hazards；不把有数值的错误配置纳入有效性能，显式路径/RNG设置	-	o
+90	M	V	K	e	c	y	c	vt	x	位与实现的ring索引只适用于2的幂，STAGES3必须用取模	由阶段特例与racecheck再定位索引错误，改用modulo后有效配置通过，但末行已删除的死配置仍BAD；拒绝以死配置的虚假吞吐计收益	-	o
+91	P	N	K	e	c	u	s	vs	x	自写CUDA吞吐仍未超过Triton，需先测寄存器、访存与stall再改warp布局	写运行入口并实际NCU采样取得SM/DRAM指标；本步假设来自benchmark差距而非尚未取得的本次profile，显式路径/RNG设置	-	p
+92	P	N	K	e	p	y	s	v	x	高寄存器占用与低eligible率可能限制warp调度，需要更细的stall与共享访存数据	依据NCU registers222与理论block限制等实际值继续采样full，返回tensor最高利用71.3%和共享wavefront提示	-	p
+93	P	N	K	m	u	x	u	-	x	-	调用NCU筛选warp stall但过滤后无输出，不能据此声称没有stall或采样失败	-	p
+94	P	N	K	m	u	x	s	-	x	-	重新调用NCU保存完整日志并取得warp state片段；为实际硬件采样	-	p
+95	P	N	K	m	u	x	u	-	x	-	读取刚产生的NCU日志warp state与共享wavefront段，未再次采样，也未取得新的性能结果	-	p
+96	C	O	K	e	p	y	u	v	x	1乘8 warp布局重复ldmatrix整块B，改2乘4布局可能降低共享读取开销	根据NCU共享wavefront、eligible与tensor指标及指令计数改scratch模板签名，后续还需补完整映射并测量；机制有数据支持但收益未证	-	o
+97	M	V	K	e	p	y	f	v	x	重排warp网格与片段分工可能减少重复共享读取并改善吞吐	落实前步profile引导的完整compute/epilogue改写并测试，但编译失败；未据预期机制报告收益	-	o
+98	M	V	K	e	c	y	s	v	x	THREADS需在lambda捕获使用前定义并与warp网格一致	根据编译诊断修正声明位置后测试有效配置均OK，包含实际配置耗时，尚非正式check验收	-	o
+99	M	V	K	e	c	u	s	v	x	流水读写的另一barrier可能已保护目标槽，可移除每轮第二次syncthreads减少开销	依据源码不变式去掉同步后重新验证，实际多个配置OK并有小幅计时改善；不据一次测量证明任意shape无race	-	o
+100	P	N	K	e	c	y	s	v	x	移除barrier后仍有吞吐差距，需重新profile确认限制是否转移	依据计时变化发起实际NCU采样，得到12.42ms等新指标；本步改的是诊断配置而非正式评测器	-	p
+101	M	V	K	e	p	y	s	v	x	低eligible warp率可能与ldmatrix到mma的依赖链有关，提前加载B片段可增加重叠	依据前步tensor80%和eligible0.15等NCU数据改scratch并实测，结果相近或略慢，不能把合理机制当已提升	-	o
+102	P	N	K	e	p	y	f	v	x	需要更细stall指标区分访存依赖与tensor pipe背压	调用NCU指定指标，但其中tensor_memory_throttle指标不存在而失败，未得到新stall分解	-	p
+103	P	N	K	m	u	x	s	-	x	-	修正NCU指标查询后取得barrier/wait等实际stall读数	-	p
+104	P	N	K	e	p	u	s	v	x	持续负载的GPU时钟可能低于纯MMA微基准，造成吞吐差距	从stall分解提出替代解释并采样SM/GPC时钟与硬件状态；结果取得但未独立证实或排除所有throttling因素	-	p
+105	M	V	K	e	p	u	s	v	x	增加warp数量且缩小每warp累加tile可能改善tensor供给并避免早期大tile溢出	据NCU时钟/issue数据设计512线程配置并测量，结果总体更差；不采纳选手“无功耗限制”未经全控制的绝对断言	-	o
+106	M	V	K	e	p	u	s	vt	x	更小CTA若允许每SM驻留两块可交叠barrier等待与另一块计算	因512线程方案退步转相反方向，结合smem/regs预算测试双CTA配置，未明显超过主配置	-	o
+107	E	D	M	e	c	y	u	v	x	纯MMA微基准的占用和访存模式可能不适合作真实kernel可达上限	回读自己的微基准发现其为寄存器供数、不含真实访存；不是环境参考/SOTA知识读取	-	p
+108	M	V	K	e	p	u	f	vt	x	producer/consumer warp-specialization与mbarrier或可避免计算warp等待加载/barrier	基于profile与微基准适用性差异另写WS变体；本步改写成功但后续构建命令失败，尚无性能验证	-	o
+109	M	V	K	m	u	x	f	-	x	-	重跑以读取完整错误，CUDA模板编译失败，没有GPU实测	-	o
+110	M	V	K	i	c	u	u	-	x	修正WS变体的模板参数可解决编译错误	Bash同时改源码并重跑，但grep后无输出，不能确认构建或执行成功	-	o
+111	M	V	K	m	u	x	f	-	x	-	保存完整测试日志，明确ninja构建失败，不把前步空输出当PASS	-	o
+112	M	V	K	e	c	y	u	v	x	运行时函数参数不能用于模板实例，须使用literal dispatch	改成显式模板配置分支后启动测试，工具超时转后台；尚无构建/性能完成结果	-	o
+113	T	V	K	m	u	x	u	-	x	-	等待原测试进程，仍running且只有脚本改写ok，不代表GPU测试成功	-	o
+114	T	V	K	e	c	u	u	v	x	长等待可能来自大量模板编译或mbarrier死锁，二者尚未区分	列出编译与运行两种解释后继续等原任务，没有直接重跑或给出确定死锁结论	-	o
+115	N	O	K	m	u	x	u	-	x	-	查询日志和进程看见ninja/nvcc仍活着，支持当时至少仍有编译工作；未测kernel时长	-	k
+116	T	V	K	m	u	x	f	v	x	-	根据活进程解释长等待并继续TaskOutput，最终原任务exit1；没有GPU测量成功的证据	-	o
+117	E	O	K	m	u	x	u	-	x	-	检索测试日志没有error行或尾部输出，不能单凭空日志定根因	-	o
+118	E	O	K	m	u	x	u	-	x	-	确认日志0字节并看后台输出仍只有ok；编译、timeout和运行状态信息不完整	-	o
+119	N	O	K	e	i	n	f	v	x	空日志可能意味着WS异步mbarrier计数死锁，改producer显式wait后plain arrive或可修复	没有足够运行证据排除慢编译却作确定死锁陈述，随后pkill命中当前命令使修复和新脚本未成功建立；保留为未验证推断	-	o
+120	M	V	K	m	u	x	f	-	x	-	重跑新的test_ws.py时文件不存在，证明上步未完整执行，不是WS正确性或性能结果	-	o
+121	C	O	K	e	c	y	u	v	x	pkill匹配当前shell完整命令导致后续patch未运行，应分开写入修复	根据缺文件与没有patched输出纠正控制流判断，单独成功改producer等待/arrive逻辑；尚未运行GPU确认死锁根因	-	o
+122	C	O	M	m	u	x	u	s	x	-	独立写test_ws.py覆盖小/大shape与WS配置；含sys.path、自定义正确性/计时，不是正式评分器	-	p
+123	M	V	K	m	u	x	f	-	x	-	执行WS测试遇到launch invalid argument，尾部异常不能代表此前所有配置失败或成功	-	o
+124	M	V	K	e	c	y	s	v	x	stages6共享内存超过硬件上限会导致末尾launch失败，需把前面有效配置单列	重跑提取先前配置结果，四个shape的有效WS配置误差小但实际吞吐较慢；超资源配置不计性能	-	o
+125	C	O	F	e	c	y	u	vcst	x	已测WS较慢，保留协同加载CUDA并按shape配置，惰性缓存权重转置减少每次布局转换	依据实际WS与普通配置对比放弃WS主线，将CUDA路径接入solution并保留Triton fallback；新增权重缓存/设备与版本key，交R5复核	-	o
+126	M	V	F	m	u	x	f	-	x	-	正式check用默认python失败于import torch，尚未验证新CUDA路径	-	o
+127	N	O	O	m	u	x	f	-	x	-	查询目录与解释器，python3仍缺torch；没有任何GPU性能测量	-	k
+128	N	O	O	m	u	x	u	v	x	-	对比run/bin与venv位置以查解释器不一致，实际只列目录，不据此断言依赖已解决	-	k
+129	N	O	O	m	u	x	u	v	x	-	寻找repo项目环境并用uv检查torch；是环境恢复，不是新的优化机制或profile	-	k
+130	M	V	F	m	u	x	s	-	x	-	用uv项目环境正式check返回PASS，同时保存VIRTUAL_ENV不匹配警告，不解释为GPU收益	-	o
+131	M	K	F	m	u	x	s	-	x	-	正式benchmark完成给出0.0986、RESULT LOW；这是有效计分结果，即使未过性能门槛也不等同工具执行失败	-	p
+132	E	D	K	e	c	u	u	v	x	每K tile重复地址除法/取模和谓词计算可能限制当前CUDA吞吐	根据benchmark仍低于门槛转源码检查issue lambda，尚未用profile隔离地址运算为主因	-	o
+133	E	D	K	m	u	x	u	-	x	-	读取当前issue_A/B及compute循环内容，非环境知识库或参考读取	-	o
+134	C	O	K	e	c	u	u	v	x	预先计算每thread源指针、共享偏移和row谓词可能减少K循环整数运算	改写scratch的issue lambda；收益未测且并非NCU已确定地址算术是瓶颈	-	o
+135	C	O	K	i	c	y	u	-	x	issue_all改接收K元素偏移后调用方应传next乘BK	补齐前步接口变化而非再提出新优化，未运行测试	-	o
+136	M	V	K	m	u	x	c	-	x	-	测试预计算指针版，部分配置OK但多行BAD并异常快，不能把6微秒未执行路径当加速	-	o
+137	E	D	K	e	c	u	u	v	x	异常快且BAD可能来自launch失败、资源超限或dispatch未执行	保留多种竞争解释，实际定位launch代码准备加检查；不采纳“全部launch失败”的未证定论	-	o
+138	E	D	K	m	u	x	u	-	x	-	读取run_ws与host调用片段，只有源码定位没有新测试	-	o
+139	E	D	K	m	u	x	u	-	x	-	继续读错/相邻warp-specialized计算片段以寻找run_cfg，未产生机制证据	-	o
+140	E	D	K	m	u	x	u	-	x	-	读取普通launch与dispatch附近代码，仍属源码探索	-	o
+141	C	O	H	e	c	u	u	vs	x	共享内存属性设置可能失败，需要记录返回码而非只凭计时猜测	在scratch的进程级smem缓存/属性设置中添加错误返回检查；未实际运行收集错误码	-	o
+142	E	D	K	m	u	x	u	-	x	-	定位普通launch与dispatch行，未做GPU性能采样	-	o
+143	E	D	K	m	u	x	u	-	x	-	读取dispatch完整片段，提供后步识别no-op分支的源码证据	-	o
+144	C	O	K	e	c	y	u	vt	x	多数scratch配置未注册dispatch而落入空else，才会极快且输出未计算	从完整dispatch代码推翻资源超限主解释；本步先添加cudaGetLastError打印，恢复完整表还需后续编辑	-	o
+145	C	O	K	i	c	y	u	-	x	恢复dispatch中缺失配置可让测试实际执行相应kernel	将前步定位的缺失分支写回scratch，未做本步测试，没有可见推理块	-	o
+146	C	O	K	m	u	x	u	-	x	-	试删超限stages6分支实际仅删换行，未完成所说优化，也没有运行验证	-	o
+147	E	D	K	m	u	x	u	v	x	-	发现前步编辑无实质效果，grep确认stages6仍存在且与下一else并在一行	-	o
+148	C	O	K	i	c	y	u	-	x	移除已知超过smem上限的stages6分支可避免无效launch	按实际文本删除超限分支，没有新性能假设或测试	-	o
+149	M	V	K	m	u	x	f	-	x	-	重建仍编译失败；不把dispatch修正直接计为正确性成功	-	o
+150	E	D	K	m	u	x	u	-	x	-	定位CUDA头文件区域为修复printf声明做准备，没有实质推理或测量	-	o
+151	C	O	K	i	c	u	u	-	x	补cstdio声明可使新增printf诊断编译通过	修改scratch include，无本步编译结果	-	o
+152	M	V	K	m	u	x	c	-	x	-	重建和多数配置测试成功，但完整输出仍含不正确配置；不采纳“全部正确”的概括	-	o
+153	E	D	K	e	c	y	u	vt	x	预计算地址并未改善实测耗时，先前地址算术瓶颈解释缺乏支持	比较13.33与13.10等一次测量后放弃该主线，转向减少barrier；实际先读取待改循环，不能把差异视为统计显著	-	o
+154	E	D	K	m	u	x	u	-	x	-	读取当前K循环文本，为拆成compute_stage和PAIR分支做准备	-	o
+155	C	O	K	e	p	u	u	v	x	每个barrier处理两K tile可能降低已观察的barrier等待比例	基于历史NCU stall与源码设计PAIR2，先加入模板参数；收益未实测，尚未改正式solution	-	o
+156	C	O	K	i	c	u	u	-	x	把单stage计算抽成lambda可复用到PAIR1和PAIR2循环	落实前步重构计划，不是独立测量或已实现的性能提升	-	o
+157	C	O	K	i	c	u	u	-	x	PAIR2按两tile一组等待和计算可减少barrier调用数	添加双tile循环与原分支，后步源码复核发现写槽对应错误；本步未运行	-	o
+158	C	O	K	e	c	y	u	v	x	下一组kt加2和加3的数据必须写到各自读者对应ring槽	在运行前自行检查slot不变式，修正错误预取目标；没有据未测代码宣称吞吐提升	-	o
+159	C	O	K	i	c	y	u	v	x	PAIR模板参数必须从host dispatch一路传到kernel实例	Bash改写接口并返回后台句柄，尚未确认脚本完成，也未启动GPU测试	-	o
+160	T	O	K	m	u	x	u	-	x	-	等待源码改写脚本，明确exit0与ok，只能证明编辑脚本完成	-	o
+161	C	O	M	m	u	x	u	-	x	-	将PAIR配置加入scratch测试列表；不修改正式check或计分器	-	p
+162	M	V	K	m	u	x	c	-	x	-	测试PAIR2出现多行BAD和极大误差，带数值的错误配置不算有效性能	-	o
+163	C	O	K	e	c	w	u	vt	x	PAIR2错误且未更快被用来判断barrier不是主要限制	错误实现工作量未受控，不能由其计时证伪barrier机制；选手放弃该支线并拟加高tile/384线程配置，修改脚本先后台化	-	o
+164	T	O	K	m	u	x	f	-	x	-	等待改写脚本后明确三引号语法错误，前步配置改写未完成	-	o
+165	C	O	M	m	u	x	u	-	x	-	改用Edit更新测试列表，删除PAIR与已知无效配置；无本步测量	-	p
+166	C	O	K	i	i	n	u	-	x	增加256高tile或384线程组合可能改善吞吐与资源利用	将理论配置候选写入dispatch，未实测，未标为profile已证优解	-	o
+167	M	V	K	m	u	x	c	-	x	-	新配置扫描有有效OK条目，也有384线程组合BAD；不能只摘416TFLOPS当改进	-	o
+168	E	D	M	e	c	y	u	vt	x	TN奇数使384线程配置只完成部分N维，表面高吞吐不能作为更优kernel	在同一推理中主动撤回416TFLOPS正面结论，识别只算约三分之二工作；转读正式benchmark比较协议	-	p

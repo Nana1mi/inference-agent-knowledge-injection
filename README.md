@@ -2,6 +2,8 @@
 
 从 [讨论摘要](outputs/00_summary.md) 开始；范围、异常与缺口见 [进度](outputs/PROGRESS.md)，任务原文见 [PLAN](PLAN.md)。中文报告均在 `outputs/`。
 
+第二轮正在进行，当前上传的是阶段快照：已完成14份KernelBench-Hard轨迹的抽样与文件校验，逐步复核348/3345步，第二轮分析和简报尚未完成。抽样见 [第二轮抽样说明](outputs/round2/r2_sampling.md)，完整状态见 [校验记录](data/derived/r2_validation.json)；该记录不是完成证明。
+
 本轮完成公开材料核验、可得轨迹的描述性编码、知识注入综述、Apple基准分析、评测规避目录和底座比较。**T4仅设计，无本地GPU优化结果。** 所有framework建议为待讨论；未安装/运行外部框架、未调用付费agent、未向外部发送团队消息。
 
 ## GitHub 发布范围

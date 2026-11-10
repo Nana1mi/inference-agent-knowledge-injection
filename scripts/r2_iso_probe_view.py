@@ -7,7 +7,7 @@ from r2_io import ROOT,RAW,DERIVED,load
 NAV=re.compile(r'cuda|gpu|nvidia|benchmark|latency|speedup|elapsed|seconds|milliseconds|microseconds|\bms\b|\bus\b|perf_counter',re.I)
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('start',type=int);p.add_argument('end',type=int);p.add_argument('--full',action='store_true');p.add_argument('--executions',action='store_true');p.add_argument('--step',type=int);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('start',type=int);p.add_argument('end',type=int);p.add_argument('--full',action='store_true');p.add_argument('--executions',action='store_true');p.add_argument('--step',type=int);p.add_argument('--result-limit',type=int,default=2200);a=p.parse_args()
     rev=load(DERIVED/'r2_iso_index.json')['revision'];plan=load(RAW/'r2_iso'/rev/'selection.json')
     for c in plan['eligibility_check_order']:
         if not a.start<=c['order']<=a.end:continue
@@ -27,7 +27,7 @@ def main():
                     for j,r in enumerate(results):
                         v=str(r.get('result') or r.get('error') or '')
                         print('RESULT pointer',f'/agent_steps/{i}/tool_results/{j}/result')
-                        print(v if a.full else v[:2200]+('\n[...]\n'+v[-600:] if len(v)>2200 else ''))
+                        print(v if a.full else v[:a.result_limit]+('\n[...]\n'+v[-min(600,a.result_limit//2):] if len(v)>a.result_limit else ''))
                     continue
                 hits=[]
                 for j,r in enumerate(results):
@@ -47,7 +47,13 @@ def main():
         else:
             for file in folder.glob('*stdout*'):
                 print('STDOUT',file.name,'bytes',file.stat().st_size);value=file.read_text(encoding='utf-8',errors='replace')
-                print(value if a.full else value[:2800])
+                try:
+                    parsed=json.loads(value)
+                    if isinstance(parsed,dict) and parsed.get('type')=='result' and not a.full:
+                        print({k:parsed.get(k) for k in ('type','subtype','is_error','num_turns')},'modelUsage',list(parsed.get('modelUsage',{})))
+                        print('FINAL SUMMARY ONLY:',str(parsed.get('result',''))[:min(1600,a.result_limit)])
+                    else:print(value if a.full else value[:a.result_limit])
+                except json.JSONDecodeError:print(value if a.full else value[:a.result_limit])
             if not list(folder.glob('*stdout*')):print('no trajectory/stdout retrieved')
 
 if __name__=='__main__':main()

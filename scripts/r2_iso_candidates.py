@@ -45,7 +45,7 @@ def freeze_order():
     dump(dest,plan);print('frozen eligibility frame',len(order),'runs',len(keys),'strata')
     return plan
 
-def download(plan,through):
+def download(plan,through,trace_only=False):
     rev=plan['revision'];repo=plan['repository'];art=load(DERIVED/'r2_iso_artifact_index.json');runs={r['run_path']:r for r in art['runs']}
     todo=plan['eligibility_check_order'][:through]
     failures=defaultdict(int)
@@ -55,7 +55,7 @@ def download(plan,through):
         files=runs[c['run_path']]['artifacts'];byname={f['path'].rsplit('/',1)[-1]:f for f in files}
         trace=next((byname[n] for n in ['trajectory.json','claude_stdout.json','claude_stdout.jsonl','codex_stdout.json','codex_stdout.jsonl','openhands_stdout.json','openhands_stdout.jsonl','trae_stdout.txt'] if n in byname and byname[n].get('size',0)>0),None)
         if trace is None:trace=next((f for f in files if 'stdout' in f['path'] and f.get('size',0)>0),None)
-        chosen=([trace] if trace else [])+[byname[n] for n in ['journal.json','model_patch.diff'] if n in byname and byname[n].get('size',0)>0]
+        chosen=([trace] if trace else [])+[byname[n] for n in ['journal.json','model_patch.diff'] if n in byname and byname[n].get('size',0)>0 and (not trace_only or (RAW/f'r2_iso/{rev}/candidates/{byname[n]["path"]}').exists())]
         record=dict(c,artifacts=[])
         for f in chosen:
             rel=f'r2_iso/{rev}/candidates/{f["path"]}'
@@ -66,13 +66,14 @@ def download(plan,through):
         return record
     with ThreadPoolExecutor(max_workers=3) as pool:records=list(pool.map(collect,todo))
     plan['inspected_candidates']=records
+    plan['last_acquisition_trace_only']=trace_only
     dump(RAW/'r2_iso'/rev/'selection.json',plan)
     print('downloaded/attempted candidate prefixes',len(records),'not final selected sample')
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('--through',type=int,default=0);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('--through',type=int,default=0);p.add_argument('--trace-only',action='store_true');a=p.parse_args()
     plan=freeze_order()
-    if a.through:download(plan,a.through)
+    if a.through:download(plan,a.through,a.trace_only)
     print('next',plan['eligibility_check_order'][:3])
 
 if __name__=='__main__':main()
