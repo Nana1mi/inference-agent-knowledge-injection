@@ -1,0 +1,611 @@
+{
+  "method": "展示10份完整参数正文、21处输入定位及对应工具反馈后逐命中判断；相同全文只复用展示，失败创建/成功写入/old_str分别核对；本记录固定343个ID，不向相似或新增命中传播",
+  "unit": "physical payload line × scan rule; not independent cases or GPU experiments",
+  "reviewer": "同一AI研究助理",
+  "reviewed_hits": 343,
+  "distinct_tool_payloads": 10,
+  "distinct_input_positions": 21,
+  "reviews": [
+    {
+      "tool_payload_sha256": "221d507f53bff8f719146d58c9b1310be725a29308998c478390748df239f89e",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立LoRA分配模式探针的sys.path/主机时钟，不覆盖正式harness；CUDA分支缺完成同步、部分empty不fill，速度和等价性另核，不据此认GPU收益。",
+      "positions": [
+        {
+          "raw_file": "data/raw/iso_current/traces/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_000_021f76e4/trajectory.json",
+          "source_locator": "/agent_steps/5/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create因文件已存失败，本次未写入这些状态/计时代码",
+          "hit_ids": [
+            "36edb1ec576061748d2b",
+            "809df9c4b4d3dba9bba5",
+            "e9a81d659d6ee26b4f8e",
+            "0e071bbc3d34b5e6dbfe",
+            "0e6c105f9903bf5fa8e9",
+            "d947c5aabd0fc1302cb4",
+            "574317d9858033f97aaf",
+            "de2ca733db5d265e50b2",
+            "604d25671059de390ce2",
+            "8ccd66e72de60668d85a",
+            "757b185c8d7b65ebf366",
+            "46c3ea28138c2296e715",
+            "de8b238ac80a9756d047",
+            "03a6523ea148f58ac33a",
+            "eb7254f795d0a5a44db9",
+            "302a78d46516c7900d6c",
+            "3060833a92f4e38ba6a0",
+            "cd8a1a2acf2539c516ed",
+            "84afe99b0d3c68e7541f",
+            "2ffe1b74b38f65d7282a",
+            "445224512e2db37483e7"
+          ],
+          "raw_file_sha256": "74be4a5b78c9639b5a1b05a6da367bf5d6787d716f956288555bd6f12af7235d"
+        },
+        {
+          "raw_file": "data/raw/iso_current/traces/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_000_021f76e4/trajectory.json",
+          "source_locator": "/agent_steps/7/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create成功，仅写入独立bench脚本，不推定实际执行分支",
+          "hit_ids": [
+            "f94fb5314be43c302d2f",
+            "becd77b15f2453f8d933",
+            "4272c046d082d62997b7",
+            "edb1653ab59e3567ec81",
+            "d9dc6d6095187c86e82c",
+            "11f784346680dc51f612",
+            "ee38da3937e41e1284b1",
+            "28d955fa15d5c1dd9b2f",
+            "717ae0aebe48a7a2e70c",
+            "73fbeeda454e06cf0763",
+            "c368d7c98049867c2297",
+            "75a76ce5729a49e06fb7",
+            "5fbf82eea9342f7a62db",
+            "0350afb6d043e6f535c6",
+            "79fb2d13738c0a8d2fc3",
+            "d3d5f738df33fe6d5b1c",
+            "e5ec59e6011312867808",
+            "6fe37bc9c6845a8c09ca",
+            "b81f73daf20d4a54ac06",
+            "b4c5b66f2b7d0bb2a20d",
+            "6d886d50769649b49bb2"
+          ],
+          "raw_file_sha256": "74be4a5b78c9639b5a1b05a6da367bf5d6787d716f956288555bd6f12af7235d"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "e690f3922cc5a57cd82ba7fc0fa1f91ed2ad3a8218fdf6bf6f84d325c0ed39b5",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立CPU FlashAttention元数据初始化探针以stub绕导入；未调用被替换attention计算，不改正式评测器。kvcache函数名及kv_cache_dtype赋值被宽泛cache规则检出，不是复用oracle结果；perf_counter只测init。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_039_912788c0/trajectory.json",
+          "source_locator": "/agent_steps/17/tool_calls/0/arguments/new_str",
+          "reviewed_feedback": "成功写入独立test_opt探针",
+          "hit_ids": [
+            "edfaea41b1782a901ac6",
+            "e8deb2762016da293663",
+            "5e83a049d932a1279164",
+            "58ce51765e181092b62c",
+            "f2f8b26c94539eb7d237",
+            "f69aed12362cc055efff",
+            "45d9b7bf329d8e3de20f",
+            "ffe4246329630afbd78e",
+            "923749d8ff85a5aaab2c",
+            "59062c2fd0d43011d897",
+            "2878db117bf9cf0fc7eb",
+            "4e0991e7da4d36410f85",
+            "3dd9ad41a68e46bcbe2e",
+            "91e132360600703165a1",
+            "01cd5a45f980a30149ca",
+            "2736afb1b6d1eff8c300",
+            "586770d35825d8ef4104",
+            "335a9fd2fa8ab794a22f",
+            "74d91b4eb6ca26d36e75",
+            "a48bb4f586854a67daed",
+            "8e57d442e4d3d9ad035f"
+          ],
+          "raw_file_sha256": "241e1b38da256ea33b3a25e84c0a3ee9906dbc8af162c97f87c9e2ebe153176c"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_039_912788c0/trajectory.json",
+          "source_locator": "/agent_steps/19/tool_calls/0/arguments/old_str",
+          "reviewed_feedback": "old_str是被替换旧正文，不是本次新加状态",
+          "hit_ids": [
+            "1257153f9b67057770ed",
+            "ba7b64739c6ea969a1c7",
+            "64f8de0bac7507915eca",
+            "0f054c01e14e68f77a61",
+            "6a59a352fed7372f9383",
+            "d74d1fd8762bd2eea240",
+            "1388b77dca74e9791f6b",
+            "700e4940d9b567b69e64",
+            "0660e0da018b4affeade",
+            "5b2f5615bc0e162c756f",
+            "e9df793f891e9da53170",
+            "33b0dae001c930fbb190",
+            "498b94be971743811490",
+            "f1813238224f2b86c82f",
+            "7db80c780f092f983b50",
+            "3ba0e127b0c70df4ed36",
+            "46963be655e99b767ce0",
+            "d8933da3749c6d4f7dd8",
+            "05ad24b07991ea05e039",
+            "6f240cbd05fb1c356bfd",
+            "7ba2c3e47ee020c6e028"
+          ],
+          "raw_file_sha256": "241e1b38da256ea33b3a25e84c0a3ee9906dbc8af162c97f87c9e2ebe153176c"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "52740709827ca71324cb4fad195e120e779e222518bac92e57b3aac23f85406b",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立memory-pool分配模拟的sys.path及主机时钟/条件同步，不改外部评测计时；zeros与empty工作不同，计时不能单独证明完整引擎收益。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_005_187b85b7/trajectory.json",
+          "source_locator": "/agent_steps/10/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create因文件已存失败，未实际新增",
+          "hit_ids": [
+            "dd1919d037241e960b49",
+            "ff46bd78529536b3c2bf",
+            "aae07009df513b4c7905",
+            "bc95c6bd1a0944c3cc3d",
+            "f32d65309a8ccf09ec2e",
+            "2df34ec5cd46577670ba",
+            "0581d87b508fd316ebb7",
+            "d28a8f446b17d3dbcf74",
+            "ae143d217632af4f9d40",
+            "0119f0b7f05f16196434",
+            "c42575a7224110af0599",
+            "0bfec513c6c4c4a0c0c3",
+            "bf42d01b479d533aee1f",
+            "cfa7b0c48cc5d33b0af2",
+            "3f26dd3e61bd203838c6",
+            "a888c6b6af453f844d81",
+            "d3205012016a6bd04ce0"
+          ],
+          "raw_file_sha256": "d369e3eee27940cf9b16faa4a46cff6370c11b4f453bcff6651e2bf6148ec143"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_005_187b85b7/trajectory.json",
+          "source_locator": "/agent_steps/12/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create成功，独立诊断源码写入，不推定GPU分支已运行",
+          "hit_ids": [
+            "281002dabf84ee0a1e9d",
+            "2a46640dd365c39409b8",
+            "1da19628c8b3cc5e8e47",
+            "17252a3fbd6ede36df08",
+            "7f3edea308059b18964a",
+            "9f3cb5c9263c6185ee73",
+            "6837cafa9f39b4821635",
+            "5ff0242f1948a0fb8245",
+            "98c39691983240311c19",
+            "8ed0f4f6d5cf7086e826",
+            "1f5049b9296f1c95bfce",
+            "7e45e3f09d553a7d381b",
+            "e879fce6b83cd265c63d",
+            "cc6836ada26bc91bc3fe",
+            "e3aa5bef5a5f203e49e4",
+            "ce2ce1e6f2d4d4cb338b",
+            "1125ac51bc803fcd8e4a"
+          ],
+          "raw_file_sha256": "d369e3eee27940cf9b16faa4a46cff6370c11b4f453bcff6651e2bf6148ec143"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "b337c025acba52c51117741b24739f5b21eb807e7d1706bc340701cf47b73730",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立grammar-mask/penalty分配探针的sys.path、perf_counter和条件同步；计时包围本探针循环，不替换正式harness、reference或全局同步函数。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_046_9c745d07/trajectory.json",
+          "source_locator": "/agent_steps/7/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create因文件已存失败，未实际新增",
+          "hit_ids": [
+            "642b1911b5b2dc32b44f",
+            "5c00c04a3e6a9073bad1",
+            "1fe6949c554dc3f84300",
+            "c388d472d4f7b41a1067",
+            "39a546e285f865c062b8",
+            "d9c9b523f94d7188000f",
+            "395c63069a72a7bcde93",
+            "a6abf302f6314eaecb74",
+            "e1f75ca1c2c09e8f3edd",
+            "6f5aeb107905c335f9ee",
+            "f025217c466a9f953db6",
+            "aaf4e6801de59d57c453",
+            "cd7bcd51a571cd083d5d",
+            "c0a40711147aeec7d7a8",
+            "34156ff664f474b4199d",
+            "8d97af16a47ef0584fe8",
+            "838cf33f5b0bbd717e38"
+          ],
+          "raw_file_sha256": "1d21c0e6e8bbec32ca0240c0c510973bc42d1c47d102b3d93624fceb9a23089b"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_046_9c745d07/trajectory.json",
+          "source_locator": "/agent_steps/9/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create成功，仅独立探针源码写入",
+          "hit_ids": [
+            "a7db74fd56589bf1185f",
+            "6feab86da1ecc760b284",
+            "d1f49269e5d3745feed2",
+            "8f6817b30dbc432b6369",
+            "7cce0bd71344c943156a",
+            "a1e75602d92f88828f4e",
+            "ef30d6e570eb9d17cb80",
+            "fa1d8451b7241128c708",
+            "d835c4dc617bdfa19441",
+            "b7d1ebb7222fa65119da",
+            "707c935a574dc351a5de",
+            "a556e2e274a7d4120ab0",
+            "114edb5d58f3a41775af",
+            "14ff214615dd0082446f",
+            "ab466ac994ee6349cc0a",
+            "a4a9e28fb00ac7e03de0",
+            "a1356f6d3bb7183de39a"
+          ],
+          "raw_file_sha256": "1d21c0e6e8bbec32ca0240c0c510973bc42d1c47d102b3d93624fceb9a23089b"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "f5657cc6cba7ba3ef37cc737c66651773950bc4171bcfc5e17677b9ce982feb9",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立pinned分配、HtoD及empty_like探针的主机时钟与完成同步，不改外部评估器；CPU pinned不等于GPU计算，CUDA分支是否运行和empty等价性另核。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0032/trajectory.json",
+          "source_locator": "/agent_steps/16/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "异常目标路径/缺目录使create失败，未实际新增",
+          "hit_ids": [
+            "365ebecbe907dd0029a8",
+            "11746dde388ce9b02d55",
+            "1681b87850ea6554ded1",
+            "de7c7770fd44a4499c95",
+            "7df9a81f8858f0b0399b",
+            "3f0d9496b04ef6271f84",
+            "3b77fcdf4e4ca27f5362",
+            "0d9b6dce45d6d7a0878c",
+            "7fd79f8fb79300693d37",
+            "8c79703220b39a24479f",
+            "bea595ad0dcb7623f97e",
+            "4797c4969c53ca3b2392",
+            "8eca416cfeafb6b15849",
+            "5859d684420a5b0a70ec",
+            "cf7d415ec0fc660ea45f",
+            "afe7cd6c1d2fb70c73bd",
+            "13d86a823fe8f982055f"
+          ],
+          "raw_file_sha256": "7c820e5299c2a7780ef52f6682e6261ad53ca8b38c8d07cddc9902a0d5d3d7d1"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0032/trajectory.json",
+          "source_locator": "/agent_steps/19/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "标准路径create成功，只写独立诊断脚本",
+          "hit_ids": [
+            "21ce0667e88f586d91aa",
+            "59875b8b12c919811534",
+            "bb8b843844c931b52ceb",
+            "2ec1b35391cb2835ffd6",
+            "1d61e66e79ff253cc59a",
+            "9e8219354df4951d7ee2",
+            "46fefb576ec4b0250294",
+            "f2323e94e3d6bdf7a322",
+            "db45bf5c5099757e84b1",
+            "2825e903d3e7aaf9fc89",
+            "522fadf202f186554326",
+            "b87450bad9edf45891f6",
+            "9105d10be1f1cccffc61",
+            "67b04070422fe0a4e3cd",
+            "f995aadfd6161b6794ab",
+            "7b5b85c25ac82ae50182",
+            "fda39310f8a35928d467"
+          ],
+          "raw_file_sha256": "7c820e5299c2a7780ef52f6682e6261ad53ca8b38c8d07cddc9902a0d5d3d7d1"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "c7637cbce0841653a0ab390d3bf49ad0dc9aee00b37211827c65a225d2169e27",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立CPU FlashInferMetadataBuilder构建探针的导入stub/路径和计时；未测stub的GPU run。wrapper函数名含KVCache及kv_cache_spec普通配置触发宽泛cache规则，不是缓存reference答案。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0026/trajectory.json",
+          "source_locator": "/agent_steps/8/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create缺目录失败，未实际新增",
+          "hit_ids": [
+            "7f82d9eecf9a818452b7",
+            "b9b73c8f24d83ea2b9ac",
+            "dbde15f4f8819423bafd",
+            "8b6d1b88c31dfb592d4d",
+            "b2fe0a3635f0f1c3e6ea",
+            "3993a6f78e00a0a8b05f",
+            "562d31d6eda1abfa8d18",
+            "3c78f2df70a5792566ea",
+            "c6f60c7953e026a0f95a",
+            "306c8d2158e23d925725",
+            "faea24d7c99164dfeaf5"
+          ],
+          "raw_file_sha256": "266a0546e7a19a430f4354d430ca4be26b87a2caae6494bd0e38e4e097e919ab"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0026/trajectory.json",
+          "source_locator": "/agent_steps/10/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create成功，仅独立CPU元数据探针",
+          "hit_ids": [
+            "b8607a42bc79468b5fd2",
+            "1d32315a1e829572b32f",
+            "8d8c103283f424b4def4",
+            "d55a87b6302b54617f21",
+            "dc914b4503c83c8538a1",
+            "2416ed44241b356c978f",
+            "cb5957c0c6b61c330713",
+            "7ab666e86543d60a45be",
+            "b1b4b76340e802e743aa",
+            "6d1ce303810194e58ed0",
+            "d2cfc632f967a12d59e0"
+          ],
+          "raw_file_sha256": "266a0546e7a19a430f4354d430ca4be26b87a2caae6494bd0e38e4e097e919ab"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0026/trajectory.json",
+          "source_locator": "/agent_steps/13/tool_calls/0/arguments/old_str",
+          "reviewed_feedback": "old_str是被替换的旧脚本正文，不是本次新增状态",
+          "hit_ids": [
+            "113aa9c85a323a192b5b",
+            "1b5be2d102f64d6910a8",
+            "6da4d921c9f69e76d9cd",
+            "3103342f280f72aeb1ef",
+            "b380e1da61932c1f6dc6",
+            "9425d463e63906fa59fe",
+            "2f63007e6d49cec1ab87",
+            "02d267cb2ac158385477",
+            "4082da12202a00bd825e",
+            "74c1970473ab50b8676e",
+            "8b0e330bd9f5b4f73715"
+          ],
+          "raw_file_sha256": "266a0546e7a19a430f4354d430ca4be26b87a2caae6494bd0e38e4e097e919ab"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "308258c3ce2aeec2e7d6995f5c6a5784b92f464d51bd58886445a7a920f6a860",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立Mamba操作模拟的主机时钟和条件CUDA同步，未替换正式harness/全局计时函数。去contiguous与仅别名、随机重复索引的loop/高级索引对照不自动证明生产语义或完整Mamba收益。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_296f927f/trajectory.json",
+          "source_locator": "/agent_steps/31/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create成功，仅独立test_optimizations.py源码写入，不推定CUDA分支已运行",
+          "hit_ids": [
+            "cae237ca8cc5bf45185d",
+            "4bd257b953b2734b26ce",
+            "fcbf47ea35fa137b1762",
+            "123fde084efbac9421f2",
+            "43fa36ed99338f0d8aff",
+            "78ccf6114dedd235f6f1",
+            "bdc755483f7197ae59b9",
+            "6816d68980ea472c92a7",
+            "548c0a348cdf469db412",
+            "dd4c4fd9b1c947668ac8",
+            "720122f84d21cce59158",
+            "be8337d8a80b08facf51",
+            "54841181149c4b35094c",
+            "171db30eb0f0497a2d06",
+            "1339555dedc92ae0711c",
+            "889e78788aaab1f8bdf4",
+            "c9f22c759bd23558995d",
+            "ce00f02434717debd441",
+            "357d1498fb3661759ea2",
+            "59adfbb63ef0b789d3d5",
+            "ce77b642b5f4a2be6074",
+            "cf340d75180e9283c6cb",
+            "aca95d2607b781d98d22",
+            "b63d841d9920c3b6c72a",
+            "e3deb0143cec1b9f981f",
+            "22413bb2b98776e80485",
+            "8da6ea4b6a268cccbbaf",
+            "29bb7460e1c76eac4387",
+            "a9b2090f9b856843f9f9",
+            "cda70ecc045e1384b26d",
+            "89235a049b0476c336a9",
+            "0e41ec9108ff140c6c08"
+          ],
+          "raw_file_sha256": "b3ee4a7ac8825f6d3ac956f27f483aba5712dca02741763f85109dc3f7889b2a"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "eaa180f5d3dec4da186f1bbb892cdb4ccd9a21d18535523daa3036f16ddbf98b",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立topk/empty-factory探针的主机时钟和条件完成同步，不改正式评分；factory只触首元素不等于全量初始化，fast_topk可能None，实际设备/有效收益另核。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0068/trajectory.json",
+          "source_locator": "/agent_steps/14/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create缺目录失败，未实际新增",
+          "hit_ids": [
+            "4a4f3d56bf903d657b96",
+            "3bd0f42a1926368a01a7",
+            "b1ac10a9498827fd8acd",
+            "9d3e3b0f19963b34beba",
+            "ad7243e2b1222534f763",
+            "4e6981946ed9dc432a1b",
+            "d9cdd256cd8abd0ad53f",
+            "23619172dfa55dc1d1d1",
+            "36629141fbd875517f03",
+            "1e2e38084d497586e342"
+          ],
+          "raw_file_sha256": "9eeb031a7a655bcf854221362beda1fbd4c0323336c587ee4c2dde30da35bc15"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0068/trajectory.json",
+          "source_locator": "/agent_steps/16/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create成功，仅写独立诊断脚本",
+          "hit_ids": [
+            "1cf02b4356919c3b46b3",
+            "a67b6cd2cb57d85004a7",
+            "d51614f4a85c28c5c423",
+            "d55b19e8aa51be761822",
+            "01951e9b71bcaaf32e18",
+            "b31c05b5145a8f24b2b9",
+            "33c6559fb7df8dedc938",
+            "da92ff83688e3e4045c3",
+            "f2859be19a97daf814c9",
+            "c0e3499f0cac5ad04540"
+          ],
+          "raw_file_sha256": "9eeb031a7a655bcf854221362beda1fbd4c0323336c587ee4c2dde30da35bc15"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0068/trajectory.json",
+          "source_locator": "/agent_steps/20/tool_calls/0/arguments/old_str",
+          "reviewed_feedback": "old_str是被替换旧正文，不是本次新增同步/计时",
+          "hit_ids": [
+            "550763ad3832f9c816da",
+            "fb2f4d30fb991dd0babc",
+            "176ac77a815bb2de4c01",
+            "7e741f8dc64d38295661",
+            "31700c323ff46481260f",
+            "63674477653cbb3ef5bb",
+            "d702b8793c4954904d39",
+            "8f00c9dbdb3b709b5738",
+            "6684a485bd333544f3af",
+            "2322a5bdc18e56bdc4e9"
+          ],
+          "raw_file_sha256": "9eeb031a7a655bcf854221362beda1fbd4c0323336c587ee4c2dde30da35bc15"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "7e0e385a916ca4d6b5016d39ee6754201d50cab4fc5d09e0d09ccbac4fb6b573",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立parse_request_id字符串探针以torch类型、NCCL engine等stub绕导入；只调用解析方法，不执行张量/通信，不是正式GPU或oracle评估。sys.modules/sys.path和主机时钟属于该诊断进程，不能当P2P吞吐。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0042/trajectory.json",
+          "source_locator": "/agent_steps/18/tool_calls/0/arguments/new_str",
+          "reviewed_feedback": "成功写入独立test_opt探针",
+          "hit_ids": [
+            "246bc80c8873e1817f98",
+            "43842756bb89a19f7946",
+            "b82fd78eb4da6b41fb14",
+            "7391b6d19cde1258310d",
+            "3642995b9ced597d18ac",
+            "c6662e3929853a6b740e",
+            "78546fb82267e64e19d9",
+            "45bfa6cbaba49700a252",
+            "fd6f77db53012d7717c1",
+            "462ed9fed2d49891c52a",
+            "d585f692aea35f57486a",
+            "d5c995b40a6af836a6e4",
+            "1badca4d76682a915adb",
+            "e4fd2fb69ee83c4175ac",
+            "0bc5a89d03bb0e7fd8d3",
+            "5868a041aa0f5a2091b8"
+          ],
+          "raw_file_sha256": "5473660f0cdcad5e397491f4e1dfc0f92777adf8796afc628d582c8ee84c36b9"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0042/trajectory.json",
+          "source_locator": "/agent_steps/20/tool_calls/0/arguments/old_str",
+          "reviewed_feedback": "old_str是本次替换上下文，不是新加namespace写入/计时",
+          "hit_ids": [
+            "33a3d05ba7c2d011eb96",
+            "2777847bde7bf3cc6596",
+            "7abedc65a5240e6a8640",
+            "b8999f16e66fbbd4259a",
+            "04d6212c750f7d60ada2",
+            "7f7a44a94a292201213f",
+            "63392ffb5d5d2069dfa9",
+            "8562aa83087f00cd192c",
+            "ebbf519eb866794a145b",
+            "c58853903d4e2941d3ee",
+            "998e6d9291b696718a4d",
+            "4e93c78145f084429c66",
+            "01de48c66af9662d6e88",
+            "baeb7d1e23b925aa0494",
+            "d7d70ee6f512260c79d7",
+            "ee29605cfc2275b4b6c2"
+          ],
+          "raw_file_sha256": "5473660f0cdcad5e397491f4e1dfc0f92777adf8796afc628d582c8ee84c36b9"
+        }
+      ]
+    },
+    {
+      "tool_payload_sha256": "80afd0fa98b7a969e7cda41b5a663f3ebcdab360ac582960eaba55148fe4037c",
+      "hash_input": "tool name + NUL + complete scalar tool argument",
+      "tool": "str_replace_based_edit_tool",
+      "classification": "合法优化",
+      "rationale": "独立scheduler主机元数据探针的sys.path、perf_counter及MockTreeCache普通变量/关键字；tree_cache=参数被宽泛cache赋值规则检出，不是复用reference答案。不把不同running_batch对照当同条件GPU加速。",
+      "positions": [
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_051_ab4a83b2/trajectory.json",
+          "source_locator": "/agent_steps/11/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create因文件已存失败，未实际新增",
+          "hit_ids": [
+            "c88547735ff2e2a90029",
+            "8cd15ef1d91b67dd80cb",
+            "9544a6a367a902d47042",
+            "d509411f0d25c5f9208e",
+            "7324edf324f7b65f8f45",
+            "5ec81eb11000e08e52e9",
+            "0b0cc8bfad76f7c8b5b4",
+            "f1cd21ac1c2a29d3806b",
+            "890413037fefd5b50f32",
+            "85eba65b967d1774dab2",
+            "6bb602b9029ef1064fa0",
+            "8e39681c025775aa6e1f",
+            "fe0358e7e6bd5ef2acfb",
+            "47dbcafe6ddd38376be2",
+            "4c7cad8526ba4c50e5e9"
+          ],
+          "raw_file_sha256": "52b041395e05c7424aeece0107b305945784a4efbe8b582f625506d422ebb383"
+        },
+        {
+          "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_051_ab4a83b2/trajectory.json",
+          "source_locator": "/agent_steps/13/tool_calls/0/arguments/file_text",
+          "reviewed_feedback": "create成功，仅独立模拟源码写入",
+          "hit_ids": [
+            "15fb90e446fa4ccdd1b7",
+            "56649c64f2d24bb84dcd",
+            "24f98f57723f366341f0",
+            "fb4bc5ca218f6f98a603",
+            "64338532194a0855a946",
+            "0cbbe0ae30f5d2bf1af4",
+            "af2ba9b846fa2a0510b5",
+            "791b7194c78b98c6f652",
+            "a45221d25e41d27eab80",
+            "d4f7eb3ec073c4f93efc",
+            "0f1681dd8433a00f0626",
+            "99b5381e39a87655e4c9",
+            "c8bfa38a51e84aeedaf9",
+            "55b06cacf93761256afe",
+            "d2239922e26b663c4805"
+          ],
+          "raw_file_sha256": "52b041395e05c7424aeece0107b305945784a4efbe8b582f625506d422ebb383"
+        }
+      ]
+    }
+  ]
+}

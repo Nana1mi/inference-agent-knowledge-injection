@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前198个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
+[实验] 目前221个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
 
 ## 已复核的三个关键区别
 
@@ -30,6 +30,8 @@
 
 ## 接下来的核验
 
+
+[实验] 本轮追加425/427/430/432/434/437/439/440/444/448/452及455/456/459/460/468/472/479/480/483/484/487/488共23份，未新增可靠成功GPU候选。成功状态的427/432/437/440/444/452分别测逻辑prefix block、LRU、默认CPU SDPA、明确CPU topk、CPU采样探针（数值导航命中实际timeout）、FakeTokenizer字符串；不按summary/任务名补GPU。434设备选择未输出且主机计时无完成同步，保留unknown；468虽成功写CUDA脚本，但执行先在导入失败，120秒timeout来自依赖检查。484前三次替换失败，按实际Read及最后成功插入后的Device cpu返回判断；488用假指针、NumPy和只累计calls的StubEngine，不是GPU/RDMA传输。具体写入反馈、实际Read/脚本和返回指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 
 [实验] 追加顺位407/410/412/415/417/419/420/422共8份，仍未新增可靠成功GPU候选。407/417/422虽trajectory成功，实际分别为env查询/reload、Python prefix block元数据、明确device cpu的InputBatch构造。410/419实际回显cpu，419四shape收益有正有负；412用默认CPU的切片/empty-vs-zeros模拟，420是base64/BytesIO/PIL主机编码与Image.open路径，415用导入stub测block元数据。创建被拒时改查实际Read，不把拟写源码当既成执行；407虽追加配置实例化代码，数值返回未包含该项。全部创建/读取反馈、真实计时返回与结局指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 

@@ -2565,6 +2565,353 @@
         "trajectory.json#/agent_steps/21/tool_results/0/result",
         "trajectory.json#/agent_steps/40/tool_results/0/result"
       ]
+    },
+    {
+      "order": 425,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；16成功创建及18/20缩小参数后仍明确device cpu，main打印CPU。17/19返回120秒timeout，不是有效数值设备测量；unsqueeze/pad/cat模拟不因attention任务名变成GPU。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/16/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/16/tool_results/0",
+        "trajectory.json#/agent_steps/18/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/20/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/17/tool_results/0/result",
+        "trajectory.json#/agent_steps/19/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 427,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；16创建目标带多余字符，25 Read实际标准路径旧env脚本，26才成功替换为prefix block探针。33/43的.000064/.000059秒与hit rate .900来自token列表、hash/逻辑block分配和mark computed，不是GPU缓存或模型执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/16/tool_calls/0/arguments/path",
+        "trajectory.json#/agent_steps/16/tool_results/0",
+        "trajectory.json#/agent_steps/25/tool_results/0/result",
+        "trajectory.json#/agent_steps/26/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/26/tool_results/0",
+        "trajectory.json#/agent_steps/33/tool_results/0/result",
+        "trajectory.json#/agent_steps/43/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 430,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；10创建缺目录失败、12成功，17/19的stub/实际Read仍明确device cpu。21/59测TokenToKVPoolAllocator/PagedTokenToKVPoolAllocator的CPU索引管理；初次1324ms离群与后续下降不当GPU内存或完整引擎收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_results/0",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/17/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/19/tool_results/0/result",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/59/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 432,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；3创建被拒，4实际Read是LRUEvictor的整数ID、hash/last_accessed更新与evict主机循环。39 update曾退至1.326759秒、42/44恢复；这些秒数均不是GPU测量，不能只选最终较快总时长掩去中间回退。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_results/0",
+        "trajectory.json#/agent_steps/4/tool_results/0/result",
+        "trajectory.json#/agent_steps/39/tool_results/0/result",
+        "trajectory.json#/agent_steps/42/tool_results/0/result",
+        "trajectory.json#/agent_steps/44/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 434,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "trajectory失败；8创建被拒后10重建成功，实际脚本按CUDA可用性选设备但不打印选中设备。11的matmul/gather模拟秒数不能区分CPU/GPU；两段主机perf_counter也没有完成同步，未实际执行所称DP/TP通信，不计可靠GPU样本。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/8/tool_results/0",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/10/tool_results/0",
+        "trajectory.json#/agent_steps/11/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 437,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；9创建被拒，10实际Read及39成功替换脚本的query/key/value均无device参数，默认CPU。条件cuda.synchronize不会把这些张量移到GPU；11/40的SDPA无mask/alibi秒数是CPU测试，不计GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/9/tool_results/0",
+        "trajectory.json#/agent_steps/10/tool_results/0/result",
+        "trajectory.json#/agent_steps/39/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/39/tool_results/0",
+        "trajectory.json#/agent_steps/11/tool_results/0/result",
+        "trajectory.json#/agent_steps/40/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 439,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；5创建的evictor_v2探针只操作Python block ID、随机时间戳、hash和contains/add/update/remove/evict。6/23/41的1.6687→.0963/.0962秒为主机LRU管理，summary成功不能覆盖trajectory失败，更不能证明GPU执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/6/tool_results/0/result",
+        "trajectory.json#/agent_steps/23/tool_results/0/result",
+        "trajectory.json#/agent_steps/41/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 440,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；26创建失败、30才成功，32/34用大量导入stub并将is_cuda设False。35/38都明确Device cpu，.000943/.000957秒及topk shapes不能补记GPU MoE测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/26/tool_results/0",
+        "trajectory.json#/agent_steps/30/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/30/tool_results/0",
+        "trajectory.json#/agent_steps/32/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/34/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/35/tool_results/0/result",
+        "trajectory.json#/agent_steps/38/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 444,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；6创建缺目录失败、8成功，12替换后_top_p_top_k探针仍默认device cpu并由main以该默认运行。35数值导航命中实际120秒timeout，不是完成计时；没有以CPU或超时补成功GPU配额。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/6/tool_results/0",
+        "trajectory.json#/agent_steps/8/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/8/tool_results/0",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/35/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 448,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；5创建被拒，6旧Read有HTTP/导入stub；12另建test_opt2，fake_post只是2000次CPU加法和POST_COUNT。20的dp256 .018233/.000070秒模拟多次/单次请求，不实际请求服务器或执行GPU生成，优化计时还排除了预先序列化，不外推端到端收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/6/tool_results/0/result",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/20/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 452,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；3成功创建FakeTokenizer字典/字符串探针，后9/12以vllm/logger stub载入工具。11 Read与13/16/19/24的detokenize/convert秒数只测主机token列表与字符串，非GPU推理；detokenize略慢与convert略快分列，不单记整体加速。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/3/tool_results/0",
+        "trajectory.json#/agent_steps/9/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/11/tool_results/0/result",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/16/tool_results/0/result",
+        "trajectory.json#/agent_steps/19/tool_results/0/result",
+        "trajectory.json#/agent_steps/24/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 455,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；11脚本虽有CUDA分支和同步，12/36明确CUDA not available using CPU；50新验证脚本的tensor/as_tensor和reshape/view也默认CPU，字符串/字典同为主机操作。51的加速比及摘要P2P/NCCL措辞不构成GPU通信测量，empty不fill与zeros亦非同等工作。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/11/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/11/tool_results/0",
+        "trajectory.json#/agent_steps/12/tool_results/0/result",
+        "trajectory.json#/agent_steps/36/tool_results/0/result",
+        "trajectory.json#/agent_steps/50/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/50/tool_results/0",
+        "trajectory.json#/agent_steps/51/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 456,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；14/21导入错误、20/22 applypatch不存在，不能把失败输入当既成改动。23实际重写并执行导入stub的PrefixCachingBlockAllocator探针；23/38的.000170/.000168秒、hit .875仅为token/hash/逻辑block管理，不是GPU执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/14/tool_results/0",
+        "trajectory.json#/agent_steps/20/tool_results/0",
+        "trajectory.json#/agent_steps/21/tool_results/0",
+        "trajectory.json#/agent_steps/22/tool_results/0",
+        "trajectory.json#/agent_steps/23/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/23/tool_results/0",
+        "trajectory.json#/agent_steps/38/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 459,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；34脚本用默认CPU小张量/Linear和eager编译wrapper，45另建验证脚本明确device cpu。46所回1326.8x来自首次编译与缓存调用成本差，不是GPU模型加速；zeros/empty分配及原位操作也只在CPU。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/34/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/34/tool_results/0",
+        "trajectory.json#/agent_steps/45/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/45/tool_results/0",
+        "trajectory.json#/agent_steps/46/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 460,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；18 Bash成功创建脚本，实际只构造PrefixCachingBlockAllocator并管理Python token列表、逻辑block与computed标记。20/22的.0002秒与hit .875为主机计时，未见GPU工作，不能按缓存/引擎任务名补配额。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/18/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/18/tool_results/0",
+        "trajectory.json#/agent_steps/20/tool_results/0/result",
+        "trajectory.json#/agent_steps/22/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 468,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；11/14/15实际CUDA脚本有完成同步，但12/13/16均先在目标模块导入阶段失败，未到张量/计时；27/28的120秒timeout实际是依赖导入检查，30仍缺cbor2，不是GPU耗时。只写CUDA源码不计完成测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/11/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/11/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/15/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/13/tool_results/0",
+        "trajectory.json#/agent_steps/16/tool_results/0",
+        "trajectory.json#/agent_steps/27/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/27/tool_results/0",
+        "trajectory.json#/agent_steps/28/tool_results/0",
+        "trajectory.json#/agent_steps/30/tool_results/0"
+      ]
+    },
+    {
+      "order": 472,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；26创建失败、30成功，初始map由无device的torch.full/tensor生成，32/36改成独立baseline/optimized主机循环，36输出也默认CPU。47的.007962/.001166秒不是GPU专家路由执行，num_gpus8只是映射参数；条件cuda.synchronize不改变张量位置。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/26/tool_results/0",
+        "trajectory.json#/agent_steps/30/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/30/tool_results/0",
+        "trajectory.json#/agent_steps/31/tool_results/0/result",
+        "trajectory.json#/agent_steps/32/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/36/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/47/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 479,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；13成功创建的分配探针有条件CUDA，但14/32均回显Device cpu。zeros/empty及空tensor创建的1.1x/1.5x只为CPU分配对照；摘要CUDA graph capture不代表测了GPU图捕获，empty未填充也不等价于置零。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/13/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/13/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/32/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 480,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；19创建失败、23成功，24实回Device cpu bs64 V49152，baseline .0490/optimized .0348秒。脚本有CUDA同步分支但本次走CPU grammar-mask模拟，不能当GPU采样或完整grammar引擎收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/19/tool_results/0",
+        "trajectory.json#/agent_steps/23/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/23/tool_results/0",
+        "trajectory.json#/agent_steps/24/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 483,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；5成功创建的LoRA分配模式测试6明确Using device cpu。zeros/empty的1.09x/1.07x与fill_/assignment的.92x回退同时保留，均非GPU LoRA执行；empty未填充不证明同等初始化。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/6/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 484,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；36/39/41替换均未匹配，38实际Read旧脚本为默认CPU zeros加1，对应13的.044149秒；42才成功插入可选device分配对照，45回显Device cpu与.038872/.004511秒。未成功替换的CUDA分支输入不能倒填早期测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/36/tool_results/0",
+        "trajectory.json#/agent_steps/38/tool_results/0/result",
+        "trajectory.json#/agent_steps/39/tool_results/0",
+        "trajectory.json#/agent_steps/41/tool_results/0",
+        "trajectory.json#/agent_steps/42/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/42/tool_results/0",
+        "trajectory.json#/agent_steps/45/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 487,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；5/24成功创建的evictor_v2测试实际只管理Python整数ID、hash、时间戳与LRU容器。8/12/25/30的秒数与微秒为逻辑驱逐/更新元数据，.837019→.014223变化不证明GPU执行；输出Optimization successful也不覆盖trajectory失败。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/8/tool_results/0/result",
+        "trajectory.json#/agent_steps/12/tool_results/0/result",
+        "trajectory.json#/agent_steps/24/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/24/tool_results/0",
+        "trajectory.json#/agent_steps/25/tool_results/0/result",
+        "trajectory.json#/agent_steps/30/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 488,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；7异常文件名/缺目录导致创建失败，11才成功。实际用object.__new__绕Mooncake初始化、假整数指针、NumPy索引和StubEngine；transfer_sync只累加calls/return0，batch也只是Python异或。12/17均值.046869/.042893秒不是GPU/RDMA传输，status0是stub结果。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/7/tool_results/0",
+        "trajectory.json#/agent_steps/11/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/11/tool_results/0",
+        "trajectory.json#/agent_steps/12/tool_results/0/result",
+        "trajectory.json#/agent_steps/17/tool_results/0/result"
+      ]
     }
   ]
 }
