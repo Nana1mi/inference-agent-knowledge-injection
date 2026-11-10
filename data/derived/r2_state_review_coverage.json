@@ -2,15 +2,15 @@
   "review_status": "partial",
   "counts": {
     "无法判断": 35,
-    "待复核": 10996,
-    "合法优化": 329,
+    "待复核": 10984,
+    "合法优化": 379,
     "确实影响评估": 3
   },
-  "required_hits": 11363,
-  "reviewed_hits": 367,
+  "required_hits": 11401,
+  "reviewed_hits": 417,
   "physical_files": 895,
-  "unique_payload_positions": 11327,
-  "positions_with_any_manual_judgement": 366,
+  "unique_payload_positions": 11365,
+  "positions_with_any_manual_judgement": 416,
   "rule_coverage": [
     {
       "rule": "torch_global",
@@ -24,38 +24,38 @@
     },
     {
       "rule": "environment_write",
-      "required_hits": 935,
-      "reviewed_hits": 7,
+      "required_hits": 973,
+      "reviewed_hits": 11,
       "counts": {
-        "待复核": 928,
-        "合法优化": 7
+        "待复核": 962,
+        "合法优化": 11
       }
     },
     {
       "rule": "monkeypatch_or_namespace_write",
       "required_hits": 299,
-      "reviewed_hits": 34,
+      "reviewed_hits": 43,
       "counts": {
-        "待复核": 265,
-        "合法优化": 34
+        "待复核": 256,
+        "合法优化": 43
       }
     },
     {
       "rule": "import_path_or_hook",
       "required_hits": 1020,
-      "reviewed_hits": 31,
+      "reviewed_hits": 37,
       "counts": {
-        "待复核": 989,
-        "合法优化": 31
+        "待复核": 983,
+        "合法优化": 37
       }
     },
     {
       "rule": "cache_write_or_reference_reuse",
       "required_hits": 167,
-      "reviewed_hits": 2,
+      "reviewed_hits": 14,
       "counts": {
-        "待复核": 165,
-        "合法优化": 2
+        "待复核": 153,
+        "合法优化": 14
       }
     },
     {
@@ -70,10 +70,10 @@
     {
       "rule": "rng_global",
       "required_hits": 259,
-      "reviewed_hits": 15,
+      "reviewed_hits": 34,
       "counts": {
-        "待复核": 244,
-        "合法优化": 15
+        "待复核": 225,
+        "合法优化": 34
       }
     },
     {

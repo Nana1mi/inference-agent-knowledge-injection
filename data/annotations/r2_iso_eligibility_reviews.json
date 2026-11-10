@@ -1638,6 +1638,67 @@
         "trajectory.json#/agent_steps/8/tool_results/0/success",
         "trajectory.json#/agent_steps/67/tool_results/0/result"
       ]
+    },
+    {
+      "order": 279,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true；成功创建的分配/sampler/penalty微基准虽按CUDA可用性选择设备，实际两次返回均Using device: cpu，153x等不是GPU测量。另有成功创建的Python list拼接和默认CPU验证，最终摘要不能替代实际设备证据。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/9/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/9/tool_results/0/success",
+        "trajectory.json#/agent_steps/10/tool_results/0/result",
+        "trajectory.json#/agent_steps/30/tool_results/0/result",
+        "trajectory.json#/agent_steps/31/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/32/tool_results/0/result",
+        "trajectory.json#/agent_steps/55/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/56/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 282,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true；拟创建脚本因文件已存在被拒，实际Read的旧脚本测import_envs、环境变量查询和reload模块主机耗时。6.422239/1.52683秒及env_lookup_10k返回不是GPU张量或模型计算完成测量，不按最初拟写bench_hash归类。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/11/tool_results/0/success",
+        "trajectory.json#/agent_steps/12/tool_results/0/result",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/21/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 284,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false；首次create失败后成功，分配/初始化benchmark与后续final_benchmark三个数字返回均明确on cpu。CUDA graph batch info是优化对象名称，不是实测CUDA graph；0.66x/0.67x的cumsum结果也不能概括为所有优化加速。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_results/0/success",
+        "trajectory.json#/agent_steps/7/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/7/tool_results/0/success",
+        "trajectory.json#/agent_steps/8/tool_results/0/result",
+        "trajectory.json#/agent_steps/15/tool_results/0/result",
+        "trajectory.json#/agent_steps/37/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/37/tool_results/0/success",
+        "trajectory.json#/agent_steps/38/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 285,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false；早期heredoc超时/重启不能当已成功写入，后续Path.write_text确认成功并改为容错import计时和默认CPU张量RotaryEmbedding.forward_native。实际返回0.149ms/iter CPU及3.996547s失败import/0.001055s成功import，无GPU计算完成测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/32/tool_results/0/success",
+        "trajectory.json#/agent_steps/34/tool_results/0/success",
+        "trajectory.json#/agent_steps/40/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/40/tool_results/0/success",
+        "trajectory.json#/agent_steps/41/tool_results/0/result"
+      ]
     }
   ]
 }
