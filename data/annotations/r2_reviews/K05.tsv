@@ -1,0 +1,175 @@
+# step	phase	tool	layer	origin	source	evidence	outcome	flags	use	hypothesis	rationale	followup	component
+# step7的SOTA读取事件待全会话复核后再填，不预判后续使用。
+1	探索代码	D	U	m	u	x	s	-	x	-	列出题目文件，公开文字只是下一步动作；不是实际知识内容读取	-	o
+2	探索代码	D	K	m	u	x	s	k	a	-	实际读取torch.topk参考接口；step26沿用Model参数与values/indices输出协议，自写CUDA选择与合并	step26 L67–L69的Model/forward实现	o
+3	探索代码	D	M	m	u	x	s	-	x	-	读取正确性检查规则，不记成参考实现或文档访问	-	p
+4	探索代码	D	M	m	u	x	s	-	x	-	读取benchmark计分与计时调用；没有实际profile或新假设	-	p
+5	探索代码	D	M	m	u	x	s	-	x	-	读取任务yaml带宽公式和目标参数；任务说明不等同额外知识库	-	p
+6	探索代码	D	K	m	u	x	s	-	x	-	读取五组形状定义，没有实质分析文本	-	o
+8	环境准备	O	M	m	u	x	s	-	x	-	列出eval目录并查询GPU/nvcc；思考只是检查清单，不当profile	-	p
+9	探索代码	D	M	m	u	x	s	-	x	-	实际读计时器源码；简短读取目的不记实质推理	-	p
+10	探索代码	D	M	m	u	x	s	-	x	-	读取数值压力测试源码，不是新性能测量	-	p
+11	探索代码	D	M	m	u	x	s	-	x	-	读取roofline公式，实现而非硬件实测	-	p
+12	探索代码	D	H	e	c	n	s	v	x	小输入和事件计时中的主机提交间隙使固定开销重要，单次launch与预分配可降延迟	长推理按计时源码/形状推导，未做实际profile；开头首形状误写2MB，随后公式自行算为525056字节，理论机制尚未隔离测量	-	m
+13	环境准备	O	U	m	u	x	f	-	x	-	默认python导入torch失败，未取得设备属性	-	o
+14	环境准备	O	U	m	u	x	s	-	x	-	查项目环境和解释器位置，思考仅表示需找正确python	-	o
+15	环境准备	O	U	m	u	x	f	-	x	-	运行目录python也缺torch；设备查询未执行成功	-	o
+16	环境准备	O	U	m	u	x	f	-	x	-	环境搜索找到共享venv，但shell通配符报错exit1；没有性能结果	-	o
+17	环境准备	O	M	m	u	x	s	-	x	-	共享venv回显Torch2.11/cu130与188SM、128MiB L2；静态属性不记profile	-	p
+18	环境准备	O	M	m	u	x	u	vs	x	-	根据实际属性讨论flush大小并建scratch/env.sh，显式导出PY/P；尚未做带宽基线	-	p
+19	修改代码	O	M	i	i	u	u	-	x	独立大张量拷贝和topk事件计时可校准基线与固定开销	写scratch/base.py而非正式候选；求和带宽错误乘2在step21纠正，计时包含同步但不是profiler	-	p
+20	测量	K	M	m	u	x	s	-	x	-	返回copy1452GB/s、topk各形状及zero6.13us；sum行字节数多乘2，随后纠正，不将2970当真实读带宽	-	p
+21	探索代码	D	H	e	i	y	s	vt	x	小算子延迟较高提示提交固定开销重要，精简pybind路径可能降低成本	明确重算sum约1483GB/s，撤回2970解释；普通基线计时未隔离CPU/GPU成本，source不当profile数据	-	m
+22	其他	O	K	e	i	n	s	v	x	分段radix选择与最后block合并可用一次launch完成topk	长分析提出算法与主机路径方案；实际只建任务，尚未写实现，瓶颈推导未隔离验证	-	o
+23	其他	O	H	m	u	x	s	-	x	-	建立降低主机开销的任务清单，不是实际实现或机制证据	-	o
+24	其他	O	C	m	u	x	s	-	x	-	建立配置扫描/profile任务，不能当已完成profile	-	o
+25	其他	O	U	m	u	x	s	-	x	-	更新任务状态，未执行优化或测量	-	o
+26	修改代码	O	K	i	i	n	u	cs	x	单launch分段radix与最后block合并、预分配输出及直接__call__可降低开销	首次正式solution.py写入；模块缓存ext/run和持久输出/工作区，非缓存reference答案；尚未测试，不能把计划当收益	-	o
+27	修改代码	O	K	e	c	y	u	vc	x	尾部vector不足时应以正确scalar行地址加载	自查占位加载、缺helper和padding问题，本步实际只修scalar地址；后续补齐另列	-	o
+28	修改代码	O	K	i	c	y	u	c	x	只把真实候选以外的共享槽清零可修正padding	实际修sbuf清零逻辑，没有公开实质推理或新检查结果	-	o
+29	修改代码	O	K	i	c	y	u	c	x	在launcher前提供np2可消除未声明helper引用	正式文件接口修复，尚未编译验证	-	o
+30	修改代码	O	K	i	c	y	u	c	x	导出np2_export并同步声明可对齐helper名称	工具参数呈现编译接口修复，无独立实质分析	-	o
+31	修改代码	O	K	i	c	y	u	c	x	扩展functions列表需要匹配新helper名	修改构建接口，未测速度或正确性	-	o
+32	修改代码	O	K	e	c	y	u	vcs	x	修共享数组越界、shift32未定义行为和warp最小值归约可恢复正确选择	重写正式实现，逐项推演并修KP1同步；保留模块缓存/持久缓冲，不是reference结果复用，尚未验证	-	o
+33	测量	V	K	m	u	x	f	v	x	-	运行编译与smoke-test，长思考逐项排查地址/同步但无新增待测机制；实际构建失败，未得到数值检查	-	o
+34	环境准备	O	U	e	i	u	s	v	x	GCC15与Torch头文件兼容可能导致模板构建错误	查询编译器确为15.2，但版本本身不证实全部错误根因，保留为工具链假设	-	o
+35	探索代码	D	U	e	i	u	s	v	x	调整编译诊断或参考构建技能可能绕过头文件错误	实际只查技能路径与列表；没有读取内容或验证建议有效	-	o
+36	探索代码	J	U	m	u	x	s	k	a	-	实际读取cuda-build-blackwell技能的路径/架构/环境建议；后续构建命令采用CUDA_HOME并结合本地编译方案	step40 L107–L110显式export CUDA_HOME=/usr/local/cuda	k
+37	修改代码	O	U	e	i	n	u	vc	x	分开纯CUDA与Torch包装可避免nvcc解析Torch头文件	删除CU显式Torch include；当时未核实隐式头文件，后续step42失败与45/46读取纠正，不当已有效绕过	-	o
+38	修改代码	O	U	i	c	n	u	c	x	将Torch张量包装放在CPP并用原始指针ABI连接CUDA可分离编译依赖	继续正式文件接口重构，尚未构建成功	-	o
+39	修改代码	O	U	m	u	x	u	c	x	-	只修改优化/lineinfo编译选项，未提出可区分的性能机制	-	o
+40	测量	V	K	m	u	x	f	s	x	-	显式设置CUDA_HOME后重建，float与float4指针不匹配导致失败；没有正确性数值	-	o
+41	修改代码	O	K	e	c	y	u	vc	x	launcher宏转换到float4指针可匹配kernel签名	按实际编译错误修类型；宣称头文件问题已解决过早，后续仍失败	-	o
+42	测量	V	K	m	u	x	f	s	x	-	重建仍遇Torch头文件模板错误，未执行全部形状检查	-	o
+43	修改代码	O	U	e	i	u	u	vc	x	屏蔽GCC模板诊断可能使带隐式Torch头文件的nvcc构建通过	本步并未读安装源码，引用的是回忆；添加warning flags后step44仍失败	-	o
+44	测量	V	K	m	u	x	f	s	x	-	加warning flags仍构建失败；不能把编译尝试成功等同测试通过	-	o
+45	探索代码	D	U	e	i	u	s	vk	a	隐式包含Torch头文件使删除CU显式include不足以规避构建问题	实际读取已安装cpp_extension.py，看到no_implicit_headers控制逻辑；回忆中的GCC根因不当官方通用结论	step46–47 L129–L134采用参数与手写绑定	k
+46	修改代码	O	U	e	c	y	u	vc	x	禁用隐式头文件并手写pybind模块可让CUDA源保持独立	依据上步实际源码重构CPP绑定；未测性能，参数接入在下一步	-	o
+47	修改代码	O	U	i	c	y	u	c	x	在load_inline关闭隐式头文件和自动绑定可使用手写模块	实际接入no_implicit_headers/functions=None并更新扩展名；尚未验证	-	o
+48	测量	V	K	m	u	x	f	s	x	-	编译阶段已完成但导入报data_ptr符号缺失；未执行数值验证	-	o
+49	修改代码	O	K	e	c	y	u	vc	x	用平台int64_t取指针可匹配Torch已实例化的索引类型	按链接报错改data_ptr类型；推理中mangled类型字母先后混淆，保留实际修复与后续测试	-	o
+50	测量	V	K	m	u	x	c	s	x	-	扩展可执行，k1正确而其余形状NaN或误差，不能记成功优化	-	o
+51	修改代码	O	K	e	c	y	u	vct	x	把inclusive warp扫描转成exclusive前缀可修正histogram边界选择	根据失败与源码定位off-by-one，实际添加excl-loc；后续step52数值精确	-	o
+52	测量	V	K	m	u	x	s	s	x	-	多个种子/全部五形状返回values和gather误差0，尚非正式全套check	-	o
+53	测量	V	K	m	u	x	s	s	x	-	正式check.py返回PASS；只有动作说明不记可见实质推理	-	o
+54	测量	K	K	m	u	x	s	s	x	-	正式benchmark返回0.0621/LOW；取得性能数值但LOW不改样本榜单结局	-	p
+55	修改代码	O	M	e	i	u	u	vs	x	分开批量设备计时与CPU提交计时可判断延迟来源	正式数值高于预估，写scratch/prof1.py含sys.path插入；这是普通诊断计时脚本，不因命名prof就记profile	-	p
+56	测量	K	M	m	u	x	s	s	x	-	独立事件/host计时返回CPU约2us与不同设备时长；普通微基准，不当硬件profiler采样	-	p
+57	环境准备	O	K	e	i	y	s	v	x	设备侧选择/排序指令与同步可能比CPU提交更主导大k延迟	依据普通计时提出radix、排序、spill和match候选机制，尚未分辨；实际只查询profiler可用性	-	p
+58	修改代码	O	M	m	u	x	u	s	x	-	写NCU驱动scratch/one.py并插入sys.path；没有采样或性能结论	-	p
+59	profile	N	K	m	u	x	f	s	x	-	显式CUDA_HOME后NCU路径不存在，实际采样失败	-	p
+60	profile	N	K	m	u	x	s	s	x	-	首次成功NCU采样：17.50us、32block、低设备利用与CTA barrier stall；显式CUDA_HOME/PATH写入单列筛查	-	p
+61	profile	N	K	e	p	y	f	vs	x	低并行度与barrier stall提示选择/合并指令延迟重要，spill假说缺支持	先纠正SM Active Cycles为跨SM平均，已有报告spill0；新增详细metric名无效且尾部Python报错，不能当新有效计数	-	p
+62	profile	N	K	m	u	x	s	s	x	-	实际返回17.54us、47regs和526109指令等计数；尾部另有encoding错误，两者并存不抹去已输出指标	-	p
+63	修改代码	O	K	e	p	y	u	v	x	移除选择各阶段的对照变体可定位高指令与延迟成本	依据NCU写scratch phase-stripped kernels；诊断消融不要求完整topk输出，不算正式候选	-	p
+64	测量	K	K	m	u	x	s	-	x	-	消融配置返回各阶段时长，未测正式完整候选得分	-	p
+65	探索代码	D	K	e	i	u	f	v	x	match_any的生成实现可能带来额外指令和序列化成本	从普通消融推想并尝试SASS反汇编；P未初始化导致路径失败，没有取得反汇编证据	-	p
+66	探索代码	D	K	m	u	x	f	-	x	-	再次定位扩展构建目录失败，未读到SASS	-	p
+67	探索代码	D	U	m	u	x	s	-	x	-	查询输出/缓存目录，列到其他会话文件名不等于读取或采用其实现	-	o
+68	探索代码	D	K	m	u	x	s	v	x	-	区分本运行cache与其他会话，实际获取SASS opcode直方图；编译产物静态分析不新增profile	-	p
+69	修改代码	O	K	e	p	u	u	vcs	x	减少radix轮数与segment排序并采用并行最终rank排序可降低选择成本	结合NCU/消融和SASS改正式算法；match_any昂贵解释未单独隔离，重写保留ext/run缓存及持久缓冲	-	o
+70	修改代码	O	K	e	c	y	u	vc	x	rank排序的padding应保留独立槽位以避免多个padding写同一位置	根据刚写源码修padding冲突，尚未数值验证	-	o
+71	测量	V	K	m	u	x	c	v	x	-	长推理检查边界/共享布局后运行正式check，shape0全部64values不匹配；代码自查不是已通过证据	-	o
+72	修改代码	O	M	e	c	u	u	vs	x	单独输出候选与参考的值和索引可区分排序、扫描或合并错误	失败后写scratch/dbg.py，含sys.path及manual_seed；提出多个根因但尚未定位	-	o
+73	测量	V	K	m	u	x	c	-	x	-	实际全部64values/gather错误，不能把结果当性能验证	-	o
+74	测量	V	K	e	c	u	c	v	x	单segment测试若仍错则不应仅归因于跨block合并可见性	检查单segment和多行仍错误，缩小到段内选择；并未修改同步或正式代码	-	o
+75	修改代码	O	M	e	c	u	u	vs	x	打印每轮histogram计数可定位段内选择遗漏	写scratch/dbgk.py含manual_seed和device printf；仍是诊断而非正式候选	-	o
+76	测量	V	K	m	u	x	f	-	x	-	仪器化scratch编译缺printf声明，未取得round计数	-	o
+77	测量	V	K	e	c	y	f	v	x	补stdio声明可运行计数诊断	实际修scratch并得到live2048但round1total342；尾部CPU/NumPy转换报错，未完成数值验证	-	o
+78	修改代码	O	K	e	c	y	u	vc	x	warp inclusive总和应取lane31而非lane0的局部和	按仪器化数据修正式源码；新shfl仍放lane0分支，后续step92需再修，不能提前认定正确	-	o
+79	测量	V	K	m	u	x	f	-	x	-	正式check前台被工具两分钟超时终止，没有PASS/FAIL数值	-	o
+80	测量	V	K	m	u	x	u	-	x	-	改为后台启动check，仅取得句柄不推定完成	-	o
+81	等待	O	U	m	u	x	u	-	x	-	TaskOutput仍running，既非写报告也非成功检查	-	o
+82	等待	O	U	m	u	x	u	-	x	-	查check日志为空，仅观察进度，无数值结果	-	o
+83	等待	O	U	m	u	x	f	-	x	-	句柄完成但output明确内部timeout exit124；外层echo使exit0不能替代真实检查结果	-	o
+84	环境准备	O	U	e	i	u	f	v	x	空日志可能来自构建等待或kernel挂起	查询构建目录仍路径失败；未证实构建缓慢或kernel死锁	-	o
+85	环境准备	O	U	m	u	x	s	-	x	-	定位运行级扩展缓存目录，没有新执行或计时证据	-	o
+86	环境准备	O	U	m	u	x	s	-	x	-	目录显示so已构建，GPU利用率查询不能独自证明挂起根因	-	p
+87	环境准备	O	U	e	i	u	s	v	x	可能有遗留进程或其他任务引发长等待	只读进程列表被大量其他运行文本淹没，未证明争用或死锁	-	o
+88	测量	V	K	m	u	x	f	-	x	-	单segment诊断仍被前台超时终止；没有数值验证	-	o
+89	环境准备	O	U	e	i	n	s	v	x	其他任务GPU争用可能使同步一直等待	实际查询显示GPU0利用0且进程在另卡；不足以支持其争用因果猜测，后续撤回	-	o
+90	测量	V	M	e	c	y	f	vs	x	逐阶段打印可区分导入构建与forward期间停滞	实际sys.path插入并打印import/model耗时后无run输出；管道末echo rc0不表示forward完成	-	p
+91	修改代码	O	M	e	c	y	f	v	x	已缓存构建且forward不返回提示应检查选择kernel的同步路径	将lane31改动加入scratch仪器化版本后也超时；不能用未运行完的数据证明具体同步根因	-	o
+92	修改代码	O	K	e	c	y	f	vct	x	把FULL-mask shuffle移出lane0分支可让被指定lane共同参与	实际修solution与scratch后round计数恢复2048并退出循环；尾部np未导入仍报错，尚非正式PASS	-	o
+93	测量	V	K	e	c	y	s	vs	x	修诊断的NumPy导入与CPU搬运可检查实际发出的候选集合	只改scratch并重新设置manual_seed，输出选择集合与参考；未在本步证明排序或全套check通过	-	o
+94	测量	V	K	m	u	x	u	v	x	-	根据诊断认为集合合理后后台启动正式check；只有句柄，尚不记PASS	-	o
+95	等待	O	U	m	u	x	s	-	x	-	后台命令已完成但输出未展示检查结论，下一步读日志确认	-	o
+96	测量	V	K	m	u	x	s	-	x	-	实际读取正式check日志PASS与exit0	-	o
+97	测量	K	K	m	u	x	u	-	x	-	后台启动正式benchmark，仅取得句柄	-	p
+98	等待	O	U	m	u	x	s	-	x	-	benchmark句柄完成，尚未读取性能结果	-	o
+99	测量	K	K	m	u	x	s	-	x	-	正式日志返回0.0583/LOW，较先前0.0621下降	-	p
+100	测量	K	M	e	i	y	s	v	x	批量设备/host计时可确认哪些形状真实回归而非flush计入	复核计时器未包含flush本身，执行普通诊断得到大k8–10us和k1约8.9us，不记profile	-	p
+101	测量	K	K	e	i	u	s	v	x	配置或GPU争用可能解释k1路径意外回归	复测k1约9.3us且设备查询空闲，削弱争用解释；尚未定位实际配置选择错误	-	p
+102	profile	N	K	m	u	x	f	vs	x	-	显式PATH后NCU命令无匹配输出，没有有效采样；具体skip错误在105解释	-	p
+103	profile	N	K	m	u	x	f	s	x	-	重复skip200的NCU尝试仍无指标；不能按命令调用累计有效profile次数	-	p
+104	探索代码	D	M	m	u	x	s	-	x	-	读取NCU日志看到没有目标kernel采样和尾部encoding报错，不是新的profile	-	p
+105	profile	N	K	e	c	y	s	vs	x	驱动仅8次目标调用而skip200会跳过全部，移除skip可获得采样	实际返回目标kernel模板与指标，注意参数为KP64而非预期KP1	-	p
+106	修改代码	O	C	e	p	y	u	vct	x	按字典升序选最小可覆盖k的配置可避免所有形状误用KP64	由NCU实参发现与代码确认DEFAULTS顺序错误，修改正式picker；性能变化待下一步	-	o
+107	测量	K	C	m	u	x	s	-	x	-	重测k1约2.40us恢复，但其他形状11us左右，不能推定所有配置修复都加速	-	p
+108	profile	N	K	e	i	u	s	vs	x	更小配置未必更快，需要采样分辨固定工作和并行度成本	实际采样shape1得47regs、42.65%占用等；启动前归因来自普通计时而非尚未读取的新profile	-	p
+109	探索代码	D	K	e	p	y	s	v	x	高指令量和低eligible比例提示应缩减扫描与每轮固定开销	读取现有NCU报告而非重采样；命令末grep无匹配但前半有效指标已返回	-	p
+110	修改代码	O	C	e	p	u	u	vc	x	缩小radix bin数可减少清零扫描成本并为每形状提供更合适配置	长推导仍为模型化解释，实际重写正式CUDA dispatch配置；没有完成隔离验证	-	o
+111	修改代码	O	C	i	c	n	u	c	x	同步Python配置表与CUDA模板可使新配置参数一致	改正式CFGS和picker并支持n/k环境覆盖；这里只读环境不新增全局写入	-	o
+112	修改代码	O	M	i	c	u	u	s	x	按容量约束筛选配置再测量可找合法参数	写scratch扫描脚本并sys.path插入；此时用改m.cfg而未重分配工作区，后续117纠正，不提前采信结果	-	p
+113	测量	K	C	m	u	x	u	-	x	-	后台启动scratch扫描，仅取得句柄，未得到配置赢家	-	p
+114	等待	O	K	e	p	n	f	v	x	更多小block或warp内选择可能减少每轮同步固定成本	长推理提出重构但本步只尝试sleep后读日志，被工具拒绝；未执行新算法	-	m
+115	测量	K	C	m	u	x	s	-	x	-	读取扫描日志有OK/BAD时长；第117步发现缓冲配置失配，不能当可靠跨配置性能排序	-	p
+116	测量	V	K	e	c	u	c	v	x	单独强制配置复现可判断BAD来自kernel或扫描设置	再次只覆盖m.cfg，返回多处错误；尚未重建配套工作区，不能将失败归因于算法	-	o
+117	修改代码	O	M	e	c	y	u	vst	x	构造Model前设置配置可同步分配ns/KP工作区，修复扫描中的错配	明确撤回BAD即算法错误解释；实际改scratch写os.environ并按配置重建后后台重跑，仅句柄	-	p
+118	等待	O	K	e	i	w	s	v	x	越界读写的旧扫描时长仍可当有效性能比较	此解释未成立，配套缓冲错误使工作量和访存失真；本步TaskOutput新扫描完成但没展示数值，不能确认旧时长有效	-	m
+119	测量	K	C	m	u	x	s	-	x	-	读取修复工作区后的扫描日志；配置均OK，不能沿用旧BAD解释	-	p
+120	探索代码	D	K	e	i	n	s	v	x	一轮radix后收集候选并rank排序可能减少多轮同步与扫描	结合普通配置扫描提出新算法，实际只定位select_top边界；未修改或验证新路径	-	m
+121	探索代码	D	K	m	u	x	s	-	x	-	读取当前select_top前段源码，无外部知识访问或新profile	-	o
+122	探索代码	D	K	m	u	x	s	-	x	-	读取select_top后段以确定重写边界，文字只是动作安排	-	o
+123	修改代码	O	K	i	i	n	u	c	x	压缩radix到小候选集合后rank排序可减少选择轮数	脚本替换正式select_top，保留必要迭代回退；普通kernel内barrier不单独当进程级状态篡改	-	o
+124	探索代码	D	K	m	u	x	s	-	x	-	读取主kernel调用与共享数组以对接新函数；无实质推理文本	-	o
+125	修改代码	O	K	i	c	y	u	c	x	新select_top需要对应共享surv/tmp数组和调用签名	实际修改正式共享布局与调用点，未检查正确性	-	o
+126	修改代码	O	K	e	c	y	u	vc	x	扩大sh容量并经tmp中转可避免越界和survivor搬移重叠	源码自查后实际修正式数组/拷贝并后台启动check，仅有句柄，不能提前记通过	-	o
+127	等待	O	U	m	u	x	s	-	x	-	后台任务完成，输出ok来自修补脚本，检查结论待读日志	-	o
+128	测量	V	K	m	u	x	c	-	x	-	正式日志显示shape0有62/64values错误与exit1	-	o
+129	测量	V	K	e	c	u	s	vs	x	单segment诊断可区分段内选择与多段合并的失败	小形状检查通过且显式TOPK_CFG覆盖；不能据此推定完整shape0正确	-	o
+130	测量	V	K	e	c	u	s	vs	x	逐步扩大segment数可定位合并失败触发条件	显式配置测NS4/8通过，但均为特定随机输入，不构成全输入正确证明	-	o
+131	测量	V	K	m	u	x	s	-	x	-	GPU randn生成的完整shape0在本次检查精确；与正式CPU生成输入不同，后续区分	-	o
+132	探索代码	D	M	e	c	u	s	v	x	检查输入生成路径可能解释同seed在正式与scratch结果不同	实际grep未返回生成代码，尚未定位差异	-	o
+133	探索代码	D	M	m	u	x	f	-	x	-	查检查源码遇shell通配符错误，未取得目标实现	-	o
+134	探索代码	D	M	m	u	x	s	-	x	-	定位numeric_stress与check输入生成调用，未做新正确性测量	-	o
+135	探索代码	D	M	m	u	x	s	-	x	-	重读压力测试源码确认nominal上下文；harness读取不计被动知识入口	-	o
+136	探索代码	D	K	m	u	x	s	k	a	-	实际重读reference.get_inputs，CPU randn路径在下一步诊断中转化复现；不是拷贝参考topk作为正式实现	step137 L431–L433 CPU生成后.cuda的诊断	o
+137	测量	V	K	e	c	y	c	vs	x	CPU与GPU随机流不同，按参考CPU生成再搬GPU可复现正式失败	显式sys.path/manual_seed后得到bad62及相同误差，支持数据相关失败而非只凭seed称相同输入	-	o
+138	测量	V	K	e	c	u	f	vs	x	重复key或rank碰撞可能使合并输出乱序	诊断插入路径/设置seed，打印gather false后Python.item类型错误；没有完成重复索引验证	-	o
+139	测量	V	K	m	u	x	f	s	x	-	再次独立诊断但bool.sum误用报错，仍未取得完整计数	-	o
+140	测量	V	K	m	u	x	s	s	x	-	修复诊断后scratch重复key0、输出重复索引0，各segment64真实key；sys.path和seed为独立诊断状态	-	o
+141	修改代码	O	K	e	c	u	u	vc	x	在prefix写完与二分搜索之间补block barrier可避免读取未完成数组	依源码推测并修正式同步后后台check；下次仍失败，不能把此修复当已证明唯一根因	-	o
+142	等待	O	U	m	u	x	s	-	x	-	后台任务已结束但仅显示修补ok，未显示check结论	-	o
+143	测量	V	K	m	u	x	c	-	x	-	读日志仍shape0错误63/64，并继续启动旧扫描；不能将后续错误候选时间当有效优化	-	o
+144	环境准备	O	M	m	u	x	f	v	x	-	决定停止错误候选扫描以继续诊断；pkill命令本身exit144，未取得逐进程终结证明，不执行其原始命令于本机	-	o
+145	修改代码	O	M	i	c	u	u	s	x	给正式合并代码加round打印可定位选择与排序状态	写独立scratch/dbg2.py，复用自身候选CUDA并manual_seed；不是新增外部知识读取	-	o
+146	测量	V	K	m	u	x	c	-	x	-	独立合并诊断仍bad63且未见round打印，不能从缺输出推定未执行merge	-	o
+147	测量	V	K	e	i	u	c	v	x	扩大读取范围可能看到此前被tail遗漏的device printf	重跑后仍无打印且数值错误；把block0假定为最终合并block的理由未成立	-	o
+148	修改代码	O	M	e	c	y	c	vt	x	最后到达的合并block不固定为block0，移除该打印限制可观察round状态	只改scratch并重跑取得完整merge计数，但正式数值仍错；诊断可见性修复不等于候选正确	-	p
+149	探索代码	D	K	e	c	y	s	vt	x	即使候选数等于所需k，也必须排序才能满足输出顺序协议	结合round计数与实际源码定位m等于keep时绕过排序；先前把乱序误作漏选/重复的解释被修正	-	o
+150	探索代码	D	K	m	u	x	s	-	x	-	读取rank sort与输出区间，尚未进行代码修复	-	o
+151	修改代码	O	K	e	c	y	u	vc	x	无条件rank排序可处理候选集合大小恰等于k的乱序情形	实际移除m大于keep条件，尚未运行正式check	-	o
+152	测量	V	K	m	u	x	s	-	x	-	修复排序后正式check.py PASS、exit0	-	o
+153	其他	O	C	e	c	n	s	v	x	选择算法变化后应重新扫描配置而非沿用旧成本排序	实际只更新任务完成状态，未执行新扫描；关于旧BAD的回忆混淆保留，不覆盖117已确认的工作区问题	-	o
+154	测量	K	C	m	u	x	s	-	x	-	新选择实现的扫描完成并返回OK时长，属于参数测试非硬件profile	-	p
+155	测量	K	C	m	u	x	s	-	x	-	读取同一次扫描剩余形状结果，不当独立实验次数	-	p
+156	探索代码	D	C	e	i	y	s	v	x	按已通过检查的每形状最低时长配置更新表可改善参数选择	根据普通扫描选择16/10/10/8/14并检查现有picker；普通参数赢家不等于瓶颈机制证据	-	s
+157	修改代码	O	C	i	i	y	u	c	x	硬编码扫描赢家并用容量约束筛选fallback可避免不合适配置	实际修改正式表与fallback；引入语法拼写错误在下一步修复，尚未测收益	-	o
+158	修改代码	O	C	e	c	y	u	vc	x	去掉重复is拼写可恢复合法Python条件表达式	自查立即修正式picker语法，无性能假设或测试结果	-	o
+159	测量	K	C	m	u	x	s	-	x	-	正式check PASS并benchmark0.0716/LOW；两项均有返回，不以局部改善重标榜单结局	-	p
+160	探索代码	D	M	e	i	u	s	v	x	正式冷L2单次事件窗口与连续launch扫描不同，差值需查验计时方法	实际重读benchmark.py而非采样，尚不能将两种数字差直接归因于CPU或冷访存	-	p
+161	探索代码	D	M	m	u	x	s	-	x	-	相对路径读计时器失败后find返回路径，只是定位未实际读取其他会话内容	-	p
+162	探索代码	D	M	m	u	x	s	-	x	-	实际重读中央timing.py确认flush在事件窗口外；harness读码不新增profile	-	p
+163	修改代码	O	M	e	c	u	u	vs	x	用busy-fill隐藏CPU提交并比较冷暖事件窗口可拆分成本	写scratch/prof2.py且插入sys.path；诊断设计后续发现自身会扰动缓存，不把估算分解当可靠归因	-	p
+164	测量	K	M	m	u	x	s	-	x	-	返回enqueue/cold/event但cold有时超过event且带宽打印比例错，后续165/166/168质疑该测量解释	-	p
+165	测量	K	M	e	i	u	s	v	x	加长busy-fill可充分隐藏enqueue并辅助比较冷暖kernel	只改scratch并重测，fill本身的缓存扰动仍在；未完成有效的CPU与kernel成本独立分解	-	p
+166	测量	K	M	e	c	y	s	vst	x	busy-fill本身改变缓存状态，旧bracket不能独立分离冷暖kernel时间	根据诊断源码主动质疑旧分解；实际KBH_BENCHMARK_BASELINES=1运行正式基线对照得0.0749，未修改计时器；dirty-writeback仍未隔离验证	-	p
+167	修改代码	O	M	e	i	u	u	vs	x	实际profiler采样可替代受busy-fill扰动的事件分解	写scratch/prof3.py插入sys.path并准备Torch CUDA profiler；硬件ramp/dirty-writeback仍仅解释候选，尚未隔离验证	-	p
+168	profile	P	K	m	u	x	s	-	x	-	首次实际Torch profiler采样返回shape0约8.08us、shape1约7.48us，与flush kernel时间分列；此前已有NCU	-	p
+169	profile	N	K	e	p	y	s	vs	x	实际kernel时长低于旧bracket，低利用和指令延迟需要更细指标判断	基于Torch profiler纠正13us解释，实际写新NCU驱动sys.path并取得采样；clock ramp与dirty-writeback未证实	-	p
+170	修改代码	O	M	e	p	u	u	vs	x	用阶段时间戳可区分segment工作与单block merge尾部	依据NCU低并行度写scratch仪器化脚本，含device global调试缓冲；该草稿随即被认为混乱而未当有效结果	-	p
+171	探索代码	D	K	m	u	x	s	-	x	-	决定先读kernel正文再重写仪器化脚本，公开理由只有流程纠正	-	p
+172	修改代码	O	M	i	c	u	u	s	x	在明确代码边界写clock64与调试缓冲可定位各阶段成本	重写scratch设备全局g_dbg及zero/copy辅助逻辑；没有改正式候选或取得时间证据	-	p
+173	测量	K	M	m	u	x	f	-	x	-	仪器化扩展在CPP含CUDA launch语法导致构建失败，未得到阶段计时	-	p
+174	修改代码	O	M	e	c	y	u	vs	x	将诊断kernel launch移入CUDA源并由CPP调用C入口可通过编译前端	只改scratch包装与device调试缓冲的zero/copy入口，未验证成功或性能	-	p
