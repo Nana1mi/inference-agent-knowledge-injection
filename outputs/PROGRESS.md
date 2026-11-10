@@ -3,6 +3,17 @@
 ## 第二轮启动（2026-11-11）
 
 
+### 最新本地进度：ISO至245份、独立探针状态再核213处
+
+- [实验] 上轮23份ISO资格、343处状态复核及逐命中导航已保存本地提交`1c50883`，属于有效进展。本轮继续原R1–R6目标，仅本地提交；没有运行下载代码、本机GPU或sudo。KBH首标保持14会话、3345/3345步，未冻结或抽盲复标。
+- [实验] ISO本轮新增24份（491/495/496/503/504/508/511/512/515/516/519/520/523/524/527/529/530/532/533/535/536/539/541/542），累计245份资格复核，可靠成功GPU候选仍1份、selected仍空。495/504虽成功但实际CPU；504三次logprob对照约.58x更慢，511的三项CPU分配完整模式.57/.77/.61x也更慢，不被摘要措辞覆盖。实际脚本、写入/Read反馈、返回与结局指针见[资格复核](../data/annotations/r2_iso_eligibility_reviews.json)及[ISO状态](round2/r2_iso_evidence_status.md)。
+- [实验] 541虽trajectory成功并创建了CUDA moe_align脚本，逐项核完整工具序列后没有执行它；50唯一数字导航命中只是cat写入/回显摘要，SIMD2–4x/整体2–5x没有实测表。535修改allreduce CUDA源，但实际创建被拒后8 Bash cat揭示旧脚本仅Python累加，约.0039秒不是CUDA测量。496也区分39/41失败与43成功创建，最终cuda_available False。源代码/文档数字均未冒充已执行实验。
+- [实验] 512/536的实际设备未输出，保留unknown；512的allocation主机计时没有完成同步，另一部分是NumPy，536虽每轮末同步却仅打印t_vmap/t_loop=.02848，不能误说vmap慢35倍或凭数值认GPU。523的prefill只解已有token文本，524克隆改别名的139.63x是CPU权重列表模拟，533默认CPU的反量化经历.48/.75x回退后28.36x；均不升级为GPU引擎收益。516另外补核真实clone源码：旧deepcopy、新版共享ctx/重置状态，并保存精确源码返回指针。
+- [实验] R5新增213处明确判断，来自8份完整标量参数正文、13个实际输入位置及对应反馈：独立分配/logits准备、moe_align、cumsum/pad/shift、BMM/FP8、log-softmax/finish-reason、CPU allocator、mooncake容器/整数打包、slice/narrow/view/copy探针。全部按本次命中含义判合法；失败创建与成功写入分列，CPU隐藏设备及导入路径只在独立诊断进程，MockKVCache/kvcache普通变量误命中不当oracle缓存。合法同步/计时不证明实际执行或语义等价，empty/zeros和log(softmax+eps)/log_softmax差异保留。
+- [实验] [显式批次记录](../data/annotations/r2_state_payload_review_batches.json)累计固定556个ID、18份正文、34个输入位置；未向相似或新增命中传播。`r2_state_review_view.py --verify-batch`核原文件/完整参数哈希、命中行/定位、反馈/理由与TSV关联，见[机械校验](../data/derived/r2_state_payload_audit_validation.json)。展示缓存仍只在本地被忽略目录，不作独立案例或GPU实验计数。
+- [实验] R5累计1653/11439处：1582合法、68无法判断、3确实影响评估，余9786；旧unknown不改判，3条确认仍为同一FP8全局开关案例。全量状态复核、ISO最终样本、全源首标冻结、20%盲复标/一致率与κ、R4/R5报告和R6简报仍未完成，整体in_progress。
+
+
 ### 最新本地进度：ISO至221份、343处状态命中逐项复核
 
 - [实验] 上轮219项首标更正、知识源事件和8份ISO/100处状态复核已保存本地提交`9b43d4b`，属于有效进展。本轮继续原R1–R6目标，仅本地提交；没有运行下载代码、本机GPU或sudo。KBH首标仍为3345/3345步、14会话，未冻结或抽盲复标。
