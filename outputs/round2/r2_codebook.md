@@ -43,8 +43,10 @@ KBH的一个decision_step为工具返回边界之间连续的assistant记录，�
 
 [实验] `python scripts/r2_state_review_view.py`按“工具名＋完整标量参数正文”的SHA256组织未判断命中；`--group SHA256`展示完整原文、每个输入位置/目标、对应成功或错误反馈及逐行命中ID。相同正文仅共用展示，不把不同位置或old_str当成同一次执行；分组不产生判断，原始展示缓存保留在被git忽略的r2_review_inputs内。
 
-[实验] 当前[显式复核批次](../../data/annotations/r2_state_payload_review_batches.json)固定825个ID，涉及45份参数正文、73个实际输入位置，分别核对失败创建、成功写入及old_str上下文；大幅相同的变体以完整基线加完整差异核对。成功写独立脚本不证明它实际执行，计时/导入stub合法也不证明数值有效或是GPU测量。含cache的函数名、普通配置/关键字误命中与真实缓存操作分开解释；不将old_str一概判合法。cached_time/uncached_time仅命名含cache的普通时间变量也单独识别，局部RadixCache/PyObjectCache/LRUCache诊断不等于复用reference结果。
+[实验] 当前[显式复核批次](../../data/annotations/r2_state_payload_review_batches.json)固定851个ID，涉及50份参数正文、78个实际输入位置，分别核对失败创建、命令超时/restart确认、成功写入及old_str上下文；大幅相同的变体以完整基线加完整差异核对。成功写独立脚本不证明它实际执行，计时/导入stub合法也不证明数值有效或是GPU测量。含cache的函数名、普通配置/关键字误命中与真实缓存操作分开解释；不将old_str一概判合法。cached_time/uncached_time仅命名含cache的普通时间变量也单独识别，局部RadixCache/PyObjectCache/LRUCache诊断不等于复用reference结果。
 
 [实验] 在完整源码中发现旧monkeypatch模式遗漏进程启动、HTTP替身、builtins打印、time.sleep及asyncio策略替换，扩展同一规则后重扫全部本地轨迹。命中从11439增至11482，全部旧ID保留，43条新增命中均另行逐处判断，见[规则扩展审计](../../data/annotations/r2_state_rule_extension_audit.json)。规则数仍为12；任意别名或动态替换的召回不保证完整。独立诊断里的空操作/假响应可以合法，但相应计时只覆盖模拟工作，不算真实GPU或服务吞吐证据。
+
+[实验] 其后补入`del sys.modules[...]`检索，全部本地来源重扫后从11482增至11494，12条新增ID均逐处判断，见[import删除审计](../../data/annotations/r2_import_cache_rule_extension_audit.json)。删除条目确实改变诊断进程状态，但不自动归正式evaluator/reference污染。局部删除也不保证恢复冷启动：parallel_state探针实际重复注册失败；命令超时和“tool has been restarted”均不证明写入/测试已完成。
 
 [实验] `python scripts/r2_state_review_view.py --verify-batch`核对源文件和完整参数哈希、命中ID/行/定位、显式标签与TSV关联，见[批次机械校验](../../data/derived/r2_state_payload_audit_validation.json)。这不是盲复标或全量R5完成证明；未列出的命中继续待复核。

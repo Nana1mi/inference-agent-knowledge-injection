@@ -43,10 +43,33 @@ def main():
                     row.update(artifact_kind='final_result_without_tools',stdout_model_usage=list(d.get('modelUsage',{})),stdout_subtype=d.get('subtype'))
                 else:row['artifact_kind']='unstructured_stdout'
         rows.append(row)
-    dump(DERIVED/'r2_iso_execution_inventory.json',{'updated_at':now(),'scope':'structural observable export inventory; regex cues are NOT eligibility labels','rows':rows})
+    # Join only explicit authored review IDs. Missing cues never imply eligibility.
+    reviewed = {r['order'] for r in load(ROOT/'data/annotations/r2_iso_eligibility_reviews.json')['reviews']}
+    numeric_path = DERIVED/'r2_iso_measurement_inputs.json'
+    numeric = {p['order'] for p in load(numeric_path)['packets']} if numeric_path.exists() else set()
+    known = {r['order'] for r in rows}
+    if not reviewed <= known or not numeric <= known:
+        raise ValueError('review/navigation contains an order outside the frozen census')
+    pending = [r for r in rows if r['order'] not in reviewed]
+    coverage = {
+        'scope': 'review-ID coverage only; not GPU labels or a completed census',
+        'required_candidates': len(rows), 'reviewed_candidates': len(reviewed),
+        'pending_candidates': len(pending),
+        'numeric_navigation_candidates': len(numeric),
+        'numeric_navigation_pending_orders': sorted(numeric - reviewed),
+        'pending_by_artifact_kind': dict(Counter(r['artifact_kind'] for r in pending)),
+        'pending_orders_by_artifact_kind': {
+            kind: [r['order'] for r in pending if r['artifact_kind'] == kind]
+            for kind in sorted({r['artifact_kind'] for r in pending})
+        },
+    }
+    dump(DERIVED/'r2_iso_execution_inventory.json',{'updated_at':now(),'scope':'structural observable export inventory; regex cues are NOT eligibility labels','eligibility_review_coverage':coverage,'rows':rows})
     dump(DERIVED/'r2_iso_execution_inputs.json',{'scope':'unlabelled local-only source excerpts for review','packets':packets})
     print('artifacts',dict(Counter(r['artifact_kind'] for r in rows)))
     print('candidate positive-cue orders',[r['order'] for r in rows if r['positive_cue_count']])
     print('downloaded trajectories',sum(r['artifact_kind']=='trajectory' for r in rows),'execution-result packets',sum(r['execution_result_count'] for r in rows),'cue packets',len(packets))
+    print('explicit review coverage', coverage['reviewed_candidates'], '/', len(rows),
+          'pending by artifact', coverage['pending_by_artifact_kind'],
+          'numeric pending', len(coverage['numeric_navigation_pending_orders']))
 
 if __name__=='__main__':main()

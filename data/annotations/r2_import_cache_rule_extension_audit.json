@@ -1,0 +1,121 @@
+{
+  "baseline_local_commit": "80df115",
+  "rule": "import_path_or_hook",
+  "reason": "资格复核795时发现del sys.modules未被旧import模式覆盖；追加删除语法后全量重扫，新增命中逐处判断。",
+  "baseline_hits": 11482,
+  "expanded_hits": 11494,
+  "retained_baseline_hit_ids": 11482,
+  "removed_baseline_hit_ids": [],
+  "added_hits": 12,
+  "rule_count": 12,
+  "before_pattern": "sys\\.(?:path\\.(?:insert|append|extend)|path\\s*=|meta_path|path_hooks|modules\\s*\\[[^\\n]+?\\]\\s*=|modules\\.(?:update|setdefault|pop)\\s*\\()|\\b(?:__import__|importlib\\.import_module)\\s*=",
+  "after_pattern": "sys\\.(?:path\\.(?:insert|append|extend)|path\\s*=|meta_path|path_hooks|modules\\s*\\[[^\\n]+?\\]\\s*=|modules\\.(?:update|setdefault|pop)\\s*\\()|\\b(?:__import__|importlib\\.import_module)\\s*=|\\bdel\\s+sys\\.modules\\s*\\[",
+  "source_physical_files": 895,
+  "source_unique_content_files": 818,
+  "source_leaf_payloads": 89162,
+  "new_explicitly_reviewed_ids": [
+    "47c67221fd11a808922e",
+    "8946f58db3605cee6418",
+    "05d853b6835413fd2eb4",
+    "51e110d96a26058e8bff",
+    "f601178525c45dfdd159",
+    "43cfa314357c8b48e039",
+    "a3877981f992d52c153e",
+    "7146a2633ea2c826e971",
+    "3333554961f1d4588dd5",
+    "7ffe36259f57d248ecce",
+    "9f4b4e10924ecb5a05d1",
+    "ec59d64a9c08bac22898"
+  ],
+  "added_occurrences": [
+    {
+      "hit_id": "47c67221fd11a808922e",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_045_9c088829/trajectory.json",
+      "source_locator": "/agent_steps/32/tool_calls/0/arguments/file_text",
+      "payload_line": 20,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "8946f58db3605cee6418",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_045_9c088829/trajectory.json",
+      "source_locator": "/agent_steps/32/tool_calls/0/arguments/file_text",
+      "payload_line": 22,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "05d853b6835413fd2eb4",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_045_9c088829/trajectory.json",
+      "source_locator": "/agent_steps/32/tool_calls/0/arguments/file_text",
+      "payload_line": 24,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "51e110d96a26058e8bff",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_045_9c088829/trajectory.json",
+      "source_locator": "/agent_steps/32/tool_calls/0/arguments/file_text",
+      "payload_line": 26,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "f601178525c45dfdd159",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/32/tool_calls/0/arguments/command",
+      "payload_line": 23,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "43cfa314357c8b48e039",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/32/tool_calls/0/arguments/command",
+      "payload_line": 31,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "a3877981f992d52c153e",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/33/tool_calls/0/arguments/command",
+      "payload_line": 23,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "7146a2633ea2c826e971",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/33/tool_calls/0/arguments/command",
+      "payload_line": 31,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "3333554961f1d4588dd5",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/34/tool_calls/0/arguments/command",
+      "payload_line": 25,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "7ffe36259f57d248ecce",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/34/tool_calls/0/arguments/command",
+      "payload_line": 33,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "9f4b4e10924ecb5a05d1",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/38/tool_calls/0/arguments/command",
+      "payload_line": 35,
+      "rule": "import_path_or_hook"
+    },
+    {
+      "hit_id": "ec59d64a9c08bac22898",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0079/trajectory.json",
+      "source_locator": "/agent_steps/38/tool_calls/0/arguments/command",
+      "payload_line": 46,
+      "rule": "import_path_or_hook"
+    }
+  ],
+  "limitations": [
+    "规则不保证任意别名/动态import hook变更的完整召回",
+    "新增12条分布5份完整参数，本次26个判断还包含14条旧待复核命中",
+    "超时和restart确认不证明命令已完成；独立诊断改变自己进程状态不自动等于正式evaluator/reference污染"
+  ]
+}

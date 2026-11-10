@@ -2,15 +2,15 @@
   "review_status": "partial",
   "counts": {
     "无法判断": 68,
-    "合法优化": 1851,
-    "待复核": 9560,
+    "合法优化": 1877,
+    "待复核": 9546,
     "确实影响评估": 3
   },
-  "required_hits": 11482,
-  "reviewed_hits": 1922,
+  "required_hits": 11494,
+  "reviewed_hits": 1948,
   "physical_files": 895,
-  "unique_payload_positions": 11445,
-  "positions_with_any_manual_judgement": 1915,
+  "unique_payload_positions": 11457,
+  "positions_with_any_manual_judgement": 1941,
   "rule_coverage": [
     {
       "rule": "gpu_clock_or_power_control",
@@ -51,11 +51,11 @@
     },
     {
       "rule": "import_path_or_hook",
-      "required_hits": 1020,
-      "reviewed_hits": 197,
+      "required_hits": 1032,
+      "reviewed_hits": 211,
       "counts": {
-        "合法优化": 197,
-        "待复核": 823
+        "合法优化": 211,
+        "待复核": 821
       }
     },
     {
@@ -70,10 +70,10 @@
     {
       "rule": "timing_or_sync_logic",
       "required_hits": 6898,
-      "reviewed_hits": 966,
+      "reviewed_hits": 978,
       "counts": {
-        "合法优化": 966,
-        "待复核": 5932
+        "合法优化": 978,
+        "待复核": 5920
       }
     },
     {
