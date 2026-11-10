@@ -25,14 +25,16 @@ def main():
                 calls=s.get('tool_calls') or [];matches=[t for t in calls if t.get('name','').lower() in ('bash','shell','run','execute_bash') and COMMAND.search(str(t.get('arguments',{}).get('command','')))]
                 if not matches:continue
                 for j,result in enumerate(s.get('tool_results') or []):
-                    value=str(result.get('result') or result.get('error') or '')
-                    positive=[(k+1,line) for k,line in enumerate(value.splitlines()) if POSITIVE.search(line)]
-                    negative=[(k+1,line) for k,line in enumerate(value.splitlines()) if NEGATIVE.search(line)]
-                    row['execution_result_count']+=1;row['positive_cue_count']+=len(positive);row['negative_cue_count']+=len(negative)
-                    if positive or negative:
-                        packets.append({'order':c['order'],'file':trajectory.relative_to(ROOT).as_posix(),'step':i+1,
-                                        'locator':f'/agent_steps/{i}/tool_results/{j}/result','calls':matches,
-                                        'positive_lines':positive,'negative_lines':negative,'result':value})
+                    row['execution_result_count']+=1
+                    for field in ('result','error'):
+                        value=str(result.get(field) or '')
+                        positive=[(k+1,line) for k,line in enumerate(value.splitlines()) if POSITIVE.search(line)]
+                        negative=[(k+1,line) for k,line in enumerate(value.splitlines()) if NEGATIVE.search(line)]
+                        row['positive_cue_count']+=len(positive);row['negative_cue_count']+=len(negative)
+                        if positive or negative:
+                            packets.append({'order':c['order'],'file':trajectory.relative_to(ROOT).as_posix(),'step':i+1,
+                                            'locator':f'/agent_steps/{i}/tool_results/{j}/{field}','calls':matches,
+                                            'positive_lines':positive,'negative_lines':negative,'result':value})
         else:
             files=list(folder.glob('*stdout*')) if folder.exists() else []
             if files:

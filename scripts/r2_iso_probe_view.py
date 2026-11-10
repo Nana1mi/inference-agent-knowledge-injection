@@ -7,7 +7,7 @@ from r2_io import ROOT,RAW,DERIVED,load
 NAV=re.compile(r'cuda|gpu|nvidia|benchmark|latency|speedup|elapsed|seconds|milliseconds|microseconds|\bms\b|\bus\b|perf_counter',re.I)
 
 def main():
-    p=argparse.ArgumentParser();p.add_argument('start',type=int);p.add_argument('end',type=int);p.add_argument('--full',action='store_true');p.add_argument('--executions',action='store_true');p.add_argument('--step',type=int);p.add_argument('--result-limit',type=int,default=2200);a=p.parse_args()
+    p=argparse.ArgumentParser();p.add_argument('start',type=int);p.add_argument('end',type=int);p.add_argument('--full',action='store_true');p.add_argument('--executions',action='store_true');p.add_argument('--outline',action='store_true',help='All visible calls/errors, without replaying embedded model prompts');p.add_argument('--step',type=int);p.add_argument('--result-limit',type=int,default=2200);a=p.parse_args()
     rev=load(DERIVED/'r2_iso_index.json')['revision'];plan=load(RAW/'r2_iso'/rev/'selection.json')
     for c in plan['eligibility_check_order']:
         if not a.start<=c['order']<=a.end:continue
@@ -20,25 +20,57 @@ def main():
                 if a.step is not None and a.step!=i+1:continue
                 calls=s.get('tool_calls') or [];results=s.get('tool_results') or []
                 inp=json.dumps(calls,ensure_ascii=False)
+                if a.outline:
+                    if not a.full:
+                        call_summaries=[]
+                        for call in calls:
+                            args=call.get('arguments') or {}
+                            command=str(args.get('command') or '')
+                            if len(command)>320:command=command[:60]+' [...] '+command[-260:]
+                            path=str(args.get('path') or args.get('file_path') or '')
+                            call_summaries.append([call.get('name'),command,path[-100:]])
+                        print('STEP',i+1,'pointer',f'/agent_steps/{i}','CALLS',call_summaries,
+                              'FEEDBACK',[(r.get('success'),len(str(r.get('result') or '')),
+                                           str(r.get('error') or '')[-160:]) for r in results],
+                              'ERROR',str(s.get('error') or '')[:400])
+                        continue
+                    print('STEP',i+1,'pointer',f'/agent_steps/{i}',
+                          'calls',len(calls),'results',len(results),'error',str(s.get('error') or '')[:500])
+                    for j,call in enumerate(calls):
+                        args=call.get('arguments') or {}
+                        print(' CALL',j,call.get('name'),'path',args.get('path') or args.get('file_path'),
+                              'command',str(args.get('command') or ''),
+                              'argument_keys',list(args))
+                    for j,result in enumerate(results):
+                        print(' FEEDBACK',j,'success',result.get('success'),
+                              'result_chars',len(str(result.get('result') or '')),
+                              'error_chars',len(str(result.get('error') or '')),
+                              'error_end',str(result.get('error') or '')[-350:])
+                    continue
                 if a.executions:
                     commands=[str(t.get('arguments',{}).get('command','')) for t in calls if t.get('name') in ('bash','execute_bash','shell','run')]
                     if not any(re.search(r'\bpython(?:3)?\s|\bpytest\b|\bnvidia-smi\b|\bncu\b|\bnsys\b',c) for c in commands):continue
                     print('STEP',i+1,'COMMAND',commands if a.full else str(commands)[:600])
                     for j,r in enumerate(results):
-                        v=str(r.get('result') or r.get('error') or '')
-                        print('RESULT pointer',f'/agent_steps/{i}/tool_results/{j}/result')
-                        print(v if a.full else v[:a.result_limit]+('\n[...]\n'+v[-min(600,a.result_limit//2):] if len(v)>a.result_limit else ''))
+                        print('FEEDBACK',j,'success',r.get('success'))
+                        for field in ('result','error'):
+                            v=str(r.get(field) or '')
+                            if not v:continue
+                            print(field.upper(),'pointer',f'/agent_steps/{i}/tool_results/{j}/{field}')
+                            print(v if a.full else v[:a.result_limit]+('\n[...]\n'+v[-min(600,a.result_limit//2):] if len(v)>a.result_limit else ''))
                     continue
                 hits=[]
                 for j,r in enumerate(results):
-                    result=str(r.get('result') or r.get('error') or '')
-                    if NAV.search(result) or NAV.search(inp):
-                        lines=result.splitlines();found=[(k+1,line) for k,line in enumerate(lines) if NAV.search(line)]
-                        hits.append((j,result,found))
+                    values=[(field,str(r.get(field) or '')) for field in ('result','error')]
+                    if NAV.search(inp) or any(NAV.search(value) for _,value in values):
+                        for field,result in values:
+                            if not result:continue
+                            lines=result.splitlines();found=[(k+1,line) for k,line in enumerate(lines) if NAV.search(line)]
+                            hits.append((j,field,result,found))
                 if hits:
                     print('STEP',i+1,'CALLS',inp if a.full else inp[:400])
-                    for j,result,found in hits:
-                        print('RESULT pointer',f'/agent_steps/{i}/tool_results/{j}/result')
+                    for j,field,result,found in hits:
+                        print(field.upper(),'pointer',f'/agent_steps/{i}/tool_results/{j}/{field}')
                         if a.full:print(result)
                         else:
                             for n,line in found[:24]:print(f'  text-line{n}:',line[:500])

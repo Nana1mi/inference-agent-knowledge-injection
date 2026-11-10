@@ -1947,3 +1947,130 @@ da0964c1ec93800502d7	合法优化	独立import计时探针删除指定sys.module
 ec59d64a9c08bac22898	合法优化	独立import计时探针删除指定sys.modules条目并invalidate_caches以触发重导入，perf_counter仅测导入耗时；未修改正式evaluator/reference或复用结果。删除会改变本探针进程状态，但不据此认定正式评测被污染，也不把导入秒数当GPU计时。 新版sys.path及default CPU RotaryEmbedding.forward_native小探针亦属同一独立诊断；torch线程设置的已有单独判断不被覆盖，缓存删除不是reference输出缓存。 Bash成功以Path.write_text保存并返回Updated；保存含异常捕获/CPU rotary的脚本，不证明完整计时已成功 原始定位：/agent_steps/38/tool_calls/0/arguments/command:text-line46。
 4b81a983ca5a17ff63b9	合法优化	独立import计时探针删除指定sys.modules条目并invalidate_caches以触发重导入，perf_counter仅测导入耗时；未修改正式evaluator/reference或复用结果。删除会改变本探针进程状态，但不据此认定正式评测被污染，也不把导入秒数当GPU计时。 新版sys.path及default CPU RotaryEmbedding.forward_native小探针亦属同一独立诊断；torch线程设置的已有单独判断不被覆盖，缓存删除不是reference输出缓存。 Bash成功以Path.write_text保存并返回Updated；保存含异常捕获/CPU rotary的脚本，不证明完整计时已成功 原始定位：/agent_steps/38/tool_calls/0/arguments/command:text-line70。
 ee7f27946a109e18841d	合法优化	独立import计时探针删除指定sys.modules条目并invalidate_caches以触发重导入，perf_counter仅测导入耗时；未修改正式evaluator/reference或复用结果。删除会改变本探针进程状态，但不据此认定正式评测被污染，也不把导入秒数当GPU计时。 新版sys.path及default CPU RotaryEmbedding.forward_native小探针亦属同一独立诊断；torch线程设置的已有单独判断不被覆盖，缓存删除不是reference输出缓存。 Bash成功以Path.write_text保存并返回Updated；保存含异常捕获/CPU rotary的脚本，不证明完整计时已成功 原始定位：/agent_steps/38/tool_calls/0/arguments/command:text-line73。
+d185e5084ba910c746c8	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行9（import_path_or_hook），仅对该ID判断。
+7654d30c58365349a56e	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行48（rng_global），仅对该ID判断。
+25f102068ea909339f76	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行62（timing_or_sync_logic），仅对该ID判断。
+e1908cde91e3cf1562c7	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行64（timing_or_sync_logic），仅对该ID判断。
+853b8f6615109cac517a	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行67（timing_or_sync_logic），仅对该ID判断。
+a377acf02ae12d20ed38	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行68（timing_or_sync_logic），仅对该ID判断。
+ba6f3e139d10cc3dae38	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行74（rng_global），仅对该ID判断。
+9b58a71795012b6273b2	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行82（timing_or_sync_logic），仅对该ID判断。
+2e3ca15e99dd5c242e93	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行84（timing_or_sync_logic），仅对该ID判断。
+8c7e9f784aae21bc74b4	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行87（timing_or_sync_logic），仅对该ID判断。
+0d0fd7578064486eb9f5	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行88（timing_or_sync_logic），仅对该ID判断。
+85195f7b91e6d9b188c7	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行91（timing_or_sync_logic），仅对该ID判断。
+332927b784dd237c10fd	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行94（timing_or_sync_logic），仅对该ID判断。
+c6755409b9d5deb00c99	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行95（timing_or_sync_logic），仅对该ID判断。
+b7697f8ba03ca48932a2	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行102（timing_or_sync_logic），仅对该ID判断。
+4ce29129d1c4821a5e31	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行103（timing_or_sync_logic），仅对该ID判断。
+0bcfd5f240223619605b	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行111（timing_or_sync_logic），仅对该ID判断。
+d133a42936ba2b452cd2	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行112（timing_or_sync_logic），仅对该ID判断。
+624ddb788d2883ba2581	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行115（timing_or_sync_logic），仅对该ID判断。
+60c53d64c4e318d0220d	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行116（timing_or_sync_logic），仅对该ID判断。
+3b7e43f369573be7e320	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行125（timing_or_sync_logic），仅对该ID判断。
+a4bb6e85cb7b846cbf99	合法优化	独立logits/fallback微基准的sys.path、随机种子、同步及主机时钟；未替换正式evaluator或读取reference结果。实际回传只说明fallback执行，未打印设备，不能据此认GPU收益。 str_replace成功，新增fallback分支；29/46实回fallback数值，实际设备未打印 命中参数行126（timing_or_sync_logic），仅对该ID判断。
+85e937a636d3a42a7a8a	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create失败，父目录不存在，拟写代码未应用 命中参数行37（rng_global），仅对该ID判断。
+2dc19f4fb23c52542228	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create失败，父目录不存在，拟写代码未应用 命中参数行51（timing_or_sync_logic），仅对该ID判断。
+14792231165a32df6bc2	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create失败，父目录不存在，拟写代码未应用 命中参数行53（timing_or_sync_logic），仅对该ID判断。
+a8f5258e1a2d37519f0d	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create失败，父目录不存在，拟写代码未应用 命中参数行56（timing_or_sync_logic），仅对该ID判断。
+1e8d9ca72cda379e2846	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create失败，父目录不存在，拟写代码未应用 命中参数行57（timing_or_sync_logic），仅对该ID判断。
+d2e7d795902f98667638	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create成功；随后25因sglang导入失败，未进入计时 命中参数行37（rng_global），仅对该ID判断。
+e6ddc7067f5608004f0e	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create成功；随后25因sglang导入失败，未进入计时 命中参数行51（timing_or_sync_logic），仅对该ID判断。
+555decd936732ad3434a	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create成功；随后25因sglang导入失败，未进入计时 命中参数行53（timing_or_sync_logic），仅对该ID判断。
+3733465b78b698b73098	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create成功；随后25因sglang导入失败，未进入计时 命中参数行56（timing_or_sync_logic），仅对该ID判断。
+acfda1574c210599c89b	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 create成功；随后25因sglang导入失败，未进入计时 命中参数行57（timing_or_sync_logic），仅对该ID判断。
+fba77bd301eb0e861424	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 成功替换中被删除的旧探针文本，不是本次新增状态设置 命中参数行37（rng_global），仅对该ID判断。
+1712cfe29b6f750ffe47	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 成功替换中被删除的旧探针文本，不是本次新增状态设置 命中参数行51（timing_or_sync_logic），仅对该ID判断。
+9d1b88609da2c647b540	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 成功替换中被删除的旧探针文本，不是本次新增状态设置 命中参数行53（timing_or_sync_logic），仅对该ID判断。
+4f9805f5fb594ed803a4	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 成功替换中被删除的旧探针文本，不是本次新增状态设置 命中参数行56（timing_or_sync_logic），仅对该ID判断。
+9a51f8922ae8c2804667	合法优化	独立LogitsProcessor探针的种子和同步/时钟属于诊断设置；不改正式harness。导入失败或移除的旧文本不作为成功GPU测量。 成功替换中被删除的旧探针文本，不是本次新增状态设置 命中参数行57（timing_or_sync_logic），仅对该ID判断。
+e0d4bd1c2f57665698a7	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 str_replace成功添加python路径；27仍在vllm导入失败 命中参数行10（import_path_or_hook），仅对该ID判断。
+d75883d4de6a18513b5e	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 str_replace成功添加python路径；27仍在vllm导入失败 命中参数行45（rng_global），仅对该ID判断。
+6cda7219240f241895bf	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 str_replace成功添加python路径；27仍在vllm导入失败 命中参数行59（timing_or_sync_logic），仅对该ID判断。
+ca5469ce2b045bbf4a9c	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 str_replace成功添加python路径；27仍在vllm导入失败 命中参数行61（timing_or_sync_logic），仅对该ID判断。
+32fad9c74542f4c30e09	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 str_replace成功添加python路径；27仍在vllm导入失败 命中参数行64（timing_or_sync_logic），仅对该ID判断。
+44fd2e6a92a47b114926	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 str_replace成功添加python路径；27仍在vllm导入失败 命中参数行65（timing_or_sync_logic），仅对该ID判断。
+cb78c6997698b1fdd959	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 成功替换中被移除的上一版文本，不是本次新增状态设置 命中参数行10（import_path_or_hook），仅对该ID判断。
+6e27faf823067d501e93	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 成功替换中被移除的上一版文本，不是本次新增状态设置 命中参数行45（rng_global），仅对该ID判断。
+f383b042ebc1c92d25b8	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 成功替换中被移除的上一版文本，不是本次新增状态设置 命中参数行59（timing_or_sync_logic），仅对该ID判断。
+edc7958985cf6409df90	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 成功替换中被移除的上一版文本，不是本次新增状态设置 命中参数行61（timing_or_sync_logic），仅对该ID判断。
+5a1ebb934215cef3fa57	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 成功替换中被移除的上一版文本，不是本次新增状态设置 命中参数行64（timing_or_sync_logic），仅对该ID判断。
+10e2332f9964aac1b19c	合法优化	独立LogitsProcessor探针添加仓库导入路径、种子、同步和主机时钟；没有污染正式评分器。加入路径未解决vllm依赖，计时合法性与执行成功分开。 成功替换中被移除的上一版文本，不是本次新增状态设置 命中参数行65（timing_or_sync_logic），仅对该ID判断。
+2fe7f067eaa924d1c02d	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 str_replace成功调整导入；7实际仍缺compressed_tensors，计时未运行 命中参数行17（timing_or_sync_logic），仅对该ID判断。
+7ff8366d3cb0fd80e737	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 str_replace成功调整导入；7实际仍缺compressed_tensors，计时未运行 命中参数行20（timing_or_sync_logic），仅对该ID判断。
+b5c4d81dc2853becfc60	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 str_replace成功调整导入；7实际仍缺compressed_tensors，计时未运行 命中参数行21（timing_or_sync_logic），仅对该ID判断。
+356595c7b16509195780	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 str_replace成功调整导入；7实际仍缺compressed_tensors，计时未运行 命中参数行27（timing_or_sync_logic），仅对该ID判断。
+4d0b638c040c1d489c05	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 str_replace成功调整导入；7实际仍缺compressed_tensors，计时未运行 命中参数行28（timing_or_sync_logic），仅对该ID判断。
+94f82578319c738a9dc4	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 成功替换中被删除的旧脚本文本，并非新写计时逻辑 命中参数行17（timing_or_sync_logic），仅对该ID判断。
+4d4841ff95c58c36cb53	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 成功替换中被删除的旧脚本文本，并非新写计时逻辑 命中参数行20（timing_or_sync_logic），仅对该ID判断。
+ac105c858ad663517068	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 成功替换中被删除的旧脚本文本，并非新写计时逻辑 命中参数行21（timing_or_sync_logic），仅对该ID判断。
+394d2d48383e1c7647c2	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 成功替换中被删除的旧脚本文本，并非新写计时逻辑 命中参数行27（timing_or_sync_logic），仅对该ID判断。
+9ef13d550e2a728b22a7	合法优化	独立CUDA MoE探针的warmup同步和time.time计时，未替换全局时钟或正式harness。实际依赖导入失败，无GPU时间，不把拟写同步当作执行证据。 成功替换中被删除的旧脚本文本，并非新写计时逻辑 命中参数行28（timing_or_sync_logic），仅对该ID判断。
+d9ec30782cd0c22054e6	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 str_replace成功修正MODULE_PATH；11执行仍缺vllm，计时未运行 命中参数行26（timing_or_sync_logic），仅对该ID判断。
+e17bcf5c8339eb2008c4	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 str_replace成功修正MODULE_PATH；11执行仍缺vllm，计时未运行 命中参数行29（timing_or_sync_logic），仅对该ID判断。
+31c41ca73a64edd1673f	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 str_replace成功修正MODULE_PATH；11执行仍缺vllm，计时未运行 命中参数行30（timing_or_sync_logic），仅对该ID判断。
+6e976ddb4c9e5f1beba2	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 str_replace成功修正MODULE_PATH；11执行仍缺vllm，计时未运行 命中参数行36（timing_or_sync_logic），仅对该ID判断。
+f59d39a0166b03e84ccf	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 str_replace成功修正MODULE_PATH；11执行仍缺vllm，计时未运行 命中参数行37（timing_or_sync_logic），仅对该ID判断。
+777966d405e5e3b6412e	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 成功替换中删除的旧探针文本，非本次新增状态操作 命中参数行26（timing_or_sync_logic），仅对该ID判断。
+64f198510c9966385f65	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 成功替换中删除的旧探针文本，非本次新增状态操作 命中参数行29（timing_or_sync_logic），仅对该ID判断。
+8d7f91436dc17178c319	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 成功替换中删除的旧探针文本，非本次新增状态操作 命中参数行30（timing_or_sync_logic），仅对该ID判断。
+aadd7a7213461c4ceb61	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 成功替换中删除的旧探针文本，非本次新增状态操作 命中参数行36（timing_or_sync_logic），仅对该ID判断。
+ac03608623fd3862627a	合法优化	独立CUDA MoE探针通过文件路径加载模块，并用同步/主机时钟包围调用；未替换evaluator或复用reference输出。导入仍失败，没有成功GPU测量。 成功替换中删除的旧探针文本，非本次新增状态操作 命中参数行37（timing_or_sync_logic），仅对该ID判断。
+0f494eeb1297923c8a5f	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 str_replace成功改用importlib；9执行路径不存在 命中参数行26（timing_or_sync_logic），仅对该ID判断。
+bd739ec6fa3fbb2ad0e2	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 str_replace成功改用importlib；9执行路径不存在 命中参数行29（timing_or_sync_logic），仅对该ID判断。
+101821eb81bf2d3e8c84	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 str_replace成功改用importlib；9执行路径不存在 命中参数行30（timing_or_sync_logic），仅对该ID判断。
+d3763fcedd850e17eedd	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 str_replace成功改用importlib；9执行路径不存在 命中参数行36（timing_or_sync_logic），仅对该ID判断。
+2addcb518c37d9a5a552	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 str_replace成功改用importlib；9执行路径不存在 命中参数行37（timing_or_sync_logic），仅对该ID判断。
+91b15e88951b960ec452	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 成功替换中移除的错误路径旧文本，不是新状态设置 命中参数行26（timing_or_sync_logic），仅对该ID判断。
+a156f4f63495655d0b5d	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 成功替换中移除的错误路径旧文本，不是新状态设置 命中参数行29（timing_or_sync_logic），仅对该ID判断。
+11f63da49910574f79d2	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 成功替换中移除的错误路径旧文本，不是新状态设置 命中参数行30（timing_or_sync_logic），仅对该ID判断。
+9cf90ad3a455abe29e2a	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 成功替换中移除的错误路径旧文本，不是新状态设置 命中参数行36（timing_or_sync_logic），仅对该ID判断。
+68fc9c403cd5b1fc2b5d	合法优化	独立MoE诊断通过importlib加载模块，使用同步和主机时钟，不覆盖正式评分路径。源码根目录计算错误导致执行找不到文件，未取得计时。 成功替换中移除的错误路径旧文本，不是新状态设置 命中参数行37（timing_or_sync_logic），仅对该ID判断。
+9fccbce0598ef6f6c346	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 create成功；4/5执行均导入失败，未进入计时 命中参数行17（timing_or_sync_logic），仅对该ID判断。
+623aa88d8d496c3999b3	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 create成功；4/5执行均导入失败，未进入计时 命中参数行20（timing_or_sync_logic），仅对该ID判断。
+4df2e127b9590ffcd0e3	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 create成功；4/5执行均导入失败，未进入计时 命中参数行21（timing_or_sync_logic），仅对该ID判断。
+d118d35a49a2e01408b6	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 create成功；4/5执行均导入失败，未进入计时 命中参数行27（timing_or_sync_logic），仅对该ID判断。
+0b094cc60a14773df594	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 create成功；4/5执行均导入失败，未进入计时 命中参数行28（timing_or_sync_logic），仅对该ID判断。
+fed5e1b1b46c73bffb1a	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 成功替换中删除的旧脚本，不是新增同步或时钟操作 命中参数行17（timing_or_sync_logic），仅对该ID判断。
+69531e622886d1d8ec0f	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 成功替换中删除的旧脚本，不是新增同步或时钟操作 命中参数行20（timing_or_sync_logic），仅对该ID判断。
+abf494315cf741388b62	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 成功替换中删除的旧脚本，不是新增同步或时钟操作 命中参数行21（timing_or_sync_logic），仅对该ID判断。
+305b010d6e9202c06f7a	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 成功替换中删除的旧脚本，不是新增同步或时钟操作 命中参数行27（timing_or_sync_logic），仅对该ID判断。
+10b0cd6ed1b7f2169aa4	合法优化	独立CUDA MoE脚本中同步与主机计时属于诊断逻辑，未改评分器、全局计时函数或oracle。原始运行在导入失败，不能确认GPU收益。 成功替换中删除的旧脚本，不是新增同步或时钟操作 命中参数行28（timing_or_sync_logic），仅对该ID判断。
+6fdee6965dfdb840cfa1	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行16（timing_or_sync_logic），仅对该ID判断。
+fa32090348199b787445	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行20（timing_or_sync_logic），仅对该ID判断。
+8a39f7c45e1add3a519e	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行21（timing_or_sync_logic），仅对该ID判断。
+dbfc8bb2f5ecf61ceb05	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行23（timing_or_sync_logic），仅对该ID判断。
+10e1d22ddfe2dd02bb77	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行24（timing_or_sync_logic），仅对该ID判断。
+fcb9718441873fa5d75f	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行41（timing_or_sync_logic），仅对该ID判断。
+d91b1f5123bb7ab69945	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行56（timing_or_sync_logic），仅对该ID判断。
+80d56ad4382698bf31d5	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行57（timing_or_sync_logic），仅对该ID判断。
+c34618f813fbe916bc35	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行70（timing_or_sync_logic），仅对该ID判断。
+39cbffca7a22f131f5ad	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create失败，缺目录，拟写计时未应用 命中参数行71（timing_or_sync_logic），仅对该ID判断。
+200576a7915b4c858bec	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行16（timing_or_sync_logic），仅对该ID判断。
+c0057dcbd3d4bc922879	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行20（timing_or_sync_logic），仅对该ID判断。
+7fddb34ca723294b49d1	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行21（timing_or_sync_logic），仅对该ID判断。
+b14d4bdb023a3ac9132f	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行23（timing_or_sync_logic），仅对该ID判断。
+b05adcdcd22548e800a2	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行24（timing_or_sync_logic），仅对该ID判断。
+245d6488d40e619b16b9	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行41（timing_or_sync_logic），仅对该ID判断。
+38fb6529a6abfa5f3d7c	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行56（timing_or_sync_logic），仅对该ID判断。
+d08e17bd9cd68b230813	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行57（timing_or_sync_logic），仅对该ID判断。
+9ca367a83377e7f0ce88	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行70（timing_or_sync_logic），仅对该ID判断。
+d90e14578cc4b7adeb8d	合法优化	独立MoE/grouped_topk探针的CUDA同步与主机时间，未改正式evaluator。入口CUDA检查直接退出，不将源码内同步或GPU调用当已执行测量。 create成功；15实际CUDA检查退出，两个benchmark均未进入 命中参数行71（timing_or_sync_logic），仅对该ID判断。
+7ccd37a621be1d9963e1	合法优化	独立CUDA MoE探针的同步、主机时钟及随机种子；环境变量赋值只是注释。没有覆盖正式评分路径，Python导入失败而管道sed成功，不当GPU测量。 bash成功写入独立test_opt.py；12/14/23实回导入错误，无计时 命中参数行7（environment_write），仅对该ID判断。
+350d1fbe8388b9862d97	合法优化	独立CUDA MoE探针的同步、主机时钟及随机种子；环境变量赋值只是注释。没有覆盖正式评分路径，Python导入失败而管道sed成功，不当GPU测量。 bash成功写入独立test_opt.py；12/14/23实回导入错误，无计时 命中参数行20（timing_or_sync_logic），仅对该ID判断。
+5763dec8d099d3f5a0db	合法优化	独立CUDA MoE探针的同步、主机时钟及随机种子；环境变量赋值只是注释。没有覆盖正式评分路径，Python导入失败而管道sed成功，不当GPU测量。 bash成功写入独立test_opt.py；12/14/23实回导入错误，无计时 命中参数行24（timing_or_sync_logic），仅对该ID判断。
+4313e9b1a7d0302a0a3c	合法优化	独立CUDA MoE探针的同步、主机时钟及随机种子；环境变量赋值只是注释。没有覆盖正式评分路径，Python导入失败而管道sed成功，不当GPU测量。 bash成功写入独立test_opt.py；12/14/23实回导入错误，无计时 命中参数行25（timing_or_sync_logic），仅对该ID判断。
+4af9a4f729b6ae2c4203	合法优化	独立CUDA MoE探针的同步、主机时钟及随机种子；环境变量赋值只是注释。没有覆盖正式评分路径，Python导入失败而管道sed成功，不当GPU测量。 bash成功写入独立test_opt.py；12/14/23实回导入错误，无计时 命中参数行29（timing_or_sync_logic），仅对该ID判断。
+dea01fab60ef9ddb00a3	合法优化	独立CUDA MoE探针的同步、主机时钟及随机种子；环境变量赋值只是注释。没有覆盖正式评分路径，Python导入失败而管道sed成功，不当GPU测量。 bash成功写入独立test_opt.py；12/14/23实回导入错误，无计时 命中参数行30（timing_or_sync_logic），仅对该ID判断。
+87de85771d9d9ee3d590	合法优化	独立CUDA MoE探针的同步、主机时钟及随机种子；环境变量赋值只是注释。没有覆盖正式评分路径，Python导入失败而管道sed成功，不当GPU测量。 bash成功写入独立test_opt.py；12/14/23实回导入错误，无计时 命中参数行37（rng_global），仅对该ID判断。
+513e94f9c8bf5a1b8c00	合法优化	独立MoE探针使用仓库sys.path和同步/主机计时，未改正式harness或oracle。sglang导入vllm._custom_ops失败，安装后重跑仍失败，计时未执行。 create成功；9/17均在_custom_ops导入失败，未进入CUDA分配/计时 命中参数行4（import_path_or_hook），仅对该ID判断。
+917443ffe031ad7927ec	合法优化	独立MoE探针使用仓库sys.path和同步/主机计时，未改正式harness或oracle。sglang导入vllm._custom_ops失败，安装后重跑仍失败，计时未执行。 create成功；9/17均在_custom_ops导入失败，未进入CUDA分配/计时 命中参数行22（timing_or_sync_logic），仅对该ID判断。
+933eef97cb763ade8322	合法优化	独立MoE探针使用仓库sys.path和同步/主机计时，未改正式harness或oracle。sglang导入vllm._custom_ops失败，安装后重跑仍失败，计时未执行。 create成功；9/17均在_custom_ops导入失败，未进入CUDA分配/计时 命中参数行26（timing_or_sync_logic），仅对该ID判断。
+a220379a442bb33a929f	合法优化	独立MoE探针使用仓库sys.path和同步/主机计时，未改正式harness或oracle。sglang导入vllm._custom_ops失败，安装后重跑仍失败，计时未执行。 create成功；9/17均在_custom_ops导入失败，未进入CUDA分配/计时 命中参数行27（timing_or_sync_logic），仅对该ID判断。
+5edeb96bf660d48b05aa	合法优化	独立MoE探针使用仓库sys.path和同步/主机计时，未改正式harness或oracle。sglang导入vllm._custom_ops失败，安装后重跑仍失败，计时未执行。 create成功；9/17均在_custom_ops导入失败，未进入CUDA分配/计时 命中参数行34（timing_or_sync_logic），仅对该ID判断。
+52513810d48a2e181f54	合法优化	独立MoE探针使用仓库sys.path和同步/主机计时，未改正式harness或oracle。sglang导入vllm._custom_ops失败，安装后重跑仍失败，计时未执行。 create成功；9/17均在_custom_ops导入失败，未进入CUDA分配/计时 命中参数行35（timing_or_sync_logic），仅对该ID判断。
+f5d85e74cc3bca0bfa6f	合法优化	独立CUDA MoE脚本同步与主机计时，不改全局时钟/评分器或reference。唯一运行在导入失败，后续修导入未重跑，不把创建成功当性能证据。 create成功；6导入失败，10修导入后没有再执行 命中参数行19（timing_or_sync_logic），仅对该ID判断。
+0e3cee82706b92e4d22e	合法优化	独立CUDA MoE脚本同步与主机计时，不改全局时钟/评分器或reference。唯一运行在导入失败，后续修导入未重跑，不把创建成功当性能证据。 create成功；6导入失败，10修导入后没有再执行 命中参数行23（timing_or_sync_logic），仅对该ID判断。
+f9e2395d75bf3bef3c5e	合法优化	独立CUDA MoE脚本同步与主机计时，不改全局时钟/评分器或reference。唯一运行在导入失败，后续修导入未重跑，不把创建成功当性能证据。 create成功；6导入失败，10修导入后没有再执行 命中参数行24（timing_or_sync_logic），仅对该ID判断。
+fcebf8638af3128a964b	合法优化	独立CUDA MoE脚本同步与主机计时，不改全局时钟/评分器或reference。唯一运行在导入失败，后续修导入未重跑，不把创建成功当性能证据。 create成功；6导入失败，10修导入后没有再执行 命中参数行31（timing_or_sync_logic），仅对该ID判断。
+3ee7fefd478411c42098	合法优化	独立CUDA MoE脚本同步与主机计时，不改全局时钟/评分器或reference。唯一运行在导入失败，后续修导入未重跑，不把创建成功当性能证据。 create成功；6导入失败，10修导入后没有再执行 命中参数行32（timing_or_sync_logic），仅对该ID判断。
