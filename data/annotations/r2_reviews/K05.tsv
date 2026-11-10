@@ -1,11 +1,11 @@
 # step	phase	tool	layer	origin	source	evidence	outcome	flags	use	hypothesis	rationale	followup	component
-# step7的SOTA读取事件待全会话复核后再填，不预判后续使用。
 1	探索代码	D	U	m	u	x	s	-	x	-	列出题目文件，公开文字只是下一步动作；不是实际知识内容读取	-	o
 2	探索代码	D	K	m	u	x	s	k	a	-	实际读取torch.topk参考接口；step26沿用Model参数与values/indices输出协议，自写CUDA选择与合并	step26 L67–L69的Model/forward实现	o
 3	探索代码	D	M	m	u	x	s	-	x	-	读取正确性检查规则，不记成参考实现或文档访问	-	p
 4	探索代码	D	M	m	u	x	s	-	x	-	读取benchmark计分与计时调用；没有实际profile或新假设	-	p
 5	探索代码	D	M	m	u	x	s	-	x	-	读取任务yaml带宽公式和目标参数；任务说明不等同额外知识库	-	p
 6	探索代码	D	K	m	u	x	s	-	x	-	读取五组形状定义，没有实质分析文本	-	o
+7	探索代码	D	K	m	u	x	s	k	a	-	读取SOTA确认其也是torch.topk；step19–20将同一算子用于独立基线，未移入正式候选。参考与SOTA算法相同，不能区分两次读取各自贡献或归因为新算法来源	step19–20 L50–L53独立torch.topk基线；step166含SOTA正式对照	o
 8	环境准备	O	M	m	u	x	s	-	x	-	列出eval目录并查询GPU/nvcc；思考只是检查清单，不当profile	-	p
 9	探索代码	D	M	m	u	x	s	-	x	-	实际读计时器源码；简短读取目的不记实质推理	-	p
 10	探索代码	D	M	m	u	x	s	-	x	-	读取数值压力测试源码，不是新性能测量	-	p
@@ -173,3 +173,116 @@
 172	修改代码	O	M	i	c	u	u	s	x	在明确代码边界写clock64与调试缓冲可定位各阶段成本	重写scratch设备全局g_dbg及zero/copy辅助逻辑；没有改正式候选或取得时间证据	-	p
 173	测量	K	M	m	u	x	f	-	x	-	仪器化扩展在CPP含CUDA launch语法导致构建失败，未得到阶段计时	-	p
 174	修改代码	O	M	e	c	y	u	vs	x	将诊断kernel launch移入CUDA源并由CPP调用C入口可通过编译前端	只改scratch包装与device调试缓冲的zero/copy入口，未验证成功或性能	-	p
+175	测量	K	M	m	u	x	f	-	x	-	仪器化脚本仍编译失败：c_start未声明，没有阶段计时	-	p
+176	修改代码	O	M	e	c	y	u	v	x	将时间戳锚点改为主kernel独有row语句可避免误插select_top作用域	实际只修改scratch插入锚点，尚未验证构建	-	p
+177	测量	K	M	m	u	x	f	-	x	-	脚本构建后因import solution失败退出，未取得阶段时间戳	-	p
+178	测量	K	M	m	u	x	f	-	x	-	重复同一命令仍import失败，不当新的有效测量	-	p
+179	修改代码	O	M	e	c	y	u	vs	x	为scratch加入问题目录搜索路径可解决solution导入	实际把sys.path插在import后，尚不能解决前面的失败；同时误删配置解包，下一步恢复	-	p
+180	修改代码	O	M	i	c	y	u	-	x	恢复配置解包可供仪器化脚本分配工作区	新串只恢复CFGS解包，old_string中的sys.path为已有上下文，不重复当新增路径写入	-	p
+181	测量	K	M	m	u	x	f	-	x	-	导入仍失败，因为路径插入在import后；没有有效时间戳	-	p
+182	测量	K	M	e	c	y	s	vs	x	先插sys.path再import可使仪器化脚本完成	实际修scratch并取得时间戳，但按固定1700换算且last stamp混入绝对c_start，不能当校准微秒或全局时长	-	p
+183	测量	K	K	e	i	u	s	v	x	segment与merge的时间戳差可评估减少合并输入的价值	比较cfg3/4/0，主动质疑固定时钟换算；却用所有block的中位fence减merge block累计时间，未取同block差值，不能确认merge占比	-	p
+184	修改代码	O	M	e	i	u	u	v	x	匹配正式计时模式的只读kernel可估计简单读取路径的经验成本	写scratch/floor.py，前述不可靠阶段比例不能证明所有配置的根本限制；经验读探针也不是所有实现硬下界	-	p
+185	测量	K	M	m	u	x	s	-	x	-	独立读探针返回idle/busy事件时长；带宽打印比例错误，不能直接采信打印GB/s	-	p
+186	探索代码	D	K	e	i	u	s	v	x	扩候选容量和并行bin搜索可降低radix轮数与串行等待	由普通探针/时间戳推导并读候选源码；把一套read实现约5us外推绝对ceiling缺证据，不作为物理上界	-	o
+187	探索代码	D	K	m	u	x	s	-	x	-	读取当前容量与KP1路径代码，为修改定位，无新假设或profile	-	o
+188	修改代码	O	K	e	i	n	u	vc	x	将边界候选容量扩为2KP可减少常见分布的radix轮数	正式只改CAP常量，说明数组和搜索拟随后配套修改；尚未验证速度或压力正确性	-	o
+189	修改代码	O	K	i	c	n	u	c	x	各线程并行搜索prefix可免去tid0结果广播开销	正式替换bin搜索并移除旧广播同步，后续出现跨轮race；不提前采信加速	-	o
+190	修改代码	O	K	i	c	y	u	c	x	扩大的survivor集合需要3KP共享数组容量	按新CAP修改tmp/surv，尚未验证	-	o
+191	测量	V	K	m	u	x	c	v	x	-	正式check在tiny_values失败后仍继续扫描；扫描OK来自其他输入，不覆盖压力检查错误	-	o
+192	修改代码	O	M	e	c	u	u	vs	x	复现tiny_values可区分真实选择错误与容差或输入构造差异	写scratch/dbg4.py并sys.path/manual_seed；多种浮点/重复值解释未被验证，后续定位同步race	-	o
+193	测量	V	K	m	u	x	f	-	x	-	本次诊断所有行bad0，随后空失败列表索引报错；未复现不能推翻正式FAIL	-	o
+194	探索代码	D	M	m	u	x	s	-	x	-	核实实际tiny_values定义，不用猜测替代压力输入变换	-	o
+195	探索代码	D	M	m	u	x	s	-	x	-	继续读取stress定义和配置，无新测试或知识库访问	-	o
+196	探索代码	D	M	m	u	x	s	-	x	-	定位scales应用和check的CPU生成再搬设备/seed设置，只读代码无状态写入	-	o
+197	探索代码	D	M	m	u	x	s	k	n	-	同批读check循环与参考forward；此次重复参考读取后未见新增实现转化。后续诊断的调用顺序来自harness，不把它归为参考算法移用	step200重跑正式check，201修同步而非移用参考forward	o
+198	探索代码	D	M	m	u	x	s	k	n	-	再次读reference.get_inputs的CPU randn，后续只重跑已有check；与136–137有明确新诊断改写的事件区分	step200 L635–L638未新增输入构造实现	o
+199	探索代码	D	M	m	u	x	s	-	x	-	实际读_scale_tensor实现，属于harness而非参考/SOTA入口	-	o
+200	测量	V	K	e	c	u	c	v	x	复现差异可能来自输入设备变换或跨调用状态，应重复正式check核实	再次FAIL换到shape1，提示不稳定但未单独证明因果；关于CPU/GPU乘法精确等价的推想不采信为通用事实	-	o
+201	修改代码	O	K	e	c	y	u	vct	x	并行搜索结束后同步可避免下一轮清hist与未完成读取竞争	结合跨次不同shape失败和源码定位race，正式加barrier；后续三次PASS支持修复，未做独立GPU复现	-	o
+202	测量	V	K	m	u	x	s	-	x	-	三个连续正式check均PASS，不扩大为所有输入正确性证明	-	o
+203	测量	K	C	m	u	x	s	-	x	-	同步修复后配置扫描返回OK和时长，普通参数扫描不是profile	-	p
+204	修改代码	O	C	e	i	y	u	vc	x	按当前扫描更新形状配置可能改善已测延迟	正式改shape0/3配置表，暖态赢家是否迁移到正式冷态仍待测	-	o
+205	测量	K	C	m	u	x	s	-	x	-	正式benchmark得0.0722，未把普通测量当NCU	-	p
+206	测量	K	M	e	c	y	s	vt	x	让参数扫描采用flush/sync/单次事件模式可对齐正式测量目标	实际改scratch计时逻辑并扫描；未改官方timing.py，运行间漂移的时钟/争用原因尚未证实	-	p
+207	探索代码	D	C	e	i	n	s	v	x	增加大T或小T配置可探索分段并行度与合并固定成本的权衡	根据普通冷态扫描提出配置实验，实际仅读表；约5us探针成本不是所有实现的硬下界	-	o
+208	修改代码	O	C	i	i	u	s	c	x	添加T1024和小T模板可测试并行度权衡	实际改正式CFGS/dispatch后执行冷态扫描，得到OK时长但新配置未稳定胜出	-	o
+209	修改代码	O	C	e	i	y	s	vc	x	选每形状近似赢家并重复benchmark可观察运行间波动	正式改表并运行三次，分数0.0812/0.0775/0.0799；波动不证明时钟或其他进程是根因	-	o
+210	探索代码	D	H	e	i	n	s	v	x	按输入地址捕获单kernel图可能减少每次Python/launch提交成本	实际读Model准备图缓存修改；对CPU构成和通用floor的量化尚未独立隔离	-	o
+211	修改代码	O	H	i	i	n	u	cs	x	同一输入地址重用CUDA图可减少重复提交开销	正式引入self._graphs字典、逐地址捕获和replay；每次重算输出，非reference答案缓存，缺设备/布局变化守卫的协议范围另行审计	-	o
+212	测量	V	H	m	u	x	s	v	x	-	讨论捕获/缓冲并运行两次正式check均PASS；没有证明跨设备/布局或不同生命周期下图缓存正确	-	o
+213	测量	K	H	m	u	x	s	-	x	-	正式benchmark三次约0.081/0.075/0.071，未见稳定图收益；不把近似差异当因果	-	p
+214	回滚	O	H	e	i	y	u	vcs	x	Python图路径未稳定改善时可恢复直接launch以简化实现	实际删除self._graphs及其capture/replay，保留原持久输出/工作区；对回放开销根因的解释未隔离	-	s
+215	profile	P	K	m	u	x	f	-	x	-	尝试Torch profiler因shell整组参数未拆分而失败，没有有效新采样	-	p
+216	修改代码	O	M	e	i	w	f	v	x	把generator改成list可修复参数解包失败	只改scratch而后仍失败；生成器本来可解包，后续218定位zsh传参，不采信这次错误根因	-	o
+217	profile	P	K	m	u	x	s	-	x	-	明确逐参数调用实际成功，返回shape2 kernel6.89us；没有修改正式算法	-	p
+218	profile	P	K	e	c	y	s	vt	x	显式拆分zsh变量可向诊断脚本传入三个整数参数	纠正此前generator错误归因，实际采样shape1/3/4为5.31/5.32/2.96us	-	p
+219	探索代码	D	H	e	i	u	s	v	x	缓存整数指针与固定参数可能减少pybind张量转换和Python提交成本	读取当前CPP包装准备修改；从不同形状推断wave不均为唯一原因未做隔离，不当已确认瓶颈	-	o
+220	修改代码	O	H	i	i	n	u	c	x	整数指针入口可跳过张量参数转换	正式添加topk_runi，仍取当前Torch stream，尚未测减少多少开销	-	o
+221	修改代码	O	H	i	c	n	u	cs	x	缓存固定输出/工作区指针与launch参数可减少forward准备工作	正式保存_v/_i/_ri/_args，仍读取当前x.data_ptr并每次运行；持久输出别名与模块迁移协议未独立验证	-	o
+222	修改代码	O	H	i	c	u	s	cs	x	接入并缓存原始指针函数可完成新forward路径	实际写模块级_runi并正式check PASS；普通enqueue计时仍约2.7–3.4us，未确认性能收益	-	o
+223	修改代码	O	H	e	i	n	u	vcs	x	CPP按全部指针和配置缓存CUDA图可减少Python图回放路径开销	实际加入static key/exec/cap/streak；key初始全0仅在capture分支更新，有效输入每次先将streak清0再加到1，使首次capture分支不可达；不能当已执行图缓存	-	o
+224	修改代码	O	H	e	i	w	u	vcs	x	相同非零参数第二次调用可令streak到2并触发首次capture	对控制流的解释错误：与仍全0的key每次不等，计数反复清0；本步只改Instantiate签名，没有修复这一条件	-	o
+225	测量	V	H	m	u	x	f	-	x	-	CPP图代码构建因cudaStreamCreate参数错误失败，未取得正确性或回放结果	-	o
+226	测量	V	H	m	u	x	f	s	x	-	独立sys.path诊断暴露StreamCreate多参编译错误，尚未执行kernel	-	o
+227	修改代码	O	H	e	c	y	u	vcs	x	改用带flags的stream创建入口可匹配两参数调用	只修构建API调用，未改变streak条件；代码写入不表示capture分支已执行	-	o
+228	测量	V	H	m	u	x	s	-	x	-	正式check PASS且enqueue仍约2.7us；无法把这些运行视为CPP graph replay测试，首次捕获分支在有效输入下不可达	-	o
+229	测量	K	M	e	i	w	s	v	x	已执行纯CPP graph replay仍测约2.7us，说明Python路径成本不可降低	该实验前提不成立：static key计数条件阻止首次捕获，未测回放；实际只跑旧时间戳脚本，不能由此宣布CPU开销不可降	-	p
+230	探索代码	D	M	e	i	u	s	v	x	单block merge与固定计时成本可能限制本题分数，需核对字节公式	实际读yaml确认只计输入/输出；阶段占比与CPU归因仍依赖不充分诊断，不把数据依赖等同绝对最优	-	p
+231	profile	N	K	e	i	u	s	v	x	更细stall指标可区分barrier、global访存和依赖等待	实际NCU采样shape1；声称固定5us和ceiling0.16仍只是经验模型，不是来源已证明硬界	-	p
+232	修改代码	O	K	e	p	y	u	vc	x	双缓冲hist和减少barrier可降低采样中的同步等待	依据NCU stall改正式选择循环；指标支持关注同步但不能把stall比例直接等同可回收墙钟收益	-	o
+233	修改代码	O	K	e	c	y	f	v	x	prefix写完后仍需同步才能供跨线程二分读取	自查发现新race并尝试修改，但字符串未匹配，正式文件未变化，不标candidate_edit	-	o
+234	修改代码	O	K	i	c	y	u	c	x	恢复prefix完成barrier可保证后续搜索读取一致	实际成功补正式barrier，尚未检查	-	o
+235	修改代码	O	K	e	c	y	u	vc	x	双hist缓冲需要扩大共享数组容量	正式改hist到2倍，未测占用或收益，容量估算不是profile	-	o
+236	profile	P	K	m	u	x	s	-	x	-	正式check PASS并实际Torch profiler采样五形状，打印的kernel时间与此前相比多处更高	-	p
+237	profile	P	K	e	i	u	s	v	x	重复相同profile可检查回归是否稳定而非一次波动	实际重复采样，部分形状稳定高、shape1有波动；不据此证明机器噪声是全部根因	-	p
+238	修改代码	O	K	e	i	n	f	v	x	小k用warp最大值逐个提取可替代radix固定成本	提出路径并尝试Edit但old_string不匹配，正式实现未写入；min-of-medians建议未实际执行，不记成测量方案已验证	-	o
+239	探索代码	D	K	m	u	x	s	-	x	-	定位实际select_top代码行，以纠正猜测的替换目标	-	o
+240	探索代码	D	K	m	u	x	s	-	x	-	读取精确KP1代码，无新性能证据	-	o
+241	修改代码	O	K	e	c	n	u	vc	x	在实际KP1分支后加入小k逐最大值提取可减少histogram与barrier	实际写入KP小于等于16路径，尚未验证编译、正确性或性能	-	o
+242	探索代码	D	C	e	c	y	s	v	x	新路径受模板KP而非运行时k控制，需核对所选配置才能确认执行	实际读CFGS检查路径条件，不以代码存在推断分支已运行	-	o
+243	探索代码	D	C	e	c	y	s	v	x	为k8选择KP8配置可使新提取路径真正启用	确认原cfg10是KP32，实际只读SHAPE_CFG，尚未修改选择	-	o
+244	修改代码	O	C	i	c	y	u	c	x	将k8形状指向cfg22可启用KP8编译路径	实际修改正式配置表，性能待后续检查	-	o
+245	测量	V	K	m	u	x	f	-	x	-	默认python缺torch，未构建或验证新kernel	-	o
+246	环境准备	O	U	m	u	x	f	-	x	-	搜索解释器并再次默认导入失败，未取得性能数据	-	o
+247	环境准备	O	U	m	u	x	f	-	x	-	误把运行wrapper当有torch的venv，实际导入失败，check未运行	-	o
+248	环境准备	O	U	m	u	x	f	-	x	-	检查运行目录及uv临时python，仍无torch；没有发现环境真的丢失安装的直接证据	-	o
+249	环境准备	O	U	m	u	x	f	-	x	-	重复wrapper导入失败并触发shell通配符错误，未找到有效python	-	o
+250	探索代码	D	U	m	u	x	s	-	x	-	实际读取python shell wrapper和cache路径，解释器包装不是额外知识库	-	o
+251	探索代码	D	U	e	c	u	s	v	x	wrapper转交REAL_PYTHON可能导致默认解释器与此前共享venv不同	读取gpu-lock-exec和环境值，不能据此证明Torch安装曾消失	-	o
+252	环境准备	O	U	e	i	u	f	v	x	uv模板环境可能变化，需要寻找带torch的环境	搜索glob未匹配而失败；后续发现隐藏目录，模板被回收的解释未成立	-	o
+253	环境准备	O	U	m	u	x	s	-	x	-	只读寻找torch site-packages，未取得可运行环境或性能数据	-	o
+254	环境准备	O	U	m	u	x	s	-	x	-	查uv缓存找到Torch包目录，缓存包存在不等于当前解释器可导入	-	o
+255	环境准备	O	U	e	i	w	f	v	x	原模板路径已失效且新构建目录可能有可用python	实际新路径无python；后续256确认原隐藏目录仍在，纠正失效猜测	-	o
+256	环境准备	O	U	m	u	x	s	-	x	-	find显示隐藏模板仍存在并找到Torch archive，不能将包archive当有效venv	-	o
+257	环境准备	O	U	m	u	x	f	v	x	-	主动纠正隐藏目录遗漏，再测该解释器仍缺torch；不是新GPU测试	-	o
+258	环境准备	O	U	m	u	x	s	-	x	-	只读临时env目录结构，Python3.13目录与此前可用共享3.11环境不同	-	o
+259	环境准备	O	U	m	u	x	f	-	x	-	列到空临时site-packages，但echo分隔符经shell出错，中断后续搜索	-	o
+260	环境准备	O	U	m	u	x	s	-	x	-	搜索临时env无torch返回，未证明其他项目venv也不存在	-	o
+261	环境准备	O	U	m	u	x	s	-	x	-	找到项目hard/.venv；对此前执行环境的回忆不准确，不当环境迁移事实	-	o
+262	环境准备	O	U	m	u	x	s	-	x	-	共享项目venv实际可导入Torch2.11/cu130，与早期step17路径一致	-	o
+263	测量	V	K	m	u	x	s	-	x	-	改用已确认共享venv，正式check PASS；没有新候选代码修改	-	o
+264	测量	K	K	m	u	x	s	-	x	-	正式benchmark0.0663/LOW，属于该候选实际中间性能结果	-	p
+265	修改代码	O	K	e	i	y	u	vc	x	k16逐个提取路径未见收益，限制到KP8可恢复其radix路径	根据形状回归收窄正式条件；单次前后数字无法独立分离实现与运行漂移的影响	-	o
+266	测量	K	K	m	u	x	s	-	x	-	正式check PASS并benchmark0.0742，未将通过检查等同分数达到0.1	-	p
+267	探索代码	D	M	e	i	u	s	v	x	重新扫描当前代码可判断提取和双缓冲后的配置选择	实际读scratch/sweep.py；由近似时长断言shape1为load-bound未隔离，未当确认瓶颈	-	p
+268	测量	K	C	e	c	w	s	v	x	完整GraphKey使扫描中不同配置可重新捕获，稳定阶段测到回放	此推理遗漏首次capture不可达条件；实际扫描得到OK配置和时长，但没有任何graph执行证据	-	p
+269	测量	K	C	m	u	x	s	-	x	-	重跑读取扫描前半，得到shape0/1参数结果；不是补读同一缓存日志	-	p
+270	修改代码	O	C	e	i	y	u	vc	x	退回较快radix配置并调整shape2近似赢家可改善参数选择	正式改shape1从22到10、shape2从8到3；提取代码保留但已测标准形状不再启用它，未见fallback性能验证	-	s
+271	测量	K	C	m	u	x	s	-	x	-	正式check PASS后3次benchmark0.0758/0.0749/0.0728，保留全部返回不只报最大值	-	p
+272	测量	K	M	e	i	u	f	v	x	阶段clock64脚本可测每个标准形状的merge占比	脚本硬编码B1/n131072/k64，循环只是换cfg，部分容量失配并报错；不能称标准形状各自阶段测量，固定频率和跨block中位数相减仍未修	-	p
+273	探索代码	D	K	e	i	w	s	v	x	这些跨配置时间戳可证明merge占每个多block kernel约40%至50%	实际脚本固定同一输入形状且cfg有失配，未按同block取相邻戳差；不采信所声称跨形状比例或clock换算	-	o
+274	探索代码	D	K	m	u	x	s	-	x	-	读取merge尾部和dispatch，无新修改或测量	-	o
+275	探索代码	D	C	e	i	n	s	v	x	复杂merge重构估计收益有限，采用扫描排序更新fallback即可收尾	只读fallback顺序，pivot/cooperative等方案主要是估算而非实现对照，不能把拒绝理由都称已测结果	-	s
+276	修改代码	O	C	i	i	y	u	c	x	按扫描偏好重排fallback可改变未知形状的配置选择	正式修改fallback序列，标准五形状继续走SHAPE_CFG，不宣称本步改变其算法	-	o
+277	测量	K	C	m	u	x	s	-	x	-	正式check PASS和五次分数0.0804/0.0717/0.0832/0.0752/0.0724，全部保留	-	p
+278	测量	K	K	m	u	x	s	-	x	-	正式完整形状返回与总分0.0823，不能挑单次最好数替代稳定性分布	-	p
+279	测量	V	K	e	i	u	s	v	x	当前实现继续用完整正确性验证，复杂merge方案暂不实施	三次正式PASS；声称设计已到最优平台仅为估算和有限配置比较，未证明全设计空间下界	-	o
+280	测量	K	K	m	u	x	s	-	x	-	末次正式benchmark调用返回四次0.0806/0.0803/0.0804/0.0774；命令过滤未显示RESULT行，样本榜单success另保留	-	p
+281	其他	O	K	m	u	x	s	v	x	-	回顾测量并更新任务状态，尚未写记忆；相同代码波动不能独自证明全部差值来自机器漂移	-	o
+282	其他	O	U	m	u	x	s	-	x	-	关闭任务清单，无新代码、性能或知识读取	-	o
+283	写报告	O	M	i	i	w	u	st	x	保留的CPP capture/replay已测为中立偏正，可作为后续经验	实际写持久记忆，但有效输入首次capture分支不可达，该经验前提错误；固定事件floor/绝对ceiling与未实现方案也不当通用实测事实	-	a
+284	写报告	O	U	i	i	u	u	s	x	临时REAL_PYTHON可能丢失Torch而共享项目venv可恢复运行	写解释器记忆，可核实共享venv可用，但没有证明模板曾丢失安装；读其当前缺包与“曾经失去”区分	-	a
+285	探索代码	D	U	m	u	x	f	-	x	-	列出两份刚写记忆后索引不存在使条件命令exit1，未读取索引内容	-	a
+286	写报告	O	U	m	u	x	u	s	x	-	创建持久MEMORY.md链接两份经验，路径索引写入不等于内容已被未来使用	-	a
+287	写报告	O	K	e	i	u	u	v	x	固定约5us事件成本与串行依赖限制分数上界接近0.16	最终总结包含真实PASS与分数，但硬上界、漂移唯一原因、部分拒绝方案的实测含义未被充分证实；未把公开总结当完整内部推理	-	a

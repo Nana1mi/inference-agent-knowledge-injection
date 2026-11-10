@@ -1,0 +1,87 @@
+{
+  "session_id": "K05",
+  "method": "AI研究助理逐项静态控制流核验；未运行下载代码或本地GPU",
+  "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+  "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+  "raw_sha256": "3ce572b78945ec730932d4c617533c4c6ddcb189519b4afa89c2e94dbce6dc90",
+  "primary_locator": "L723/message/content/0/input/new_string",
+  "payload_lines": {
+    "initial_key": 14,
+    "initial_exec": 15,
+    "initial_streak": 17,
+    "current_args": 19,
+    "reset_increment": [
+      26,
+      27
+    ],
+    "capture_guard": 28,
+    "key_update_inside_capture": 38
+  },
+  "premises": [
+    "当前选中五个形状的有效输入和输出地址非零，故GraphKey不可能十项全零。",
+    "static key初始全零，仅在streak>=2块内更新；exec初始nullptr，仅在同一块内实例化。",
+    "每次key不等当前参数便将streak清0，然后只加1。"
+  ],
+  "deduction": "从初始状态归纳：每次有效调用都使streak为1，key仍全零、exec仍nullptr，因此首次capture和replay分支均不可达。",
+  "later_edits": "全287步工具新串/写入/命令核对：step224只改Instantiate签名，step227只改StreamCreateWithFlags名称，没有修改上述key/streak条件。",
+  "implication": "step228的PASS、step229与268的回放成本解释、step283记忆中的中立偏正说法，均不能证明CPP graph replay运行或产生收益。",
+  "scope_limit": "这是已导出源码在所示正常输入/初始化路径下的静态结论，不是对其他实现、外部修改或所有CUDA图的性能结论；持久输出别名契约另行保留无法判断。",
+  "supporting_steps": [
+    {
+      "step_id": 223,
+      "source_lines": [
+        721,
+        722,
+        723
+      ],
+      "review_input_sha256": "410eec4f67e54fc330b2841a6869eccba0e5069106934da46afd2c987b83ddb4"
+    },
+    {
+      "step_id": 224,
+      "source_lines": [
+        725,
+        726
+      ],
+      "review_input_sha256": "69a9097edebcaefac857a0a9b23675980a252023ef450b39902ff5f645b60032"
+    },
+    {
+      "step_id": 227,
+      "source_lines": [
+        736,
+        737
+      ],
+      "review_input_sha256": "9c0c099e1a0bcc0fad4b8faa32cc8a4d6fc32767c5e1723a80e4cdbc7273c3b7"
+    },
+    {
+      "step_id": 228,
+      "source_lines": [
+        739
+      ],
+      "review_input_sha256": "8c32c615b4112f20fcff30bc2ed494e65e2c3f77e9aac02ef1256209b822a6e5"
+    },
+    {
+      "step_id": 229,
+      "source_lines": [
+        743,
+        744,
+        745
+      ],
+      "review_input_sha256": "f6838370e352c32c4c2b2d3a6b4718246f17ea7bb21bfc834cc56bef17cfdb09"
+    },
+    {
+      "step_id": 268,
+      "source_lines": [
+        868,
+        869
+      ],
+      "review_input_sha256": "e913f56551bc12d78c0fa00e16448e71446de4012af88e1a450c3069dfe08eed"
+    },
+    {
+      "step_id": 283,
+      "source_lines": [
+        924
+      ],
+      "review_input_sha256": "1e146489f8736b1647563cf9c1a18dcc1fa0a0cc9ee531424cf9160331e41447"
+    }
+  ]
+}
