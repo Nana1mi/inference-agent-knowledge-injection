@@ -64,8 +64,8 @@
     {
       "session_id": "K11",
       "required": 96,
-      "reviewed": 0,
-      "complete": false
+      "reviewed": 96,
+      "complete": true
     },
     {
       "session_id": "K12",

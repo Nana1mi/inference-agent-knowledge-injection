@@ -20,7 +20,7 @@ RULES={
  'persistent_memory_path':r'(?i)(?:/memory/|/\.cache/|TRITON_CACHE_DIR|CUDA_CACHE_PATH)',
  'cuda_cpp_timing_or_sync':r'\b(?:__syncthreads(?:_count|_and|_or)?|__syncwarp|cuda(?:DeviceSynchronize|StreamSynchronize|Event(?:Record|ElapsedTime|Synchronize)|StreamWaitEvent)|cp_async_wait|mbar_wait|mbar_arrive|cp_wait)\s*\(|\b(?:cp\.async\.(?:wait_group|wait_all)|mbarrier\.(?:arrive|try_wait|test_wait)|bar\.sync|barrier\.sync)\b',
  'cuda_runtime_state':r'\bcuda(?:FuncSetAttribute|FuncSetCacheConfig|SetDevice|DeviceSetCacheConfig|DeviceSetLimit|DeviceSetSharedMemConfig)\s*\(',
- 'persistent_buffer_or_cache_assignment':r'(?i)\b[\w.]*cache\w*\s*=(?!=)|\bself\._(?:out|yout|gemm_out|wqt|partial|tprefix|graph|gkeys|q_obj|replay|counter|ts_key|ts_buf|[oml]_partial)\s*=(?!=)',
+ 'persistent_buffer_or_cache_assignment':r'(?i)\b[\w.]*cache\w*\s*=(?!=)|\bself\._(?:out|yout|gemm_out|wqt|partial|tprefix|sched|sched_key|graph|gkeys|q_obj|replay|counter|ts_key|ts_buf|[oml]_partial)\s*=(?!=)',
 }
 
 def leafstrings(obj,pointer=''):

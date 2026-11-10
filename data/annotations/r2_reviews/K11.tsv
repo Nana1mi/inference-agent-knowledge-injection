@@ -1,0 +1,97 @@
+# step	phase	tool	layer	origin	source	evidence	outcome	flags	use	hypothesis	rationale	followup	component
+1	探索代码	D	F	m	u	x	s	k	a	-	读reference参数/接口和逐专家参考运算，只有动作说明；step10沿用协议但自写融合Triton	step10 L26–L28的Model与输入helpers	o
+2	探索代码	D	M	m	u	x	s	-	x	-	读check/benchmark规则，不是GPU测量或外部知识入口访问	-	p
+3	探索代码	D	F	m	u	x	s	k	n	-	读形状、SOTA入口和任务要求；全96步未见调用/改写sonic_moe入口，后期CUTLASS另列，不据此推定无认知影响	step10/50/72–73自写Triton与96最终说明	o
+4	环境准备	O	M	m	u	x	s	-	x	-	查询GPU与Torch版本；uv安装反馈是环境准备，不是kernel性能证据	-	o
+5	探索代码	D	M	m	u	x	s	-	x	-	定位硬件与eval模块并读硬件表，200TFLOPS为表值而非实测上界	-	p
+6	探索代码	D	M	m	u	x	s	-	x	-	读取numeric_stress/正确性/roofline/计时源码，没有profile或新机制推理	-	p
+7	环境准备	O	U	m	u	x	s	-	x	-	检查Triton版本和网络连通，未读取库文档或验证代码生成吞吐	-	o
+8	测量	K	K	i	i	w	c	-	x	独立bf16 matmul探针可验证Triton性能与正确性	实际返回err484.56；完整输入中B地址未按正确行stride映射，196TFLOPS不能当已正确实现的可比性能	-	p
+9	其他	O	K	e	i	w	u	v	x	196TFLOPS若接近峰值则Triton路线已验证	公开理由依赖上步错误探针且把表值200当峰值，实际只搜索任务工具；没有完成有效路径验证	-	m
+10	修改代码	O	F	i	r	u	u	c	x	融合两组grouped GEMM与SwiGLU可减少参考专家循环和中间开销	首次正式候选写入，按当前offsets每次建tile调度；_max_mt是形状常量，不是缓存答案，本步未测	-	o
+11	修改代码	O	C	e	c	y	u	vc	x	调度BM必须匹配kernel，固定BM可避免autotune两者失配	公开说明有具体一致性理由，实际改配置函数；尚未运行check	-	o
+12	修改代码	O	O	m	u	x	u	c	x	-	只添加noqa注释，属于正式文件改动但非算法或性能机制；首次算法改动口径另列	-	o
+13	修改代码	O	C	i	c	y	u	c	x	让BM_SCHED引用固定BM可使调度与kernel一致	实际改调度常量，无公开实质理由文本，机制从工具参数推断	-	o
+14	修改代码	O	K	i	c	y	u	c	x	向kernel显式传BM可完成固定BM接口对接	实际修改launch参数，尚未检查正确性或性能	-	o
+15	测量	V	F	m	u	x	u	-	x	-	启动正式check仅获后台句柄，未提前宣布通过	-	o
+16	等待	O	U	m	u	x	f	-	x	-	等待命令被工具策略阻止；是监控调用失败，不是kernel错误或可靠阶段时长	-	p
+17	等待	O	U	m	u	x	u	-	x	-	读取同一check日志暂空，无新完成结论	-	p
+18	等待	V	F	m	u	x	s	-	x	-	使用until等待后取回check PASS；未启动新的正确性测试	-	o
+19	测量	K	F	m	u	x	u	-	x	-	启动正式benchmark仅得后台句柄，正确性通过不预认性能	-	p
+20	等待	K	F	m	u	x	s	-	x	-	读取完整benchmark0.1721/OK；保持榜单failure与局部OK不同口径	-	p
+21	测量	K	M	e	i	y	s	v	x	当前得分可能接近峰值，应以独立cuBLAS实测校准可达吞吐	实际测到约391TFLOPS等，普通计时不是profiler；单GEMM可达值不等于全硬件绝对上界	-	p
+22	测量	K	K	e	i	y	u	vt	x	表值200低于实测cuBLAS，Triton可能仍有调参空间	明确修正早先near-peak判断后启动单专家scratch扫参，只获后台句柄；未将该步记硬件采样	-	m
+23	等待	K	K	m	u	x	s	-	x	-	读取单GEMM扫参最佳308TFLOPS与配置，是普通微基准结果	-	p
+24	修改代码	O	C	e	i	y	u	vc	x	BN64的单GEMM结果提示应扩大grouped候选配置范围	实际修改正式autotune列表；微基准到双累加grouped的迁移效果尚未验证	-	o
+25	测量	K	F	m	u	x	u	-	x	-	启动扩展配置版正式benchmark，尚无新数值	-	p
+26	等待	K	F	m	u	x	s	-	x	-	读到0.1617且shape0回退，扩配置没有自动改善正式成绩	-	p
+27	测量	K	M	e	i	u	u	v	x	autotune若未清L2可能选错正式清L2条件下配置	实际新建清L2的融合kernel扫参，只有后台句柄；回退原因并未被单独隔离证明	-	p
+28	等待	K	C	m	u	x	s	-	x	-	取得三形状清L2扫参最佳参数，未将缓存热态与正式分数混比	-	p
+29	修改代码	O	C	e	i	y	u	vc	x	按清L2扫参固定形状配置可避免不匹配的自动选择	实际移除autotune、固定BM64与配置表；约0.196只是估计，尚未正式重测	-	o
+30	修改代码	O	C	i	c	y	u	c	x	改为显式配置launch才能接通固定配置表	实际修改正式forward调度参数，无新公开实质推理或实测	-	o
+31	修改代码	O	K	e	c	u	u	vc	x	当前H整除BK，可移除K边界mask以匹配更快scratch结构	实际移除正式K mask；合法范围只限给定可整除形状，不外推任意H	-	o
+32	测量	V	F	m	u	x	u	-	x	-	启动固定配置版正式check，尚无通过结果	-	o
+33	等待	V	F	m	u	x	s	-	x	-	轮询check返回PASS，未推出性能收益	-	o
+34	测量	K	F	m	u	x	u	-	x	-	启动固定配置版正式benchmark，仅后台句柄	-	p
+35	等待	K	F	m	u	x	s	-	x	-	读取正式0.1978，支持这版候选在当前计时协议下较此前更好	-	p
+36	写报告	O	M	i	c	u	s	s	x	保存评分口径与已试配置可供后续会话参考	实际写项目memory成功；把单次cuBLAS可达值称真峰值、单配置称上限的泛化未证实；未执行口头后续profile	-	a
+37	写报告	O	O	m	u	x	s	s	x	-	实际把MEMORY索引写进题目目录并查ncu位置；后续step91纠正索引位置，不是本步GPU采样	-	a
+38	profile	N	K	m	u	x	f	-	x	-	首次请求NCU在首次正式写入step10之后，但探针导入solution失败，没有计数器返回	-	p
+39	profile	N	K	m	u	x	f	-	x	-	重试NCU仍因/tmp脚本找不到solution失败，不能记为成功profile	-	p
+40	profile	N	K	m	u	x	s	-	x	-	把驱动放进题目目录后NCU才实际成功采样；这是首次有返回数据的硬件profile	-	p
+41	profile	N	K	m	u	x	s	-	x	-	追加采样并提取255寄存器、约16.6%占用率等，未新建性能机制标签	-	p
+42	测量	K	F	e	p	u	u	v	x	两fp32累加器的寄存器压力可能限制吞吐，可测单累加方案	依据NCU启动scratch单累加扫参，只获后台句柄；寄存器是现象证据，唯一根因尚未隔离	-	m
+43	等待	K	K	m	u	x	s	-	x	-	取得单累加配置343TFLOPS等；不是完整双GEMM与SwiGLU端到端吞吐	-	p
+44	测量	K	F	e	p	y	u	v	x	拆分两GEMM可降低累加器压力，第二遍epilogue读gate并融合SwiGLU	从NCU与单累加探针提出两遍方案并启动端到端微基准；更多流量/launch的代价需实际比较	-	m
+45	等待	K	F	m	u	x	s	-	x	-	读取两遍方案全形状扫描时延，尚未写入正式候选	-	p
+46	测量	K	F	e	i	u	u	v	x	独立流式SwiGLU或能减少第二GEMM epilogue加载停顿	实际启动三kernel scratch对照；epilogue停顿只是解释，没有此方案的新NCU证据	-	m
+47	等待	K	F	m	u	x	s	-	x	-	取得三kernel完整配置计时；未把单GEMM速度冒充整方案速度	-	p
+48	测量	K	F	e	i	u	u	v	x	把两个权重分支合并为N2I的一个GEMM launch可改善尾部利用率	实际启动合并scratch扫参，未验证统一最佳或尾部机制	-	m
+49	等待	K	F	m	u	x	s	-	x	-	读取合并2I加SwiGLU的全形状计时，保留与两遍/三kernel差异	-	p
+50	修改代码	O	F	e	i	y	u	vc	x	按形状混用小形状融合与大形状单累加分离可利用实测差异	整文件正式重写为hybrid，当前每次仍建立offset调度，没有引入答案缓存；约0.207是估计	-	o
+51	修改代码	O	K	i	c	y	u	c	x	SwiGLU的N边界也应mask以覆盖I之外线程	实际补正式streaming kernel的N mask，无新的可见推理或性能测量	-	o
+52	测量	V	F	m	u	x	u	-	x	-	清理驱动并启动hybrid版check，只获后台句柄；未执行下载代码于本机	-	o
+53	等待	V	F	m	u	x	s	-	x	-	取回hybrid正式check PASS，不等同最终榜单结局改变	-	o
+54	测量	K	F	m	u	x	u	-	x	-	启动hybrid正式benchmark，尚无数值	-	p
+55	等待	K	F	m	u	x	s	-	x	-	读取hybrid0.2003，小形状较此前低；不只报告改善形状	-	p
+56	测量	K	M	e	i	u	u	v	x	小形状得分下降可能为波动，可重复正式benchmark检验	实际启动复测，波动原因尚未证明，不能直接忽略下降	-	p
+57	等待	K	F	m	u	x	s	-	x	-	第二次0.1998与小形状约0.252，支持下降可重复但不定位原因	-	p
+58	测量	K	C	e	i	u	u	v	x	若当前时钟或热状态变化，可重新扫小形状配置判断选择	实际重调scratch；未读取时钟/温度，因此将回退归因热状态没有直接证据	-	m
+59	等待	K	C	m	u	x	s	-	x	-	取回小形状同最佳配置约0.594ms，说明正式forward与预建调度探针范围不同	-	p
+60	修改代码	O	H	e	c	u	u	vcs	x	正式forward包含多步调度构建，按offset对象身份缓存可减少其开销	实际新增id(offsets)键与_sched缓存，未跟踪同对象内容/版本变化；静态存在陈旧路由路径，不认定已污染得分或意图	-	o
+61	修改代码	O	H	i	c	u	u	cs	x	让小形状forward使用_schedule可接通调度复用	实际将融合路径接入缓存调用；没有新公开实质推理，缓存计算结果与缓存调度元数据分开判断	-	o
+62	修改代码	O	H	i	c	u	u	cs	x	大形状路径也可通过_schedule复用调度元数据	实际接通split路径缓存，仍运行完整GEMM；同对象offset变化的失效风险没有验证	-	o
+63	测量	V	F	m	u	x	u	-	x	-	启动缓存版正式check，仅后台句柄	-	o
+64	等待	V	F	m	u	x	s	-	x	-	缓存版check返回PASS，不证明同对象修改offsets的路由失效场景安全	-	o
+65	测量	K	F	m	u	x	u	-	x	-	启动缓存版正式benchmark，尚无结果	-	p
+66	等待	K	F	m	u	x	s	-	x	-	取得0.2082且小形状恢复，支持该版本观测改善；未作单因素因果试验	-	p
+67	写报告	O	M	i	c	y	s	s	x	更新已试设计与当前分数可维护优化经验	实际只修改memory，未执行口头大tile探针；把“ceiling”等泛化另保留限制	-	a
+68	测量	K	K	i	i	u	u	-	x	更大单累加tile可能提高当前大形状吞吐	从工具输入可见新扫参方向，没有公开实质分析；只获后台句柄	-	m
+69	等待	K	C	m	u	x	s	-	x	-	读到大tile扫参316/304等，均未超过此前343单次值；不由此唯一归因时钟	-	p
+70	测量	K	F	e	c	u	u	v	x	I宽gate工作区加up epilogue可比2I工作区减少中间往返流量	实际启动两遍epilogue头对头计时；结构字节推算有据，最终整方案收益需正式重测	-	m
+71	等待	K	F	m	u	x	s	-	x	-	取得两大形状两遍epilogue时延，有共享内存超额失败配置也保留	-	p
+72	修改代码	O	F	e	c	y	u	vc	x	按较好的端到端探针结果替换大形状split为I宽gate缓冲方案	实际修改正式kernel，约0.214仍是估计；未把字节量差异当唯一已证提速原因	-	o
+73	修改代码	O	F	i	c	y	u	c	x	forward需先gate再调用带SwiGLU epilogue的up kernel	实际改正式调用顺序和中间工作区；每次重新计算，仍保留step60调度缓存	-	o
+74	测量	V	F	m	u	x	u	-	x	-	启动两遍epilogue正式check，未预认通过	-	o
+75	等待	V	F	m	u	x	s	-	x	-	读到check PASS，当前题目正确性通过不证明所有路由变化协议	-	o
+76	测量	K	F	m	u	x	u	-	x	-	启动两次正式benchmark，尚未取得完整数值	-	p
+77	等待	K	F	m	u	x	s	-	x	-	取回0.2155/0.2154，支持两次运行范围；不估算无可靠时间戳的阶段耗时	-	p
+78	测量	K	M	e	i	u	s	v	x	重新测cuBLAS若仍更快，可判断继续库路线是否值得尝试	实际独立GEMM校准得到293至386TFLOPS；大M合并GEMM并非同一grouped双GEMM任务，不据此精确量化剩余因果空间	-	p
+79	测量	K	K	e	i	u	u	v	x	warp specialization或可重叠载入与计算、提高当前路径吞吐	实际启动scratch WS试验，尚无编译或性能结论；没有读取WS文档事件	-	m
+80	等待	K	K	m	u	x	f	-	x	-	WS配置出现编译pass失败，返回列表包含noWS配置；不能把noWS时延当WS收益	-	o
+81	环境准备	O	K	e	c	u	s	v	x	当前WS试验失败后，检查CUTLASS工具链可评估另一实现路线	实际查询nvcc和包可用性；一次无TMA的WS编译失败不足证明所有SM120 WS组合都不支持	-	o
+82	测量	K	K	e	c	y	s	v	x	去掉X载入mask可能降低开销，可用满tile对照验证	实际scratch掩码两版约10.383/10.382ms，未观察到收益；不能把近似相同值称所有场景精确零开销	-	m
+83	环境准备	O	K	e	i	u	s	v	x	所试便宜改动未胜当前配置，先下载CUTLASS核实适用性	实际clone和版本/命中文件名读取成功，尚未读取算法实现；“只有CUTLASS”是未经穷尽的判断	-	o
+84	探索代码	D	K	m	u	x	u	-	x	-	列CUTLASS示例与builder文件名的命令在后台，尚未读到实质算法代码	-	o
+85	等待	D	K	m	u	x	s	-	x	-	读取文件名/目录列表；不把目录出现Sm120等同具体dtype/grouped能力	-	o
+86	探索代码	D	K	m	u	x	s	-	x	-	查看两示例目录并尝试README但无正文返回，只有文件列表，不记为实际知识内容读取	-	o
+87	探索代码	D	K	m	u	x	s	k	r	-	读CMake和example92的真实架构/dtype声明，后步明确因Sm100不适配SM120而放弃该示例	step88 L298–L300明确区分示例目标架构	o
+88	探索代码	D	K	e	c	y	s	vk	r	若指定Sm120 builder不支持当前dtype或PtrArray，则该候选路线不适用	实际grep到F8F6F4限制和PtrArray static_assert，支持对这个builder的拒绝，不证明所有CUTLASS路径不可用	step89 L301–L303据该片段拒绝并写记忆	o
+89	写报告	O	K	e	c	y	s	vs	x	当前所查builder限制使继续该路线价值低，可保存适用性结论	实际只写memory，没有执行口头N-mask防御修改；泛化成整个CUTLASS无快速bf16 grouped路径超出局部片段证据	-	a
+90	环境准备	O	M	e	i	u	s	vs	x	当前候选可交付，清辅助文件并核对框架识别可确认入口状态	实际删下载库/驱动和生成framework标签文件后用本地正则得到triton；未改检测器、正式参考或kernel	-	s
+91	写报告	O	O	e	c	y	s	vs	x	索引写错题目目录，应删除该索引并在项目记忆目录重建	实际成功纠正路径；不是把经验正文移入正式候选或更改评分结果	-	a
+92	测量	V	F	m	u	x	u	-	x	-	启动最后正式check，仅获后台句柄	-	o
+93	等待	V	F	m	u	x	s	-	x	-	末次check返回PASS，保留与榜单failure不同的结局口径	-	o
+94	测量	K	F	m	u	x	u	-	x	-	启动最后正式benchmark，尚无数值	-	p
+95	等待	K	F	m	u	x	s	-	x	-	末次正式benchmark0.2162/OK，未把局部OK改写榜单failure	-	p
+96	写报告	O	F	e	p	y	s	v	x	按采样和探针结果总结小形状融合、大形状两遍epilogue与调度缓存的设计	公开最终说明有实质理由，虽无thinking导出仍推理可见；0.2162/OK有据，但全库不适用、近全局最优及和cuBLAS精确剩余空间的泛化未证实	step93 L316–L319末次PASS；95 L323–L326末次0.2162/OK	a

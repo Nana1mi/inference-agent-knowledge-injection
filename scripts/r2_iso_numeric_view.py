@@ -13,6 +13,8 @@ def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('orders', type=int, nargs='+')
     parser.add_argument('--full-source', action='store_true')
+    parser.add_argument('--include-readbacks', action='store_true',
+                        help='Also show actual benchmark-file view results, not only attempted writes.')
     args = parser.parse_args()
     rev = load(DERIVED/'r2_iso_index.json')['revision']
     plan = load(RAW/'r2_iso'/rev/'selection.json')
@@ -30,6 +32,20 @@ def main():
             for j, call in enumerate(step.get('tool_calls') or []):
                 payload = call.get('arguments') or {}
                 target = str(payload.get('path') or payload.get('file_path') or '')
+                if args.include_readbacks and '.bench_scratch' in target and payload.get('command') == 'view':
+                    for k, result in enumerate(step.get('tool_results') or []):
+                        if result.get('call_id') != call.get('call_id'):
+                            continue
+                        print('READBACK', f'/agent_steps/{i}/tool_results/{k}/result', 'target', target,
+                              'success', result.get('success'))
+                        value = str(result.get('result') or result.get('error') or '')
+                        if args.full_source:
+                            print(value)
+                        else:
+                            for n, line in enumerate(value.splitlines(), 1):
+                                code = re.sub(r'^\s*\d+\s+', '', line)
+                                if CUE.search(code):
+                                    print(f'{n}: {line}')
                 for field in ('file_text', 'new_str', 'new_string', 'content', 'command'):
                     value = payload.get(field)
                     if not isinstance(value, str) or not value:
