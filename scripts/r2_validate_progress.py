@@ -51,7 +51,13 @@ def main():
     counts['selected_iso_sessions']=len(load(RAW/'r2_iso'/load(DERIVED/'r2_iso_index.json')['revision']/'selection.json')['selected'])
     state_coverage=load(DERIVED/'r2_state_review_coverage.json')
     counts['required_state_scan_hits']=state_coverage['required_hits'];counts['reviewed_state_scan_hits']=state_coverage['reviewed_hits']
-    gates={'R1_index_sample_and_hashes':not errors,'R2_gpu_eligible_sample':False,'R3_complete_review':coverage['status']=='complete',
+    expected_steps={(sid,g['step_id']) for sid,s in sessions.items()
+                    for g in map(json.loads,(ROOT/s['step_file']).read_text(encoding='utf-8').splitlines())}
+    kbh_first_pass_complete=coverage['status']=='complete' and seen==expected_steps and not errors
+    # This check currently validates KBH rows only. ISO eligibility reviews are
+    # not step annotations; finishing KBH must not complete the combined R3 gate.
+    gates={'R1_index_sample_and_hashes':not errors,'R2_gpu_eligible_sample':False,
+           'R3_kbh_first_pass_complete':kbh_first_pass_complete,'R3_complete_review':False,
            'R3_blind_repeat_agreement':(DERIVED/'r2_agreement.json').exists(),
            'R4_analysis':(ROUND/'R4_analysis.md').exists(),'R5_full_scan_and_review':False,'R6_one_page_brief':(ROUND/'00_brief.md').exists()}
     report={'updated_at':now(),'status':'errors' if errors else 'in_progress','scope':'current structural provenance/schema/sample checks; incomplete gates explicitly retained, not a completion certificate',

@@ -1,22 +1,23 @@
 {
-  "updated_at": "2026-11-11T06:21:33.606670+08:00",
+  "updated_at": "2026-11-11T06:36:06.834968+08:00",
   "status": "in_progress",
   "scope": "current structural provenance/schema/sample checks; incomplete gates explicitly retained, not a completion certificate",
   "counts": {
     "kbh_selected": 14,
     "kbh_trace_index": 740,
     "kbh_bytes": 23239934,
-    "reviewed_kbh_steps": 3139,
+    "reviewed_kbh_steps": 3345,
     "required_kbh_steps": 3345,
-    "reviewed_iso_eligibility_candidates": 184,
+    "reviewed_iso_eligibility_candidates": 190,
     "confirmed_successful_gpu_candidates": 1,
     "selected_iso_sessions": 0,
     "required_state_scan_hits": 11439,
-    "reviewed_state_scan_hits": 983
+    "reviewed_state_scan_hits": 997
   },
   "gates": {
     "R1_index_sample_and_hashes": true,
     "R2_gpu_eligible_sample": false,
+    "R3_kbh_first_pass_complete": true,
     "R3_complete_review": false,
     "R3_blind_repeat_agreement": false,
     "R4_analysis": false,

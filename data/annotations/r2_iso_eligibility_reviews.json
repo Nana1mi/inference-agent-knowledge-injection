@@ -2356,6 +2356,93 @@
         "trajectory.json#/agent_steps/31/tool_calls/0/arguments/new_str",
         "trajectory.json#/agent_steps/32/tool_results/0/result"
       ]
+    },
+    {
+      "order": 395,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；10成功创建可选CUDA attention探针，13与32实际均device=cpu、avg约.387/.388秒；27/28超时不是GPU测量。条件分支有同步不代表实际进入CUDA。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/10/tool_results/0",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/27/tool_results/0/result",
+        "trajectory.json#/agent_steps/28/tool_results/0/result",
+        "trajectory.json#/agent_steps/32/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 397,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功，但22创建被拒后23实际Read为另一分配/拷贝脚本；24/42均明确CUDA not available，non_blocking copy跳过，empty_like/zeros_like退CPU。49.22x与208.50x是未fill对写零的主机分配差，不计成功GPU。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/22/tool_results/0",
+        "trajectory.json#/agent_steps/23/tool_results/0/result",
+        "trajectory.json#/agent_steps/24/tool_results/0/result",
+        "trajectory.json#/agent_steps/42/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 399,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功，9成功写可选设备探针，10/34/44全部Using device: cpu。采样信息分配、vocab mask fill、merge bias主机时延不等于GPU测量；生产patch的直接device分配描述不覆盖实际执行设备。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/9/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/9/tool_results/0",
+        "trajectory.json#/agent_steps/10/tool_results/0/result",
+        "trajectory.json#/agent_steps/34/tool_results/0/result",
+        "trajectory.json#/agent_steps/44/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 400,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "trajectory失败；9实际脚本按CUDA可用性选设备，CUDA分支有区间末同步，但10仅out_of_place20.1478/in_place16.4317秒与1.226x，未打印设备。不能凭总时延或MoE名称推CPU/GPU；GPU不可判定。含clone的合成scale/add也不是MoE端到端收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/9/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/9/tool_results/0",
+        "trajectory.json#/agent_steps/10/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 402,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；12创建被拒，13/16 Read实际旧脚本以object.__new__和SimpleNamespace绕过NeuronWorker初始化并stub导入。3源码及10/11编辑表明所测determine_num_available_blocks/initialize_cache只有整数返回、assert和属性赋值；20打印num_gpu_blocks513不是GPU分配，.0449秒是主机循环。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_results/0/result",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/11/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/16/tool_results/0/result",
+        "trajectory.json#/agent_steps/20/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 404,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；实际PrefixCachingBlockAllocator只管理Python block对象、token列表/hash/引用和computed元数据，2/4源码及36脚本相符，无GPU张量运算。37/57的ms、hit率、blocks/sec属主机元数据计时；55先报unique computed错误后57报告通过，不能直接转GPU模型速度。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/2/tool_results/0/result",
+        "trajectory.json#/agent_steps/4/tool_results/0/result",
+        "trajectory.json#/agent_steps/36/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/36/tool_results/0",
+        "trajectory.json#/agent_steps/37/tool_results/0/result",
+        "trajectory.json#/agent_steps/55/tool_results/0/result",
+        "trajectory.json#/agent_steps/57/tool_results/0/result"
+      ]
     }
   ]
 }

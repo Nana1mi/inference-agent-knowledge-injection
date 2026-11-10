@@ -3,6 +3,23 @@
 ## 第二轮启动（2026-11-11）
 
 
+### 最新本地进度：KBH首标全覆盖、K09终局及R3门槛纠正
+
+- [实验] 上轮K09至355步等工作已保存本地提交`3dd1166`，属于有效进展。本轮新增206步，K09 step1–561、14个KBH会话共3345/3345步首标已全部覆盖；没有执行下载代码、本机GPU或sudo，新增仍只作本地提交。全量首标尚未冻结；已知还需统一探索/修改、机制/配置/接口/工具调试假设的口径，并拆清同一步多来源知识事件，之后才抽20%盲复标。
+- [实验] [K09专项审计](../data/extractions/r2_k09_probe_audit.json)增至46项发现、503个支撑步骤，含原始SHA与逐步定位/输入哈希。末尾561是API stream closed，无最终报告；最后可核正式check为553 PASS，最后实回benchmark为552 .0940/LOW。560后台nsys和debug benchmark在导出内未回结果，不补记成功profile/新分数；会话榜单结局继续与步骤/末次分数分列。
+- [实验] 361–363正式SEED0低7bit携位置并恢复key/index，364 PASS；366 s0 10.080→8.128、s2 10.112→8.128us，控制s1未变快；367正式.0942/.0945/.0947仍LOW。精确返回值不等于任意输入的精确TopK集合/顺序，monotone只能直接证明粗序。423另试SEED1仅scratch，424有限五shape误差打印0、s3初看8.7%快，425重复不再现，426撤回强收益。
+- [实验] 371–379 smi超时曾误归driver故障/共占，378真实owner与wait日志后379修正为等机器锁。384所谓compile-only导入kprime却会顶层CUDA测量；385改AST+nvcc-c后才与纯编译描述一致，两版spill0不证明收益纯SHFL。387按1024threads解释旧NCU3.84us有误，旧日志实际512。538 lslocks区分WRITE与WRITE*等待；540只杀两已核PPID1的孤儿flock，未杀他人benchmark。
+- [实验] 389读带宽probe含warp max、多split输出竞争，393/396约1450GB/s及小尺寸时延只是有限实现观测，不是硬件最大带宽或不可突破floor/.162 ceiling。370/397的doubling多编译variant不是同binary，重复整tree可能不等价；399删tree/reject-all可改变数据消费和编译，不保证保留所有load。403修语法及extension+名后才有表；这些错误探针差值不当精确可加组件成本。
+- [实验] 407的384线程s3较快但未先核正确性，412发现12warp树cnt12→6→3→1丢队列，拒绝该几何；415只放宽tile下界且保2幂threads。416正式median5、5+13轮和20%筛选，末遍历仍含剔除项；420提出3%margin没有实现，558末版也无。419/420辨清(0,0)是analytic默认，不是旧tuned选择；重复几何差值不能钉死所有实验noise floor。
+- [实验] 429同进程十个50trial样本std多数1–1.8%、s0 4.4%，clock0-0为未取到频率；431八分配仅差1.9%不排一切地址效应，432所谓分钟漂移实际总.3秒，smi参数失败。434 no_grad效应s3正、s0负、s4小，未证具体机制；开发median5多轮/调用方式与正式median50不能称完全一致。
+- [实验] 438简化hist+scan s0额外.032us不代表完整选择免费；447正式三层9bit选择仍有近值tie近似。458有限两算法误差0但radix四shape约11us均慢。471同时改scan/atomics后挂起；488/503确认实际自己的GPU进程驻留无构建子进程，504发现tail等EOF掩盖flush后直重定向，才实定位s0algo1不retire。510 synccheck超时且511仅banner/launching，512断排除发散无根据。522/523最终找到并移出lane0 guard内的全mask shuffle；544修后sweep完整退出但仍慢。542声称修后全shape零误差缺实际stdout，普通task-complete通知不补该表。545只口头放弃radix，558仍保algo1候选。
+- [实验] 548五次GPU0 100%4MiB、549低功耗不能独证550所谓旧deadlock残留/无污染根因。550真实flock包check&&benchmark，552 .0940、553 PASS；554无tune打印即默认关闭错误，经557默认1/DEBUG默认0和558完整Read自行纠正。559最后NCU权限失败不抹早期成功指标，560称需driver reload也未证、早sudo曾成功。
+- [实验] R5本轮只追加14个明确列出的锁环境命中，均合法：区分AST纯编译、只读smi、实际flock保护内的HELD1，以及失败启动/回显false positive。累计997/11439：926合法、68无法判断、3确实影响评估，余10442；没有把本段其他未读命中批量默认合法，3条确认仍同一FP8全局开关案例。
+- [实验] ISO新增395/397/399/400/402/404共6份，累计190份资格复核、可靠成功GPU仍1份、selected仍空。397/399虽trajectory成功，实际分别CUDA unavailable和CPU；395 CPU，400实际设备未输出保留unknown，402 NeuronWorker整数/属性，404 block元数据。精确创建反馈、Read、执行结果和结局指针已保存[资格复核](../data/annotations/r2_iso_eligibility_reviews.json)，不按算子名/num_gpu_blocks补GPU配额。
+- [实验] 修正`r2_validate_progress.py`：新增独立`R3_kbh_first_pass_complete`，核实际全步ID集合；原`R3_complete_review`仍false，因为当前校验只覆盖KBH首标，ISO资格复核不是ISO步骤标注。旧脚本一旦KBH覆盖complete就直接将整R3标true，范围过宽；本次更正防止误报。结构校验不是语义一致性或完成证明。
+- [推断] 下一步先做首标冻结前的字段/知识事件口径核对，并继续ISO实际设备与测量资格、R5逐处复核。ISO样本与全源首标明确后再按预注册抽盲复标、算一致率/κ，继而完成R4/R5和最后一页简报。整体仍in_progress。
+
+
 ### 最新本地进度：K09至355步、graph错误返回与计时反证
 
 - [实验] 上轮K09至255步、178份ISO及830处状态判断已保存本地提交`adc7807`，属于有效进展。本轮继续原R1–R6目标；新增仍只作本地提交，没有执行下载代码、本机GPU或sudo。下述GPU命令和数字都是原始导出中agent行为的静态复核。

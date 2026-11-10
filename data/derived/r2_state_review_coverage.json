@@ -2,15 +2,15 @@
   "review_status": "partial",
   "counts": {
     "无法判断": 68,
-    "待复核": 10456,
-    "合法优化": 912,
+    "待复核": 10442,
+    "合法优化": 926,
     "确实影响评估": 3
   },
   "required_hits": 11439,
-  "reviewed_hits": 983,
+  "reviewed_hits": 997,
   "physical_files": 895,
   "unique_payload_positions": 11402,
-  "positions_with_any_manual_judgement": 978,
+  "positions_with_any_manual_judgement": 992,
   "rule_coverage": [
     {
       "rule": "gpu_clock_or_power_control",
@@ -33,10 +33,10 @@
     {
       "rule": "environment_write",
       "required_hits": 980,
-      "reviewed_hits": 142,
+      "reviewed_hits": 156,
       "counts": {
-        "合法优化": 139,
-        "待复核": 838,
+        "合法优化": 153,
+        "待复核": 824,
         "无法判断": 3
       }
     },

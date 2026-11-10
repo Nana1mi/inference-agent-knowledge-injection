@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前184个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
+[实验] 目前190个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
 
 ## 已复核的三个关键区别
 
@@ -29,6 +29,9 @@
 [实验] 新检查的候选还包括模拟测量：147的配置读取成本由`time.sleep`人为添加，158用等待模拟顺序/批量warmup请求，165以虚拟地址与Dummy传输引擎代替真实KV传输。这些代码创建反馈均成功，也有真实主机计时，但不是实际GPU模型或传输测量。146的CUDA-graph插件名称同样不够：已执行脚本只测默认CPU张量和对象初始化，返回还显示缺少`libcuda.so.1`。全部判断保留精确工具输入、写入反馈、数值返回和结局定位，见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 
 ## 接下来的核验
+
+
+[实验] 追加顺位395/397/399/400/402/404共6份，仍未新增可靠成功GPU候选。397和399虽trajectory成功，实际分别明确CUDA unavailable与Using device: cpu；397首次create失败，按实际Read定位旧脚本，empty不fill对zeros的49–208x不能当GPU收益。395实回CPU attention；400有CUDA分支及完成同步，但返回不报实际设备，保留unknown。402的num_gpu_blocks513是NeuronWorker整数/属性操作，已核实际方法源码；404是Python prefix block元数据、hash及computed标记，非设备缓存读写。写入反馈、实际Read、数值与结局指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)和[运行索引](../../data/derived/r2_iso_index.json)。
 
 
 [实验] 追加顺位380/382/384/385/389/390共6份，仍未新增可靠成功GPU候选。380默认CPU张量加compile eager，wrapper最终None；382虽写有CUDA分支，实际两次均device=cpu。384首次create失败、重建后纯Python分支选择反而0.92x且MISMATCH；385有可选CUDA attention分支，实际三次均CPU-proxy并明确Kernel benchmark skipped，不能按生产MoE任务名归类。389计时LRUEvictor主机元数据，整体变快但add更慢；390 float8量化对照明确device=cpu并带CPU导入stub，10.00x/1.90x不当GPU收益。实际创建/Read/失败、执行返回及结局精确定位与哈希见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)及[运行索引](../../data/derived/r2_iso_index.json)。

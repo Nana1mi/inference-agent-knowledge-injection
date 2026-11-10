@@ -1,5 +1,5 @@
 {
-  "status": "partial",
+  "status": "complete",
   "sessions": [
     {
       "session_id": "K01",
@@ -52,8 +52,8 @@
     {
       "session_id": "K09",
       "required": 561,
-      "reviewed": 355,
-      "complete": false
+      "reviewed": 561,
+      "complete": true
     },
     {
       "session_id": "K10",
