@@ -8,14 +8,22 @@ import re
 from r2_io import ROOT, RAW, DERIVED, load
 
 CUE = re.compile(r'device|cuda|gpu|cpu|synchronize|elapsed_time|sys\.modules|^\s*(?:async\s+)?def\s|\btime\.(?:time|perf_counter|monotonic)\s*\(', re.I | re.M)
+DEVICE_FOCUS = re.compile(r'device|cpu|gpu|cuda\.is_available|sys\.modules|^\s*(?:async\s+)?def\s', re.I | re.M)
+RETURN_DEVICE_CUE = re.compile(
+    r'using device|device\s*[:=]|["\x27]device["\x27]\s*:|cuda_available|'
+    r'cuda (?:is )?not available|no (?:cuda|nvidia)|running (?:on|.* on) (?:cpu|cuda)|'
+    r'benchmarking.* on (?:cpu|cuda)|kernel benchmark skipped', re.I)
 
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('orders', type=int, nargs='+')
     parser.add_argument('--full-source', action='store_true')
+    parser.add_argument('--device-focus', action='store_true',
+                        help='Shorter source navigation; timing validity still requires full-source review.')
     parser.add_argument('--include-readbacks', action='store_true',
                         help='Also show actual benchmark-file view results, not only attempted writes.')
     args = parser.parse_args()
+    source_cue = DEVICE_FOCUS if args.device_focus else CUE
     rev = load(DERIVED/'r2_iso_index.json')['revision']
     plan = load(RAW/'r2_iso'/rev/'selection.json')
     packets = load(DERIVED/'r2_iso_measurement_inputs.json')['packets']
@@ -44,7 +52,7 @@ def main():
                         else:
                             for n, line in enumerate(value.splitlines(), 1):
                                 code = re.sub(r'^\s*\d+\s+', '', line)
-                                if CUE.search(code):
+                                if source_cue.search(code):
                                     print(f'{n}: {line}')
                 for field in ('file_text', 'new_str', 'new_string', 'content', 'command'):
                     value = payload.get(field)
@@ -52,10 +60,10 @@ def main():
                         continue
                     if '.bench_scratch' not in target and '.bench_scratch' not in value:
                         continue
-                    if not ('\n' in value and (args.full_source or CUE.search(value))):
+                    if not ('\n' in value and (args.full_source or source_cue.search(value))):
                         continue
                     lines = list(enumerate(value.splitlines(), 1))
-                    selected = lines if args.full_source else [(k, line) for k, line in lines if CUE.search(line)]
+                    selected = lines if args.full_source else [(k, line) for k, line in lines if source_cue.search(line)]
                     if not selected:
                         continue
                     print('SOURCE', f'/agent_steps/{i}/tool_calls/{j}/arguments/{field}', 'target', target)
@@ -68,6 +76,10 @@ def main():
         for packet in packets:
             if packet['order'] == candidate['order']:
                 print('RETURN', packet['locator'], 'NUMERIC', str(packet['numeric_lines'])[:800])
+                device_lines = [(n, line) for n, line in enumerate(packet['result'].splitlines(), 1)
+                                if RETURN_DEVICE_CUE.search(line)]
+                if device_lines:
+                    print('DEVICE TEXT (raw excerpt, not a label)', device_lines)
                 print('RESULT BEGIN', packet['result'][:260], 'END', packet['result'][-160:])
 
 if __name__ == '__main__':

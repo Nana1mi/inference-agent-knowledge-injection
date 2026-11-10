@@ -1,8 +1,8 @@
 {
   "status": "passed",
-  "reviewed_hits": 556,
-  "distinct_tool_payloads": 18,
-  "distinct_input_positions": 34,
+  "reviewed_hits": 670,
+  "distinct_tool_payloads": 28,
+  "distinct_input_positions": 53,
   "scope": "authored IDs, complete input/source hashes, locations and TSV associations only",
   "not_certified": [
     "semantic judgment quality",

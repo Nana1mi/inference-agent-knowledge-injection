@@ -1,0 +1,369 @@
+{
+  "baseline_local_commit": "81a5764",
+  "rule": "monkeypatch_or_namespace_write",
+  "reason": "完整源码复核发现mod.os.system、HTTP替身、builtins.print、time.sleep和asyncio策略替换被旧模式遗漏；扩展检索后全量重扫，不自动贴语义标签。",
+  "baseline_hits": 11439,
+  "expanded_hits": 11482,
+  "retained_baseline_hit_ids": 11439,
+  "removed_baseline_hit_ids": [],
+  "added_hits": 43,
+  "rule_count": 12,
+  "before_pattern": "\\b(?:torch|triton|reference|ref|S\\.triton)\\.[\\w.]+(?:\\s*,\\s*(?:torch|triton|reference|ref)\\.[\\w.]+)*\\s*=|\\bsetattr\\s*\\(|\\b(?:torch|triton)\\.set_allocator\\s*\\(|\\b[\\w.]+\\.(?:forward|time_fn|synchronize|do_bench|benchmark|Event)\\s*=",
+  "after_pattern": "\\b(?:torch|triton|reference|ref|S\\.triton)\\.[\\w.]+(?:\\s*,\\s*(?:torch|triton|reference|ref)\\.[\\w.]+)*\\s*=|\\bsetattr\\s*\\(|\\b(?:torch|triton)\\.set_allocator\\s*\\(|\\b[\\w.]+\\.(?:forward|time_fn|synchronize|do_bench|benchmark|Event)\\s*=|\\b(?:os\\.(?:system|popen)|subprocess\\.(?:run|Popen|call|check_call|check_output)|requests\\.(?:Session|session|get|post|put|delete|patch|head|options|request))\\s*=(?!=)|\\btime\\.(?:sleep|time|perf_counter|monotonic)\\s*=(?!=)|\\b(?:asyncio|_asyncio)\\.(?:set_event_loop_policy|get_event_loop|new_event_loop)\\s*=(?!=)|\\bbuiltins\\.\\w+\\s*=(?!=)|\\b__builtins__\\s*\\[[^\\n]+?\\]\\s*=(?!=)",
+  "source_physical_files": 895,
+  "source_unique_content_files": 818,
+  "source_leaf_payloads": 89162,
+  "new_explicitly_reviewed_ids": [
+    "3c109e1048cc676e4867",
+    "41ee642af0cf985026af",
+    "b8fd8bdb9133874c7136",
+    "1d091de829f0733db9b1",
+    "9c03972496a5585d02e3",
+    "33b36fa516eeaab737c9",
+    "2d971d7a1a4987a32354",
+    "05685fc145c2a7e2f5fd",
+    "6bd4b90e3a5ef8111b5e",
+    "08dff39a81a2384d18e0",
+    "d5eaa34f739c06d76121",
+    "2c51f67a9c94393790d8",
+    "90a3c04788cf348481d4",
+    "7f3504a09bf22909d86d",
+    "6d0ea1741f220fd77552",
+    "c176606da1a02b1fae2c",
+    "75c1dc4a7995b1d59ecc",
+    "b3821db897166b0541ac",
+    "7e7a752fd8ca2d99fe0e",
+    "883873f84b5bd97e84ef",
+    "8b2f087453e30afe8a60",
+    "418cca8a0fa09cc0b85e",
+    "0869060f0d7ca60b4670",
+    "970e053ea98217e72f0d",
+    "bf47865f2fcc2fd47193",
+    "29c1c008cf0e0725d5c6",
+    "5196714243a92163e0fa",
+    "e66e1a0f4208b6a4c3ed",
+    "d0f92b60d958d828a020",
+    "c77fe374886c9fc5ccbe",
+    "d7ae1bc1dddbef918e69",
+    "eae10064ef85d8ff745b",
+    "ceeaabd8d6467a046473",
+    "0214776a60dcc54e68f1",
+    "c1520dd376476f2e39e4",
+    "f523562d9a83ff1c5808",
+    "27a79dbca489eaf669f9",
+    "cc5b0e6202da96d6ae03",
+    "22533c75dd9bd7b977ef",
+    "e97378232432b39bb458",
+    "c3db884b85e7cb7a67c9",
+    "0b2e47c885f75917d6c9",
+    "8a73ae6c37f90990aa19"
+  ],
+  "added_occurrences": [
+    {
+      "hit_id": "3c109e1048cc676e4867",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_028_6b7038ba/trajectory.json",
+      "source_locator": "/agent_steps/5/tool_calls/0/arguments/file_text",
+      "payload_line": 17,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "41ee642af0cf985026af",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_028_6b7038ba/trajectory.json",
+      "source_locator": "/agent_steps/5/tool_calls/0/arguments/file_text",
+      "payload_line": 47,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "b8fd8bdb9133874c7136",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_028_6b7038ba/trajectory.json",
+      "source_locator": "/agent_steps/5/tool_calls/0/arguments/file_text",
+      "payload_line": 48,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "1d091de829f0733db9b1",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/7/tool_calls/0/arguments/file_text",
+      "payload_line": 10,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "9c03972496a5585d02e3",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/9/tool_calls/0/arguments/file_text",
+      "payload_line": 10,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "33b36fa516eeaab737c9",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/11/tool_calls/0/arguments/new_str",
+      "payload_line": 16,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "2d971d7a1a4987a32354",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/11/tool_calls/0/arguments/old_str",
+      "payload_line": 10,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "05685fc145c2a7e2f5fd",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/13/tool_calls/0/arguments/new_str",
+      "payload_line": 16,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "6bd4b90e3a5ef8111b5e",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/13/tool_calls/0/arguments/old_str",
+      "payload_line": 16,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "08dff39a81a2384d18e0",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/15/tool_calls/0/arguments/new_str",
+      "payload_line": 8,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "d5eaa34f739c06d76121",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/15/tool_calls/0/arguments/new_str",
+      "payload_line": 20,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "2c51f67a9c94393790d8",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/15/tool_calls/0/arguments/new_str",
+      "payload_line": 37,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "90a3c04788cf348481d4",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/15/tool_calls/0/arguments/old_str",
+      "payload_line": 16,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "7f3504a09bf22909d86d",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/17/tool_calls/0/arguments/new_str",
+      "payload_line": 8,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "6d0ea1741f220fd77552",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/17/tool_calls/0/arguments/new_str",
+      "payload_line": 20,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "c176606da1a02b1fae2c",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/17/tool_calls/0/arguments/new_str",
+      "payload_line": 37,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "75c1dc4a7995b1d59ecc",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/17/tool_calls/0/arguments/old_str",
+      "payload_line": 16,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "b3821db897166b0541ac",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/19/tool_calls/0/arguments/new_str",
+      "payload_line": 9,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "7e7a752fd8ca2d99fe0e",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/19/tool_calls/0/arguments/new_str",
+      "payload_line": 21,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "883873f84b5bd97e84ef",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/19/tool_calls/0/arguments/new_str",
+      "payload_line": 38,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "8b2f087453e30afe8a60",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/19/tool_calls/0/arguments/old_str",
+      "payload_line": 8,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "418cca8a0fa09cc0b85e",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/19/tool_calls/0/arguments/old_str",
+      "payload_line": 20,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "0869060f0d7ca60b4670",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/19/tool_calls/0/arguments/old_str",
+      "payload_line": 37,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "970e053ea98217e72f0d",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/21/tool_calls/0/arguments/old_str",
+      "payload_line": 9,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "bf47865f2fcc2fd47193",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/21/tool_calls/0/arguments/old_str",
+      "payload_line": 21,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "29c1c008cf0e0725d5c6",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_044_9c064bf7/trajectory.json",
+      "source_locator": "/agent_steps/21/tool_calls/0/arguments/old_str",
+      "payload_line": 38,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "5196714243a92163e0fa",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/31/tool_calls/0/arguments/new_str",
+      "payload_line": 38,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "e66e1a0f4208b6a4c3ed",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/31/tool_calls/0/arguments/new_str",
+      "payload_line": 39,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "d0f92b60d958d828a020",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/31/tool_calls/0/arguments/new_str",
+      "payload_line": 40,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "c77fe374886c9fc5ccbe",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/36/tool_calls/0/arguments/new_str",
+      "payload_line": 38,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "d7ae1bc1dddbef918e69",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/36/tool_calls/0/arguments/new_str",
+      "payload_line": 39,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "eae10064ef85d8ff745b",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/36/tool_calls/0/arguments/new_str",
+      "payload_line": 40,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "ceeaabd8d6467a046473",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/36/tool_calls/0/arguments/old_str",
+      "payload_line": 38,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "0214776a60dcc54e68f1",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/36/tool_calls/0/arguments/old_str",
+      "payload_line": 39,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "c1520dd376476f2e39e4",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/36/tool_calls/0/arguments/old_str",
+      "payload_line": 40,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "f523562d9a83ff1c5808",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/new_str",
+      "payload_line": 10,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "27a79dbca489eaf669f9",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/new_str",
+      "payload_line": 42,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "cc5b0e6202da96d6ae03",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/new_str",
+      "payload_line": 43,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "22533c75dd9bd7b977ef",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/new_str",
+      "payload_line": 44,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "e97378232432b39bb458",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/old_str",
+      "payload_line": 10,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "c3db884b85e7cb7a67c9",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/old_str",
+      "payload_line": 42,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "0b2e47c885f75917d6c9",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/old_str",
+      "payload_line": 43,
+      "rule": "monkeypatch_or_namespace_write"
+    },
+    {
+      "hit_id": "8a73ae6c37f90990aa19",
+      "raw_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/openai-gpt-5/2025-12-23_08-13-22/sglang_core-0000/trajectory.json",
+      "source_locator": "/agent_steps/40/tool_calls/0/arguments/old_str",
+      "payload_line": 44,
+      "rule": "monkeypatch_or_namespace_write"
+    }
+  ],
+  "limitations": [
+    "规则只是检索，不保证所有任意别名/动态替换都被召回",
+    "43条新增命中均在本次已逐项读完的10份正文内；本次总114条判断另含71条旧待复核命中",
+    "命中数不是独立案例数，合法诊断不等于有效GPU测量，失败写入不作实际状态改变"
+  ]
+}

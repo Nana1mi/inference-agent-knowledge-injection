@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前245个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
+[实验] 目前278个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
 
 ## 已复核的三个关键区别
 
@@ -29,6 +29,10 @@
 [实验] 新检查的候选还包括模拟测量：147的配置读取成本由`time.sleep`人为添加，158用等待模拟顺序/批量warmup请求，165以虚拟地址与Dummy传输引擎代替真实KV传输。这些代码创建反馈均成功，也有真实主机计时，但不是实际GPU模型或传输测量。146的CUDA-graph插件名称同样不够：已执行脚本只测默认CPU张量和对象初始化，返回还显示缺少`libcuda.so.1`。全部判断保留精确工具输入、写入反馈、数值返回和结局定位，见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 
 ## 接下来的核验
+
+[实验] 本轮追加545/548/550/551/553/554/556/557/560/562/565/566/568/569/571/572/575/577/578/580/581及583/584/586/587/589/590/593/595/596/598/599/601共33份，未新增可靠成功GPU候选。556/572/580/584未输出实际设备，保持unknown；584的fused_available仅表示调用未异常，新增本地fallback的forward本来就调用reference，50/51 timeout实际是build_ext。566/578虽trajectory成功，分别只是NumPy准备与明确CPU的prepare_inputs；578输出行数还随版本改变，不当固定形状对照。
+
+[实验] 557把mod.os.system替为空操作，所谓launch_server秒数仅命令构建；593旧路径重复创建/关闭aiohttp会话，新路径一个会话加pass循环，没有真实HTTP请求，492/461x不外推服务吞吐。554实回CUDA not available；586只用Python百万次加法模拟FlashAttention。589实回CPU，移除contiguous的4099.97x与zero-loop改索引的.38x均保留，595总时间反而110.905→119.554ms。596的TransferInfo/from_zmq只解析NumPy整数/指针字节，599虽列20000请求但遇容量就break，且目标模块导入失败；601只测默认CPU分配及bias构造。创建失败、实际Read/替换、返回与结局的精确指针均在[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)；设备导航新增显示返回中间的设备行，仍不自动生成判断。
 
 
 [实验] 新增491/495/496/503/504/508/511/512/515/516/519/520/523/524/527/529/530/532/533/535/536/539/541/542共24份，仍未新增可靠成功GPU候选。495、504虽trajectory成功，实际均明确CPU，504三次logprob对照速度比约.58且更慢；541成功但只创建CUDA测试脚本，完整工具序列未执行它，50回传SIMD/整体加速数字是cat写入/回显的摘要，不是计时表。535拟创建被拒后Bash cat查到旧Python加法循环，不能用其约.0039秒证明allreduce CUDA改动；512/536未输出实际设备，分别还有限制为缺完成同步、speedup比值方向与常用定义相反，继续保留unknown。524的clone改alias以及分配类empty未填充等也不当等价GPU收益；523所谓prefill仅解已有token的文本。全部实际脚本、创建/替换反馈、运行返回和结局指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。

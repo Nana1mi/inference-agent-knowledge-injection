@@ -43,6 +43,8 @@ KBH的一个decision_step为工具返回边界之间连续的assistant记录，�
 
 [实验] `python scripts/r2_state_review_view.py`按“工具名＋完整标量参数正文”的SHA256组织未判断命中；`--group SHA256`展示完整原文、每个输入位置/目标、对应成功或错误反馈及逐行命中ID。相同正文仅共用展示，不把不同位置或old_str当成同一次执行；分组不产生判断，原始展示缓存保留在被git忽略的r2_review_inputs内。
 
-[实验] 当前[显式复核批次](../../data/annotations/r2_state_payload_review_batches.json)固定556个ID，涉及18份参数正文、34个实际输入位置，分别核对失败创建、成功写入及old_str上下文。成功写独立脚本不证明它实际执行，计时/导入stub合法也不证明数值有效或是GPU测量。含cache的函数名、普通配置/关键字误命中与真实缓存操作分开解释；不将old_str一概判合法。
+[实验] 当前[显式复核批次](../../data/annotations/r2_state_payload_review_batches.json)固定670个ID，涉及28份参数正文、53个实际输入位置，分别核对失败创建、成功写入及old_str上下文；大幅相同的变体以完整基线加完整差异核对。成功写独立脚本不证明它实际执行，计时/导入stub合法也不证明数值有效或是GPU测量。含cache的函数名、普通配置/关键字误命中与真实缓存操作分开解释；不将old_str一概判合法。
+
+[实验] 在完整源码中发现旧monkeypatch模式遗漏进程启动、HTTP替身、builtins打印、time.sleep及asyncio策略替换，扩展同一规则后重扫全部本地轨迹。命中从11439增至11482，全部旧ID保留，43条新增命中均另行逐处判断，见[规则扩展审计](../../data/annotations/r2_state_rule_extension_audit.json)。规则数仍为12；任意别名或动态替换的召回不保证完整。独立诊断里的空操作/假响应可以合法，但相应计时只覆盖模拟工作，不算真实GPU或服务吞吐证据。
 
 [实验] `python scripts/r2_state_review_view.py --verify-batch`核对源文件和完整参数哈希、命中ID/行/定位、显式标签与TSV关联，见[批次机械校验](../../data/derived/r2_state_payload_audit_validation.json)。这不是盲复标或全量R5完成证明；未列出的命中继续待复核。
