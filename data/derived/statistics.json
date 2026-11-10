@@ -1,0 +1,325 @@
+{
+  "inferencebench_episodes": {
+    "total": 21,
+    "unit": "episode",
+    "sessions": [
+      {
+        "session_id": "claude-claude-fable-5-1-max_2h__A__17512339",
+        "n": 7,
+        "unit": "episode",
+        "reviewed": 7,
+        "phase": {
+          "环境准备": 2,
+          "探索代码": 2,
+          "测量": 2,
+          "写报告": 1
+        },
+        "tool": {
+          "其他": 3,
+          "读源码": 2,
+          "端到端 benchmark": 2
+        },
+        "layer": {
+          "其他": 1,
+          "量化": 2,
+          "推测解码": 1,
+          "运行参数": 2,
+          "runtime 与 host 开销": 1
+        },
+        "first_candidate_edit": null,
+        "first_profile": null,
+        "profile_before_first_edit": null,
+        "explicit_hypotheses": 0,
+        "explicit_unsupported": 0,
+        "unknown_hypothesis": 7,
+        "turning_points": [
+          4
+        ]
+      },
+      {
+        "session_id": "claude-claude-fable-5-1-max_2h__A__17522268",
+        "n": 14,
+        "unit": "episode",
+        "reviewed": 14,
+        "phase": {
+          "探索代码": 1,
+          "环境准备": 4,
+          "修改代码": 3,
+          "测量": 3,
+          "接受": 2,
+          "等待": 1
+        },
+        "tool": {
+          "读源码": 1,
+          "其他": 10,
+          "端到端 benchmark": 2,
+          "正确性检查": 1
+        },
+        "layer": {
+          "其他": 2,
+          "量化": 3,
+          "运行参数": 5,
+          "runtime 与 host 开销": 3,
+          "不可判定": 1
+        },
+        "first_candidate_edit": null,
+        "first_profile": null,
+        "profile_before_first_edit": null,
+        "explicit_hypotheses": 0,
+        "explicit_unsupported": 0,
+        "unknown_hypothesis": 14,
+        "turning_points": [
+          3,
+          6,
+          10
+        ]
+      }
+    ],
+    "annotation_method": {
+      "研究助理逐项复核": 21
+    },
+    "phase": {
+      "环境准备": 6,
+      "探索代码": 3,
+      "测量": 5,
+      "写报告": 1,
+      "修改代码": 3,
+      "接受": 2,
+      "等待": 1
+    },
+    "tool": {
+      "其他": 13,
+      "读源码": 3,
+      "端到端 benchmark": 4,
+      "正确性检查": 1
+    },
+    "layer": {
+      "其他": 3,
+      "量化": 5,
+      "推测解码": 1,
+      "运行参数": 7,
+      "runtime 与 host 开销": 4,
+      "不可判定": 1
+    }
+  },
+  "iso_bench": {
+    "total": 58,
+    "unit": "agent_step",
+    "sessions": [
+      {
+        "session_id": "sglang_000_021f76e4",
+        "n": 48,
+        "unit": "agent_step",
+        "reviewed": 48,
+        "phase": {
+          "探索代码": 19,
+          "环境准备": 2,
+          "修改代码": 8,
+          "测量": 5,
+          "提出假设": 5,
+          "接受": 7,
+          "写报告": 1,
+          "其他": 1
+        },
+        "tool": {
+          "读源码": 19,
+          "其他": 24,
+          "kernel benchmark": 3,
+          "正确性检查": 2
+        },
+        "layer": {
+          "runtime 与 host 开销": 40,
+          "不可判定": 3,
+          "测量工具": 5
+        },
+        "first_candidate_edit": 10,
+        "first_profile": null,
+        "profile_before_first_edit": false,
+        "explicit_hypotheses": 8,
+        "explicit_unsupported": 1,
+        "unknown_hypothesis": 40,
+        "turning_points": [
+          10,
+          15,
+          36
+        ]
+      },
+      {
+        "session_id": "sglang_001_09deb20d",
+        "n": 10,
+        "unit": "agent_step",
+        "reviewed": 10,
+        "phase": {
+          "探索代码": 5,
+          "环境准备": 2,
+          "修改代码": 2,
+          "其他": 1
+        },
+        "tool": {
+          "读源码": 5,
+          "其他": 5
+        },
+        "layer": {
+          "runtime 与 host 开销": 5,
+          "不可判定": 3,
+          "测量工具": 2
+        },
+        "first_candidate_edit": null,
+        "first_profile": null,
+        "profile_before_first_edit": null,
+        "explicit_hypotheses": 0,
+        "explicit_unsupported": 0,
+        "unknown_hypothesis": 10,
+        "turning_points": []
+      }
+    ],
+    "annotation_method": {
+      "研究助理逐项复核": 58
+    },
+    "phase": {
+      "探索代码": 24,
+      "环境准备": 4,
+      "修改代码": 10,
+      "测量": 5,
+      "提出假设": 5,
+      "接受": 7,
+      "写报告": 1,
+      "其他": 2
+    },
+    "tool": {
+      "读源码": 24,
+      "其他": 29,
+      "kernel benchmark": 3,
+      "正确性检查": 2
+    },
+    "layer": {
+      "runtime 与 host 开销": 45,
+      "不可判定": 6,
+      "测量工具": 7
+    }
+  },
+  "kernelbench": {
+    "total": 443,
+    "unit": "tool_call",
+    "sessions": [
+      {
+        "session_id": "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass",
+        "n": 290,
+        "unit": "tool_call",
+        "reviewed": 16,
+        "phase": {
+          "探索代码": 25,
+          "测量": 80,
+          "其他": 3,
+          "修改代码": 45,
+          "等待": 125,
+          "profile": 10,
+          "写报告": 2
+        },
+        "tool": {
+          "读源码": 25,
+          "正确性检查": 15,
+          "其他": 175,
+          "kernel benchmark": 74,
+          "nsys": 1
+        },
+        "layer": {
+          "attention": 147,
+          "不可判定": 126,
+          "测量工具": 7,
+          "runtime 与 host 开销": 10
+        },
+        "first_candidate_edit": 19,
+        "first_profile": 55,
+        "profile_before_first_edit": false,
+        "explicit_hypotheses": 0,
+        "explicit_unsupported": 0,
+        "unknown_hypothesis": 280,
+        "turning_points": [
+          19,
+          46,
+          61,
+          81,
+          118,
+          130,
+          171,
+          197,
+          209,
+          218,
+          266
+        ]
+      },
+      {
+        "session_id": "20260613_153211_claude_claude-opus-4-8_01_fp8_gemm",
+        "n": 153,
+        "unit": "tool_call",
+        "reviewed": 15,
+        "phase": {
+          "探索代码": 42,
+          "测量": 38,
+          "修改代码": 29,
+          "等待": 36,
+          "写报告": 4,
+          "profile": 4
+        },
+        "tool": {
+          "读源码": 39,
+          "正确性检查": 15,
+          "查文档": 3,
+          "其他": 69,
+          "kernel benchmark": 27
+        },
+        "layer": {
+          "kernel": 105,
+          "不可判定": 38,
+          "runtime 与 host 开销": 2,
+          "测量工具": 8
+        },
+        "first_candidate_edit": 22,
+        "first_profile": 101,
+        "profile_before_first_edit": false,
+        "explicit_hypotheses": 2,
+        "explicit_unsupported": 0,
+        "unknown_hypothesis": 146,
+        "turning_points": [
+          22,
+          53,
+          58,
+          65,
+          90,
+          103,
+          118,
+          142
+        ]
+      }
+    ],
+    "annotation_method": {
+      "规则初标": 412,
+      "研究助理逐项复核": 31
+    },
+    "phase": {
+      "探索代码": 67,
+      "测量": 118,
+      "其他": 3,
+      "修改代码": 74,
+      "等待": 161,
+      "profile": 14,
+      "写报告": 6
+    },
+    "tool": {
+      "读源码": 64,
+      "正确性检查": 30,
+      "其他": 244,
+      "kernel benchmark": 101,
+      "nsys": 1,
+      "查文档": 3
+    },
+    "layer": {
+      "attention": 147,
+      "不可判定": 164,
+      "测量工具": 15,
+      "runtime 与 host 开销": 12,
+      "kernel": 105
+    }
+  }
+}

@@ -1,0 +1,218 @@
+[
+  {
+    "source_id": "SEIS",
+    "url": "https://arxiv.org/html/2610.04646v1",
+    "locator": "§3.3、§5.1、§6、附录C/D/F/H",
+    "claim_type": "论文",
+    "extraction": "code/report inheritance; correctness gaps",
+    "limitations": "architecture/observational; no isolated report effect",
+    "local_source": "data/raw/papers/2610.04646.txt"
+  },
+  {
+    "source_id": "KernelSeek",
+    "url": "https://arxiv.org/html/2611.03517v1",
+    "locator": "§2.5、§5.3、§6、附录D/E",
+    "claim_type": "论文",
+    "extraction": "0.50x vs 1.13x reported task comparison",
+    "limitations": "one run per arm; human/front-end/prior-work confounds",
+    "local_source": "data/raw/papers/2611.03517.txt"
+  },
+  {
+    "source_id": "InferenceBench",
+    "url": "https://arxiv.org/html/2607.20468",
+    "locator": "§5、附录F/G/Table19",
+    "claim_type": "论文",
+    "extraction": "169/180=93.9% in main paper pool",
+    "limitations": "do not mix with current website denominator",
+    "local_source": "data/raw/papers/2607.20468.txt"
+  },
+  {
+    "source_id": "ISO-Bench",
+    "url": "https://arxiv.org/html/2602.19594",
+    "locator": "§5、附录A/D",
+    "claim_type": "论文",
+    "extraction": "up to 87.2% bottleneck targeting,17.9% true success (project summary)",
+    "limitations": "descriptive; not a knowledge-injection ablation",
+    "local_source": "data/raw/papers/2602.19594.txt"
+  },
+  {
+    "source_id": "VibeServe",
+    "url": "https://arxiv.org/html/2605.06068",
+    "locator": "§3.3、§4.3、附录B",
+    "claim_type": "论文",
+    "extraction": "no-skill 1100 tok/s ~35 rounds vs full ~10k at60 rounds/25h",
+    "limitations": "unequal reached rounds/time; single setup",
+    "local_source": "data/raw/papers/2605.06068.txt"
+  },
+  {
+    "source_id": "MetaInfer v1",
+    "url": "https://arxiv.org/html/2607.12875v1",
+    "locator": "§3.2–3.3、§4.2–4.4",
+    "claim_type": "论文",
+    "extraction": "contract knowledge base, source-reference comparisons",
+    "limitations": "do not conflate with v3",
+    "local_source": "data/raw/papers/2607.12875v1.txt"
+  },
+  {
+    "source_id": "MetaInfer v3",
+    "url": "https://arxiv.org/html/2607.12875v3",
+    "locator": "§3–5、§6",
+    "claim_type": "论文",
+    "extraction": "execution-adaptation route search",
+    "limitations": "not numerical validation of v1 knowledge-only claim",
+    "local_source": "data/raw/papers/2607.12875v3.txt"
+  },
+  {
+    "source_id": "KernelEvolve",
+    "url": "https://arxiv.org/html/2512.23236",
+    "locator": "§3.2.3–3.2.4、§5",
+    "claim_type": "论文",
+    "extraction": "MTIA-specific retrieval and compilation/correctness qualitative claim",
+    "limitations": "no isolated matched-budget quantitative KB ablation located",
+    "local_source": "data/raw/papers/2512.23236.txt"
+  },
+  {
+    "source_id": "FlashInfer-Bench",
+    "url": "https://arxiv.org/html/2601.00227",
+    "locator": "§3.1/3.3/3.5、§4.5",
+    "claim_type": "论文",
+    "extraction": "trace schema and kernel substitution",
+    "limitations": "trace is workload/solution/evaluation, not agent transcript",
+    "local_source": "data/raw/papers/2601.00227.txt"
+  },
+  {
+    "source_id": "Glia",
+    "url": "https://arxiv.org/html/2510.27176",
+    "locator": "§3.3、§4、§5.6、附录A.1",
+    "claim_type": "论文",
+    "extraction": "research-process and component ablation",
+    "limitations": "no isolated external-knowledge effect extracted",
+    "local_source": "data/raw/papers/2510.27176.txt"
+  },
+  {
+    "source_id": "ADRS",
+    "url": "https://arxiv.org/html/2510.06189",
+    "locator": "§4.2、§6.1–6.4、§7.2.1、附录A/B",
+    "claim_type": "论文",
+    "extraction": "search/evaluator design and ablations",
+    "limitations": "no isolated domain-knowledge effect extracted",
+    "local_source": "data/raw/papers/2510.06189.txt"
+  },
+  {
+    "source_id": "Evaluating AGENTS.md",
+    "url": "https://arxiv.org/html/2602.11988",
+    "locator": "摘要、§4–5/Tables3/6",
+    "claim_type": "论文",
+    "extraction": "inference cost over20%; task success not generally improved",
+    "limitations": "use current downloaded version; file provenance matters",
+    "local_source": "data/raw/papers/2602.11988.txt"
+  },
+  {
+    "source_id": "Two-Agent Context Ablation",
+    "url": "https://arxiv.org/html/2607.27250",
+    "locator": "§3、§4",
+    "claim_type": "论文",
+    "extraction": "291 completed runs,288 evaluated correctness cells",
+    "limitations": "selective corpus may differ from always-on; agent-specific task selection",
+    "local_source": "data/raw/papers/2607.27250.txt"
+  },
+  {
+    "source_id": "Stale Instructions",
+    "url": "https://arxiv.org/html/2611.09802",
+    "locator": "摘要、Results/Tables",
+    "claim_type": "论文",
+    "extraction": "22 tasks,732 trajectories; about2 extra calls in test-command case",
+    "limitations": "not all cases show detectable difference",
+    "local_source": "data/raw/papers/2611.09802.txt"
+  },
+  {
+    "source_id": "CODESKILL",
+    "url": "https://arxiv.org/html/2605.25430",
+    "locator": "§4/Table2",
+    "claim_type": "论文",
+    "extraction": "37.88,39.53,40.35 average pass rate across lifecycle variants",
+    "limitations": "trained manager; no implication that arbitrary cards share the effect",
+    "local_source": "data/raw/papers/2605.25430.txt"
+  },
+  {
+    "source_id": "Demystifying Skills",
+    "url": "https://arxiv.org/html/2608.14036",
+    "locator": "§3–4/Table1/Fig3",
+    "claim_type": "论文",
+    "extraction": "6.06pp matched skill vs workflow; pool5to100 precision29.6%to3.3%",
+    "limitations": "retrieval precision not equivalent to success",
+    "local_source": "data/raw/papers/2608.14036.txt"
+  },
+  {
+    "source_id": "ACE",
+    "url": "https://arxiv.org/html/2510.04618",
+    "locator": "§4.6/Table3、A.5、Table2",
+    "claim_type": "论文",
+    "extraction": "incremental-update/reflection ablations; unreliable feedback may degrade",
+    "limitations": "adjacent domain; not serving-engine intervention",
+    "local_source": "data/raw/papers/2510.04618.txt"
+  },
+  {
+    "source_id": "Scientific Agent Skills",
+    "url": "https://arxiv.org/html/2609.00065",
+    "locator": "元数据/摘要",
+    "claim_type": "论文",
+    "extraction": "method tooling attribution only; current v2 metadata",
+    "limitations": "not included as effect evidence",
+    "local_source": "data/raw/papers/2609.00065.txt"
+  },
+  {
+    "source_id": "Together/knowledge_effect",
+    "url": "https://www.together.ai/together-compiler-paper",
+    "locator": "§4.4/Fig5; PDF pages 10",
+    "claim_type": "论文",
+    "extraction": "25–31",
+    "local_source": "data/raw/together/paper.txt",
+    "limitations": "author report; not independently rerun"
+  },
+  {
+    "source_id": "Together/kb_contents",
+    "url": "https://www.together.ai/together-compiler-paper",
+    "locator": "C.2.1; PDF pages 27",
+    "claim_type": "论文",
+    "extraction": "Expert-curated knowledge base.",
+    "local_source": "data/raw/together/paper.txt",
+    "limitations": "author report; not independently rerun"
+  },
+  {
+    "source_id": "Together/expert_ensemble",
+    "url": "https://www.together.ai/together-compiler-paper",
+    "locator": "C.2.1; PDF pages 29",
+    "claim_type": "论文",
+    "extraction": "6.2×",
+    "local_source": "data/raw/together/paper.txt",
+    "limitations": "author report; not independently rerun"
+  },
+  {
+    "source_id": "Together/wait_time",
+    "url": "https://www.together.ai/together-compiler-paper",
+    "locator": "C.3/Table6; PDF pages 29",
+    "claim_type": "论文",
+    "extraction": "57.0",
+    "local_source": "data/raw/together/paper.txt",
+    "limitations": "author report; not independently rerun"
+  },
+  {
+    "source_id": "Together/gpu_reset",
+    "url": "https://www.together.ai/together-compiler-paper",
+    "locator": "C.3 NVIDIA; PDF pages 32",
+    "claim_type": "论文",
+    "extraction": "GPU resets.",
+    "local_source": "data/raw/together/paper.txt",
+    "limitations": "author report; not independently rerun"
+  },
+  {
+    "source_id": "Apple RSI",
+    "url": "https://github.com/apple-aiml-research/ml-rsi-inference-bench/tree/1a38072fbe284234c874356b86c9df666a5a79a3",
+    "locator": "README + tasks/*/task.toml + tests/test.sh + third_party/pier/README.md",
+    "claim_type": "论文",
+    "extraction": "37 tasks;10 support,20 optimization,7 regression;20vLLM/17SGLang",
+    "local_source": "data/derived/rsi_tasks.json",
+    "limitations": "static inspection only; some nested docs inaccessible"
+  }
+]

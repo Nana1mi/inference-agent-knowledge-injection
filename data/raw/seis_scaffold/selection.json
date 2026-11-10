@@ -1,0 +1,15 @@
+{
+  "repo": "smth-fun/self-evolving-inference-system",
+  "commit": "bf2ddc5c5882a2573756b744c0e88c1b154739fa",
+  "license": "未声明根许可；不授权再分发",
+  "paths": [
+    ".gitmodules",
+    "CLAUDE.md",
+    "README.md",
+    "generation/README.md",
+    "posts/post-1-kernel.md",
+    "posts/post-2-evolve.md",
+    "run_trial.sh",
+    "setup.sh"
+  ]
+}

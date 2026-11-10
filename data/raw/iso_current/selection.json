@@ -1,0 +1,24 @@
+{
+  "commit": "0a6716bba4361f1ebe9366e1e2a33ffbb913dced",
+  "sglang_subtree_truncated": false,
+  "available_sglang_trajectory_files": 220,
+  "selection": "sglang subtree lexicographic first two trajectory.json; no outcome selection",
+  "paths": [
+    {
+      "path": "trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_000_021f76e4/trajectory.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "d837a0807ec5e5cf35a98053be85f907eb7bd01d",
+      "size": 491232,
+      "url": "https://api.github.com/repos/Lossfunk/ISO-Bench/git/blobs/d837a0807ec5e5cf35a98053be85f907eb7bd01d"
+    },
+    {
+      "path": "trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_001_09deb20d/trajectory.json",
+      "mode": "100644",
+      "type": "blob",
+      "sha": "3b0d25e24bfcd60b57b8623ca06e847d8928b358",
+      "size": 133709,
+      "url": "https://api.github.com/repos/Lossfunk/ISO-Bench/git/blobs/3b0d25e24bfcd60b57b8623ca06e847d8928b358"
+    }
+  ]
+}

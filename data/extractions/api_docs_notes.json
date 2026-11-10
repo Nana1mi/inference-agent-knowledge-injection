@@ -1,0 +1,24 @@
+{
+  "date": "2026-11-10",
+  "provenance": "Context7 resolve_library_id then query_docs; these are research-assistant notes, not raw API response exports",
+  "lookups": [
+    {
+      "library_id": "/anomalyco/opencode",
+      "concept": "non-interactive run command with JSON output and model selection",
+      "sources": ["https://github.com/anomalyco/opencode/blob/dev/packages/web/src/content/docs/cli.mdx", "https://github.com/anomalyco/opencode/blob/dev/packages/cli/src/commands/commands.ts"],
+      "note": "run --format json --model provider/model is documented; upstream dev is not a guarantee for locally installed1.3.3; no optimization agent was invoked"
+    },
+    {
+      "library_id": "/pytorch/pytorch",
+      "concept": "BF16 reduced precision reduction backend setting",
+      "sources": ["https://github.com/pytorch/pytorch/blob/main/docs/source/notes/numerical_accuracy.md", "https://github.com/pytorch/pytorch/blob/main/docs/source/backends.md"],
+      "note": "allow_bf16_reduced_precision_reduction controls BF16 GEMM reduction precision; this supports a risk mechanism, not an independent replay of the archived session"
+    },
+    {
+      "library_id": "/datacurve-ai/pier",
+      "concept": "local task agent/model selection and trajectory outputs",
+      "sources": ["https://github.com/datacurve-ai/pier/blob/main/README.md", "https://github.com/datacurve-ai/pier/blob/main/src/pier/cli/jobs.py"],
+      "note": "local tasks via -p, named agent/model; augmented ATIF support; actual study uses Apple's vendored frozen Pier, not an assumed identical current upstream"
+    }
+  ]
+}

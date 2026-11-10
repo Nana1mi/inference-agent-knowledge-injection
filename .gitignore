@@ -1,0 +1,27 @@
+# Local Python/build/editor state
+__pycache__/
+*.py[cod]
+.venv/
+.env
+.env.*
+!.env.example
+.DS_Store
+Thumbs.db
+
+# Third-party source snapshots stay local. Publish provenance and selection only.
+/data/raw/**
+!/data/raw/**/
+!/data/raw/manifest.jsonl
+!/data/raw/paper_index.json
+!/data/raw/**/selection.json
+!/data/raw/search/scholar_queries.json
+
+# Derived copies of third-party text/code and host-specific diagnostics
+/data/derived/*_events.jsonl
+/data/derived/*_events.txt
+/data/derived/*_console.txt
+/data/derived/together_p*.png
+/data/derived/pdf_extraction.json
+
+# Local restore/verification logs
+/data/derived/restore_results.json

@@ -1,0 +1,22 @@
+{
+  "status": "design_only_not_executed",
+  "date": "2026-11-10",
+  "engine": "mini-sglang",
+  "engine_commit": null,
+  "fallback_engine": "nano-vllm_only_if_original_cannot_run_and_reason_recorded",
+  "model": "Qwen3-0.6B",
+  "target_gpu": "RTX 3090",
+  "observed_gpu": "RTX 5080 Laptop 16303 MiB",
+  "agent": "opencode",
+  "observed_agent_version": "1.3.3",
+  "provider_model_snapshot": null,
+  "conditions": ["C0", "C1", "C2"],
+  "optional_condition": "C3",
+  "independent_sessions_per_condition": 3,
+  "session_budget_minutes": 45,
+  "randomization": "within three task/seed blocks; order generated and frozen before execution",
+  "primary_outcome": "trajectory evidence and validation behavior; not final speedup",
+  "required_gates": ["full_vocabulary_logits", "generation_decode", "eos", "varied_request_state", "static_head_and_integrity", "clean_process_reference"],
+  "scoring_protection": "restore canonical read-only verifier before every score, outside agent worktree and process",
+  "gpu_experiment_started": false
+}

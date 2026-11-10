@@ -1,0 +1,16 @@
+[
+  {
+    "query": "coding agent retrieval augmented memory ablation",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/search?query=coding+agent+retrieval+augmented+memory+ablation&fields=title%2Cyear%2CexternalIds%2Curl&limit=10&year=2025-2026",
+    "limit": 10,
+    "date_range": "2025–2026",
+    "status": "not retrieved"
+  },
+  {
+    "query": "agent skills context files coding",
+    "url": "https://api.semanticscholar.org/graph/v1/paper/search?query=agent+skills+context+files+coding&fields=title%2Cyear%2CexternalIds%2Curl&limit=10&year=2025-2026",
+    "limit": 10,
+    "date_range": "2025–2026",
+    "status": "not retrieved"
+  }
+]

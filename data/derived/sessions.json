@@ -1,0 +1,16 @@
+[
+  {
+    "session_id": "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass",
+    "raw_records": 858,
+    "tool_events": 290,
+    "first_timestamp": "2026-06-13T10:23:00.000Z",
+    "last_timestamp": "2026-06-13T10:37:14.000Z"
+  },
+  {
+    "session_id": "20260613_153211_claude_claude-opus-4-8_01_fp8_gemm",
+    "raw_records": 478,
+    "tool_events": 153,
+    "first_timestamp": "2026-06-13T21:32:14.000Z",
+    "last_timestamp": "2026-06-13T21:40:08.000Z"
+  }
+]

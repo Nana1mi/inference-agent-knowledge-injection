@@ -1,0 +1,13 @@
+{
+  "status": "passed",
+  "scope": "offline data/schema/source-line/hash/local-link/count audit; not scientific validation or GPU testing",
+  "annotation_counts": {
+    "inferencebench_episodes": 21,
+    "iso_bench": 58,
+    "kernelbench": 443
+  },
+  "successful_snapshots_hashed": 406,
+  "historical_access_failures": 31,
+  "rsi_tasks": 37,
+  "errors": []
+}

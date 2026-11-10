@@ -1,0 +1,12 @@
+{
+  "dataset": "Infatoshi/kernelbench-hard-traces",
+  "commit": "c2c764c8b5a5fdad493592a2fde1055684e0f064",
+  "license": "mit",
+  "selection_rule": "优先 Claude Opus 4.8 的 01、02 任务，各取按文件名排序首个；不足则全库首两个。探索性方便样本。",
+  "available_jsonl_files": 740,
+  "selected": [
+    "20260613_153211_claude_claude-opus-4-8_01_fp8_gemm.jsonl",
+    "20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl"
+  ],
+  "replacements": []
+}
