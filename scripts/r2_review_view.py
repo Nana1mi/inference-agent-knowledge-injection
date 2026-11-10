@@ -35,5 +35,9 @@ def main():
                 if field in inp:print(field+':',inp[field] if args.full else compact(str(inp[field]),args.payload_limit))
             result=call.get('result') or {};value=result.get('content','');value=value if isinstance(value,str) else json.dumps(value,ensure_ascii=False)
             print('RESULT L'+str(result.get('line')),value if args.full else compact(value,args.payload_limit))
+        for context in row.get('context_messages',[]):
+            value=context['content']
+            print('FOLLOWING USER CONTEXT L'+str(context['line']),
+                  value if args.full else compact(value,args.payload_limit))
 
 if __name__=='__main__':main()

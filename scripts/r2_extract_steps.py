@@ -36,7 +36,14 @@ def main():
             pending.clear()
         for line,r in enumerate(rows,1):
             if r.get('type')=='assistant':pending.append((line,r))
-            elif r.get('type')=='user':close()
+            elif r.get('type')=='user':
+                close()
+                content=r.get('message',{}).get('content')
+                if isinstance(content,str) and content.startswith('Base directory for this skill:'):
+                    if not groups or not any(c['name']=='Skill' for c in groups[-1]['calls']):
+                        raise ValueError(f'unattached skill context {path}:{line}')
+                    groups[-1].setdefault('context_messages',[]).append(
+                        {'line':line,'role':'user','content':content})
         close()
         sid=f'K{number:02d}';filename=outdir/(sid+'.jsonl')
         filename.write_text(''.join(json.dumps(g,ensure_ascii=False)+'\n' for g in groups),encoding='utf-8')
