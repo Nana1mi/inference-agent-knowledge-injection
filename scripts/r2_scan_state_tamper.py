@@ -20,7 +20,7 @@ RULES={
  'persistent_memory_path':r'(?i)(?:/memory/|/\.cache/|TRITON_CACHE_DIR|CUDA_CACHE_PATH)',
  'cuda_cpp_timing_or_sync':r'\b(?:__syncthreads(?:_count|_and|_or)?|__syncwarp|cuda(?:DeviceSynchronize|StreamSynchronize|Event(?:Record|ElapsedTime|Synchronize)|StreamWaitEvent)|cp_async_wait|mbar_wait|mbar_arrive|cp_wait)\s*\(|\b(?:cp\.async\.(?:wait_group|wait_all)|mbarrier\.(?:arrive|try_wait|test_wait)|bar\.sync|barrier\.sync)\b',
  'cuda_runtime_state':r'\bcuda(?:FuncSetAttribute|FuncSetCacheConfig|SetDevice|DeviceSetCacheConfig|DeviceSetLimit|DeviceSetSharedMemConfig|Stream(?:Create(?:WithFlags|WithPriority)?|Destroy|BeginCapture|EndCapture)|Graph(?:Instantiate(?:WithFlags)?|Launch|ExecDestroy|Destroy))\s*\(',
- 'persistent_buffer_or_cache_assignment':r'(?i)\b[\w.]*cache\w*\s*=(?!=)|\bself\._(?:b|out|yout|gemm_out|wqt|partial|tprefix|sched|sched_key|graph|gkeys|q_obj|replay|counter|ts_key|ts_buf|[oml]_partial)\s*=(?!=)|\bstatic\s+(?:GraphKey|cudaGraphExec_t|cudaStream_t)\s+\w+\s*(?:=|\{)',
+ 'persistent_buffer_or_cache_assignment':r'(?i)\b[\w.]*cache\w*\s*=(?!=)|\bself\._(?:b|out|out_val|out_idx|yout|gemm_out|wqt|partial|tprefix|sched|sched_key|graph|graph_ptr|gkeys|q_obj|replay|counter|counters|scratch_val|scratch_idx|ts_key|ts_buf|[oml]_partial)\s*=(?!=)|\bstatic\s+(?:GraphKey|cudaGraphExec_t|cudaStream_t)\s+\w+\s*(?:=|\{)',
 }
 
 def leafstrings(obj,pointer=''):

@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前127个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
+[实验] 目前136个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
 
 ## 已复核的三个关键区别
 
@@ -29,6 +29,8 @@
 [实验] 新检查的候选还包括模拟测量：147的配置读取成本由`time.sleep`人为添加，158用等待模拟顺序/批量warmup请求，165以虚拟地址与Dummy传输引擎代替真实KV传输。这些代码创建反馈均成功，也有真实主机计时，但不是实际GPU模型或传输测量。146的CUDA-graph插件名称同样不够：已执行脚本只测默认CPU张量和对象初始化，返回还显示缺少`libcuda.so.1`。全部判断保留精确工具输入、写入反馈、数值返回和结局定位，见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 
 ## 接下来的核验
+
+[实验] 新增顺位66/262/264/265/267/269/270/272/274的逐条复核：270在trajectory成功，但两个数字返回均明确device=cpu；272成功但实测仍是block元数据。267最初create失败，实际Read的旧脚本默认CPU，后来调整CPU导入兼容性而非切到GPU。264实际回显CPU分配，265注释forward_cuda而代码明确device=cpu；269的7.50x/13.04x来自调度循环模拟，其生成器对照反而为0.99x/0.98x。66是DummyTokenizer，262是OrderedDict驱逐元数据，274是主机bytes编解码。完整写入反馈、Read与数值定位见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)，不将导入CUDA模块、算子名称或模拟收益记入GPU配额。
 
 [实验] 新复核的252虽在trajectory记成功，step18只计时token列表与block分配/标记元数据；源码中的`num_gpu_blocks`是逻辑配额，不是GPU张量执行证据。231对DummyTokenizer和合成请求统计计时，237实际回显`device=cpu`；260创建成功后又替换为默认CPU张量模拟运算，不能按最早的FlashAttention计划归类。255读到了Triton attention源码，但数值来自另一个allocator脚本，缺具体设备输出，保留unknown。各例的工具输入、写入反馈、源码读取与数值返回精确指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 

@@ -1,0 +1,179 @@
+# step	phase	tool	layer	origin	source	evidence	outcome	flags	use	hypothesis	rationale	followup	component
+1	探索代码	D	K	m	u	x	s	k	a	-	读取reference和目录，只有动作播报；step85正式候选沿用Model参数与二元输出协议，未调用torch.topk	step16独立基线；step85正式候选接口	o
+2	探索代码	D	M	m	u	x	s	k	a	-	读取SOTA/check/benchmark/形状；SOTA与reference均为torch.topk，step16独立基线采用同一算子，不能区分两次读取的贡献	step16独立基线，step85起正式候选为自写CUDA	o
+3	探索代码	D	M	m	u	x	s	v	x	-	实质讨论输入和禁止调用要求，继续读numeric_stress与正确性源代码；harness不计外部知识读取	-	o
+4	探索代码	D	M	e	c	y	f	v	x	直接复制被选中输入浮点值可满足逐值精确要求	依据正确性源码讨论值与索引协议；查hardware.py路径失败，未取得硬件实测	step32原型以原值写输出	o
+5	探索代码	D	O	m	u	x	s	-	x	-	只查找硬件文件位置，没有实质性能推理	-	o
+6	探索代码	D	O	m	u	x	s	-	x	-	列目录并解析源码符号链接；非profile或知识内容读取	-	o
+7	探索代码	D	O	m	u	x	f	-	x	-	再次按错误路径读取hardware.py，命令失败	-	o
+8	探索代码	D	O	m	u	x	s	-	x	-	查看硬件表头及正确文件列表，静态信息不记为GPU测量	-	o
+9	探索代码	D	M	m	u	x	s	-	x	-	读RTX硬件表，尚无本会话校准或profile	-	p
+10	环境准备	O	O	m	u	x	f	-	x	-	默认Python缺torch，未运行任何GPU探针	-	o
+11	环境准备	O	O	m	u	x	s	-	x	-	查询解释器与项目Python要求，未修改正式候选	-	o
+12	环境准备	O	O	m	u	x	f	-	x	-	激活环境后仍使用错误Python且缺torch；失败属于环境准备	-	o
+13	环境准备	O	O	m	u	x	s	v	x	-	根据运行进程与环境定位可用解释器；nvidia-smi静态回显不算profile	-	o
+14	环境准备	O	O	m	u	x	s	-	x	-	共享venv成功导入torch并回显版本/SM/L2属性，尚无性能测量	-	o
+15	探索代码	D	K	e	i	n	s	v	x	单次launch分段产生候选并合并可减少多kernel开销	从带宽估算和算法结构提出方案，实际只读路径布局；roofline估算不是profile证据	step32首个算法原型	o
+16	测量	K	K	m	u	x	s	s	x	-	独立torch.topk基线约130/132/131/56/32us；写reference形状全局量及manual_seed，普通事件计时且未清L2，不算profile	step1/2知识用于诊断基线	p
+17	测量	K	H	e	i	u	s	v	x	小kernel时延主要受launch和host开销影响	noop约9.92us、sum约32.32us为普通事件探针，未隔离所有开销	-	p
+18	测量	K	M	e	i	u	s	v	x	异常高拷贝带宽提示计时口径或缓存效应	512MB拷贝打印5728GB/s等数值；观察者主动质疑，不作为物理DRAM吞吐结论	step19加清缓存探针	p
+19	测量	K	M	e	i	u	s	v	x	清L2后可区分缓存影响与基础计时开销	普通CUDA事件得到noop9.888us、sum33.2us；非硬件profile，也不证明通用硬下界	-	p
+20	profile	P	K	e	i	u	s	v	x	torch profiler可帮助区分事件墙时与实际GPU计算	首次成功实际profile：torch.topk多kernel累计CUDA时间约350.234us/10次；早于任何topk优化原型与正式候选	step21解释多kernel开销	p
+21	测量	K	H	e	p	y	s	v	x	torch.topk多kernel结构留有融合减少开销的空间	承接step20的7个kernel观测，再测不同大小sum；实测支持多kernel事实，不证明任何单launch均可达某固定下界	step32融合原型	o
+22	环境准备	O	M	e	i	u	f	v	x	约25us时延主要由测量或launch固定开销产生	nvcc版本查询成功，但直接访问torch.utils.cpp_extension属性报错；此前几个探针不能推出全体kernel固定时延	step23改用子模块导入	p
+23	环境准备	O	O	m	u	x	s	-	x	-	直接导入cpp_extension成功，无实质机制推理或文档读取	-	o
+24	修改代码	K	M	i	i	n	f	-	x	空/读内核探针可估计小kernel计时开销	写运行scratch/floor_test.py，缺ninja构建失败；非正式solution.py编辑且无成功测量	step28重跑	p
+25	环境准备	O	O	m	u	x	f	-	x	-	默认pip缺失，安装命令未完成；没有由此取得可运行探针	-	o
+26	环境准备	O	O	m	u	x	f	-	x	-	共享venv的pip入口仍缺失，环境操作失败	-	o
+27	环境准备	O	O	m	u	x	f	-	x	-	目录显示已有ninja，但python -m pip仍失败；不能记录为安装成功	-	o
+28	测量	K	M	m	u	x	s	s	x	-	显式前置PATH后成功运行floor读探针，约22.6–22.8us；PATH写入计状态，普通事件不算profile	-	p
+29	修改代码	K	M	e	i	u	f	v	x	各小kernel的相近墙时来自基础计时开销	写floor_test2比较noop/空/读kernel，但再次因ninja路径失败；此步没有新成功结果	step30重跑	p
+30	测量	K	M	m	u	x	s	s	x	-	PATH修正后得到noop9.89/empty18.48/read约22.66–23.04us，数值只适用于该探针	-	p
+31	环境准备	O	K	e	i	n	s	v	x	融合分块选择与最后block合并可减少多次launch	长分析提出算法，实际只写scratch说明并查CPU核数，未在此步写算法或正式候选	step32原型	o
+32	修改代码	O	K	i	i	n	s	s	x	分块重复max与行counter可在一个kernel内完成topk	首个scratch/proto.py算法原型，含跨调用epoch/counter状态；不是正式solution.py首次编辑	step33测试	o
+33	测量	K	K	m	u	x	s	s	x	-	PATH启动原型，同一输入的值/索引/排序检查通过，时延约182/34/89.87/32.54/26.34us；非正式check	-	p
+34	profile	N	K	e	i	u	f	vs	x	重复max的屏障或资源开销造成大K延迟	写driver并尝试错误venv下的NCU路径，失败无采样；显式PATH写入，不能记首次成功NCU	step36/39仍失败	p
+35	环境准备	O	O	m	u	x	s	-	x	-	定位NCU可执行文件，只读环境不计新全局写入	-	o
+36	profile	N	M	m	u	x	f	s	x	-	NCU返回ERR_NVGPUCTRPERM，没有有效计数器数据；PATH操作有状态写入	-	p
+37	探索代码	D	M	m	u	x	s	v	x	-	读取包装脚本、权限设置和sudo可用性；权限诊断未成功取得硬件profile	-	p
+38	profile	N	M	m	u	x	f	vs	x	-	sudo调用分别遇默认命令缺失/构建环境ninja缺失，无有效采样	-	p
+39	profile	N	M	m	u	x	f	vs	x	-	sudo保留PATH后仍被GPU计数器权限拒绝；不把root尝试记成可用profile	-	p
+40	profile	S	M	m	u	x	f	vs	x	-	nsys包装路径需要RUN_DIR且引用缺失gpu-lock-exec，命令失败，无时间线	-	p
+41	profile	S	M	m	u	x	f	vs	x	-	带PATH再试nsys仍失败；本会话没有成功nsys记录	-	p
+42	探索代码	D	M	m	u	x	s	-	x	-	阅读本地包装脚本并找实际nsys，非外部算法/API知识读取	-	p
+43	环境准备	O	M	m	u	x	s	-	x	-	寻找实际nsys文件，未运行成功profile	-	p
+44	测量	K	K	e	i	u	s	vs	x	大K选择循环而非输入读取决定原型主要开销	普通事件变K得到约182.8/26.7/181.8us，支持K敏感性但未隔离屏障等具体机制；PATH写入	-	p
+45	修改代码	O	M	e	i	u	f	vs	x	分阶段clock64可定位屏障或选择循环成本	写仪器化scratch，C++ data_ptr链接类型错误，未取得阶段数据；显式PATH	step49才取得回显	p
+46	修改代码	O	M	m	u	x	f	vs	x	-	sed改诊断类型后代码损坏，编译继续失败；不是正式候选修改	-	p
+47	修改代码	O	M	m	u	x	f	vs	x	-	重新写诊断仍因unsigned long long链接失败，没有阶段结果	-	p
+48	修改代码	O	M	m	u	x	f	vs	x	-	改用reinterpret修类型后运行路径变成scratch/scratch，失败尚未测量	-	p
+49	测量	K	M	m	u	x	s	s	x	-	clock64回显read1638/selectB134777/selectC332628周期；按固定1.8GHz换算不是实测GPU频率，普通仪器化非profile	-	p
+50	修改代码	O	M	e	i	u	f	vs	x	clock64与墙时差异可能来自boost时钟	以假设2.6GHz解释差异，未测频率；新同步探针又因链接类型失败，不能确认解释	step51修类型	p
+51	测量	K	M	e	i	u	s	vs	x	屏障与block reduce每轮成本可解释大K延迟	修类型后clock64给屏障29–36周期、reduce约694周期/轮；支持该微基准成本，不完整验证原kernel归因	-	p
+52	修改代码	O	K	e	i	u	s	vs	x	shared bitonic排序可减少重复max的多轮同步成本	重写scratch/proto.py为bitonic，依据普通clock探针，不称硬件profile；保留epoch等跨调用状态，非正式编辑	step54验证	o
+53	测量	K	K	m	u	x	f	s	x	-	从错误scratch/scratch路径运行失败，PATH写入，不存在成功性能结果	-	p
+54	测量	K	K	m	u	x	s	vs	x	-	绝对路径重跑bitonic，局部正确性检查通过，墙时约82/59/62/39/58us；未进入正式候选	-	p
+55	测量	K	M	e	i	u	s	vs	x	bitonic的排序阶段而非读取仍是主要成本	仪器化回显4096元素阶段约118K周期；固定周期换算及单探针不能确定具体硬件瓶颈	-	p
+56	测量	K	M	e	i	u	s	vs	x	键值交换或共享访存可能使bitonic成本偏高	比较value-only与key/value、不同M的clock探针；未隔离bank conflict或编译循环机制	-	p
+57	探索代码	D	K	e	i	u	s	v	x	CUB radix排序可能比当前共享bitonic更合适	讨论共享流量后寻找头文件无结果；未实际读取API内容，knowledge_access为false	step61实际读API	o
+58	探索代码	D	O	m	u	x	s	-	x	-	列include/cccl路径，没有读取API内容	-	o
+59	探索代码	D	O	m	u	x	s	-	x	-	列cub文件夹，不把路径发现当知识读取	-	o
+60	探索代码	D	O	m	u	x	s	-	x	-	找到.cuh文件名且部分目录命令失败，仍未读API正文	-	o
+61	探索代码	J	K	m	u	x	s	k	a	-	实际grep BlockRadixSort类、SortDescending及示例；step62适配256线程/ITEMS模板和排序接口	step62 CUB微基准；step65原型	o
+62	修改代码	K	K	e	c	u	s	vs	x	采用CUB BlockRadixSort可降低块排序成本	写运行CUB时钟探针；err只查thread0局部顺序，且256×ITEMS小于名义M时漏读；固定2.1GHz换算不是测频，不能由err0确认完整排序	step81/164容量纠正	p
+63	测量	K	M	e	i	u	s	vs	x	完整排序成本偏高因而应尝试只选择topk	将clock探针按假定频率换算并估算CUB墙时，随后实际事件约23us；部分测试元组容量不等，且将40us方案的几何均值误写为0.13，不能采信阈值可达结论	step64用实际profiler核对；step164容量纠正	p
+64	profile	P	K	e	i	u	s	vs	x	实际profiler可核对clock64换算与墙时差异	成功Torch profiler测当前bitonic各形状约66.6/45.1/46.7/24.2/44.0us；不是NCU成功	step65据此换CUB	p
+65	修改代码	O	K	e	p	y	s	vs	x	改CUB排序可缓解bitonic实测GPU成本	写scratch/proto_cub.py，承接step64实际profile；epoch/counter等跨调用状态保留，未写正式候选	step66修载入映射	o
+66	修改代码	O	K	e	c	y	s	vs	x	按线程标量步进加载可修复float4槽位映射	修scratch原型读取索引，保留图/counter状态；不把修复前的映射当正确实现	step67局部测试	o
+67	测量	K	K	m	u	x	s	s	x	-	PATH运行CUB原型同输入检查通过，时延约34.5/33/34/28.4/33us；非正式bench	-	p
+68	测量	K	M	e	i	w	s	vs	x	CUDA graph回放可减少该读探针launch开销	缺显式stream的探针返回empty graph警告，约22.19/13.55us不能证明图实际读取；含图对象状态及PATH写入	step70改stream	p
+69	修改代码	V	M	e	i	w	c	vs	x	时间差已说明图不是空图且执行了目标读取	此解释与empty graph警告矛盾；新读和输出直接模式也错，zero后replay为0，未验证正确工作	step70重写探针	p
+70	修改代码	V	M	e	c	y	c	vs	x	在当前stream捕获可修复空图问题	根据警告修显式stream，但读sum仍不正确；22.96/16.83us不能作为有效完整计算对比	step71改原子累加	p
+71	修改代码	V	M	e	c	y	c	vs	x	原先累加缺原子操作导致读sum错误	加atomicAdd后仍有数值错误；提出的一个缺陷成立，不意味着结果已修好	step72直接与图同时核对	p
+72	测量	V	M	e	i	u	c	vs	x	比较direct与replay可区分图相关错误	两者均约67.54、reference约1502，直接路径也错；一致不等于正确，不能验证有效读吞吐	step73放弃继续修读探针	p
+73	修改代码	O	K	e	i	w	s	vs	x	direct与replay输出相同足以继续图模式性能比较	写proto_graph；warmup清counter却递增host epoch，捕获epoch3且清counter导致merge永不满足；同输入输出沿用warmup，实际未证完整重算	step112–114识别错误；审计r2_k13_probe_audit.json	o
+74	测量	K	K	m	u	x	s	s	x	-	图/直接模式对同一输入值检查True；图路径跳过merge而保留warmup答案，返回True不验证重新计算，时延不可作完整topk收益	step113解释	p
+75	测量	K	M	e	i	w	s	vs	x	当前图原型几何均值约0.217已接近可达上限	该乘积五次根实际约0.034，且沿用漏merge原型；本步reduce时钟探针有返回，不使几何均值推断正确	step114明确承认算术错误	p
+76	profile	P	K	e	i	w	s	vs	x	对图原型profile可取得完整topk真实kernel成本	Torch profiler有实际数据，但proto_graph捕获epoch错误跳过merge，7.7/13.2/13.5/6.5/13.1us不代表完整重算	step113正确formal profile	p
+77	profile	P	M	e	i	u	s	vs	x	独立reduce实测可解释归约成本与时钟换算差异	新reduce探针实际Torch profiler约3.22/10.68/19.63/1.02us；该探针本身有效，不补足旧图原型漏算部分	-	p
+78	修改代码	O	K	e	p	u	s	vs	x	warp0维护有序表头可减少全block归约成本	写proto_sel；已有reduce profile支持同步成本，但完整新算法收益尚待正确重算验证，保留图/counter跨调用状态	step79/80有限测试	o
+79	测量	K	K	m	u	x	s	s	x	-	proto_sel同输入局部检查通过并返回图/直接时延，未以变化输入或毒化输出验证图重算	-	p
+80	profile	P	K	m	u	x	s	s	x	-	实际Torch profiler读取proto_sel约47.8/19.5/5.7us；step78源码同样清counter且递增epoch，图merge漏执行，不能当完整重算成本	-	p
+81	profile	P	K	e	i	w	s	vs	x	同M下较小ITEMS的CUB成本更低	实际Torch profiler有数值，但M4096/ITEMS8仅载2048、M2048/ITEMS4仅载1024，名义M比较漏算；不否定容量匹配元组本身	step164正确容量比较	p
+82	profile	P	M	e	i	w	s	vs	x	CUB固定开销约4us且当前0.217接近性能上限	沿用容量错误与几何均值错误作外推；新同步/shuffle Torch profiler有实际返回，不能纠正旧错误结论	step114算术纠正，step164容量纠正	p
+83	profile	P	M	e	i	u	s	vs	x	读探针时长可估计零计算实现的最小时延	实际GPU读约3.21/1.35/1.57us及事件17–25us只描述有限探针，不证明所有kernel不可突破的17us下界	-	p
+84	环境准备	O	K	e	i	w	s	v	x	当前几何均值约0.217已接近本题上限	实际仅备份scratch原型到临时位置，未编辑solution.py；继续依赖错误几何均值，后在114承认	step85正式首次写入	o
+85	修改代码	O	K	i	i	n	s	cs	x	CUB融合选择和argmax专用路径加图回放可减少launch开销	首次成功写正式solution.py；_launch固定epoch0，与scratch坏wrapper不同；持久_ext/图/输出/工作区计状态，输出别名协议未验证	step90首次正式PASS，step91首次正式bench	o
+86	测量	V	K	m	u	x	f	s	x	-	正式check因docstring出现禁用词torch.topk被拒，不是实际调用该算子；PATH写入，未获得数值验证	step87定位文本	p
+87	探索代码	D	K	e	c	y	s	v	x	词串扫描把docstring中的禁用名称判成调用	grep确认名称只在说明文字，不把此处解释为候选使用torch.topk	step88仅改注释	o
+88	修改代码	O	K	m	u	x	s	c	x	-	只删正式docstring的禁用词串，未改检查器或算法	-	o
+89	测量	V	K	m	u	x	f	s	x	-	正式候选因共享scalar与指针类型不匹配构建失败，尚无正确性PASS；PATH写入	step90修共享scalar传参	o
+90	修改代码	V	K	e	c	y	s	vcs	x	传共享scalar地址可修复构建类型错误	正式代码修指针后check PASS；显式PATH，只有当前检查范围内正确性证据	-	o
+91	测量	B	K	m	u	x	s	s	x	-	首次正式benchmark返回peak_fraction0.0242/LOW；保留榜单success，不能用阈值改写抽样结局	-	p
+92	修改代码	O	M	e	i	u	f	vs	x	正式候选比原型慢可能因为graph没有捕获或回放	写bench_debug但无法import solution，未取得新的graph状态证据；PATH写入	step93修import环境	p
+93	测量	O	M	m	u	x	s	s	x	-	诊断插入sys.path并设置reference全局形状；graphNoneFalse/ptr匹配True仅证对象存在和地址一致，不证图内容正确	-	p
+94	测量	O	M	e	i	u	f	vs	x	更完整benchmark路径能定位正式候选的额外开销	诊断仍缺导入路径而失败；无新数值支持	step95修路径	p
+95	测量	K	M	m	u	x	s	vs	x	-	加入sys.path/reference形状等状态后，普通事件给Model约24–34us，非实际profile	-	p
+96	测量	K	H	e	i	y	s	vs	x	nn.Module调用包装产生显著host开销	同探针module33.57/bare28.91/direct forward29.14us支持包装差异约4.66us，非完整硬件因果分解；PATH/sys.path写入	-	p
+97	测量	K	M	e	i	w	s	vs	x	同进程原型更快说明正式候选额外开销仍存在	proto约18.11/formal31.17us，但旧proto漏merge，不是同等工作对比；PATH/sys.path/参考维度写入	step113识别差别	p
+98	测量	K	M	e	i	u	s	vs	x	capture上下文或调用入口可能解释正式版延迟	formalsource不同capture方式约28.98/31.42/bare28.93us，仅有限缩小解释，未证明根因；写PATH/sys.path	-	p
+99	探索代码	D	C	e	i	n	s	v	x	编译优化flags可能造成原型与正式版本性能差异	只读候选flags，未修改候选；自有代码不计知识访问	step101/108尝试排除flags	o
+100	修改代码	O	M	m	u	x	f	s	x	-	编译/运行fastmath诊断超时，没有可用性能结果；含PATH/sys.path状态，不是正式候选编辑	-	p
+101	修改代码	K	C	e	i	u	s	vcs	x	移除fast_math可排除编译选项对性能的影响	正式移除flag后重建并比较，formal仍慢；旧proto漏算使跨实现比较不等价；清构建缓存及PATH/sys.path状态计入	step113确认真正差别	o
+102	探索代码	D	K	e	i	u	s	v	x	CUDA源码结构差异可能解释正式版成本	只读自有候选和原型diff，未读取外部API内容，不自动判知识访问	-	o
+103	测量	K	M	e	i	u	s	vs	x	反转测量顺序可检验时钟漂移解释	反序仍proto快/formal慢，但旧proto工作量不完整；不能由稳定差距归因为编译器，PATH/sys.path写入	-	p
+104	测量	K	M	e	i	u	s	vs	x	把正式CUDA源装入原型harness可区分源码与包装开销	隔离版本约29.17us，只缩小排查范围；PATH/sys.path修改，不是正式编辑	-	p
+105	修改代码	O	M	m	u	x	f	vs	x	-	O3探针先参数数量不符、后编译超时，无成功计时	-	p
+106	修改代码	O	M	m	u	x	f	vs	x	-	隔离编译探针多次超时，无可用结果，不记优化成功	-	p
+107	探索代码	D	C	m	u	x	s	vs	x	-	查询内部函数输出的架构flags，没有读取函数API正文或完成优化；PATH写入	-	o
+108	修改代码	K	C	e	i	u	s	vcs	x	移除O3可检验编译flags是否造成差距	正式去O3并重建后仍有差距；旧图原型漏merge，不能采信为同等计算性能比较；缓存/PATH修改	-	o
+109	探索代码	D	K	e	i	u	s	v	x	逐行比对源码可定位未解释的性能差异	只读自有两版CUDA源与注释，不算外部知识读取或新候选写入	-	o
+110	测量	K	M	e	i	u	s	vs	x	同包装下两版编译扩展对比可检验CUDA源码差异	两个扩展约28us，未支持单纯源码性能差距；PATH/sys.path写入，非profile	-	p
+111	测量	K	M	e	i	y	s	vst	x	稳定交错测量可排除先后顺序作为主要解释	交错多次proto约18.3/formal31.1us，排除时间顺序解释但不证明等工作收益；真正漏merge尚待下一步	step112/113找到epoch条件	p
+112	测量	V	M	e	c	y	s	vs	x	旧图wrapper的epoch递增可能导致merge未执行	静态读到epoch问题，但verify_pg只复用同一输入仍True，不能验证输出重新计算；PATH/sys.path写入	step113完整解释	p
+113	profile	P	K	e	c	y	s	vst	x	warmup输出残留掩盖图捕获epoch失配造成的漏merge	明确识别坏原型原因，并profile正确formal约18.8/16.4/16.7/9.7/2.6us；纠正原型快速数据，非正式代码修改	step114承认几何均值误算	p
+114	修改代码	O	K	e	p	y	s	vst	x	正确formal的排序成本提示可试radix select替代完整排序	明确承认早先几何均值算错；写scratch/radix_proto，不把先前0.217延续成事实；代码/构建路径状态保留	step115/116修正确性	o
+115	测量	V	K	m	u	x	c	s	x	-	radix原型gather索引越界触发assert，不能采用其时延；PATH写入，非正式候选	step116修计数归约	p
+116	修改代码	V	K	e	c	y	s	vst	x	计数应使用block sum而非block max以避免选择越界	修scratch后标准/压力/ties局部测试通过；PATH修改，未写正式候选	step118实际profile	o
+117	修改代码	O	M	m	u	x	f	vs	x	-	当前目录已是scratch却再次写scratch/radix_perf，路径导致写和运行失败	-	p
+118	profile	P	K	m	u	x	s	vs	x	-	修路径并写sys.path后实际Torch profiler得到radix约10–14us；此步不是正式候选编辑	-	p
+119	profile	P	P	e	p	y	s	vs	x	增加block数不足以显著改善当前radix kernel成本	实际profile约14.04/14.37/14.94us，支持这几个配置未获明显收益；尚不能单独归因共享原子瓶颈	step166隔离直方图	p
+120	修改代码	O	K	e	p	u	f	vs	x	warp私有16bin直方图可能减少共享原子争用	写scratch替代直方图但运行两次遇scratch/scratch路径错误，无新性能结果	step122/123重跑	o
+121	测量	V	K	m	u	x	f	s	x	-	相同路径错误仍未运行原型测试；PATH写入	-	p
+122	测量	V	K	m	u	x	s	s	x	-	正确路径运行新radix，nominal/stress/ties均True；只确认局部测试覆盖	-	p
+123	profile	P	K	m	u	x	s	s	x	-	新直方图实际Torch profiler约21us慢于旧约14us，候选提议没有得到加速支持	-	p
+124	测量	K	M	e	i	u	s	vs	x	L2 flush的脏数据回写可能抬高整个kernel墙时	同Model清/不清缓存普通事件差约2us，只支持局部差异，未验证全部开销归因；PATH/sys.path写入	-	p
+125	测量	K	M	e	i	u	s	vs	x	最小图探针可估计本测量协议的小工作量开销	得到清缓存16.32/未清15.17us，不把单探针当所有kernel的绝对物理下界；图状态及PATH写入	-	p
+126	修改代码	O	K	e	i	u	s	vs	x	小K用寄存器局部选择再合并可减少CUB排序开销	写proto_small，沿用清counter同时递增epoch的坏graph wrapper；正式候选尚未改，局部方案收益未验证	step149再次识别同类错误	o
+127	测量	K	K	m	u	x	s	s	x	-	同一输入测试True及约27.86/21.73us，图merge未执行而输出来自warmup，不能作为完整重算时延	-	p
+128	profile	P	K	m	u	x	s	vs	x	-	实际Torch profiler约17.8/10.2us，但坏图漏merge，数字不是完整算法成本；PATH/sys.path写入	-	p
+129	测量	K	M	e	i	u	s	vs	x	阶段仪器化可定位小K插入与合并成本	clock64约35K/18K/6.8K周期，非硬件profile；路径状态写入，不能自动沿用坏图总耗时	-	p
+130	profile	P	K	e	i	y	s	vs	x	插入维护而非单纯读取造成小K phaseA主要开销	隔离Torch profiler read1.47us与read+insert10.93us，支持此探针中的插入成本差异	step131换寄存器bitonic	p
+131	修改代码	K	K	e	p	y	s	vs	x	寄存器bitonic可消除while插入维护成本	替换scratch局部选择并同输入测试True/计时约18.26/22.22us；局部机制有130支持，坏图总收益仍不能采信	-	o
+132	profile	P	K	m	u	x	s	vs	x	-	proto_small profiler约5/11.8us有返回，但同一坏epoch图未完整merge，保留不等工作边界	-	p
+133	测量	K	M	e	i	u	s	vs	x	新阶段clock可帮助确定phaseC剩余开销	回显2570/8272/6305等周期，不是NCU/torch profiler；未单独证实完整图计算	-	p
+134	修改代码	O	K	e	i	u	s	vs	x	寄存器维护head可减少共享访存与block同步	写proto_small2，仍复制坏epoch wrapper；只改scratch，不是正式候选，收益尚未有效验证	-	o
+135	测量	K	K	m	u	x	s	s	x	-	同输入返回True与约27.41/22.69us；残留warmup答案可通过该测试，不支持完整回放加速	-	p
+136	profile	P	K	m	u	x	s	vs	x	-	实际Torch profiler约15.5/11.3us，坏graph漏merge；PATH/sys.path写入	-	p
+137	修改代码	O	K	e	i	u	s	vs	x	动态寄存器索引可能spill使寄存器head方案慢	未见SASS或spill计数器，原因是先验猜测；写proto_cubm且再次沿用坏epoch图，不把spill归因记成已证	step160正确epoch重测	o
+138	测量	K	K	m	u	x	s	s	x	-	proto_cubm同输入检查True与约22.75/18.74/18.88us；坏图时延不代表完整merge	-	p
+139	profile	P	K	m	u	x	s	vs	x	-	实际Torch profiler约11.1/6.5/7.6us，但沿用坏图路径，不能认定完整CUB+warp merge成本	-	p
+140	修改代码	O	K	e	p	w	f	v	x	warp merge原型更快因而可移入正式候选	写正式候选工具因文件状态改变被拒，没有实际编辑；所据proto profile漏merge，不能支持胜出	step143才成功写	o
+141	探索代码	D	K	m	u	x	s	-	x	-	读取正式候选头部以恢复工具状态，只有动作说明；猜测linter改文件未证实，自有代码不算知识访问	-	o
+142	探索代码	D	K	m	u	x	s	-	x	-	短Read自有正式候选，无新机制分析或代码写入	-	o
+143	修改代码	O	K	i	p	w	s	cs	x	CUB phaseB配warp phaseC可降低完整topk成本	成功重写正式solution.py；正式_launch epoch0可计算完整merge，与坏原型不同；依据的加速数据不等工作，持久图/输出/扩展与runtime属性写入	step144 PASS、145正式测量	o
+144	测量	V	K	m	u	x	s	s	x	-	清构建缓存后正式check PASS，PATH修改；通过不意味着早先坏原型时延有效	-	p
+145	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0249/LOW，不能用原型漏算profile替代此正式返回	-	p
+146	测量	K	M	e	i	u	s	vs	x	图捕获或地址复用问题可能解释正式版与原型差距	回显graph存在且ptr匹配、墙时约42.34/23.2/35.28/24.99/22.93us；只缩小排查范围，PATH/sys.path写入	-	p
+147	测量	K	M	e	i	w	s	vs	x	同进程原型更快说明正式图仍有额外开销	proto17.6/formal39.92us工作量不同；再次使用漏merge基线，不能支持包装导致全部差距	step149再认epoch问题	p
+148	探索代码	D	M	m	u	x	f	vs	x	-	检查closure graph误取Tensor并调用upload，profile前即报attribute错误，无成功采样；PATH/sys.path写入	-	p
+149	profile	P	K	e	c	y	s	vst	x	复制的旧epoch wrapper跳过merge造成原型虚假加速	再次明确发现同类漏算，并实际profile正确formal约28.8/7.5/20.2/11.1/2.7us；未把原型True检查当有效重算证据	step150回退大K合并	p
+150	修改代码	O	K	e	p	y	u	vcs	x	正确formal profile显示大K合并应恢复CUB phaseC	提交正式替换脚本并转后台，当前调用超时但非已证失败；step151证实写入、152 PASS；正式属性设置等持久状态保留	step151–153确认落盘和结果	o
+151	探索代码	D	K	m	u	x	s	-	x	-	读取后台输出及grep dispatch，确认150修改已落盘；尚不是正确性PASS或新代码编辑	-	o
+152	测量	V	K	m	u	x	s	s	x	-	清构建缓存并PATH运行正式check PASS，验证回退版本的当前测试范围	-	p
+153	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0275/LOW；回退后的正式收益以此返回为准	-	p
+154	profile	P	P	e	i	w	c	vs	x	扫描P可优化phaseB与phaseC工作量平衡	实际Torch profiler返回时延但多配置BAD；固定IB/IC dispatch未随P扩容导致少读，错误配置时延不支持调参结论	step162定位容量不匹配	p
+155	修改代码	V	H	e	c	y	s	vcs	x	末block在kernel内清counter可移除graph中的独立zero节点	正式加counter自复位并check PASS；把154 BAD归为epoch探针问题的说法未采信，162另证容量错误；PATH及持久图状态	step159变化输入进一步检查	o
+156	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0278/LOW；只记本次正式返回，不推定大幅加速	-	p
+157	测量	K	H	e	i	y	s	vs	x	自定义__call__可减少nn.Module包装开销	module19.18/forward18.67/bare17.26us且确认自定义入口；有限干预支持局部host差异，PATH/sys.path写入	-	p
+158	修改代码	O	K	e	i	n	f	vs	x	uint64 reduce intrinsic可能减少值索引联合归约成本	scratch reduce_sync编译失败，没有新的正确性或性能支持；非正式候选修改	-	o
+159	测量	V	K	m	u	x	s	vs	x	-	对5形状各50次不同随机输入与ties的额外检查通过，较同输入warmup测试更强；仍是有限覆盖，PATH/sys.path/reference形状写入	-	p
+160	profile	P	K	e	c	y	s	vst	x	固定epoch0并清counter才能有效比较完整warp merge	正确重算probe检查OK，实际Torch profiler约20.1/11.1/28.7us；纠正早先坏图比较，PATH/sys.path写入	-	p
+161	profile	P	P	e	i	w	c	vs	x	正确counter协议下扫描P可比较不同分块配置	虽使用epoch0仍多项BAD；时延有返回但未匹配编译期容量，不作为错误配置的有效收益	step162明确原因	p
+162	修改代码	V	H	e	c	y	s	vcst	x	固定模板容量须匹配P且可移除已连续输入的contiguous包装	明确识别IB/IC硬编码造成154/161漏读，仅保留默认配置；正式删除x.contiguous后check PASS，未声称修好全扫描	step163正式测量	o
+163	测量	B	K	m	u	x	s	s	x	-	正式benchmark0.0284/LOW，保留原榜单success不重定义结果	-	p
+164	profile	P	K	e	c	y	s	vs	x	容量匹配下增加线程数未必降低CUB4096排序成本	明确承认256×8只覆盖2048；正确比较256×16/512×8/1024×4得到10.41/11.43/15.65us，不泛化为库全局最优	-	p
+165	修改代码	O	M	e	i	u	f	vs	x	直方图独立成本可能限制radix select收益	写hist-only探针但变量作用域编译失败；本步没有新profile支持根本下限判断	step166修编译	p
+166	profile	P	K	e	c	y	s	vs	x	共享与私有直方图隔离探针可比较原子累计成本	修作用域后实际Torch profiler约8.05/15.45us；支持该hist探针成本，不是完整topk正确性或全局最优证明	-	p
+167	探索代码	D	K	e	i	u	s	v	x	当前设计已接近可达性能上限	只读自有formal片段并继续理论估算；没有充分证据支持所有替代算法均不可能更快	-	o
+168	修改代码	V	K	e	c	y	s	vcs	x	删除未用runtime属性设置与整理命名可清理正式实现	正式删无用cudaFuncSetAttribute并改helper名，check PASS；不把清理等同算法加速，PATH修改	-	o
+169	测量	B	K	e	i	u	s	vs	x	现有方案已基本最优可停止继续调优	正式benchmark0.0279/LOW；有分数不证明最优性，最终尚有174重测	step174最终正式返回	p
+170	测量	K	H	e	i	y	s	vs	x	对当前正式实现graph比direct launch可降低墙时	匹配工作区/正确formal的普通事件比较约28.69vs37.47us等支持本地graph收益，不推出17us绝对硬下界；PATH/sys.path写入	-	p
+171	修改代码	O	M	e	i	u	f	vs	x	细分shape2阶段可检查是否还存在易优化成本	写clock64诊断，但共享scalar被写为s_last[0]导致编译失败，没有新增阶段profile；PATH写入	step172放弃该探针	p
+172	测量	V	K	e	i	u	s	vs	x	当前CUB排序已接近最优无需继续修改	实际清构建缓存并正式check PASS，framework为cuda_raw；失败诊断并未证实最优性，PATH写入	-	p
+173	测量	V	O	e	c	y	s	vs	x	匹配_dummy buffer可满足strict state_dict装载接口	本地Model与reference state_dict严格装载成功；仅导入reference不算重新读参考源码，PATH/sys.path写入	-	p
+174	测量	B	K	e	i	u	s	vs	x	测量固定开销限制本题可达peak_fraction	最终正式check PASS及benchmark0.0289/LOW；墙时30.4/22.304/30.560/22.112/21.552us，有限探针不证明其绝对下界解释	-	p
+175	探索代码	D	M	e	i	u	f	v	x	约17us开销使0.1阈值对所有实现均不可达	多种算法估算仍非穷尽证明；实际读memory目录失败，未新写记忆或取得测量	step176保存经验	a
+176	写报告	O	M	i	i	u	s	s	x	测量硬下界使所有kernel的几何均值被封顶约0.043	成功写持久memory；正文主动承认旧图stale-epoch漏merge，但把有限探针泛化为绝对floor/CUB最快仍未证实；有记忆写入不等于评估污染	-	a
+177	写报告	O	M	m	u	x	s	s	x	-	写MEMORY索引摘要，包含同一硬floor外推；无新实验，不能把跨会话保存当已观测后续复用	step176记忆正文	a
+178	写报告	O	M	e	i	u	s	v	x	16–17us是任何kernel均无法突破的计时下界	最终公开总结实质可见；PASS和0.0289是真实返回，绝对下界/全库最快/spill等解释证据不足，speedup表另有1.5×/2.5×不全是4–6×	-	a

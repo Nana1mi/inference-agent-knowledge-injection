@@ -1,0 +1,765 @@
+{
+  "session_id": "K13",
+  "method": "AI研究助理逐步阅读及静态控制流/容量/算术核验；未执行第三方代码或本地GPU",
+  "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+  "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+  "raw_sha256": "ab6d1e01d022212204b211817f1bf24dee0ee724396d3e50aaf5849b4f7e09f2",
+  "findings": [
+    {
+      "id": "stale_epoch_prototypes",
+      "steps": [
+        73,
+        78,
+        126,
+        134,
+        137
+      ],
+      "premises": [
+        "每行P个block各执行一次atomicAdd，counter从0开始时old仅取0至P−1。",
+        "host epoch从0逐次增加，三次warmup每次又清counter；第4次捕获的epoch为3。",
+        "捕获先将counter清0，kernel的merge条件要求old等于epoch×P+(P−1)=4P−1。",
+        "只有满足该条件的block写最终输出；epoch0的第一次warmup可写出当前同一输入的正确结果。"
+      ],
+      "deduction": "P为正时P−1<4P−1，故上述初次捕获/回放不执行merge。复用同一输入只验证残留warmup输出，不能证明重算或完整工作量加速。",
+      "payload_locators": {
+        "73": [
+          {
+            "input_field": "content",
+            "payload_line": 29
+          },
+          {
+            "input_field": "content",
+            "payload_line": 72
+          },
+          {
+            "input_field": "content",
+            "payload_line": 75
+          },
+          {
+            "input_field": "content",
+            "payload_line": 114
+          },
+          {
+            "input_field": "content",
+            "payload_line": 181
+          },
+          {
+            "input_field": "content",
+            "payload_line": 186
+          },
+          {
+            "input_field": "content",
+            "payload_line": 187
+          },
+          {
+            "input_field": "content",
+            "payload_line": 195
+          },
+          {
+            "input_field": "content",
+            "payload_line": 196
+          },
+          {
+            "input_field": "content",
+            "payload_line": 200
+          },
+          {
+            "input_field": "content",
+            "payload_line": 213
+          },
+          {
+            "input_field": "content",
+            "payload_line": 214
+          },
+          {
+            "input_field": "content",
+            "payload_line": 218
+          }
+        ],
+        "78": [
+          {
+            "input_field": "content",
+            "payload_line": 44
+          },
+          {
+            "input_field": "content",
+            "payload_line": 119
+          },
+          {
+            "input_field": "content",
+            "payload_line": 122
+          },
+          {
+            "input_field": "content",
+            "payload_line": 190
+          },
+          {
+            "input_field": "content",
+            "payload_line": 239
+          },
+          {
+            "input_field": "content",
+            "payload_line": 242
+          },
+          {
+            "input_field": "content",
+            "payload_line": 243
+          },
+          {
+            "input_field": "content",
+            "payload_line": 251
+          },
+          {
+            "input_field": "content",
+            "payload_line": 252
+          },
+          {
+            "input_field": "content",
+            "payload_line": 256
+          },
+          {
+            "input_field": "content",
+            "payload_line": 268
+          },
+          {
+            "input_field": "content",
+            "payload_line": 269
+          },
+          {
+            "input_field": "content",
+            "payload_line": 273
+          }
+        ],
+        "126": [
+          {
+            "input_field": "content",
+            "payload_line": 89
+          },
+          {
+            "input_field": "content",
+            "payload_line": 144
+          },
+          {
+            "input_field": "content",
+            "payload_line": 147
+          },
+          {
+            "input_field": "content",
+            "payload_line": 203
+          },
+          {
+            "input_field": "content",
+            "payload_line": 258
+          },
+          {
+            "input_field": "content",
+            "payload_line": 260
+          },
+          {
+            "input_field": "content",
+            "payload_line": 266
+          },
+          {
+            "input_field": "content",
+            "payload_line": 268
+          },
+          {
+            "input_field": "content",
+            "payload_line": 276
+          },
+          {
+            "input_field": "content",
+            "payload_line": 278
+          }
+        ],
+        "134": [
+          {
+            "input_field": "content",
+            "payload_line": 68
+          },
+          {
+            "input_field": "content",
+            "payload_line": 69
+          },
+          {
+            "input_field": "content",
+            "payload_line": 132
+          },
+          {
+            "input_field": "content",
+            "payload_line": 135
+          },
+          {
+            "input_field": "content",
+            "payload_line": 191
+          },
+          {
+            "input_field": "content",
+            "payload_line": 246
+          },
+          {
+            "input_field": "content",
+            "payload_line": 248
+          },
+          {
+            "input_field": "content",
+            "payload_line": 254
+          },
+          {
+            "input_field": "content",
+            "payload_line": 256
+          },
+          {
+            "input_field": "content",
+            "payload_line": 264
+          },
+          {
+            "input_field": "content",
+            "payload_line": 266
+          }
+        ],
+        "137": [
+          {
+            "input_field": "content",
+            "payload_line": 28
+          },
+          {
+            "input_field": "content",
+            "payload_line": 36
+          },
+          {
+            "input_field": "content",
+            "payload_line": 37
+          },
+          {
+            "input_field": "content",
+            "payload_line": 73
+          },
+          {
+            "input_field": "content",
+            "payload_line": 76
+          },
+          {
+            "input_field": "content",
+            "payload_line": 131
+          },
+          {
+            "input_field": "content",
+            "payload_line": 194
+          },
+          {
+            "input_field": "content",
+            "payload_line": 196
+          },
+          {
+            "input_field": "content",
+            "payload_line": 202
+          },
+          {
+            "input_field": "content",
+            "payload_line": 204
+          },
+          {
+            "input_field": "content",
+            "payload_line": 212
+          },
+          {
+            "input_field": "content",
+            "payload_line": 214
+          }
+        ]
+      },
+      "agent_corrections": [
+        112,
+        113,
+        149,
+        160,
+        176
+      ],
+      "limits": "这是所示wrapper首次capture的静态结论；不据此指控正式候选返回缓存答案或推断规避意图。"
+    },
+    {
+      "id": "formal_distinction",
+      "steps": [
+        85,
+        143,
+        155,
+        159,
+        174
+      ],
+      "deduction": "正式85/143的_launch显式传epoch0，先清counter后允许第P个block合并；155改为末block自复位并移除独立zero节点，159的不同随机输入和ties检查通过。正式最终174 PASS及0.0289/LOW与坏原型分开记录。",
+      "payload_locators": {
+        "85": [
+          {
+            "input_field": "content",
+            "payload_line": 331
+          },
+          {
+            "input_field": "content",
+            "payload_line": 343
+          }
+        ],
+        "143": [
+          {
+            "input_field": "content",
+            "payload_line": 513
+          },
+          {
+            "input_field": "content",
+            "payload_line": 525
+          }
+        ],
+        "155": [
+          {
+            "input_field": "command",
+            "payload_line": 15
+          },
+          {
+            "input_field": "command",
+            "payload_line": 32
+          },
+          {
+            "input_field": "command",
+            "payload_line": 56
+          },
+          {
+            "input_field": "command",
+            "payload_line": 65
+          },
+          {
+            "input_field": "command",
+            "payload_line": 72
+          }
+        ]
+      },
+      "limits": "额外有限测试不证明所有并发、输出别名、异常执行或布局协议；本审计没有GPU复现。"
+    },
+    {
+      "id": "cub_capacity_mislabels",
+      "steps": [
+        62,
+        63,
+        81,
+        82,
+        164
+      ],
+      "premises": [
+        "THREADS=256，读取循环只遍历ITEMS次，每次索引j×256+threadIdx.x。",
+        "M参数仅作idx<M的掩码，不能扩展256×ITEMS容量。",
+        "62的err仅检查thread0本线程排序结果，不核验整个名义M或全体topk。"
+      ],
+      "deduction": "名义M4096/ITEMS8至多读2048；M8192/ITEMS16至多读4096；M2048/ITEMS4至多读1024。相同名义M的时延比较混入实际工作量变化。164改为容量相等的256×16/512×8/1024×4比较。",
+      "payload_locators": {
+        "62": [
+          {
+            "input_field": "command",
+            "payload_line": 12
+          },
+          {
+            "input_field": "command",
+            "payload_line": 23
+          },
+          {
+            "input_field": "command",
+            "payload_line": 24
+          },
+          {
+            "input_field": "command",
+            "payload_line": 36
+          }
+        ],
+        "81": [
+          {
+            "input_field": "command",
+            "payload_line": 10
+          },
+          {
+            "input_field": "command",
+            "payload_line": 17
+          },
+          {
+            "input_field": "command",
+            "payload_line": 18
+          }
+        ]
+      },
+      "limits": "只排除超容量元组的完整工作量解释，不否定其他容量匹配探针的实际profiler返回。"
+    },
+    {
+      "id": "geomean_arithmetic",
+      "steps": [
+        75,
+        82,
+        84,
+        114
+      ],
+      "operands": [
+        0.0167,
+        0.049,
+        0.046,
+        0.024,
+        0.047
+      ],
+      "computed_geomean": 0.03354253614989866,
+      "deduction": "75声称约0.217，但这些数的几何均值约0.03354；114明确承认之前算术错误。即便纠正算术，旧图漏merge数据仍不能作为完整实现收益。",
+      "earlier_step63": {
+        "operands": [
+          0.007,
+          0.028,
+          0.028,
+          0.011,
+          0.028
+        ],
+        "computed_geomean": 0.017603254337234232,
+        "deduction": "63将40us估算方案几何均值误写为0.13，并据此认为超过0.1；这些操作数的实际几何均值约0.01760，不能支持其阈值结论。"
+      }
+    },
+    {
+      "id": "fixed_dispatch_tuning",
+      "steps": [
+        154,
+        155,
+        161,
+        162
+      ],
+      "deduction": "扫描只改变P而硬编码IB/IC模板未扩容，多配置BAD。155将BAD归因epoch的解释不足；161使用正确epoch仍BAD，162明确定位模板容量不匹配，只保留默认配置。"
+    },
+    {
+      "id": "overgeneralized_memory",
+      "steps": [
+        83,
+        125,
+        170,
+        174,
+        175,
+        176,
+        177,
+        178
+      ],
+      "deduction": "有限读/空图和当前正式候选的对比支持局部时延或graph收益；不能证明所有kernel的绝对16–17us硬下界、所有算法的0.043上限、所有可用库中CUB最快，或未取得spill指标的动态索引spill归因。176记忆确实承认坏原型，不抹去其主动纠错。"
+    }
+  ],
+  "supporting_steps": [
+    {
+      "step_id": 62,
+      "source_lines": [
+        207,
+        208,
+        209
+      ],
+      "review_input_sha256": "a9d733746e37dd021e6856be1ecc0cdf069ab8526bd8b41346e299ddff7f3c10"
+    },
+    {
+      "step_id": 63,
+      "source_lines": [
+        213,
+        214,
+        215
+      ],
+      "review_input_sha256": "4c650e9910eaaf55c919990820265017e0816007f517f0993016f04db2b48bdd"
+    },
+    {
+      "step_id": 68,
+      "source_lines": [
+        237,
+        238,
+        239
+      ],
+      "review_input_sha256": "37bc7c9d161991562010d0ec8ca8fd612bd93230a727376b6111eec5bc82231c"
+    },
+    {
+      "step_id": 69,
+      "source_lines": [
+        243,
+        244
+      ],
+      "review_input_sha256": "253065d84ebd324fd1ec8225085c148ce68c634f9034743d5b62262de7fcf10d"
+    },
+    {
+      "step_id": 70,
+      "source_lines": [
+        248,
+        249,
+        250
+      ],
+      "review_input_sha256": "a75dd96da4dc1e5c4e89961a296928af3d930fd1b81a15d6006ddadfa77e5a7b"
+    },
+    {
+      "step_id": 71,
+      "source_lines": [
+        254,
+        255,
+        256
+      ],
+      "review_input_sha256": "b2bc60e03774635c1c89e320b1e259aac54b0cc5afd42c5c9ed6a19e90d7f533"
+    },
+    {
+      "step_id": 72,
+      "source_lines": [
+        260,
+        261
+      ],
+      "review_input_sha256": "14721aa6a7e12189faa312b6d942f184208328114e948c4716856c54f009c689"
+    },
+    {
+      "step_id": 73,
+      "source_lines": [
+        265,
+        266,
+        267
+      ],
+      "review_input_sha256": "0d62e9e725113349f8d60dddefbbefd1bb17bcaee75a34d2c978f6674def1839"
+    },
+    {
+      "step_id": 74,
+      "source_lines": [
+        269
+      ],
+      "review_input_sha256": "d312ca85d3aea1c47b4cf48cd44619eb32034c80ea60e3d1b02c5696a63d13e3"
+    },
+    {
+      "step_id": 75,
+      "source_lines": [
+        273,
+        274,
+        275
+      ],
+      "review_input_sha256": "909ab8d5816b2551844cdcd80ee45d09b5aee7593a755fe15be9da4500db951e"
+    },
+    {
+      "step_id": 76,
+      "source_lines": [
+        279,
+        280,
+        281
+      ],
+      "review_input_sha256": "71a979e9e074b73366949e6a8fb5d0b92d6a34a03ddfdfb7184756437b2e5938"
+    },
+    {
+      "step_id": 78,
+      "source_lines": [
+        291,
+        292,
+        293
+      ],
+      "review_input_sha256": "f64f908664b0190bc2d8de413eeb4c71c87ee9483b08e4d92fbf9dc67edc97b8"
+    },
+    {
+      "step_id": 80,
+      "source_lines": [
+        299,
+        300,
+        301
+      ],
+      "review_input_sha256": "2b26c9e492be46b1e2f11cfb94da192e3ea5dc38abf0e3553f1f3b9bb1b8e049"
+    },
+    {
+      "step_id": 81,
+      "source_lines": [
+        305,
+        306,
+        307
+      ],
+      "review_input_sha256": "5782554037e9d8ee3fabcf269695aaf87a6838988a951030548cd94899c25aa1"
+    },
+    {
+      "step_id": 82,
+      "source_lines": [
+        311,
+        312,
+        313
+      ],
+      "review_input_sha256": "1aa263113156aa685d7c2d9380235502644410392d8d3c73b989ea3865d8162a"
+    },
+    {
+      "step_id": 85,
+      "source_lines": [
+        327
+      ],
+      "review_input_sha256": "59b4076e6d3aef154300a8a70583ef286b0775dcd9b35a3296632cd800b05b4c"
+    },
+    {
+      "step_id": 90,
+      "source_lines": [
+        340,
+        341
+      ],
+      "review_input_sha256": "5c59c926153aef5229084b09a7ccaf2290c95e8156d9c47b19262f6b48d7651b"
+    },
+    {
+      "step_id": 91,
+      "source_lines": [
+        345,
+        346,
+        347
+      ],
+      "review_input_sha256": "f441100824d949290121182b9ba6c29399290beea75e7db63e04274a90ea578d"
+    },
+    {
+      "step_id": 112,
+      "source_lines": [
+        429,
+        430,
+        431
+      ],
+      "review_input_sha256": "972609163010c6270e0c189ce353973aabcb22d15c94d1d5516f62dc208c48c5"
+    },
+    {
+      "step_id": 113,
+      "source_lines": [
+        433,
+        434,
+        435
+      ],
+      "review_input_sha256": "2459ee23caaf23cdaf694f8f0c32c799085042809113e9622cf3023d9e1d1de6"
+    },
+    {
+      "step_id": 114,
+      "source_lines": [
+        439,
+        440,
+        441
+      ],
+      "review_input_sha256": "ede52b588e23f1f0dc2efeaf6112b14aaf8ee01642bb27ead9dc649958ce28ff"
+    },
+    {
+      "step_id": 126,
+      "source_lines": [
+        492,
+        493,
+        494
+      ],
+      "review_input_sha256": "9df765e08491e685226659f04bc22c2153fa1fc377d06a53979bbbfb5c3fe26b"
+    },
+    {
+      "step_id": 134,
+      "source_lines": [
+        535,
+        536,
+        537
+      ],
+      "review_input_sha256": "d817516a2fdc3e4fca83fdd00558f196bb8440b3ab7cebb48cf38ceff060ab5f"
+    },
+    {
+      "step_id": 137,
+      "source_lines": [
+        548,
+        549,
+        550
+      ],
+      "review_input_sha256": "89d2ba12f189606bd72c91f3be466beb493e4a29bb565029d5ac7923b57ac765"
+    },
+    {
+      "step_id": 140,
+      "source_lines": [
+        561,
+        562,
+        563
+      ],
+      "review_input_sha256": "995d6eed9d1ce48930f41a0f792eba765d3831313cbaf77029a82ecbc4d6e8fc"
+    },
+    {
+      "step_id": 143,
+      "source_lines": [
+        571
+      ],
+      "review_input_sha256": "6761e9da88890cdd52ec72ae7b60e209032a7caac5f2dded4fa8d52f0a8a82e8"
+    },
+    {
+      "step_id": 149,
+      "source_lines": [
+        591,
+        592,
+        593
+      ],
+      "review_input_sha256": "6c2767fa607e8f9e8c4a127fa52a8cec9b34cb8b03859c029f287e732f0e88b1"
+    },
+    {
+      "step_id": 154,
+      "source_lines": [
+        613,
+        614,
+        615
+      ],
+      "review_input_sha256": "1d4b79ab246ce1dce3c82824f4f61d686ca433ea2c669b7f88e618cfcdb84814"
+    },
+    {
+      "step_id": 155,
+      "source_lines": [
+        619,
+        620,
+        621
+      ],
+      "review_input_sha256": "dedec81f8f7a6acd4102a156bc753e7824b1fd2b83e03120597c7810e7692b7e"
+    },
+    {
+      "step_id": 159,
+      "source_lines": [
+        636,
+        637,
+        638
+      ],
+      "review_input_sha256": "e4f7f323906d33d4ae2a8e8a75f39234eb68637f098dc2ab6f0c32975fa5a0a3"
+    },
+    {
+      "step_id": 160,
+      "source_lines": [
+        642,
+        643,
+        644
+      ],
+      "review_input_sha256": "2dcaa9d6df08601683bf2c65ef39064c546250df279a027356a6e2c1112018c3"
+    },
+    {
+      "step_id": 161,
+      "source_lines": [
+        648,
+        649,
+        650
+      ],
+      "review_input_sha256": "4de8f1df22f422aaaf6c3c0bf40ed1b19097a8dcaa073f4ba3a6d651a82190ed"
+    },
+    {
+      "step_id": 162,
+      "source_lines": [
+        654,
+        655,
+        656
+      ],
+      "review_input_sha256": "73a3f874fc20c47e1d1a56222ed8b769db7426d33febd3e79b3684d9db5d625e"
+    },
+    {
+      "step_id": 164,
+      "source_lines": [
+        663,
+        664,
+        665
+      ],
+      "review_input_sha256": "b80b7377fdddcd1ac4fe390ae762ce7cbae493e67b07780a36565a3a50fe07de"
+    },
+    {
+      "step_id": 174,
+      "source_lines": [
+        712,
+        713,
+        714
+      ],
+      "review_input_sha256": "785d5cd34ae36824367764ac6907cff173a148a94d879a6151beaa52c105b39a"
+    },
+    {
+      "step_id": 176,
+      "source_lines": [
+        722
+      ],
+      "review_input_sha256": "ad1b34b43f425e18e27e8083baca0e67fad1bda58f58f5c797a787eb43bf1558"
+    },
+    {
+      "step_id": 178,
+      "source_lines": [
+        726,
+        727
+      ],
+      "review_input_sha256": "b7c92b5b4fee5fa6fee42e1cfb9ba58f4d322b35672fe1438dc4fe135e855f00"
+    }
+  ]
+}
