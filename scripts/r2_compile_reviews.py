@@ -42,7 +42,7 @@ def compile_session(session,allow_partial=False):
             'raw_file':session['raw_file'],'source_locator':'L'+str(g['source_lines'][0])+'–L'+str(g['source_lines'][-1]),
             'source_url':'https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/'+session['raw_file'].split('/')[3]+'/'+session['selection']['file'],
             'source_line':g['source_lines'][0],'result_line':next((x['result']['line'] for x in g['calls'] if x.get('result')),None),
-            'candidate_edit':'c' in flags,'phase':PH[phase],'tool':TOOL[tool],'layer':LAYER[layer],
+            'candidate_edit':'c' in flags,'phase':PH.get(phase,phase),'tool':TOOL[tool],'layer':LAYER[layer],
             'hypothesis':hyp,'hypothesis_origin':ORIGIN[origin],'evidence':EVIDENCE[evidence],'outcome':OUTCOME[outcome],
             'turning_point':'t' in flags,'component':COMPONENT[component],'annotation_method':'研究助理逐项复核',
             'annotation_rationale':rationale,'duration_seconds':None,'reasoning_visible':'v' in flags,
@@ -53,6 +53,7 @@ def compile_session(session,allow_partial=False):
             'review_pass':'first','knowledge_followup_locator':None if followup=='-' else followup,
             'reasoning_visibility_note':'导出中有可读实质分析或公开理由；不保证内部推理完整' if 'v' in flags else '本步未见实质推理；动作播报、短标题或工具参数不计',
         }
+        if r['phase'] not in PH.values():raise ValueError(f'unknown phase {sid}:{i} {phase}')
         rows.append(r)
     if not allow_partial and set(stepmap)!=seen:raise ValueError(f'{sid} unreviewed steps {sorted(set(stepmap)-seen)}')
     return sorted(rows,key=lambda r:r['step_id'])

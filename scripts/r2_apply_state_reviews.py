@@ -22,7 +22,19 @@ def main():
     dump(DERIVED/'r2_state_tamper_reviewed.json',scan)
     exported=[{k:v for k,v in h.items() if k not in ('line','context_before','context_after')} for h in hits.values() if h['review'] is not None]
     (ROOT/'data/annotations/r2_state_tamper.jsonl').write_text(''.join(json.dumps(h,ensure_ascii=False)+'\n' for h in exported),encoding='utf-8')
-    dump(DERIVED/'r2_state_review_coverage.json',{'review_status':scan['review_status'],'counts':scan['review_counts'],'required_hits':len(hits),'reviewed_hits':len(seen),'physical_files':len(scan['coverage'])})
+    rule_coverage=[]
+    for rule in scan['rules']:
+        subset=[h for h in hits.values() if h['rule']==rule]
+        rule_coverage.append({'rule':rule,'required_hits':len(subset),
+                              'reviewed_hits':sum(h['review'] is not None for h in subset),
+                              'counts':dict(Counter(h['review'] or '待复核' for h in subset))})
+    position=lambda h:(h['raw_file'],h['source_locator'],h['payload_line'])
+    dump(DERIVED/'r2_state_review_coverage.json',{'review_status':scan['review_status'],'counts':scan['review_counts'],
+         'required_hits':len(hits),'reviewed_hits':len(seen),'physical_files':len(scan['coverage']),
+         'unique_payload_positions':len({position(h) for h in hits.values()}),
+         'positions_with_any_manual_judgement':len({position(h) for h in hits.values() if h['review'] is not None}),
+         'rule_coverage':rule_coverage,
+         'unit_note':'one hit per file/payload/line/rule; multiple rules may match one position; no new occurrence receives a default verdict'})
     print('state review',len(seen),'/',len(hits),scan['review_counts'])
 
 if __name__=='__main__':main()

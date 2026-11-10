@@ -592,7 +592,8 @@
       "evidence": [
         "trajectory.json#/success",
         "trajectory.json#/agent_steps/16/tool_calls/0/arguments/new_str",
-        "trajectory.json#/agent_steps/17/tool_results/0/result"
+        "trajectory.json#/agent_steps/17/tool_results/0/result",
+        "trajectory.json#/agent_steps/16/tool_results/0/success"
       ]
     },
     {
@@ -607,7 +608,9 @@
         "trajectory.json#/success",
         "trajectory.json#/agent_steps/11/tool_calls/0/arguments/new_str",
         "trajectory.json#/agent_steps/13/tool_calls/0/arguments/new_str",
-        "trajectory.json#/agent_steps/14/tool_results/0/result"
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/11/tool_results/0/success",
+        "trajectory.json#/agent_steps/13/tool_results/0/success"
       ]
     },
     {
@@ -621,7 +624,8 @@
         "trajectory.json#/success",
         "trajectory.json#/agent_steps/33/tool_results/0/result",
         "trajectory.json#/agent_steps/45/tool_calls/0/arguments/file_text",
-        "trajectory.json#/agent_steps/46/tool_results/0/result"
+        "trajectory.json#/agent_steps/46/tool_results/0/result",
+        "trajectory.json#/agent_steps/45/tool_results/0/success"
       ]
     },
     {
@@ -632,6 +636,226 @@
       "evidence": [
         "trajectory.json#/agent_steps/20/tool_results/0/result",
         "trajectory.json#/agent_steps/25/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 50,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "测到tokenizer规范化和自写PyTorch采样循环；完整脚本用默认创建的CPU张量而未迁移CUDA，条件synchronize不能把这些计算变成GPU工作。trajectory.success=false与summary冲突。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/14/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/35/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 52,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "实际秒数来自独立pickle/bytearray/memoryview序列化回环；最后运行脚本不导入torch，无CUDA操作或GPU测量，不能把仓库优化目标当执行设备。",
+      "evidence": [
+        "trajectory.json#/agent_steps/7/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/22/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 54,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "工具尝试创建allocator脚本失败于文件已存在，后续一次替换也失败；已有脚本返回Duration/cache hit但没有GPU设备或完成计时证据，不能用未落地的输入替代实际文件或补成GPU。",
+      "evidence": [
+        "trajectory.json#/agent_steps/30/tool_results/0/success",
+        "trajectory.json#/agent_steps/38/tool_results/0/success",
+        "trajectory.json#/agent_steps/40/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 57,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "最后脚本bench_alloc默认device=cpu，工具返回两dtype的allocation秒数；trajectory.success=false与summary冲突，没有GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/36/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/37/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 60,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "实际两次返回CUDA不可用且non_blocking copy跳过；其余pinned/like计时均回退CPU，synchronize源码存在不能证明GPU执行；trajectory.success=false。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/22/tool_results/0/result",
+        "trajectory.json#/agent_steps/32/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 62,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "多次Duration/Free blocks与profile_test平均秒数仅说明allocator循环已运行，未注明GPU完成工作；缺vllm._C且trajectory.success=false与summary冲突，不把名为profile的脚本当GPU profiler证据。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/22/tool_results/0/result",
+        "trajectory.json#/agent_steps/58/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 68,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "实际test_opt返回CUDA不可用并跳过，设备探测False/0；后续只有语法检查和自写改动总结，不能把文档中的GPU优化收益估算算实测。",
+      "evidence": [
+        "trajectory.json#/agent_steps/5/tool_results/0/result",
+        "trajectory.json#/agent_steps/6/tool_results/0/result",
+        "trajectory.json#/agent_steps/113/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 69,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "依赖探测缺libcuda.so.1，真正运行测试明确CUDA不可用并跳过；有同步的CUDA脚本只是未执行的分支，trajectory.success=false与summary冲突。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/38/tool_results/0/result",
+        "trajectory.json#/agent_steps/49/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 72,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "部分导入stub替换失败，但随后小范围Device枚举与包路径替换成功；Device.GPU仍只是元数据枚举名，实际返回allocator的Duration/cache hit，没有GPU工作完成计时证据。",
+      "evidence": [
+        "trajectory.json#/agent_steps/27/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/39/tool_results/0/result",
+        "trajectory.json#/agent_steps/54/tool_results/0/result",
+        "trajectory.json#/agent_steps/27/tool_results/0/success",
+        "trajectory.json#/agent_steps/30/tool_results/0/success"
+      ]
+    },
+    {
+      "order": 74,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "实际为未安装pre-commit时模拟配置检查和YAML分析，20–40%等为Expected估算，非实测GPU收益；trajectory.success=false与summary冲突。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/15/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 75,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "完整测试脚本只做默认CPU的零大小分配与Python列表建张量，没有CUDA张量/调用；导出的多组秒数不能当GPU时间，trajectory.success=false。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/22/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 80,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "模型名用于AutoTokenizer而非LLM前向，脚本只测token-ID列表的detokenize_incrementally字符串处理；吞吐是该CPU循环次数，非GPU推理；trajectory.success=false。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/26/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 81,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "导出仅allocator循环的Duration和缺vllm._C提示，没有GPU完成证据；引入sys.modules导入stub并不证明执行设备，trajectory.success=false与summary冲突。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/20/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/28/tool_results/0/result",
+        "trajectory.json#/agent_steps/38/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 132,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "输入里含条件CUDA/CPU微基准，但该create因文件已存在失败；实际返回all_close/requantize/alloc秒数未注明设备，也未完整核定已有脚本内容，不能把失败创建的CUDA源码当GPU执行。",
+      "evidence": [
+        "trajectory.json#/agent_steps/7/tool_results/0/success",
+        "trajectory.json#/agent_steps/9/tool_results/0/result",
+        "trajectory.json#/agent_steps/19/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 135,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "成功创建的重试脚本和实际返回明确Device: cpu；cumsum/pad的两组秒数是CPU测量，trajectory.success=false与summary冲突。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/61/tool_results/0/success",
+        "trajectory.json#/agent_steps/62/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 156,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "有效脚本版本的run_once默认device=cpu并以默认参数调用，且显式对CPU环境关闭pinned memory、stub掉Triton采样；后一次整段替换失败不改变此前CPU版本。avg_s结果不是GPU测量，trajectory.success=false。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/32/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/32/tool_results/0/success",
+        "trajectory.json#/agent_steps/34/tool_results/0/success",
+        "trajectory.json#/agent_steps/37/tool_results/0/result",
+        "trajectory.json#/agent_steps/46/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 164,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "FlashAttention内存分配脚本实际打印Device: cpu，所得zeros/empty毫秒数不是GPU；trajectory.success=false与summary冲突。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/8/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 182,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "原始分配、优化后分配和comparison三次输出均明确Device: cpu；gpu_model_runner目标文件名不能改变实际执行设备，trajectory.success=false。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/31/tool_results/0/result",
+        "trajectory.json#/agent_steps/56/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 194,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "真正CUDA微基准明确跳过，另一次可用性查询False；后续数字来自list/默认CPU tensor独立测试，不是GPU测量；trajectory.success=false。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/11/tool_results/0/result",
+        "trajectory.json#/agent_steps/12/tool_results/0/result",
+        "trajectory.json#/agent_steps/44/tool_results/0/result"
       ]
     }
   ]

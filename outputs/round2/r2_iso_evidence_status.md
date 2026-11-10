@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前60个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
+[实验] 目前79个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
 
 ## 已复核的三个关键区别
 
@@ -21,6 +21,8 @@
 [实验] 三例的原始导出分别为[候选84](https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/trajectory.json)、[候选392](https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json)、[候选623](https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json)。上述step从1开始，JSON指针的agent_steps索引从0开始；全部精确指针和SHA256保存在资格复核及运行索引。
 
 [论文] PyTorch官方CUDA说明指出设备执行通常异步，未经同步的主机时间可能不准确；文档展示CUDA事件及等待完成的计时方式。这里用它解释计时语义，不声称已核实每份ISO环境的PyTorch版本：[CUDA说明的Asynchronous execution](https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/cuda.rst)。冻结原文与中文笔记见[API证据笔记](../../data/extractions/r2_state_docs_notes.json)。
+
+[实验] 本次额外检查了源码写入反馈：候选132的创建因文件已存在失败，候选54的创建/部分替换也失败。这些输入代码不能当作实际测试脚本；其原始秒数没有充分设备证据，继续保留unknown。检查程序`scripts/r2_iso_numeric_view.py`同时展示输入定位及对应工具的成功/错误返回；缺失反馈不推定成功。
 
 ## 接下来的核验
 

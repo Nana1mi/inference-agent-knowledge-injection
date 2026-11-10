@@ -38,6 +38,7 @@ def main():
         sid=r['session_id']
         if sid not in stepcache:stepcache[sid]={s['step_id']:s for s in map(json.loads,(ROOT/sessions[sid]['step_file']).read_text(encoding='utf-8').splitlines())}
         g=stepcache[sid][r['step_id']]
+        if r['phase']=='写报告' and g['calls'] and all(c['name']=='TaskOutput' for c in g['calls']):errors.append('report phase on wait-only tools '+str(key))
         digest=hashlib.sha256(json.dumps(g,ensure_ascii=False,sort_keys=True).encode()).hexdigest()
         if digest!=r['review_input_sha256']:errors.append('stale review input '+str(key))
         if r['source_lines']!=g['source_lines']:errors.append('review locator '+str(key))
