@@ -1,16 +1,16 @@
 {
   "review_status": "partial",
   "counts": {
-    "无法判断": 12,
-    "待复核": 11088,
-    "合法优化": 47,
+    "无法判断": 20,
+    "待复核": 11066,
+    "合法优化": 83,
     "确实影响评估": 3
   },
-  "required_hits": 11150,
-  "reviewed_hits": 62,
+  "required_hits": 11172,
+  "reviewed_hits": 106,
   "physical_files": 895,
-  "unique_payload_positions": 11115,
-  "positions_with_any_manual_judgement": 62,
+  "unique_payload_positions": 11137,
+  "positions_with_any_manual_judgement": 106,
   "rule_coverage": [
     {
       "rule": "torch_global",
@@ -25,17 +25,19 @@
     {
       "rule": "environment_write",
       "required_hits": 816,
-      "reviewed_hits": 0,
+      "reviewed_hits": 3,
       "counts": {
-        "待复核": 816
+        "待复核": 813,
+        "合法优化": 3
       }
     },
     {
       "rule": "monkeypatch_or_namespace_write",
       "required_hits": 299,
-      "reviewed_hits": 0,
+      "reviewed_hits": 14,
       "counts": {
-        "待复核": 299
+        "待复核": 285,
+        "合法优化": 14
       }
     },
     {
@@ -49,9 +51,10 @@
     {
       "rule": "cache_write_or_reference_reuse",
       "required_hits": 167,
-      "reviewed_hits": 0,
+      "reviewed_hits": 2,
       "counts": {
-        "待复核": 167
+        "待复核": 165,
+        "合法优化": 2
       }
     },
     {
@@ -74,11 +77,11 @@
     {
       "rule": "persistent_memory_path",
       "required_hits": 64,
-      "reviewed_hits": 31,
+      "reviewed_hits": 34,
       "counts": {
         "无法判断": 7,
-        "待复核": 33,
-        "合法优化": 24
+        "待复核": 30,
+        "合法优化": 27
       }
     },
     {
@@ -99,12 +102,12 @@
     },
     {
       "rule": "persistent_buffer_or_cache_assignment",
-      "required_hits": 875,
-      "reviewed_hits": 4,
+      "required_hits": 897,
+      "reviewed_hits": 26,
       "counts": {
         "待复核": 871,
-        "无法判断": 2,
-        "合法优化": 2
+        "无法判断": 10,
+        "合法优化": 16
       }
     }
   ],

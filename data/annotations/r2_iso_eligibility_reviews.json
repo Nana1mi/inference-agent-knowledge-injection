@@ -857,6 +857,75 @@
         "trajectory.json#/agent_steps/12/tool_results/0/result",
         "trajectory.json#/agent_steps/44/tool_results/0/result"
       ]
+    },
+    {
+      "order": 86,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "trajectory.success=false；已落地脚本只给BlockAllocator/BlockSpaceManager元数据操作计时，Device.GPU枚举和gpu_allocator名称不证明执行CUDA或测得GPU时延；保留设备不可判定。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/10/tool_results/0/success",
+        "trajectory.json#/agent_steps/23/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/23/tool_results/0/success",
+        "trajectory.json#/agent_steps/24/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 90,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "实际Read的已存在脚本按cuda.is_available条件选择CUDA或CPU，且GPU分支有计时前后同步；三组time_s没有打印实际device，不能从GPU可运行源码或时延量级推出此次用了GPU。最初create源码与后续Read不同，采用Read时实际版本判断，不假定初稿仍执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/8/tool_results/0/result",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/15/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 93,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false与summary冲突；最初create失败、后次create及stub修改成功，实际计时函数明确device=cpu并将其传入对象，后续微基准字典是CPU耗时。CUDA/pynvml导入警告不是GPU执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/10/tool_results/0/success",
+        "trajectory.json#/agent_steps/14/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/14/tool_results/0/success",
+        "trajectory.json#/agent_steps/15/tool_results/0/result",
+        "trajectory.json#/agent_steps/31/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 96,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "实际Read的MLP脚本创建默认CPU输入与模块，导入失败则回退普通TorchMLP，未把输入/模型迁移CUDA；cuda.is_available后的同步不把CPU计算变成GPU测量。两次MLP avg/iter不能证明vLLM目标模型在GPU上加速。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/47/tool_results/0/result",
+        "trajectory.json#/agent_steps/48/tool_results/0/result",
+        "trajectory.json#/agent_steps/49/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 99,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false；请求构建脚本初次create失败后成功，随后成功替换为纯re正则循环对照，实际两组baseline_s/optimized_s为Python字符串匹配计时，无GPU执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/12/tool_results/0/success",
+        "trajectory.json#/agent_steps/15/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/15/tool_results/0/success",
+        "trajectory.json#/agent_steps/16/tool_results/0/result",
+        "trajectory.json#/agent_steps/50/tool_results/0/result"
+      ]
     }
   ]
 }

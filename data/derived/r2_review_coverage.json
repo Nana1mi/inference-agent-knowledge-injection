@@ -34,8 +34,8 @@
     {
       "session_id": "K06",
       "required": 192,
-      "reviewed": 0,
-      "complete": false
+      "reviewed": 192,
+      "complete": true
     },
     {
       "session_id": "K07",

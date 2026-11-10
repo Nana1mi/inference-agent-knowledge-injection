@@ -1,0 +1,193 @@
+# step	phase	tool	layer	origin	source	evidence	outcome	flags	use	hypothesis	rationale	followup	component
+1	探索代码	D	Q	m	u	x	u	k	a	-	列目录/设备并读reference的W4打包、scale/zero与接口；只是任务和动作介绍，不算实质推理，后续step12按该协议自写候选	step12 L69–L71的Model缓冲/接口与融合解包实现	o
+2	探索代码	D	M	m	u	x	u	-	x	-	实际读取benchmark和check规则，未读外部实现或做性能测量	-	p
+3	探索代码	D	Q	m	u	x	u	k	n	-	读取形状、SOTA入口、任务说明；复核全192步未见调用或改写SOTA实现，泛称Marlin式重排不够证明采用入口代码	step26–60自写Triton、83–114自写CUDA，192最终说明无SOTA实现调用；未见使用不等于无认知影响	o
+4	环境准备	O	Q	e	r	u	s	v	x	decode主要受权重读取、较大M还可能受解量化与GEMM计算限制	据参考格式/任务形状讨论实现路线后探测依赖与设备；Triton较务实是选手判断，硬件/理论值不是profiler数据	-	m
+5	探索代码	D	M	m	u	x	u	-	x	-	查找eval与硬件模块路径，未采样或形成新机制证据	-	p
+6	探索代码	D	M	m	u	x	u	-	x	-	读取计时、roofline与硬件表，建立L2清空/得分口径；读取不是profile	-	p
+7	探索代码	D	Q	e	c	u	u	v	x	较大M可能计算受限，虽然所有形状均按带宽得分	按硬件表200TFLOPS与源码公式推导后读正确性/压力测试；没有校准真实吞吐，不能把广告表值当已测绝对上限	-	m
+8	提出假设	O	M	e	c	u	s	v	x	按200TFLOPS和1.8TB/s的假设，计算屋顶可能限制跨形状几何均值	实际只在CPU计算理论预算并输出0.6798上限，没有执行GPU或profiler；所谓absolute ceiling未实测	-	m
+9	其他	O	F	e	c	u	u	v	x	小M可用专用GEMV减少填充到MMA最小tile的浪费	创建融合GEMM和专用decode任务；把理论估算称已确认不构成实测支持，方向仍需测试	-	m
+10	其他	O	K	i	i	n	u	-	x	调整tiling和split-K可能提高M256吞吐	只创建调参与profile任务，机制来自工具参数；本步没有可见实质分析或采样	-	m
+11	其他	O	U	m	u	x	u	-	x	-	把首版实现任务置为进行中，只有动作播报	-	s
+12	修改代码	O	F	i	r	u	u	c	x	融合解包、bf16反量化与GEMM可避免完整反量化中间权重	实际创建solution，保留reference权重缓冲协议并自写Triton；无跨调用结果缓存，本步未测正确性或性能	-	o
+13	测量	V	K	e	c	u	f	v	x	候选的固定M和输入接口需与逐形状实例化匹配	讨论接口但实际check先失败于next_pow2属性不存在，尚不能确认后续kernel或形状逻辑	-	o
+14	探索代码	O	K	e	c	y	s	v	x	当前Triton暴露的helper名称可能是next_power_of_2而非next_pow2	运行dir查询确认可用名称；运行时属性查询不是读取外部文档，也不是性能profile	-	o
+15	修改代码	O	K	i	c	y	u	c	x	改为实际存在的helper可修复候选初始化失败	实际替换solution中的tile计算调用，尚未再检查	-	o
+16	测量	V	Q	m	u	x	s	-	x	-	正式check返回PASS，未从正确性成功推断性能已达标	-	o
+17	测量	K	Q	m	u	x	s	-	x	-	正式benchmark建立0.1382/OK基线；这是普通计时，不是profiler采样	-	p
+18	测量	V	K	e	i	u	u	v	x	bf16原子加若可用可能让split-K GEMV免去独立归约launch	尝试独立原子正确性探针，只有后台句柄；bf16支持及单launch方案尚未验证，未改变官方计时器	-	o
+19	等待	O	U	m	u	x	u	-	x	-	轮询原原子探针日志仍无输出，未开始新性能试验	-	p
+20	等待	O	K	m	u	x	f	-	x	-	读到原探针因Python-c内定义jit而失败；没有得到原子支持与否的有效结果	-	p
+21	测量	V	K	e	c	y	f	v	x	把jit定义放进实际文件可消除前次定义来源错误	创建scratch探针并运行，但新的编译错误仍在；不能把它自动等同硬件不支持原子加	-	o
+22	测量	V	K	m	u	x	f	-	x	-	重复运行并过滤输出，三种dtype均编译失败；只有错误现象，未定位支持能力	-	o
+23	测量	V	K	m	u	x	f	-	x	-	再跑以筛详细错误，仍是编译失败摘要，无新的因果机制或性能数据	-	o
+24	测量	V	K	m	u	x	f	-	x	-	另写带mask探针以显示完整栈，实际暴露pointer不能当浮点值；未改正式候选	-	o
+25	测量	V	K	e	c	y	s	vt	x	atomic_add第二参数需加载实际值而非传另一个指针	明确修正误用后独立测试三dtype均输出0.5；推翻由编译错误泛化支持能力的方向，未把探针当性能收益	-	o
+26	修改代码	O	K	e	i	u	u	vc	x	split-K专用GEMV加bf16原子可用单kernel减少decode开销	从原子支持推演吞吐并重写正式候选；支持能力已测但竞争与舍入误差未测，不能预认性能或正确性	-	o
+27	测量	V	Q	m	u	x	c	-	x	-	正式check在shape0 large_activation容差失败；保留失败数值，不把原因等同原子不支持	-	o
+28	修改代码	O	K	e	c	y	u	vc	x	bf16中间部分和舍入会在大激活抵消处放大误差，改fp32部分和再统一cast	依据check失败与候选代码修正归约，解释尚需新check；原子路径被替换而非修改参考容差	-	o
+29	修改代码	O	H	i	i	u	u	cs	x	复用按形状分配的fp32部分和缓冲可减少每次分配	实际新增_Scratch及Model持有缓存；这是工作区缓存而非缓存答案，仍标跨调用状态待R5检查	-	o
+30	测量	V	Q	m	u	x	u	-	x	-	启动正式check仅获后台句柄，尚未得到正确性结论	-	o
+31	等待	V	Q	m	u	x	s	-	x	-	轮询已启动check得到PASS，未开展新测量	-	o
+32	测量	K	Q	m	u	x	s	-	x	-	新候选正式benchmark为0.1645/OK；普通性能计时不是profile	-	p
+33	profile	P	K	e	i	y	s	vs	x	decode耗时可能来自GEMV本身或launch与归约开销	结合分形状时延提出区分并首次实际torch.profiler；候选首次写入在step12，profile明显在后；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	p
+34	测量	K	K	e	p	y	s	v	x	profiler显示GEMV占主要GPU时间，需用纯拷贝探针区分访存上限与计算开销	将归约约1.4us与GEMV约44.85us分开，运行copy探针；探针未清L2，3620GB/s不能直接当DRAM上限	-	m
+35	测量	K	M	e	c	y	s	vt	x	此前copy探针重复命中L2，和正式清L2测量不可直接比较	明确发现探针计时协议差异并加入128MB清空；新读字节口径输出743/846GB/s，不自动等同总流量带宽	-	p
+36	测量	K	K	e	i	u	s	v	x	GEMV可能因大tile归约的寄存器或计算压力而未充分利用访存	修正copy读写双倍流量口径后扫GEMV配置；寄存器溢出是推测，尚无硬件计数器支持，扫描只支持配置时延差异	-	o
+37	测量	K	K	e	i	n	f	v	x	填充M到16的tensor-core split-K可能优于标量归约	实际新建并运行dot扫参但所有配置报错，best为None；未获得可比较性能，也未证实tl.sum寄存器溢出	-	o
+38	修改代码	O	K	e	c	y	u	v	x	混乱的partial输出地址可能使dot扫参所有配置失败	重写scratch地址和错误展示并启动测试，只得后台句柄；不把怀疑的store当已证实根因	-	o
+39	等待	O	U	m	u	x	u	-	x	-	等待dot扫参输出的轮询命令超时，未推出kernel测量时延	-	p
+40	等待	O	K	m	u	x	f	-	x	-	读取dot扫参发现两形状均有编译错误，未得到BEST有效数值	-	o
+41	探索代码	O	K	e	c	u	f	v	x	报错可能位于zeros或load附近，需展开完整编译诊断	实际grep仍只有at13:4摘要，不能由猜测定位根因	-	o
+42	测量	V	K	m	u	x	f	-	x	-	创建独立dot复现程序后错误指向static_range动态边界，尚未修复或得到性能结果	-	o
+43	修改代码	O	K	e	c	y	u	v	x	运行时K导出的ngl不能充当static_range编译期整数边界	据明确异常及已有动态循环实现替换为range；实际scratch修复启动编译，非正式候选修改	-	o
+44	等待	V	K	m	u	x	s	-	x	-	轮询独立复现返回OK，说明编译恢复而非正式正确性或性能达标	-	o
+45	测量	K	K	m	u	x	s	-	x	-	修复后的dot扫参得到879/572GB/s配置最佳值，未改正式候选	-	o
+46	测量	K	K	e	i	u	s	v	x	同布局去掉反量化的最小归约可区分反量化成本与归约访问结构限制	实际运行隔离探针得到904/390GB/s；支持该探针的性能现象，未单独证实唯一微架构根因	-	m
+47	测量	K	K	e	i	y	s	v	x	把权重转为N乘Khalf布局可使每输出权重连续并改善归约	根据去反量化探针提出布局试验并得到1088/672GB/s；称瓶颈不是反量化过于绝对，保留为模型解释	-	m
+48	环境准备	O	M	e	i	u	s	v	x	剩余带宽差距可能与占用率有关，需硬件计数器区分	实际只检查ncu/nsys/nvcc存在与版本，没有在本步运行采样，未将安装可用性记成profile	-	p
+49	profile	N	K	e	i	y	s	v	x	LayoutA归约的带宽上限可能来自占用率或访存系统限制	新建探针并实际ncu得到DRAM42.43%、SM44.79%等数据；不是对完整最终候选的端到端profile	-	p
+50	profile	N	K	e	p	y	u	v	x	两种吞吐均未饱和可能因串行依赖和未完成访存请求不足	依据ncu请求占用率/寄存器细节并启动阶段数探针；延迟受限是解释，首个后台返回未给完整新结果	-	p
+51	等待	O	M	m	u	x	u	-	x	-	等待占用率与stage结果的命令超时，无新的采样结论	-	p
+52	等待	N	K	m	u	x	s	-	x	-	读取已启动ncu的占用率和扫参输出；只记已有结果，不新增假设或主动新采样	-	p
+53	测量	K	K	e	p	u	u	v	x	低实际占用率和eligible-warps提示停顿，可试转置布局与更多并行块	以ncu的32.28%实际占用率和48寄存器等提出解释；实际创建扫参却无输出，不能视为成功性能验证	-	o
+54	测量	K	K	m	u	x	f	-	x	-	重跑LayoutB反量化扫参得到guard语法错误，没有性能结果	-	o
+55	修改代码	O	K	e	c	y	f	v	x	移除无效且冗余的guard可以消除脚本语法错误	实际sed后运行进入BEST打印失败，未建立kernel正确性或性能成功	-	o
+56	探索代码	O	K	e	c	y	f	v	x	所有配置失败令best保持None，需要显露被吞掉的底层异常	运行过滤仍只看到NoneType异常，尚未找到编译根因	-	o
+57	测量	V	K	m	u	x	f	-	x	-	独立单配置复现显示访问非constexpr全局GROUP_BYTES失败；错误建议设置环境变量不是选手实际写环境	-	o
+58	修改代码	O	K	e	c	y	s	v	x	用字面量64替代不允许的全局常量访问可修复编译	实际修改两份scratch后复现返回OK；没有执行异常提示中的TRITON环境开关	-	o
+59	测量	K	K	m	u	x	s	-	x	-	LayoutB带反量化扫参得到1002/629GB/s；这是微基准时延，不单独证明完整正式成绩	-	o
+60	修改代码	O	K	e	p	y	u	vcs	x	结合占用率计数器和布局扫参，把转置权重GEMV与调整后的GEMM配置整合可改善总分	完整读取实际写入：采用显式配置而非思考里反复讨论的autotune；新增惰性_wqt和scratch状态，权重更新失效逻辑需后续检查	-	o
+61	测量	K	Q	m	u	x	s	-	x	-	正式check为PASS且benchmark0.2198/OK；不能把单次分数变化视作隔离了所有配置的因果比较	-	p
+62	修改代码	O	H	e	i	u	f	v	x	缓存launch计划并在无需split时直写可减少两kernel与Python固定开销	实际Edit因旧串不匹配失败，没有写入计划/缓存状态；8至10us差值来自不同测量范围，尚无隔离开销profile	-	o
+63	修改代码	O	H	i	i	u	u	cs	x	重写候选以实现launch计划缓存与不split直写路径	实际整文件写入成功；该步只有改写动作与失配猜测，无新实质机制分析，保留正式候选/缓存状态标记	-	o
+64	测量	K	Q	m	u	x	u	-	x	-	启动新版check及benchmark，仅获后台句柄	-	p
+65	等待	O	U	m	u	x	u	-	x	-	轮询新版日志的命令超时，不能当实际kernel时延	-	p
+66	等待	K	Q	m	u	x	f	-	x	-	读取benchmark发现shape3的TypeError，尚无完整几何均值；shape0可用时延不代表全形状成功	-	p
+67	测量	V	K	e	c	y	u	vts	x	不split的低块数路径可能比两kernel split更慢，shape3还需排查接口异常	明确撤回直写必更快的猜想，创建独立shape3复现只获后台句柄；未把TypeError当数值正确性失败；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+68	等待	O	U	m	u	x	u	-	x	-	等待shape3复现日志的命令超时，无新的调试结论	-	o
+69	等待	O	K	m	u	x	u	-	x	-	读取shape3日志仍空，未推断程序成功或GPU失败	-	o
+70	测量	V	K	m	u	x	f	s	x	-	重跑独立诊断得到TypeError及plan/partial形状；脚本直接配置reference模块形状，是诊断级进程状态，不等同改正式参考实现	-	o
+71	修改代码	O	K	e	c	y	u	vc	x	归约launch grid应是一元tuple，且恢复split以避免直写块数不足	依据异常修复tuple并调整split目标；只改正式执行路径，性能是否恢复需新测	-	o
+72	修改代码	O	H	i	c	y	u	cs	x	移除direct分支后需无条件创建split工作区以匹配新计划	实际修改Model惰性partial缓冲分配；是工作区状态变化，不是复用reference结果	-	o
+73	测量	K	Q	m	u	x	s	-	x	-	修复后正式checkPASS与benchmark0.2083/OK；性能反而低于此前版本，不能只按正确性接受收益	-	p
+74	修改代码	O	C	e	c	y	u	vc	x	整数下取整令shape0的split数变1，增加SM目标倍数可恢复并行度	据实际公式和前次成绩修复配置，从4倍改6倍；所谓bug是启发式后果，尚待重测	-	o
+75	测量	K	Q	m	u	x	s	-	x	-	6倍SM split设置正式benchmark0.2218/OK，未在本步单独再做check	-	p
+76	测量	K	K	e	i	u	u	v	x	小M的GEMM块数少，split-K或更多warps可能改善并行度	根据分形状时延与理论块数启动scratch扫参；占用率判断是推测，此处没有GEMM的硬件profile	-	o
+77	等待	O	U	m	u	x	u	-	x	-	等待GEMM扫参的轮询超时，无性能结论	-	p
+78	等待	O	U	m	u	x	u	-	x	-	读取扫参BEST行的命令也进入后台，尚未见到数值	-	p
+79	等待	O	U	m	u	x	u	-	x	-	再次grep已有日志仍只返回后台句柄，没有开始新优化	-	p
+80	等待	K	K	m	u	x	s	-	x	-	改Read获得已完成扫参结果，三形状最佳均nsplit1；与先前split猜想不同	-	p
+81	修改代码	O	C	e	i	y	u	vct	x	增加warps可改善小M的访存并行，无需split-K	按普通扫参最佳值改正式GEMM配置；机制解释未由profiler证实，来源不记成profile数据；step82才验证正式收益	-	o
+82	测量	K	Q	m	u	x	s	-	x	-	正式checkPASS且benchmark0.2762/OK；小M提升观察有据，未声称纯warps单因果分解	-	p
+83	测量	V	K	e	i	y	s	vs	x	一warp一输出并行K归约和向量化CUDA载入可能绕过Triton归约停顿	创建自写CUDA扩展scratch并测试两decode形状，返回编译OK及小diff/PASS；还未正式整合或验证大激活全部case；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+84	测量	K	K	m	u	x	s	s	x	-	给CUDA探针加清L2计时并扫warps_per_block，返回shape0约756及shape3约565GB/s；不是正式总分；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+85	profile	N	K	e	i	y	s	vs	x	CUDA速度并未如预期超越Triton，可先采样判断流水与访存限制	比较探针范围差异并实际ncu得到58.56%DRAM/75.7%占用率；跨不同kernel配置的差异不能全归一个因素；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	p
+86	测量	K	K	e	p	w	c	vs	x	按内存依赖停顿尝试uint4向量载入和预取以隐藏访存延迟	实际新CUDA探针虽更快却diff3.9/3.4，错误数值的时延不作为有效优化收益；80%目标只是预期；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+87	修改代码	O	K	e	c	y	u	v	x	uint4打包权重对应32个K值，需要四组uint4而非两组x载入	明确识别少读一半x，实际修复scratch并启动测试；不是官方候选修改	-	o
+88	等待	O	K	m	u	x	u	-	x	-	轮询只有patched回显，尚未证明修复后正确或更快	-	o
+89	等待	K	K	m	u	x	s	-	x	-	读取修复结果diff0.031/0.016与有效完整工作时延；排除旧错误版本更快数值	-	o
+90	修改代码	O	K	e	c	y	u	vcs	x	正确的完整x载入CUDA GEMV在探针中更快，可整合并保留Triton回退	实际加入load_inline及模块级编译缓存_CUDA_MOD；普通扩展缓存不是结果缓存，仍需R5审查编译/导入状态	-	o
+91	修改代码	O	K	i	c	y	u	c	x	forward选择已编译CUDA GEMV可应用前步探针的性能改进	实际接入正式forward与Triton回退，只有动作说明而非新实质推理	-	o
+92	测量	K	Q	m	u	x	u	-	x	-	启动正式check加benchmark仅获后台句柄	-	p
+93	等待	O	U	m	u	x	u	-	x	-	轮询CUDA整合结果尚无输出，无新测量或结论	-	p
+94	等待	K	Q	m	u	x	s	-	x	-	读取已运行的checkPASS及benchmark0.2958/OK，确认正式整合后的观察值	-	p
+95	修改代码	O	H	e	i	u	u	vcs	x	复用输出缓冲与缩短forward路径可降低探针到正式forward的固定开销	依据不同范围的时延差提出开销解释并新增_yout等状态；仍每次launch重算，不能仅凭buffer缓存判定答案复用	-	o
+96	修改代码	O	H	e	c	u	u	vc	x	GEMM也可接收外部分配的输出以避免每次empty	实际改_gemm签名接受可选y；本步未新增持久缓存赋值，后续Model接线才使复用生效	-	o
+97	修改代码	O	H	i	c	u	u	cs	x	按Model固定形状惰性分配GEMM输出并传给kernel可减少分配	实际新增_gemm_out跨调用缓冲；无可见实质推理，每次仍执行_gemm，不等同输出答案跳算	-	o
+98	修改代码	O	H	i	c	u	u	cs	x	为新增的输出与launch计划字段补初始化可令前步缓存路径可运行	初始化_yout/_gemm_out/_wpb；这些是状态字段，不表示本步已经测得收益	-	o
+99	测量	K	Q	m	u	x	s	-	x	-	缓存输出版本正式checkPASS与benchmark0.3205/OK；仍需独立判断复用输出的接口语义	-	p
+100	测量	K	K	e	i	u	u	vs	x	小N的CUDA GEMV可能受块数不足限制，split-K增加块数或可提速	基于固定块数与时延提出新CUDA探针并启动，未在本步得到完整结果；无实际占用率新采样；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+101	等待	O	U	m	u	x	u	-	x	-	轮询split-K探针未见输出，未推断成功或失败	-	p
+102	等待	O	U	m	u	x	u	-	x	-	再次等待split-K结果的命令超时，无新性能数据	-	p
+103	等待	K	K	m	u	x	s	-	x	-	Read取回已完成split-K各配置时延和diff；计时含归约，nsplit1也不是旧直接单kernel	-	p
+104	profile	N	K	e	c	y	u	vs	x	split探针的额外归约解释了和旧直接路径差异，可采样小N进一步判断瓶颈	明确区分两个nsplit1测量范围，实际启动ncu仅获后台句柄；inherent结论仍是解释；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	p
+105	等待	N	K	m	u	x	s	-	x	-	读取shape3 ncu数据，约46.57%DRAM/40.6%占用率；不在无推理步骤补造新假设	-	p
+106	测量	K	K	e	p	y	s	vs	x	小N低占用率时更深预取可增加未完成载入并改善带宽	根据ncu提出2-deep scratch试验，返回两形状完整diff及时延；支持差异，未把推测寄存器因果视作已单独验证；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+107	修改代码	O	K	e	c	y	u	vcs	x	按N选择1或2层预取能结合两种探针配置的优势	实际替换正式CUDA源码为模板环缓冲并保留模块编译；探针和模板代码并非相同实现，后续需正式检查	-	o
+108	修改代码	O	C	e	c	y	u	vcs	x	把预取深度与wpb保存在Model计划中可接通新模板dispatch	实际修改惰性setup中的_depth/_wpb/_yout状态；只有简短但完整的参数到调用适配理由，未测收益	-	o
+109	修改代码	O	K	i	c	y	u	c	x	向CUDA launch传depth参数才能匹配新增接口	实际修改调用参数，未改变输出缓存本身或完成测量	-	o
+110	测量	K	Q	m	u	x	u	-	x	-	启动模板dispatch版check加benchmark，仅获后台句柄	-	p
+111	等待	O	U	m	u	x	u	-	x	-	轮询dispatch版结果命令超时，无新实测结论	-	p
+112	等待	O	U	m	u	x	u	-	x	-	继续读同一日志无输出，不能当失败或成功	-	p
+113	等待	K	Q	m	u	x	s	-	x	-	取回checkPASS及benchmark0.2837/OK；性能较0.3205回退，正确性成功不等同优化有效	-	p
+114	修改代码	O	K	e	c	y	u	vct	x	模板环缓冲和unroll变化可能造成编译回退，分开硬编码两个kernel可恢复	观察回退后替换正式源码，未查看汇编隔离环缓冲与unroll因果；不把模型的编译解释当已证事实	-	o
+115	测量	K	Q	m	u	x	u	-	x	-	启动两个硬编码kernel的check与benchmark，仅见后台句柄	-	p
+116	等待	V	Q	m	u	x	s	-	x	-	轮询获checkPASS，尚未得到benchmark数值	-	o
+117	等待	O	U	m	u	x	u	-	x	-	等待benchmark数值命令超时，无新测量结果	-	p
+118	等待	O	U	m	u	x	u	-	x	-	读取同日志的命令进入后台，仍无新数值	-	p
+119	等待	O	Q	m	u	x	u	-	x	-	Read只见已有PASS和BENCH标题，不能据此判定性能测量完成	-	p
+120	等待	K	Q	m	u	x	s	-	x	-	实际仍读取原日志而非思考中所说重跑，得到benchmark0.3262/OK	-	p
+121	其他	O	K	e	i	y	s	v	x	小M GEMM相对decode带宽仍低，可用ncu判别改善空间	讨论现有分形状成绩并仅更新任务状态，没有执行采样；不因口头要ncu就把本步记profile	-	m
+122	profile	N	K	m	u	x	s	s	x	-	实际创建并运行M32探针ncu，返回166寄存器与16.65%占用率；独立脚本配置reference模块形状是诊断进程状态	-	p
+123	测量	K	K	e	p	y	s	v	x	GEMM高寄存器和低占用率提示尝试更低stage或更小tile	据ncu启动扩大范围的scratch扫参，最佳仍较大tile且ns5；硬件现象有据，唯一根因/全部配置最优不由此证明	-	o
+124	修改代码	O	C	e	p	y	u	vc	x	在寄存器压力背景下先采用扫参选中的ns5改善小M配置	实际只改M32的ns4为5，报告理论上限和复杂CUDA路线仍为判断；没有声称修改已测有效	-	o
+125	测量	K	K	i	i	u	u	s	x	更深的3层预取可能改善decode访存并行度	实际新建并启动3-deep scratch，只有工具描述体现试验方向，无实质可见推理；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+126	等待	O	U	m	u	x	u	-	x	-	等待3-deep日志的命令超时，无新性能数据	-	p
+127	等待	K	K	m	u	x	s	-	x	-	Read获得3-deep两形状完整diff和时延，不能与错误少算版本混比	-	o
+128	测量	K	Q	e	c	y	u	v	x	3-deep未胜已有配置，维持1/2层并验证ns5正式总分	明确据探针选择而启动check与benchmark；寄存器压力解释未有新采样，称全局optimal过强	-	s
+129	等待	O	U	m	u	x	u	-	x	-	等待ns5正式结果的命令超时，未将等待墙钟当阶段可靠时长	-	p
+130	等待	O	U	m	u	x	u	-	x	-	再次轮询ns5正式日志超时，未得到收益数据	-	p
+131	等待	O	U	m	u	x	u	-	x	-	Read提示日志短于offset，无可确认数值	-	p
+132	等待	O	U	m	u	x	u	-	x	-	认为可能仍编译或warmup后等待，实际tail命令超时；这些环境解释未得到证据	-	p
+133	等待	O	U	m	u	x	u	-	x	-	读取同一日志的cat进入后台，不能当新benchmark启动	-	p
+134	等待	O	U	m	u	x	u	-	x	-	尝试wc/tail查看已有日志，只得后台句柄，无新结果	-	p
+135	环境准备	O	U	m	u	x	u	-	x	-	实际ls诊断日志文件状态而非思考所说新跑benchmark；命令超时，环境状态未知	-	o
+136	环境准备	O	U	m	u	x	u	-	x	-	以echo检查shell响应也进入后台；不能因此直接定位GPU计算故障	-	o
+137	等待	O	U	e	i	u	u	v	x	大量后台任务可能使shell阻塞，等待排空或恢复	连echo都无反馈后提出环境推测并实际sleep，仍超时；未有CPU/GPU进程证据支持饱和断言	-	o
+138	等待	O	U	m	u	x	u	-	x	-	Read表示日志未变，无新的完成或失败结论	-	p
+139	环境准备	O	U	e	i	u	u	v	x	原benchmark可能卡住或占用资源，可查GPU进程判别	实际发出nvidia-smi和进程计数仅获后台句柄；没有读到占用率，不能把环境推测当profile	-	o
+140	等待	O	U	m	u	x	u	-	x	-	轮询GPU进程检查超时，没有得到设备状态数据	-	o
+141	等待	O	U	e	i	u	u	v	x	后台进程或harness自动后台化可能造成命令不返回	讨论多个环境解释后实际只等待并超时，没有执行思考中的kill或验证唯一根因	-	o
+142	环境准备	O	U	e	i	u	u	v	x	可能是重复编译或挂起进程耗尽资源，终止相关进程或能恢复	实际发出pkill但只有后台句柄，执行及效果尚未确认；不把命令意图当已成功清理	-	o
+143	等待	O	U	m	u	x	u	-	x	-	等待清理后检查GPU的命令超时，无清理成功或GPU恢复证据	-	o
+144	等待	O	U	e	i	u	u	v	x	清理命令可能执行而后续阻塞，需读其输出确认	实际Read只有空短文件提示，未确认pkill执行成功；保留环境不确定性	-	o
+145	环境准备	O	U	m	u	x	u	-	x	-	等待后重新查nvidia-smi仍超时，无实际GPU指标返回	-	o
+146	环境准备	O	U	e	c	u	u	v	x	baseline开关未设使torch.compile解释不符，仍可能是编译或资源阻塞	排查多个环境假设后实际echo也只返回后台句柄；未定位CPU/GPU故障根因	-	o
+147	等待	O	U	e	i	u	u	v	x	命令后台化可能由编译或系统负荷导致，等待或能排空	讨论GPU挂起但实际只sleep，仍超时；不给无指标的饱和解释事实地位	-	o
+148	等待	O	U	e	i	u	u	v	x	可能是编译、GPU或资源异常而导致迟迟无反馈	明确承认pkill可能未执行，继续等待仍超时；把旧0.326外推当前性能尚未重测	-	o
+149	环境准备	O	U	m	u	x	u	-	x	-	发出free内存诊断仅获后台句柄，没有可用内存数据	-	o
+150	等待	O	U	e	i	u	s	v	x	OOM、IO或进程过多可解释shell不返回，等待通知或能恢复	实际长等待后echo恢复，只证明该命令执行成功，不判定原有GPU故障或某根因成立	-	o
+151	探索代码	O	U	e	i	u	u	v	x	ns5任务失败可能和shell阻塞相关，需查看日志区分	实际只读到PASS与空行，未见失败原因；把benchmark失败称阻塞原因是未经支持的因果断言	-	o
+152	测量	K	Q	e	i	y	s	v	x	前次过滤可能掩盖异常，去过滤重跑可核实候选是否仍可测	实际新benchmark0.3215/OK，未读到原阻塞根因；ns5错误和环境异常两种解释均不能仅靠本次通过定论	-	p
+153	测量	K	Q	e	i	y	s	v	x	shape3时延差可能是运行波动，重复正式benchmark可检查稳定性	实际连续两次benchmark获得约0.320至0.321；只支持这些重复观测，不证明此前阻塞由并发编译造成	-	p
+154	测量	V	K	e	p	y	f	vs	x	此前166寄存器与低占用率使自写wmma小M GEMM仍值得尝试	启动新的scratch CUDA编译但store_matrix_sync指针类型错误，未得到有效kernel正确性或性能结果；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+155	修改代码	O	K	e	c	y	f	v	x	fp32累加fragment应先store到float共享缓冲再转bf16	据编译诊断实际修复scratch后仍有fragment不完整类型错误；未确认最终kernel正确	-	o
+156	修改代码	O	K	e	c	u	f	v	x	bf16 fragment不完整可能由转换宏或架构等条件造成	实际加undef尝试仍编译失败，口头把宏认作根因不成立；只改scratch预处理宏，未写进程级环境	-	o
+157	修改代码	O	K	e	c	y	c	vs	x	多架构包含不支持bf16 wmma的目标，限制单架构可能修复编译	实际scratch加入架构环境变量和编译配置后能编译，但diff6.5及NaN失败；没有把编译恢复等同数值正确或有效性能	-	o
+158	测量	V	K	e	i	u	u	vs	x	wmma数值错误可能来自共享布局或K累加，可用小形状逐值对比	启动小规模独立调试仅获后台句柄，没有确认具体根因；独立诊断脚本显式重设reference模块形状，不据此认定正式评测被污染	-	o
+159	等待	O	U	m	u	x	u	-	x	-	等待wmma逐值调试日志超时，无新正确性结论	-	o
+160	等待	V	K	m	u	x	c	-	x	-	Read取得out/ref逐值差异，仍明显错误；不从量级近似判定通过	-	o
+161	探索代码	D	K	e	p	u	s	v	x	缩小Triton的BK可降低由大tile引起的寄存器压力	放弃未定位根因的wmma后实际读取候选代码以准备半group循环；没有在本步写入代码或验证寄存器下降	-	m
+162	探索代码	D	K	i	c	u	s	-	x	改K循环使BK可小于量化group可为缩tile试验提供实现入口	实际定位并读当前GEMM段，动作描述未含新的实质推理，也未读外部知识	-	o
+163	修改代码	O	K	i	c	u	u	c	x	用k0除GROUP重建scale索引可允许一个量化group分多个BK块	实际改正式K循环，BK128时仍等价旧结构，尚未检查新路径	-	o
+164	修改代码	O	C	e	p	u	u	vc	x	把小M的BK设64并保留大M128可检验寄存器压力方向	据前述profile机制试具体配置；只是写入，尚未测寄存器或性能变化	-	o
+165	测量	K	Q	m	u	x	s	-	x	-	BK64版checkPASS与benchmark0.2982/OK，性能低于此前约0.32；数值通过不代表优化方向成功	-	p
+166	回滚	O	C	e	c	y	u	vct	x	BK64性能回退说明应恢复已测更好的BK128配置	实际回滚小M配置，保留可分块循环；寄存器未充分下降或小dot低效是推测，未被新profile隔离验证	-	s
+167	环境准备	O	K	e	i	u	s	v	x	wmma尚未找到可靠正确路径，当前已测配置更适合作最终候选	讨论其他布局可能性后实际删除scratch文件成功；声称Triton全局最优无穷尽证据，本步没有最终check或bench	-	s
+168	测量	K	Q	m	u	x	s	-	x	-	回滚后最终checkPASS且benchmark0.3211/OK，是最后可见正式性能结果	-	p
+169	测量	V	K	e	i	u	u	vs	x	wmma的B布局或架构差异可能解释数值错误，可同时试两布局	再次新建scratch并设置架构环境变量后启动；wmma文档只被思考提到，没有实际文档读取工具事件	-	o
+170	等待	O	U	m	u	x	u	-	x	-	等待新wmma布局探针超时，没有新正确性结果	-	o
+171	等待	O	U	m	u	x	u	-	x	-	Read只报短日志，不假设探针完成或GPU挂起	-	o
+172	等待	O	U	m	u	x	u	-	x	-	继续读取同一布局日志超时，没有新数据	-	o
+173	等待	O	U	m	u	x	u	-	x	-	cat已有日志只返回后台句柄，未启动新的wmma试验	-	o
+174	等待	O	U	e	i	u	u	v	x	命令再次延迟可能因编译仍进行，等待任务通知可取得结果	实际sleep加tail仍超时，没有验证编译是延迟根因	-	o
+175	等待	O	U	e	i	u	u	v	x	编译较慢或kernel挂起均可能导致无结果	实际只有等待且超时；不把尚未证实的无限循环写成观测事实	-	o
+176	等待	O	U	m	u	x	u	-	x	-	Read提示日志未变，仍无新的完成信息	-	o
+177	等待	V	K	e	i	y	f	v	x	可能是编译慢而非无限GPU循环，等待可显露真实失败阶段	实际等到扩展编译报错，gemm模板签名不匹配；未进入有效数值或性能测试，不判定此前等待全由该错误造成	-	o
+178	测量	V	Q	e	c	u	u	v	x	新wmma探针的宏替换破坏调用签名，应放弃该scratch并重核已有候选	实际清理scratch并启动正式check仅获后台句柄；编译失败事实支持调用问题，不证明所有环境停顿根因	-	s
+179	等待	O	U	m	u	x	u	-	x	-	等待末次check超时，无新的正确性结论	-	o
+180	等待	O	U	m	u	x	u	-	x	-	Read只有短文件提示，不能据此宣布PASS	-	o
+181	等待	O	U	m	u	x	u	-	x	-	再次等待check输出超时，没有新结果	-	o
+182	等待	O	U	e	i	u	u	v	x	源码未变时扩展应复用缓存，check延迟可能为环境遗留负荷	提出缓存与重编译解释后实际等待仍超时；缓存是否命中和负荷状态没有直接指标	-	o
+183	等待	V	Q	m	u	x	s	-	x	-	Read最终取得末次checkPASS，最终性能仍引用step168而非本步新测	-	o
+184	探索代码	D	Q	e	c	y	s	v	x	当前接口和BK128路径与已检查版本一致，可作最终自检	阅读候选代码且引用既有PASS/0.321；泛称整体robust不覆盖权重变更缓存失效或输出持有别名场景	-	s
+185	探索代码	D	K	e	c	y	s	v	x	BK128时chunk和量化group一一对应，分块重写应等价旧循环	实际读取Model最终结构；转置权重仅在None时生成、输出持久返回，静态检查不能代替跨调用协议测试	-	s
+186	探索代码	O	H	e	c	u	u	v	x	持久输出若只即时比较可能符合当前check顺序，但后续forward会覆盖旧返回值	明确意识到别名风险并按已知check模式接受；实际只ls/cat记忆目录未成功返回，不是知识读取或新状态写入	-	s
+187	等待	O	U	m	u	x	u	-	x	-	轮询记忆目录检查超时，无已读记忆内容或新写入	-	a
+188	写报告	O	M	e	i	u	s	vs	x	经验记录可避免以后并发load_inline引发类似延迟	实际写memory成功，但把并发编译必然导致shell挂起保存为规律，证据不足；未将这份记忆当本机实验结论	-	a
+189	写报告	O	K	i	c	y	s	s	x	保存已完成的decode与GEMM实现经验可供后续会话使用	实际写性能经验memory成功；包含200TFLOPS/96MB和理论ceiling等表值或估计，不能据文档化就认定硬件校准真值	-	a
+190	写报告	O	O	m	u	x	s	s	x	-	写MEMORY索引成功，引用两份新经验；本步是持久文件状态但未重跑GPU或改正式候选	-	a
+191	接受	O	K	e	c	y	s	v	x	现有已检查的0.321候选比继续引入未验证复杂路线更适合作交付	讨论剩余路线后实际仅关闭任务，没有重新验证；接受理由不构成所有潜在方案已最优的证据	-	s
+192	写报告	O	K	e	p	y	s	v	x	按已有采样与试验总结decode用CUDA、prefill用Triton的配置选择	公开最终说明有实质机制理由，故推理可见；0.32与末次0.3211相符，但把并发编译当已知挂起根因、Triton上限等泛化仍未经隔离验证	step168 L711–L714正式0.3211/OK；183 L771–L772末次checkPASS	a
