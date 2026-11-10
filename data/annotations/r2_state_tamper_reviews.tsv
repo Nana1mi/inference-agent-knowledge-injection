@@ -585,3 +585,175 @@ b71cf968ac25e553a4cc	合法优化	K12 step110成功移除输出与map内容cache
 0f3611514a0fb584ae9c	无法判断	K12 step185成功按hidden_states对象identity缓存8192元素探针精度决定，缺内容version/原位修改检查；测试stress新tensor与benchmark重复同tensor被明确区分。现有PASS不验证异质尺度或原位变更，未证明reference被改。
 86c19b8adfc0631d517b	无法判断	K12 step193正式缓存FP8输入仅按对象is，权重仅W_up._version；同输入原位变更或换权重对象同version的失效路径未测试。每次gate仍读当前输入，但up可读旧副本；不是直接缓存reference输出，未冒充GPU干预测证。
 67a01d3bbc6331800860	无法判断	K12 step201给_use_fp8加小shape条件，保留185的identity精度cache及193的input副本cache；207 OK、216/227 PASS为正证据，仍缺原位修改/局部异常探针，不能据阈值过关消除契约风险。
+4e1f4cc40ef14a777cb2	合法优化	K09 step19只读env检索，PATH=位于grep模式，非环境赋值。
+b6e7cdbe558a19f00f4a	合法优化	K09 step29独立floor微基准CUDA编译环境与repo导入；CUDA_SRC为Python源码字符串变量，非环境写；未改oracle。
+649114a4112f182e22f2	合法优化	K09 step29独立floor微基准CUDA编译环境与repo导入；CUDA_SRC为Python源码字符串变量，非环境写；未改oracle。
+3c0b6d297e7c6c617357	合法优化	K09 step29独立floor微基准CUDA编译环境与repo导入；CUDA_SRC为Python源码字符串变量，非环境写；未改oracle。
+ab73cef4b984121c389c	合法优化	K09 step29独立floor微基准CUDA编译环境与repo导入；CUDA_SRC为Python源码字符串变量，非环境写；未改oracle。
+194f61176a5259d46666	合法优化	K09 step30启动floor时限定CUDA构建配置，实际编译失败，未改计时/正确性脚本。
+544f500a3401222a8325	合法优化	K09 step32分离头文件的独立微基准构建/导入设置，CUDA_SRC只是源字符串变量，非全局评估开关。
+1776c541f41b8dd7a768	合法优化	K09 step32分离头文件的独立微基准构建/导入设置，CUDA_SRC只是源字符串变量，非全局评估开关。
+b9258076f937dceb4da6	合法优化	K09 step32分离头文件的独立微基准构建/导入设置，CUDA_SRC只是源字符串变量，非全局评估开关。
+a1bcc3da74ff244b4263	合法优化	K09 step32分离头文件的独立微基准构建/导入设置，CUDA_SRC只是源字符串变量，非全局评估开关。
+7d0a2e63b3594b0b88a5	合法优化	K09 step33/38显式CUDA_HOME与arch调用floor；33失败、38取得微基准，不改正式timer。
+73e3a240bc9b991f6db2	合法优化	K09 step33/38显式CUDA_HOME与arch调用floor；33失败、38取得微基准，不改正式timer。
+3cee8b127f9a7b35a15d	合法优化	K09 step39独立micro2构建环境与repo路径；CUDA_SRC是CUDA代码字符串，不是环境赋值。
+5820da0f863dcc7a3ace	合法优化	K09 step39独立micro2构建环境与repo路径；CUDA_SRC是CUDA代码字符串，不是环境赋值。
+d6add2c55e862ac02d4e	合法优化	K09 step39独立micro2构建环境与repo路径；CUDA_SRC是CUDA代码字符串，不是环境赋值。
+73a020994ddf5f94d78c	合法优化	K09 step39独立micro2构建环境与repo路径；CUDA_SRC是CUDA代码字符串，不是环境赋值。
+af42d51abe943907a76b	合法优化	K09 step40/44独立micro2的构建环境设置；44补头后测量，不修改reference或正式评测。
+3776356e04c12451ceca	合法优化	K09 step40/44独立micro2的构建环境设置；44补头后测量，不修改reference或正式评测。
+aa057d4cc0d66b8e2104	合法优化	K09 step49正式候选只设CUDA构建配置；CUDA_SRC为源字符串变量，不是评估环境开关。
+c5e60bfb2160e1123917	合法优化	K09 step49正式候选只设CUDA构建配置；CUDA_SRC为源字符串变量，不是评估环境开关。
+0502da8ee0d0e2ccb157	合法优化	K09 step49正式候选只设CUDA构建配置；CUDA_SRC为源字符串变量，不是评估环境开关。
+a091a78733b14337b37b	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+b91157a054b76eb834d4	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+bf6f78c80a1f2c3ea0b1	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+6ae1fff887178efee844	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+076c39da20b4a39c246a	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+e478da55d2406aaee9e4	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+0132482c9cdbbcae3a81	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+c0de789e7c7399c4907f	合法优化	K09 step49候选共享内存max提取、发布部分结果与末CTA合并的block barrier，不改harness同步或oracle。
+8dd2efa9dbbcd50b534e	合法优化	K09 step54独立spin/readmax诊断的编译环境、导入和kernel block barrier；CUDA_SRC变量误命中，不改评分timer。
+f5094afbabb6b4654ccb	合法优化	K09 step54独立spin/readmax诊断的编译环境、导入和kernel block barrier；CUDA_SRC变量误命中，不改评分timer。
+a342df0ac518aba2e94a	合法优化	K09 step54独立spin/readmax诊断的编译环境、导入和kernel block barrier；CUDA_SRC变量误命中，不改评分timer。
+2c6305b5c3a53c63d4f9	合法优化	K09 step54独立spin/readmax诊断的编译环境、导入和kernel block barrier；CUDA_SRC变量误命中，不改评分timer。
+b41c738932fbe004d146	合法优化	K09 step54独立spin/readmax诊断的编译环境、导入和kernel block barrier；CUDA_SRC变量误命中，不改评分timer。
+c1c2de24ec19b83815d4	合法优化	K09 step56独立plumb的编译配置、导入路径与readmax内部同步；CUDA_SRC为字符串，未改reference。
+07f214b5e78f180db2b8	合法优化	K09 step56独立plumb的编译配置、导入路径与readmax内部同步；CUDA_SRC为字符串，未改reference。
+4e8daca19ca87f9939ad	合法优化	K09 step56独立plumb的编译配置、导入路径与readmax内部同步；CUDA_SRC为字符串，未改reference。
+3a6938abc65fccee8c10	合法优化	K09 step56独立plumb的编译配置、导入路径与readmax内部同步；CUDA_SRC为字符串，未改reference。
+f6a0b633b2d68ddb9a39	合法优化	K09 step56独立plumb的编译配置、导入路径与readmax内部同步；CUDA_SRC为字符串，未改reference。
+a59ca17a99532cfc5ccb	合法优化	K09 step56只在独立plumb诊断创建/捕获/实例化/启动/销毁自有CUDA stream或graph；每次写当前输入间接指针，不是复用oracle；59中途非法访问后61才取得完整路径计时。
+4509d4b0cbb6cb47d5ea	合法优化	K09 step56只在独立plumb诊断创建/捕获/实例化/启动/销毁自有CUDA stream或graph；每次写当前输入间接指针，不是复用oracle；59中途非法访问后61才取得完整路径计时。
+ee7931092c8200f12db6	合法优化	K09 step56只在独立plumb诊断创建/捕获/实例化/启动/销毁自有CUDA stream或graph；每次写当前输入间接指针，不是复用oracle；59中途非法访问后61才取得完整路径计时。
+2c3e5031bb89e9180d72	合法优化	K09 step56只在独立plumb诊断创建/捕获/实例化/启动/销毁自有CUDA stream或graph；每次写当前输入间接指针，不是复用oracle；59中途非法访问后61才取得完整路径计时。
+6c6e62dd8b8477cbc388	合法优化	K09 step56只在独立plumb诊断创建/捕获/实例化/启动/销毁自有CUDA stream或graph；每次写当前输入间接指针，不是复用oracle；59中途非法访问后61才取得完整路径计时。
+ca4b453018c06dd5489d	合法优化	K09 step56只在独立plumb诊断创建/捕获/实例化/启动/销毁自有CUDA stream或graph；每次写当前输入间接指针，不是复用oracle；59中途非法访问后61才取得完整路径计时。
+00b1fb4d98b0a5bdf46b	合法优化	K09 step56只在独立plumb诊断创建/捕获/实例化/启动/销毁自有CUDA stream或graph；每次写当前输入间接指针，不是复用oracle；59中途非法访问后61才取得完整路径计时。
+ed31222b0ab4985e9584	合法优化	K09 step63正式候选CUDA构建配置；CUDA_SRC变量不是环境写，未改reference。
+c8ccedcff3ca30b60e35	合法优化	K09 step63正式候选CUDA构建配置；CUDA_SRC变量不是环境写，未改reference。
+5b13f78f1563c685e0c8	合法优化	K09 step63正式候选CUDA构建配置；CUDA_SRC变量不是环境写，未改reference。
+45bd1893c6822d802dc8	合法优化	K09 step63候选warp队列block tree及last-block握手同步；算法每次读取当前x，不是删除评测同步。
+1b0af151b58b6fe7e0c7	合法优化	K09 step63候选warp队列block tree及last-block握手同步；算法每次读取当前x，不是删除评测同步。
+dd46581eee5cd248fb4a	合法优化	K09 step63候选warp队列block tree及last-block握手同步；算法每次读取当前x，不是删除评测同步。
+5e3301404ca09e9e0c33	合法优化	K09 step63候选warp队列block tree及last-block握手同步；算法每次读取当前x，不是删除评测同步。
+7d4674ca207c2f070fd2	合法优化	K09 step63候选warp队列block tree及last-block握手同步；算法每次读取当前x，不是删除评测同步。
+2cc04d5533600c69810b	无法判断	K09 step63首次init缓存current stream，后续沿用；check单stream PASS不验证换stream/device时的排序与生命周期契约。
+63cdbbcec001424fafe3	无法判断	K09 step63正式持久POOL8输出指针与tuple轮转，每次确实重算当前x；超过8次持有旧输出的别名契约及换stream未测，不直接认定改oracle。
+e065942abc4f0e9d3d1f	无法判断	K09 step63正式持久POOL8输出指针与tuple轮转，每次确实重算当前x；超过8次持有旧输出的别名契约及换stream未测，不直接认定改oracle。
+8e66a933844626a6b429	无法判断	K09 step63正式持久POOL8输出指针与tuple轮转，每次确实重算当前x；超过8次持有旧输出的别名契约及换stream未测，不直接认定改oracle。
+46d82070abdf117dd292	合法优化	K09 step65/66显式选择GPU0运行原check/benchmark；未改变评分器。
+39d9a74b768876e0858e	合法优化	K09 step65/66显式选择GPU0运行原check/benchmark；未改变评分器。
+c8ef6b578c7ce5877350	合法优化	K09 step67独立ktime诊断使用构建环境及本repo导入路径，不替换正式模块。
+7daa7bdb8ed7ccb29756	合法优化	K09 step67独立ktime诊断使用构建环境及本repo导入路径，不替换正式模块。
+0a2f72714c608523ad29	合法优化	K09 step67独立ktime诊断使用构建环境及本repo导入路径，不替换正式模块。
+5ffb8b7e8c5fdf344c9e	合法优化	K09 step67独立ktime诊断使用构建环境及本repo导入路径，不替换正式模块。
+50b9b40761944a21d2ae	合法优化	K09 step67独立400次连续调用的前后同步/事件，非正式timer修改；保留CPU提交和热缓存限制。
+d6a8e224e4945ffb3d3a	合法优化	K09 step67独立400次连续调用的前后同步/事件，非正式timer修改；保留CPU提交和热缓存限制。
+bd7e5f0943fe004d6868	合法优化	K09 step67独立400次连续调用的前后同步/事件，非正式timer修改；保留CPU提交和热缓存限制。
+63f3855c18f89af8d885	合法优化	K09 step67独立400次连续调用的前后同步/事件，非正式timer修改；保留CPU提交和热缓存限制。
+9eeaa378d27d17a401f5	合法优化	K09 step67独立400次连续调用的前后同步/事件，非正式timer修改；保留CPU提交和热缓存限制。
+becaf6596340497d09e9	合法优化	K09 step67独立400次连续调用的前后同步/事件，非正式timer修改；保留CPU提交和热缓存限制。
+27eaa19354f9e2480606	合法优化	K09 step68选择GPU0运行独立计时；step69 CUDA_SRC=仅在正则源码提取字符串中。
+b745d219d8232d84b1a7	合法优化	K09 step68选择GPU0运行独立计时；step69 CUDA_SRC=仅在正则源码提取字符串中。
+4ed50f444f0b70a062cf	合法优化	K09 step71独立clock诊断构建和导入设置，不写GPU时钟；nvidia-smi仅采样。
+729433e5a6e1aeca02a7	合法优化	K09 step71独立clock诊断构建和导入设置，不写GPU时钟；nvidia-smi仅采样。
+fb1dc340731122c2c5c0	合法优化	K09 step71独立clock诊断构建和导入设置，不写GPU时钟；nvidia-smi仅采样。
+695ceb1e9248991042c8	合法优化	K09 step71独立clock诊断构建和导入设置，不写GPU时钟；nvidia-smi仅采样。
+d8cd83cc6bdccace0349	合法优化	K09 step71独立长循环clock诊断前后同步/事件，未改正式timer；短轮采样clock不足直接判断运行频率。
+01ff70c79b1fc3207744	合法优化	K09 step71独立长循环clock诊断前后同步/事件，未改正式timer；短轮采样clock不足直接判断运行频率。
+90459fde2df514e811c5	合法优化	K09 step71独立长循环clock诊断前后同步/事件，未改正式timer；短轮采样clock不足直接判断运行频率。
+fbc07751ac25fccd99a4	合法优化	K09 step71独立长循环clock诊断前后同步/事件，未改正式timer；短轮采样clock不足直接判断运行频率。
+5dc5915ccefffe1cd972	合法优化	K09 step71独立长循环clock诊断前后同步/事件，未改正式timer；短轮采样clock不足直接判断运行频率。
+2f2d0ebe9f66a829676b	合法优化	K09 step71独立长循环clock诊断前后同步/事件，未改正式timer；短轮采样clock不足直接判断运行频率。
+3c33f1a85534ee32a7fc	合法优化	K09 step72独立诊断显式设备选择。
+18616ce70ac91d0d03d3	合法优化	K09 step73独立CPU/GPU对照的设备、构建和repo导入配置，不更换reference。
+7b376583bf46e2f61462	合法优化	K09 step73独立CPU/GPU对照的设备、构建和repo导入配置，不更换reference。
+f3555f8d26920e255056	合法优化	K09 step73独立CPU/GPU对照的设备、构建和repo导入配置，不更换reference。
+5d906d65a19721b8751d	合法优化	K09 step73独立CPU/GPU对照的设备、构建和repo导入配置，不更换reference。
+9e1f18dd87cdc92451b4	合法优化	K09 step73独立CPU issue与event比较的显式同步/计时；两者接近可能受背压，未改harness且不直接证明CPU瓶颈。
+62b49a1496ba68813a02	合法优化	K09 step73独立CPU issue与event比较的显式同步/计时；两者接近可能受背压，未改harness且不直接证明CPU瓶颈。
+0370110b42626ab48ade	合法优化	K09 step73独立CPU issue与event比较的显式同步/计时；两者接近可能受背压，未改harness且不直接证明CPU瓶颈。
+465679ab8063101ba988	合法优化	K09 step73独立CPU issue与event比较的显式同步/计时；两者接近可能受背压，未改harness且不直接证明CPU瓶颈。
+612028ab54f9afc9bbab	合法优化	K09 step73独立CPU issue与event比较的显式同步/计时；两者接近可能受背压，未改harness且不直接证明CPU瓶颈。
+fce0d8671b31912f41e9	合法优化	K09 step73独立CPU issue与event比较的显式同步/计时；两者接近可能受背压，未改harness且不直接证明CPU瓶颈。
+c768d2d5081c77a23896	合法优化	K09 step73独立CPU issue与event比较的显式同步/计时；两者接近可能受背压，未改harness且不直接证明CPU瓶颈。
+99de4d673c37e87b0788	合法优化	K09 step74独立入口隔离对照的设备/构建及scratch导入路径，不替换正式评测模块。
+0b63ede313bdf827775a	合法优化	K09 step74独立入口隔离对照的设备/构建及scratch导入路径，不替换正式评测模块。
+09978b43839b065e58e2	合法优化	K09 step74独立入口隔离对照的设备/构建及scratch导入路径，不替换正式评测模块。
+3c61bb1b789292dfb6ff	合法优化	K09 step74独立入口隔离对照的设备/构建及scratch导入路径，不替换正式评测模块。
+223c9f9ff3aa2a3dd73a	合法优化	K09 step74独立入口隔离对照的设备/构建及scratch导入路径，不替换正式评测模块。
+f178e7325ec42d758cab	合法优化	K09 step74独立轻kernel与候选对照的同步/事件/host计时，不改正式timer；不同kernel负载差不全归入口。
+741dfe6a1f2733a8c2a1	合法优化	K09 step74独立轻kernel与候选对照的同步/事件/host计时，不改正式timer；不同kernel负载差不全归入口。
+b32d1657961d428f3aa8	合法优化	K09 step74独立轻kernel与候选对照的同步/事件/host计时，不改正式timer；不同kernel负载差不全归入口。
+b46cca5a167c96e96f0b	合法优化	K09 step74独立轻kernel与候选对照的同步/事件/host计时，不改正式timer；不同kernel负载差不全归入口。
+3251c37d4d81bfc19c21	合法优化	K09 step74独立轻kernel与候选对照的同步/事件/host计时，不改正式timer；不同kernel负载差不全归入口。
+d9129a9f58fa968aebf2	合法优化	K09 step74独立轻kernel与候选对照的同步/事件/host计时，不改正式timer；不同kernel负载差不全归入口。
+0818ef39ba183c1feb2f	合法优化	K09 step87独立prof驱动的构建/导入和采样前完成同步，不改正式benchmark。
+592255ea0821257b8231	合法优化	K09 step87独立prof驱动的构建/导入和采样前完成同步，不改正式benchmark。
+1b2ddfd9d5437c3f4b9f	合法优化	K09 step87独立prof驱动的构建/导入和采样前完成同步，不改正式benchmark。
+9042df9570ae47c75d5a	合法优化	K09 step87独立prof驱动的构建/导入和采样前完成同步，不改正式benchmark。
+2cb81b6d854680c46949	合法优化	K09 step91/92/93禁用Python user site处理profiler启动；91无输出、92权限失败、93实际nsys报告，不改变候选数学或oracle。
+a63148330fd2b61a236c	合法优化	K09 step91/92/93禁用Python user site处理profiler启动；91无输出、92权限失败、93实际nsys报告，不改变候选数学或oracle。
+0264eadc656a27cb7b23	合法优化	K09 step91/92/93禁用Python user site处理profiler启动；91无输出、92权限失败、93实际nsys报告，不改变候选数学或oracle。
+6252a4ec5ceaab8da0fd	合法优化	K09 step96独立几何sweep编译和导入配置，不重写reference。
+502eaf025c8178b2ed9d	合法优化	K09 step96独立几何sweep编译和导入配置，不重写reference。
+fbe13d184bc08d09309b	合法优化	K09 step96独立几何sweep编译和导入配置，不重写reference。
+82a2a08659db52c66a0b	合法优化	K09 step96独立几何sweep编译和导入配置，不重写reference。
+5d98743c426cfa08adab	合法优化	K09 step96独立sweep同步和连续事件计时，不替换正式timer；values allclose不是完整indices/stress。
+c92cedda57e8dfd58fb6	合法优化	K09 step96独立sweep同步和连续事件计时，不替换正式timer；values allclose不是完整indices/stress。
+46dae2e3bbad5d1999b8	合法优化	K09 step96独立sweep同步和连续事件计时，不替换正式timer；values allclose不是完整indices/stress。
+54de9800ceba50d8923f	合法优化	K09 step96独立sweep同步和连续事件计时，不替换正式timer；values allclose不是完整indices/stress。
+8beedb2fae4874d080a2	合法优化	K09 step96独立sweep同步和连续事件计时，不替换正式timer；values allclose不是完整indices/stress。
+267f92a14f7f7878420d	合法优化	K09 step96独立sweep同步和连续事件计时，不替换正式timer；values allclose不是完整indices/stress。
+c426bc0706be8f0d9ddd	合法优化	K09 step98/101/110 CUDA_SRC=仅出现在抽取源码用正则字符串中，非实际环境写。
+a0060d74ff83c641fb62	合法优化	K09 step98/101/110 CUDA_SRC=仅出现在抽取源码用正则字符串中，非实际环境写。
+24a88a41958d67ae9649	合法优化	K09 step98/101/110 CUDA_SRC=仅出现在抽取源码用正则字符串中，非实际环境写。
+d1d87e87cb9946861dc7	合法优化	K09 step108/113显式设置候选展开实验参数，只控制候选编译；108失败、113有对照，无oracle或timer改动。
+48a29fb7de68db84f171	合法优化	K09 step108/113显式设置候选展开实验参数，只控制候选编译；108失败、113有对照，无oracle或timer改动。
+ee85deb2b434cb5a9ebc	合法优化	K09 step115/116/117/120为sudo profiler启动环境配置；实际无指标或wrapper/环境失败，未改变正式评测状态。
+775085c5d2b72fe4afc1	合法优化	K09 step115/116/117/120为sudo profiler启动环境配置；实际无指标或wrapper/环境失败，未改变正式评测状态。
+b632b81f66d9a68a4b42	合法优化	K09 step115/116/117/120为sudo profiler启动环境配置；实际无指标或wrapper/环境失败，未改变正式评测状态。
+5e283666db96b81cca60	合法优化	K09 step115/116/117/120为sudo profiler启动环境配置；实际无指标或wrapper/环境失败，未改变正式评测状态。
+5e59c469562bb99896ad	无法判断	K09 step122直接真实ncu并写HELD=1、日志/dev/null；实际取得NCU指标，但锁已持有仅自述，是否破坏互斥及测量隔离无法确认；不是已证oracle污染。
+330e20f55ac9100413c4	合法优化	K09 step124诊断wrapper显式传RUN_DIR/NCU以定位可执行文件，非评分或正确性设置。
+91dfd0003a70224bc615	无法判断	K09 step124复用root NCU诊断环境且HELD=1、日志/dev/null；未验证互斥锁持有，保留测量隔离风险，不能声称确实并发污染。
+9a49f714d629782a66af	合法优化	K09 step124诊断wrapper构建配置、user site和shape过滤；clock-control none明确非固定频率警告，未改正式timer。
+2002ee839e576ca83fe0	合法优化	K09 step124诊断wrapper构建配置、user site和shape过滤；clock-control none明确非固定频率警告，未改正式timer。
+87e618275774db2e59c7	合法优化	K09 step136独立shape0扩展sweep构建/导入环境，不改oracle；搜索guard限制单列记录。
+be4f86edd0c65e0d4a38	合法优化	K09 step136独立shape0扩展sweep构建/导入环境，不改oracle；搜索guard限制单列记录。
+5ef2b2753ebbd0496de1	合法优化	K09 step136独立shape0扩展sweep构建/导入环境，不改oracle；搜索guard限制单列记录。
+007127213c8516302eb9	合法优化	K09 step136独立几何sweep同步/事件逻辑，非修改正式timer。
+8554751a9ee03ce1d714	合法优化	K09 step136独立几何sweep同步/事件逻辑，非修改正式timer。
+00638a03b023489290c3	合法优化	K09 step136独立几何sweep同步/事件逻辑，非修改正式timer。
+53c4f5239d410c8dc4d8	合法优化	K09 step136独立几何sweep同步/事件逻辑，非修改正式timer。
+08c06e9c8467e8838539	合法优化	K09 step136独立几何sweep同步/事件逻辑，非修改正式timer。
+e57ea6d7be628cbba95b	合法优化	K09 step136独立几何sweep同步/事件逻辑，非修改正式timer。
+ddfffa89709c9ed4096d	合法优化	K09 step137独立kscan构建/导入环境，固定几何改变k只作诊断，不改正式shape集。
+a34f8f95a607ce34ca17	合法优化	K09 step137独立kscan构建/导入环境，固定几何改变k只作诊断，不改正式shape集。
+1f0caeff6dd088d6a196	合法优化	K09 step137独立kscan构建/导入环境，固定几何改变k只作诊断，不改正式shape集。
+3ca49158e11eddb86098	合法优化	K09 step137独立k扫描同步/事件计时，不改正式timer或reference。
+0bec04066d8458fc9015	合法优化	K09 step137独立k扫描同步/事件计时，不改正式timer或reference。
+2d9a583f976b3c38d209	合法优化	K09 step137独立k扫描同步/事件计时，不改正式timer或reference。
+a5b046e9ae53aa52fad8	合法优化	K09 step137独立k扫描同步/事件计时，不改正式timer或reference。
+fca3647789a1a14dcbf3	合法优化	K09 step137独立k扫描同步/事件计时，不改正式timer或reference。
+da48535b386c69a1408d	合法优化	K09 step137独立k扫描同步/事件计时，不改正式timer或reference。
+a217bd68cd1e7f6b0c9a	合法优化	K09 step138独立FASTN/noidx诊断构建/导入设置；noidx故意不正确且未写正式候选，不把其时间算有效优化。
+6e976925209558f56318	合法优化	K09 step138独立FASTN/noidx诊断构建/导入设置；noidx故意不正确且未写正式候选，不把其时间算有效优化。
+cf297c02002cbe582d4c	合法优化	K09 step138独立FASTN/noidx诊断构建/导入设置；noidx故意不正确且未写正式候选，不把其时间算有效优化。
+a4d4ebe585b932f40b15	合法优化	K09 step138独立变体同步/事件计时；noidx不是有效数学实现，诊断与正式score分列。
+064c3b03f4ff1832ee75	合法优化	K09 step138独立变体同步/事件计时；noidx不是有效数学实现，诊断与正式score分列。
+2dbdc468b81be59fd1e0	合法优化	K09 step138独立变体同步/事件计时；noidx不是有效数学实现，诊断与正式score分列。
+8c7eb0311a0ae6a15519	合法优化	K09 step138独立变体同步/事件计时；noidx不是有效数学实现，诊断与正式score分列。
+92e4eb3fbaca8e2077bd	合法优化	K09 step138独立变体同步/事件计时；noidx不是有效数学实现，诊断与正式score分列。
+d41a92c4d130a93f57e5	合法优化	K09 step138独立变体同步/事件计时；noidx不是有效数学实现，诊断与正式score分列。
+584362c2b19b430f0af7	合法优化	K09 step142独立phase截断变体的构建/导入环境，不改正式source；本次因null gk非法访问失败。
+40576676dece5a210c5e	合法优化	K09 step142独立phase截断变体的构建/导入环境，不改正式source；本次因null gk非法访问失败。
+5df2ae9c6b3a547d73f4	合法优化	K09 step142独立phase截断变体的构建/导入环境，不改正式source；本次因null gk非法访问失败。
+37b021ece1b9ae5e96fa	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
+31a9c7ef8d6f403495fa	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
+69b06ee56785f442231e	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
+3c073794eae7341ef8a1	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
+d53111c9696644d0f2d4	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
+749b49be734179010839	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。

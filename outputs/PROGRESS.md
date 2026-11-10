@@ -2,6 +2,20 @@
 
 ## 第二轮启动（2026-11-11）
 
+
+### 最新本地进度：K09前155步与profile纠错链
+
+- 上轮按用户明确上传请求，将此前5个本地提交推送至`beff1cf`，核对远程main与本地一致，属于有效进展。本轮回到R1–R6研究，新增工作只作本地提交；没有执行下载代码、本机GPU或sudo。
+- K09（Claude Opus5，TopK）step1–155已逐项保存首标，累计2939/3345步、13个完整会话；该会话仍余406步，不能把中间版当终局。专项证据见[`r2_k09_probe_audit.json`](../data/extractions/r2_k09_probe_audit.json)，含11项发现、113个支撑步骤、原始SHA与逐步定位/哈希。全量首标、ISO资格及盲复标尚未冻结。
+- 首次正式候选49，52首次PASS、53 benchmark0.0366/LOW。63同时改warp队列、driver/METH_O入口及POOL8输出，66为0.0479；75–82组合改动后85为0.0690，不能按单项归因。88首次实际NCU尝试因Python encoding失败，92进入计数权限错误；93首次成功profile是nsys，94/95读到shape0约11.5us、其他约5.5–6.2us。122在sudo路径多次失败后才首次取得真实NCU指标，不能概括成整会话NCU均失败。
+- 14在成功计时前仅凭理论预算确认全题launch-bound，39/56把微基准floor推广为整个score主导因素；73/87又将CPU issue接近event时长当CPU瓶颈。队列背压也可产生接近，轻kernel与正式kernel的差不全是入口；nsys促使96明确修正为kernel时长。独立计时不是硬件profile，空kernel约1.3us不是所有kernel统一可扣除的税，未独立证明128MB flush使实际128MB L2每次完全cold。
+- 静态ptxas后续为55/40regs、spill0，不自动证明occupancy不受寄存器限制。SASS累计计数错误经102修正为3040/3344；SHFL744是两kernel静态合计，不当动态每warp工作量。禁外层unroll未缩代码，rolled网络多数更慢，限制简单取指解释；不据此排除一切取指成本。34编译hard error与BUILD_OK并存来自tail，114的rc0同样受管道影响，不按打印字样判原命令成功。
+- 124/125真实shape4 NCU有非固定频率警告，short_scoreboard29.49%、barrier14.51%、long16.68%；126结合源码定位thr仅iteration末更新，nit1各批仍见0阈值，改为每批刷新。131 shape4连续约5.8降至4.042us而shape0基本不变；133再改几何后134 PASS、135为0.0787/LOW。150–153 buffer加提前加载组合后154 PASS、155为0.0789/LOW，未见显著改善证据；O(log(N/K)) flush依赖分布，不能称任意输入最坏界。
+- reference3被49适配接口；SOTA7也就是torch.topk，29/32拿同算子建立基线、38有实测，不当独立SOTA算法收益。27实际读CUDA构建skill并采用配置，35读隐式头源码后37采用选项，41/42读empty_cuda签名后43/44适配。环境skill的nvcc13.2陈述与15实回13.3分列；后续知识用途继续沿原文追踪。
+- POOL8每次确实计算当前x，未直接复用oracle；首次init缓存stream/device，八次后旧输出存储会被复写，当前PASS未验证旧结果保留或跨stream/device契约。phase截断诊断经历null gk、patch错文件、系统python缺torch失败，143/145/148修复后才有新变体数字；变体相减不作精确可加的组件成本，noidx故意不正确的时间不算有效优化。
+- R5追加C++ Plan的tup/ovp/oip/stream赋值检索，新增15命中均在K09，后续步骤11处尚未判断。前143步全部172命中已逐处复核：166合法、6无法判断；unknown为输出池/缓存stream四处及root profiler的HELD1、LOG=/dev/null两处。锁已持有仅自述，不声称确有并发污染或reference被改。累计758/11433处：702合法、53无法判断、3确实影响评估；剩余10675，3条确认仍为同一FP8全局开关案例。
+- ISO维持172份资格复核、1份可靠成功GPU候选、selected未冻结。本轮聚焦最后KBH会话与R5，没有把未读ISO顺位自动判成CPU或补足配额。下一步继续K09 step156起、ISO及R5逐处复核，完整首标后才抽20%盲复标并计算一致率/κ，再完成R4/R5最终报告和R6简报；结构校验不是完成证明。
+
 ### 最新本地进度：K12全会话与精度缓存边界
 
 - 上轮K10全会话、8份ISO资格及14处状态判断已保存本地提交`450c8e8`，属于有效进展。本轮继续原R1–R6目标，仅本地提交，未执行下载代码或本地GPU。

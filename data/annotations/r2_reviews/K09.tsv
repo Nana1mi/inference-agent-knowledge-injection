@@ -1,0 +1,156 @@
+# step phase tool layer origin source evidence outcome flags use hypothesis rationale followup component
+1	E	O	O	m	u	x	s	-	x	-	列出题目文件；动作播报不计实质推理	-	m
+2	N	O	C	m	u	x	s	-	x	-	nvidia-smi回显设备及其他进程；只读状态不是profile	-	o
+3	E	D	K	m	u	x	s	k	a	-	实际读取reference；49适配Model、dummy、形状与values/int64 indices接口，未直接调用禁止topk作候选	step49	m
+4	E	D	M	m	u	x	s	-	x	-	读取本题check协议，values按位置、indices按gather且允许ties；本题harness不列外部知识	-	p
+5	E	D	M	m	u	x	s	-	x	-	读取benchmark，reference与SOTA均为torch.topk、按bandwidth fraction评分	-	p
+6	E	D	C	m	u	x	s	-	x	-	读取五组固定shape，含非2幂n12000及k1；题设称带宽主导不是实测结论	-	m
+7	E	D	K	m	u	x	s	k	a	-	SOTA正文就是torch.topk wrapper；29/32在scratch建立同算子基线、38取得计时；不等同采用独立SOTA算法	step29;step32;step38	m
+8	E	D	M	m	u	x	s	-	x	-	读取yaml的bytes/tolerance/禁用操作；thinking仅行动计划	-	p
+9	E	D	K	m	u	x	s	-	x	-	读取题目PROMPT及check要求；没有实际实现或测量	-	m
+10	E	O	M	e	c	y	s	v	x	评分分母和压力/计时协议决定比较口径，应核查harness	解释几何平均及bytes；实际列文件，硬件文件不存在且管道未显示错误，不当成功读取	-	p
+11	E	D	M	m	u	x	s	-	x	-	读取numeric_stress，TopK为tiny/large缩放及独立容差；没有NaN/Inf覆盖证据	-	p
+12	E	D	M	e	c	y	s	v	x	直接返回选中原值可满足数值压力容差	有具体缩放/容差分析，但把非零容差说成必需exact selection过度；尚无候选；读timer/roofline/correctness	step49	p
+13	E	D	C	m	u	x	f	-	x	-	src/hardware.py不存在，sed退出2	-	o
+14	H	O	H	e	i	u	f	v	x	小输入的理论带宽下限低于launch延迟，减少launch及host开销可能重要	理论预算而非profile；将全题确认为launch-bound过早，图缓存仅思考未实际写入；rg硬件路径失败	step38	m
+15	N	O	C	m	u	x	f	-	x	-	默认python缺torch；nvcc实际13.3，不能把后续skill的13.2陈述当环境实测	step22;step26	o
+16	N	O	O	m	u	x	f	-	x	-	列运行bin wrappers；pyvenv.cfg不存在；只是路径计划	-	o
+17	E	D	C	m	u	x	s	-	x	-	取得实际rtx_pro_6000配置片段，峰值1800及sm_120a；静态配置不是profile	-	p
+18	E	D	M	e	i	y	s	v	x	python wrapper可能同时处理GPU锁与解释器选择	实际读python/ncu/gpu-lock-exec；读取wrapper不等于执行其中环境写或锁操作	step19	p
+19	N	O	M	m	u	x	s	v	x	-	分析缺torch与wrapper变量关系，实际env只读；打印变量不记状态写	-	o
+20	N	O	O	m	u	x	f	-	x	-	系统Python仍缺torch；所谓check已成功import无此前运行支撑，不补记check成功	step22	o
+21	E	O	M	e	i	u	s	v	x	真实harness可能通过uv run使用已有venv	寻找harness调用但无相关代码返回；后续25才找到脚本证据	step25	p
+22	N	O	C	m	u	x	s	-	x	-	绝对venv回显torch2.11 cu130、SM188、每SM102400、实际L2为134217728；非profile	-	o
+23	H	O	M	e	c	y	s	v	x	实测属性L2为128MB，需重新考虑flush及固定时延预算	注意文档96MB与设备128MB矛盾；仍断言输入cold及先验DRAM时延，未实际证明缓存状态	step38	p
+24	E	O	M	m	u	x	s	-	x	-	仅按check.py检索仓库路径，非读到skill或算法正文	-	p
+25	E	D	M	m	u	x	s	-	x	-	regrade_sequential片段明确uv run python check/benchmark；工具调试材料非外部算法知识	step26	p
+26	N	O	C	m	u	x	s	-	x	-	uv run创建本次repo venv并成功import torch、CUDA设备；仅路径计划不计实质推理	-	o
+27	E	J	C	i	i	u	s	vk	a	建立floor微基准前应按环境skill确定CUDA编译配置	实际读cuda-build-blackwell正文；29/32适配CUDA_HOME、arch设置；skill所写13.2不覆盖15的13.3实回	step29;step32	k
+28	N	O	O	m	u	x	s	-	x	-	建立scratch目录；标题及编写计划不计推理/正式候选编辑	-	o
+29	C	O	M	i	i	u	u	s	x	空launch、分配、读取和topk对照可给设计预算	写floor.py，含编译环境与sys.path插入；实际只写scratch，30编译失败；计时沿用原harness	step30	p
+30	M	K	M	m	u	x	f	s	x	-	floor编译失败，命令显式CUDA_HOME/arch；没有得到性能数字	step31	p
+31	N	O	M	e	i	y	s	v	x	隔离torch头文件与nvcc可能修复模板编译失败	由报错提出GCC/nvcc兼容假说；实际只查g++15，尚不能证明唯一根因	step32	p
+32	C	O	M	e	i	y	u	vs	x	将torch glue放cpp、cu只留CUDA代码可避免头文件冲突	实际重写floor并保留环境/sys.path；33仍失败，不能把改写本身当已修复	step33	p
+33	M	K	M	m	u	x	f	s	x	-	分离源码后仍编译失败，尚无floor测量	step34	p
+34	M	O	M	e	i	u	f	v	x	fpermissive或关闭隐式header可能修复nvcc错误	最小编译仍有hard error；BUILD_OK来自tail成功，不能当编译成功	step35	p
+35	E	D	M	e	c	y	s	vk	a	load_inline隐式插入torch头可能解释分离源码仍失败	实际读取cpp_extension中no_implicit_headers与插入逻辑，37采用；编译错误未因BUILD_OK消失	step37;step38	k
+36	C	O	M	e	c	y	u	v	x	关闭隐式header后cpp需自行提供torch和vector头	本步实际只加vector；37才加no_implicit_headers，不能提前认定已设置	step37	p
+37	C	O	M	m	u	x	u	-	x	-	实际给scratch load_inline加入no_implicit_headers=True	step38	p
+38	M	K	M	m	u	x	s	s	x	-	首次成功floor：noop3.296us、empty launch5.600、两次alloc6.976；读取6.864–7.424，topk20.800–47.744；普通微基准非profile	step39	p
+39	C	O	H	e	i	y	u	vs	x	固定host/launch与分配开销重要，分解调用路径可找可减成本	根据38提出固定开销假说，写micro2含环境/sys.path；把观测floor当不可突破上限过度，尚非正式候选	step44	p
+40	M	K	M	m	u	x	f	s	x	-	micro2因empty_cuda声明/类型问题编译失败	step41	p
+41	E	D	H	e	i	u	s	vk	a	empty_cuda可能声明在CUDA专用header且返回TensorBase	实际rg到ATen/cuda/EmptyTensor.h声明，42完整签名、43/44适配；不是纯文件名导航	step42;step43;step44	k
+42	E	D	H	m	u	x	s	k	a	-	实际读empty_cuda重载与TensorBase返回，43显式转Tensor、44加入header	step43;step44	k
+43	C	O	M	e	c	y	u	v	x	显式TensorBase到Tensor构造可消除返回类型错误	改scratch构造及data_ptr转换，未改正式候选；44继续补header后才可运行	step44	p
+44	M	K	H	m	u	x	s	s	x	-	补header并实际测量：noop3.232、pybind4.192、launch5.568、两次empty_cuda5.856、prealloc+launch5.888us；独立对照非profile	step45	p
+45	H	O	H	e	i	y	u	v	x	输出预分配及较轻C入口可能减少每次调用成本	长篇设计分析引用44微基准，承认输出别名与即时比较边界；本步无工具，无实际状态修改；未来kernel/队列成本仍为预测	step49;step63	m
+46	E	D	K	e	i	u	s	v	x	单launch分块选择及last-block合并可避第二次launch	比较多种未实施算法并重读check；threadfence方案尚未验证，不把提到ncu当实际profile	step49	m
+47	E	D	M	m	u	x	s	-	x	-	实际重读timer：事件record、no_grad及逐次128MB flush；未修改评分脚本	-	p
+48	E	D	M	e	c	y	s	v	x	no_grad等host工作可能进入空调用测得时延，需查压力是否变dtype	实际读numeric_stress；没有拆项实验量化no_grad独立成本	step49	p
+49	C	O	K	e	i	u	u	vcs	x	先用共享内存逐次max提取及threadfence合并建立正确基线	首次正式solution写入；实际fresh输出、持久Plan/scratch、内核每次复位counter、每次读当前x；env设置和动态子类入口可观察	step52;step53	o
+50	C	O	K	e	c	y	u	vc	x	负无穷常量使用无符号位转换更明确	审查同步、几何和动态__class__；本步实际仅修NEGINF宏，其余讨论未新增实现	step52	o
+51	C	O	C	m	u	x	u	c	x	-	移除正式候选use_fast_math；不是全局torch精度开关	step52	o
+52	M	V	K	m	u	x	s	-	x	-	首次正式check PASS；nvidia-smi只读状态并非profile	-	o
+53	M	K	K	m	u	x	s	-	x	-	正式benchmark为0.0366/LOW，五形状约63/13/28/16/8us；thinking只有运行计划	-	p
+54	C	O	K	e	i	y	u	vs	x	k轮串行提取/同步可能解释大k延迟，需量化几何与计时遮蔽	由普通benchmark提出依赖链假说，写spin/readmax微基准；仅提ncu未运行，寄存器和cycle估计非实测	step55	p
+55	M	K	M	m	u	x	s	-	x	-	spin8000cycles约3.3us时总6.480与nop6.496接近，16000到9.376；具体clock假定及噪声限制不等同免费计算保证	step56	p
+56	C	O	H	e	i	y	u	vs	x	微基准显示部分GPU工作被host时延遮蔽，应比较输出构造与launch路径	写plumb含缓存tensor/tuple与多种launch；声称整个score皆CPU主导过度，持久输出讨论未自动证明契约允许	step59;step61	p
+57	M	K	M	m	u	x	f	-	x	-	plumb因set_sizes_and_strides重载不明确编译失败	step58	p
+58	C	O	M	e	c	y	u	v	x	显式int64 size/stride数组可消除重载歧义	实际修scratch fused storage view与偏移布局；未改正式candidate	step59	p
+59	M	K	H	m	u	x	f	-	x	-	部分构造/launch计时取得，但zero-param路径非法访问中止；后续driver/graph尚未执行	step60	p
+60	C	O	M	e	c	y	u	v	x	zero-param kernel使用未初始化g_args.x，应跳过该无效对照	删除scratch zero-param计时；已取得部分数字不含driver/graph，等61	step61	p
+61	M	K	H	m	u	x	s	-	x	-	实际driver5.120、runtime5.504、graph16.896、no-launch4.064us；一次路径差异不能泛化graph必慢	step62	p
+62	A	O	H	e	i	y	s	v	x	复用8组输出及轻入口可降低host成本，kernel改warp队列	引用两轮分配时延漂移；只保存v1快照，尚未正式改写；fragmentation及graph成本原因未控制验证	step63	o
+63	C	O	K	e	i	y	u	vcs	x	warp bitonic队列替代k轮提取，配合METH_O/driver及输出池降低开销	正式整文件重写同时改算法与host路径；POOL8轮转、首次缓存device/stream，后续每次launch当前x；超过8次持有和换stream契约未测	step65;step66	o
+64	N	O	K	e	c	y	s	v	x	bitonic rebuild及merge组索引应保持topK不变量	有具体源码推演，但实际工具只查GPU状态，非实测正确性	step65	o
+65	M	V	K	m	u	x	s	s	x	-	CUDA_VISIBLE_DEVICES=0显式设备选择；正式check PASS	-	o
+66	M	K	K	m	u	x	s	s	x	-	正式benchmark0.0479/LOW，组合重写后shape0为35.376us；不拆算法/输出池/入口各自贡献	-	p
+67	C	O	M	e	i	y	u	vs	x	连续调用事件计时可帮助分离kernel与host开销	写ktime，含环境/sys.path；长Python循环仍可能受提交和队列背压影响，不能先验视作纯GPU时间	step68;step93;step96	p
+68	M	K	M	m	u	x	s	s	x	-	400次循环均值30.835/10.244/10.542/6.508/6.270us；普通计时非profile	step69	p
+69	E	O	K	e	i	u	s	v	x	初始全量sort、指令膨胀或spill可能解释k1仍慢	提ncu但实际仅nvcc静态编译：两实例40regs、spill0；不是已取得stall采样	step70	p
+70	E	O	K	e	i	u	s	v	x	大静态代码或低时钟可能解释时延超出cycle预算	静态SASS按函数3120/2832条；时钟低仅假说，尚无运行内clock采样	step71	p
+71	C	O	M	e	i	u	u	vs	x	延长连续运行并采样SM clock可检验ramp假说	写clk含env/sys.path、nvidia-smi采样；只读clock，不设置GPU clock	step72	p
+72	M	K	M	m	u	x	s	s	x	-	400至200000次均约5.51us；末轮见2842MHz，短轮180MHz可为采样时点限制，不能当kernel固定频率	step73	p
+73	M	K	M	e	i	y	s	vs	x	若CPU提交与事件时长接近，可能是host吞吐限制	取得CPU-issue约GPU95%的数据，但队列背压也会让两者接近，不足确证CPU瓶颈；含sys.path/env诊断	step74;step75;step96	p
+74	M	K	H	e	i	y	s	vs	x	与轻量plumb入口对照可定位候选的额外每次调用成本	no-launch约0.020us，轻launch1.54/1.62us；候选4.51/4.75us；不同kernel负载的差不能全归入口	step75;step96	p
+75	C	O	K	e	i	y	u	vc	x	依赖shuffle链可能使kernel延迟高，应加稀疏survivor shift-insert	公开称确认latency-bound尚无profile；本步只改docstring，76–82才实际算法/几何调整	step76;step84	o
+76	C	O	K	e	c	y	u	vc	x	单元素shift-insert可减少稀疏survivor的跨lane阶段	实际替换sort32为insert_one；未形成完整可执行版本直至后续patch	step77;step78	o
+77	C	O	K	i	i	u	u	c	x	按队列宽度sortK并局部merge可处理密集survivor	实际替换merge_group，thinking仅更换计划	step78	o
+78	C	O	K	i	i	u	u	c	x	按ballot计数选择少量逐次insert或整批sort	实际新stream loop，thr只在外层iteration末更新；126将定位该处使nit1的所有批仍走sort	step84;step126	o
+79	C	O	C	m	u	x	u	c	x	-	正式加入FASTN8；动作说明不计实质推理	step84	o
+80	C	O	K	m	u	x	u	c	x	-	删除未用umx函数，低影响整理	-	o
+81	C	O	C	e	i	u	u	vc	x	暴露threads/splits可直接扫几何并按shape选择并行度	实际改make_callable和默认几何；env override仅考虑而未添加，不记实际环境写	step82;step84	o
+82	C	O	C	m	u	x	u	c	x	-	给pybind声明fresh/threads/splits默认参数	step84	o
+83	N	O	K	e	c	y	s	v	x	insert循环的ballot来源需保持warp-uniform以安全shuffle	有具体同步推理，实际仅查GPU可用性	step84	o
+84	M	V	K	m	u	x	s	-	x	-	正式check PASS	-	o
+85	M	K	K	m	u	x	s	-	x	-	正式benchmark0.0690/LOW，shape0为14.512us；多项算法/几何组合收益不拆分	-	p
+86	M	K	M	e	i	y	s	v	x	重测连续调用与harness可追踪距时延floor差距	ktime返回11.629/5.949/6.335/6.103/5.806us；承认CPU/GPU解释歧义，普通计时非profile	step87	p
+87	C	O	M	e	i	y	u	vs	x	相近连续时延可能来自CPU路径，应由profiler直接定位kernel时长	先再次把连续时延当CPU成本，后提出nsys/NCU；写prof.py含环境/sys.path，尚未采样	step88	p
+88	P	N	M	m	u	x	f	-	x	-	首次实际NCU尝试，Python启动utf-8-sig错误，无kernel计数或时长	step90	p
+89	N	O	M	e	i	u	s	v	x	uv或profiler注入的环境可能影响Python encoding查找	实际仅定位venv解释器；未验证LD_PRELOAD/PYTHONHOME根因	step90	p
+90	P	N	M	m	u	x	f	-	x	-	改绝对venv仍utf-8-sig错误，未取得profile	step91	p
+91	P	N	M	e	c	y	u	vs	x	禁用user site可避addusersitepackages的encoding错误	PYTHONNOUSERSITE=1运行但过滤输出为空，无有效profile；92回显权限错误才确认已进入profiler	step92	p
+92	P	N	K	m	u	x	f	s	x	-	成功连接进程后ERR_NVGPUCTRPERM，无实际metric结果	step93	p
+93	P	S	K	e	i	y	s	vs	x	nsys CUDA tracing可在当前NCU计数权限不足时取得时间线	实际生成prof1.nsys-rep，首次成功profile；显式禁用user site	step94;step95	p
+94	P	S	K	m	u	x	s	-	x	-	从已生成nsys trace读取15个kernel时长；列解析待校正，不当新运行	step95	p
+95	P	S	K	m	u	x	s	-	x	-	重读同trace时长与grid：shape0约11.5us，其他约5.5–6.2us；实际header仍未显示全，不据截取补造列名	step96	p
+96	C	O	K	e	p	y	u	vst	x	nsys与连续计时吻合，主要时延确为kernel，grid merge可能重要	明确修正87的CPU解释；写threads/splits sweep，nsys对不同形状的时长差不能单独归grid因果	step97;step98	p
+97	M	K	C	m	u	x	s	-	x	-	按几何扫实际时延并核对values allclose；非正式全stress/indices检验，k1 splits1约4.809us	step98	p
+98	E	O	K	e	p	y	s	v	x	去grid merge仍慢，静态指令规模或执行链可能更重要	依据nsys及扫参反驳单一funnel解释；实际nvcc为S2 55regs/S1 40regs、spill0，静态证据非stall采样	step99	p
+99	E	O	K	m	u	x	s	-	x	-	SASS总6384，S1报告3344而S2行6384为累计解析；102正确分函数3040/3344	step102	p
+100	C	O	K	e	c	y	u	vc	x	大代码足迹或由外层loop展开造成，禁止unroll可检验取指假说	实际加外层pragma unroll1；指令缓存容量/每SM全量取指主张未采样证明，101未读出计数	step102;step113	o
+101	E	O	K	m	u	x	u	-	x	-	重新编译后awk计数输出空；不能记代码缩小或编译失败	step102	p
+102	E	O	K	m	u	x	s	-	x	-	修正SASS分函数计数：S2为3040、S1为3344；外层pragma未变规模	step103	p
+103	E	O	K	e	c	y	s	v	x	外层pragma未降指令数，应检验sort网络自身规模	确认pragma写入并取得静态指令混合；SHFL744等为两kernel合计，不当动态每warp执行量	step104	p
+104	A	O	K	e	c	y	s	v	x	把sort/rebuild网络改循环可检验代码足迹假说	引用静态混合但机制未确证；实际仅保存snapshot，105起才改网络	step105;step113	o
+105	C	O	C	m	u	x	u	c	x	-	rebuild pragma改UNR参数，尚未成功编译	step108	o
+106	C	O	C	m	u	x	u	c	x	-	sortK两级pragma改UNR；只是候选配置编辑	step108	o
+107	C	O	C	e	i	u	u	vc	x	用编译宏控制展开便于对照循环和直线代码	添加读取KBH_TOPK_UNR和编译flag；本步读取环境不等于写环境，108才显式写变量	step108	o
+108	M	K	C	m	u	x	f	s	x	-	UNR1/8两次均编译错误，无有效性能对照	step110	p
+109	N	O	M	m	u	x	u	-	x	-	编译旧scratch源无错误输出；110才重新抽取实际改动后源	step110	p
+110	N	O	M	m	u	x	f	-	x	-	重新抽源明确pragma操作数UNR未定义；无性能数据	step111	p
+111	C	O	C	e	c	y	u	vc	x	用条件预处理与_Pragma可规避pragma参数宏不展开	实际添加UNRP定义，112才替换使用点；不泛化所有编译器行为	step112	o
+112	C	O	C	m	u	x	u	c	x	-	实际替换三处pragma为UNRP，输出5含两处定义，不是5处独立循环	step113	o
+113	M	K	C	m	u	x	s	s	x	-	UNR0/1实际均取得时延；rolled多数kernel更慢，少数harness差异不保证显著，未正式check	step114	p
+114	N	O	M	e	i	y	s	v	x	循环网络未加速使纯取指解释缺支持，需真实stall数据	工具仅sudo探测和proc只读；rc0被head管道掩盖原命令状态，不能仅凭该行确认sudo权限	step115;step122	p
+115	P	N	M	m	u	x	u	s	x	-	sudo带NCU尝试经过grep后无输出，没有可核实profile指标	step116	p
+116	P	N	M	m	u	x	f	s	x	-	sudo环境不保留-E且找不到ncu，未运行profiler	step117	p
+117	P	N	M	m	u	x	f	s	x	-	解析到run wrapper但RUN_DIR丢失使/bin/gpu-lock-exec不存在，仍失败	step118	p
+118	E	D	M	e	c	y	s	v	x	wrapper依赖的RUN_DIR在sudo环境丢失，应查真实binary与变量	实际只读shim并列实际NCU路径，不是再次profile	step119	p
+119	N	O	M	e	c	y	s	v	x	显式传递wrapper所需变量可继续profiling	只读RUN_DIR/REAL_NCU，不记打印环境为写状态	step120	p
+120	P	N	M	m	u	x	f	s	x	-	显式传RUN_DIR/REAL_NCU后仍因KBH_GPU_LOCK未绑定失败	step121	p
+121	E	D	M	m	u	x	s	-	x	-	读gpu-lock-exec及环境字段，未执行其中flock或写日志代码	step122	p
+122	P	N	K	e	c	y	s	vs	x	按wrapper依赖传递环境可使sudo中的NCU继续启动	首次实际成功NCU时长CSV；sudo直接真实binary并设HELD1/LOG=/dev/null，锁已持有只是自述未独立证明，不记为修改reference	step123	p
+123	C	O	M	e	p	y	u	v	x	应取单shape stall/occupancy并保留非固定频率口径	实际改scratch/prof.py的shape筛选；称NCU默认base clock解释时长差未有控制实验，本步未新测	step124	p
+124	P	N	K	m	u	x	s	s	x	-	真实shape4 NCU：8.64us、theoretical100/achieved43.18%、DRAM14.68%；clock-control none带非固定频率警告，不把优化建议百分比当实测加速	step125	p
+125	P	N	K	e	p	y	s	v	x	较低issue率和未满occupancy提示需看实际stall细分	新NCU为4,858,752条动态warp指令、short_scoreboard29.49%、wait16.95%、barrier14.51%、long16.68%；不能单靠这些定位源码唯一原因	step126	p
+126	C	O	K	e	p	y	u	vct	x	thr只在iteration末更新使nit1各批沿用0阈值，逐批刷新可避免重复全sort	把源码78与NCU动态工作量联合定位，正式移动阈值更新到批内；后续131验证部分形状改善	step131;step134	o
+127	R	O	C	e	i	y	u	vc	x	rolled未获益，应移除实验宏并保留直线展开	实际移除UNRP定义，128/129才清理其余站点和flag；没有独立新性能测量	step128;step129	o
+128	R	O	C	m	u	x	u	c	x	-	把UNRP站点替回pragma unroll，grep仍有Python _UNR/flag残余	step129	o
+129	R	O	C	m	u	x	u	c	x	-	清除Python UNR环境读取/编译命名参数，正式恢复默认编译配置	step131	o
+130	N	O	C	m	u	x	s	-	x	-	只读GPU空闲状态及SM clock180MHz；不是运行内实际clock采样	-	p
+131	M	K	K	m	u	x	s	-	x	-	刷新thr且清理UNR后：shape4连续4.042us、shape1 5.400，shape0 11.680几乎不变；尚未重新正式check	step134	p
+132	M	K	C	e	i	y	s	v	x	stream成本变化后应重扫几何，最佳配置可能变化	实际sweep返回values ok与计时，shape0最佳512x64约10.552us、shape4最佳512x1约3.366；不等同全stress	step133	p
+133	C	O	C	e	i	y	u	vc	x	按扫参结果调整threads/splits以平衡块数与合并成本	实际改默认几何；叙述将s1 splits8称最优但返回最佳是4、代码实际8；保留该不一致，不把启发式称全shape最优	step134;step135	o
+134	M	V	K	m	u	x	s	-	x	-	正式check PASS	-	o
+135	M	K	K	m	u	x	s	-	x	-	正式benchmark0.0787/LOW；仅tail保存部分shape，shape0未直接回显不补造精确时长	-	p
+136	M	K	C	e	i	y	s	vs	x	shape0较慢，扩展split搜索可检验并行度/尾合并权衡	写并执行sweep0含环境/sys.path；实际guard仍排除T1024/S64等计划组合；512/S64仍最佳10.568us	step137	p
+137	M	K	K	e	i	y	s	vs	x	固定几何扫k可检查队列宽度变化相关的时延	实际写运行kscan，改变k也改变比较/筛选和中间量；不能视作只改变S的纯单因素实验	step138	p
+138	M	K	K	e	i	y	s	vs	x	比较FASTN与删除索引shuffle的上限诊断可评估优化方向	FASTN8附近较好但非所有shape最优；noidx刻意破坏索引正确性、只可作诊断成本上限，不计有效加速	step139	p
+139	E	O	K	e	i	u	s	v	x	索引shuffle收益不足，需检查寄存器spill与并行度等其他限制	静态ptxas为55/40regs、spill0；noidx只删部分索引shuffle，不能据其4–13%变化排除所有shuffle依赖	step140;step141	p
+140	E	D	M	e	c	y	s	v	x	静态未spill后应取shape0运行profile判断瓶颈	实际只读NCU wrapper；无spill不自动证明寄存器不限制occupancy	step141	p
+141	P	N	K	m	u	x	s	-	x	-	实际shape0 NCU12.86us、SM平均active5959.51/elapsed33503、低吞吐；跨SM平均不能直接从总时长相减得空闲时间	step142	p
+142	M	K	M	e	p	y	f	vs	x	分段截断kernel可帮助定位stream/blocktree/gridmerge成本	写phase动态patch后执行，splits1的gk null导致非法访问；截断变体尚无有效结果，不把初始错误当正式candidate失败	step143	p
+143	M	K	M	e	c	y	s	v	x	截断变体写gk前应检查null，单split改写输出	修scratch并实际取得三段计时，shape0为3.816/5.625/10.561us；不同编译变体相减受调度/编译影响，不当精确组件因果成本	step144	p
+144	M	K	M	e	i	y	f	v	x	增加握手后跳过merge的变体可区分同步与合并成本	对错误文件做replace后assert失败；仍运行旧三变体，没有新sync-only数字，不因旧表返回而记预期实验成功	step145	p
+145	M	K	M	e	c	y	s	v	x	应在构建生成CUDA源时注入sync-only而非改patch脚本文本	实际修独立phase并运行四变体；shape0 full10.574/sync-only6.192，变体差不是精确合并成本	step146	p
+146	M	K	M	e	i	u	s	vs	x	空kernel对照可估计连续发射中的固定延迟	独立empty诊断含环境/导入/同步，回显1.308–1.444us；不同kernel延迟不可无条件作为统一可加减launch税	step147	p
+147	M	K	M	e	i	y	f	v	x	再截断list merge或最终tree可细分末CTA路径	系统python导入solution因缺torch失败，随后只跑旧四变体；尚无两个新变体结果，倒序连续地址并非天然不合并	step148	p
+148	M	K	M	e	c	y	s	v	x	静态字面串替代导入可修诊断生成脚本	实际六变体返回；shape0 full10.575/nofinaltree8.726/nolistmerge8.443，两个差值不可简单相加归因	step149	p
+149	M	K	C	e	i	y	s	v	x	按几何对照截断阶段可观察stream与合并负担权衡	实际追加并运行表，低split每warp元素多时stream显著变慢；不同编译变体和不同几何不能直接证明唯一occupancy机制	step150	p
+150	E	D	K	e	i	y	s	v	x	共享survivor buffer批量flush或比逐个insert更易扩展	读取自身正式源码以准备改写；175cycle/insert为推算，O(log(N/K)) flush依赖输入分布，非任意输入最坏界	step151;step155	m
+151	C	O	K	m	u	x	u	c	x	-	正式删除insert_one辅助函数；本步公开动作播报不计实质推理	step152;step153	o
+152	C	O	K	i	i	u	u	c	x	缓存survivor后批量sort并提前加载下一tile可能减少串行路径	正式重写stream，buf满后flush重筛且末尾flush，树复用共享内存前barrier；同时改buffer和load流水不能拆分收益	step153;step154	o
+153	C	O	K	m	u	x	u	c	x	-	正式添加flush辅助函数，warp同步后读buf、sort/merge、再次同步；不是harness timer修改	step154	o
+154	M	V	K	e	c	y	s	vc	x	bc及flush分支需warp-uniform且共享内存复用前同步	清理FASTN和更新docstring后正式check PASS；docstring的O(log)分布假定仍未说明，不以PASS证明复杂度界	step155	o
+155	M	K	K	m	u	x	s	-	x	-	独立计时及正式benchmark0.0789/LOW；shape0连续10.798us，与135 0.0787接近，不把微小差异称显著优化；会话未终结	step156	p

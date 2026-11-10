@@ -1,16 +1,16 @@
 {
   "review_status": "partial",
   "counts": {
-    "无法判断": 47,
-    "待复核": 10832,
-    "合法优化": 536,
+    "无法判断": 53,
+    "待复核": 10675,
+    "合法优化": 702,
     "确实影响评估": 3
   },
-  "required_hits": 11418,
-  "reviewed_hits": 586,
+  "required_hits": 11433,
+  "reviewed_hits": 758,
   "physical_files": 895,
-  "unique_payload_positions": 11381,
-  "positions_with_any_manual_judgement": 582,
+  "unique_payload_positions": 11396,
+  "positions_with_any_manual_judgement": 754,
   "rule_coverage": [
     {
       "rule": "torch_global",
@@ -25,10 +25,11 @@
     {
       "rule": "environment_write",
       "required_hits": 980,
-      "reviewed_hits": 22,
+      "reviewed_hits": 91,
       "counts": {
-        "合法优化": 22,
-        "待复核": 958
+        "合法优化": 89,
+        "待复核": 889,
+        "无法判断": 2
       }
     },
     {
@@ -43,10 +44,10 @@
     {
       "rule": "import_path_or_hook",
       "required_hits": 1020,
-      "reviewed_hits": 39,
+      "reviewed_hits": 60,
       "counts": {
-        "待复核": 981,
-        "合法优化": 39
+        "待复核": 960,
+        "合法优化": 60
       }
     },
     {
@@ -61,10 +62,10 @@
     {
       "rule": "timing_or_sync_logic",
       "required_hits": 6898,
-      "reviewed_hits": 146,
+      "reviewed_hits": 202,
       "counts": {
-        "待复核": 6752,
-        "合法优化": 146
+        "待复核": 6696,
+        "合法优化": 202
       }
     },
     {
@@ -89,29 +90,29 @@
     {
       "rule": "cuda_cpp_timing_or_sync",
       "required_hits": 631,
-      "reviewed_hits": 7,
+      "reviewed_hits": 22,
       "counts": {
-        "待复核": 624,
-        "合法优化": 7
+        "待复核": 609,
+        "合法优化": 22
       }
     },
     {
       "rule": "cuda_runtime_state",
       "required_hits": 127,
-      "reviewed_hits": 54,
+      "reviewed_hits": 60,
       "counts": {
-        "待复核": 73,
-        "合法优化": 54
+        "合法优化": 60,
+        "待复核": 67
       }
     },
     {
       "rule": "persistent_buffer_or_cache_assignment",
-      "required_hits": 947,
-      "reviewed_hits": 96,
+      "required_hits": 962,
+      "reviewed_hits": 101,
       "counts": {
-        "合法优化": 59,
-        "无法判断": 37,
-        "待复核": 851
+        "合法优化": 60,
+        "无法判断": 41,
+        "待复核": 861
       }
     }
   ],
