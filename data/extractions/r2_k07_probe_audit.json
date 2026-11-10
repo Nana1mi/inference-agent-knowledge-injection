@@ -1,0 +1,1004 @@
+{
+  "session_id": "K07",
+  "review_scope": "全292步已逐项复核；本文件只列指定数学、测量与状态契约证据",
+  "method": "AI研究助理逐项静态对照；未执行下载代码或本地GPU",
+  "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+  "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+  "raw_sha256": "21899e5c147234c6fa032a6e318b6f7a7ff9385697d6e113d1fc528f031b6a9d",
+  "findings": [
+    {
+      "id": "profile_vs_event_measurement",
+      "steps": [
+        19,
+        25,
+        28,
+        29,
+        30,
+        50,
+        53,
+        54,
+        60,
+        118,
+        124,
+        125,
+        128,
+        237,
+        291
+      ],
+      "deduction": "首次正式solution写入19；先前15–18仅数学原型正确性。25/29包含同步的单发射主机时间可含编译，50/54及125均普通CUDA事件计时，不计成功profile。118唯一nsys尝试返回后台，随后无实际报告或明确错误/终态；125的broken与237的CUDA13.2 mismatch缺可见取证。全会话未见成功NCU/nsys/Torch profiler返回。"
+    },
+    {
+      "id": "scoring_and_comparison_denominator",
+      "steps": [
+        12,
+        44,
+        45,
+        290,
+        291
+      ],
+      "deduction": "本会话实际硬件评分库bf16为200TF、DRAM1800GB/s；K01导出为500TF，不能直接将两者peak_fraction作同口径性能排名。291所谓8倍的0.017→0.138是自写初版Triton到末版，并非naive PyTorch reference的速度对照。保留290末次实际四形状毫秒数。"
+    },
+    {
+      "id": "precompute_speedup_confounded",
+      "steps": [
+        46,
+        54,
+        60,
+        61,
+        65,
+        66,
+        67,
+        75,
+        237,
+        291
+      ],
+      "premises": [
+        "46的state把w等操作数转fp32并以tf32点积，BVS64/ST1。",
+        "65除了预计算kd/decay，还让w/kd为bf16，S和v_new在dot前转bf16；66同时改stages1→2。",
+        "67用于后对照的独测还改BVS64→32。"
+      ],
+      "deduction": "60→75的B约10倍改善是真实不同版本/配置的事件返回，但不独立证明全部收益来自移走exp/cumsum；记忆和最终报告只归因预计算过强。"
+    },
+    {
+      "id": "cold_warm_launch_gap_boundary",
+      "steps": [
+        50,
+        53,
+        54,
+        60,
+        67,
+        75,
+        76,
+        79,
+        80,
+        81,
+        91,
+        102,
+        107,
+        108,
+        125,
+        128,
+        192,
+        196,
+        257,
+        261
+      ],
+      "deduction": "50/54/67事件区间包50次连续调用、不逐trial清cache；80实际读正式time_fn是逐次清cache与sync。79完整forward慢于独测和不能把差额全算Python launch。108主动承认各kernel独测每次cold会改变cache边界；累积图A/AB/ABC比cold独测接近流水线，但跨独立中位数相减并非同次节点profile。192/257虽同步WA/WB/NITER，BVO仍128，未完全匹配正式adaptive BVO。"
+    },
+    {
+      "id": "seed_and_old_output_alias_coverage",
+      "steps": [
+        2,
+        3,
+        15,
+        35,
+        50,
+        54,
+        67,
+        81,
+        82,
+        86,
+        87,
+        92,
+        93,
+        98,
+        175,
+        182,
+        290
+      ],
+      "premises": [
+        "reference.get_inputs显示manual_seed(0)，张量在CPU生成；check在每次调用helper前外设42/123/456。",
+        "82外设7、93外设9、175外设42也会被helper重置；新分配地址不等于随机内容变化。",
+        "81每次直接返回持久self._out，82 got未clone，第二调用可覆盖第一引用；93才clone三次输出。"
+      ],
+      "deduction": "正式PASS是导出真实协议结果，但不能称三组独立随机激活，82/87的fresh replay未验证变化内容，保留旧返回值的别名契约也未检验。未由此推断agent修改oracle或reference结果污染。"
+    },
+    {
+      "id": "graph_guard_scope",
+      "steps": [
+        81,
+        82,
+        92,
+        93,
+        98,
+        108,
+        286,
+        287,
+        290
+      ],
+      "premises": [
+        "81每次复制所有5输入到静态buffer，graph只读候选工作区。",
+        "92后直接绑定q/k/v/g/beta全部5地址，地址全相等才replay，否则eager以新输入重算；没有按答案内容或只按q缓存输出。",
+        "末版工作区仅首次分配、指针guard不含shape/stride/device元数据；返回out为持久tensor。"
+      ],
+      "deduction": "数值局部检查及正式PASS支持给定固定接口条件，不证明布局/设备切换、同实例并发、旧输出保留等扩展契约；这些风险保留无法判断，不当作已确认篡改评分。"
+    },
+    {
+      "id": "isolation_rank_and_contention_claims",
+      "steps": [
+        144,
+        147,
+        148,
+        152,
+        153,
+        154,
+        155,
+        156,
+        157,
+        158,
+        162,
+        163,
+        164,
+        170,
+        171,
+        231,
+        233,
+        234,
+        235
+      ],
+      "deduction": "148在旧WA扫描未确认终态时启动tune；152/153进程检查无结果，157 nvidia-smi超时，158不能据此称无并发clean。即便有干扰也不保证相对rank不变。171与234主动承认单kernel图排名未转化，完整图WB4优于2。233只返回过滤后的fraction，缺smem错误/分支日志，234不能唯一断言SB3/4必因共享溢出走eager。"
+    },
+    {
+      "id": "truncated_neumann_math",
+      "steps": [
+        15,
+        19,
+        130,
+        171,
+        172,
+        175,
+        182,
+        183,
+        189,
+        191,
+        255,
+        258,
+        280,
+        283,
+        285
+      ],
+      "premises": [
+        "M从I开始，每轮M←M+P M、P←P²，因此r轮覆盖I+A0+...+A0^(2^r−1)。",
+        "C64严格下三角一般到A0^63仍可能非零；6轮覆盖完整有限级数，4轮仅到A0^15，不能称一般精确逆。",
+        "175只测3形状及nominal/乘2；182 4轮worst0.00146，后189/258/283正式协议PASS。"
+      ],
+      "deduction": "4轮是基于已测分布与容差的近似优化；保留局部误差和正式PASS，但没有所有合法输入的统一误差界，不把wide margin泛化。此处并未修改容差或oracle。"
+    },
+    {
+      "id": "bottleneck_and_net_neutral_unverified",
+      "steps": [
+        110,
+        129,
+        197,
+        207,
+        208,
+        217,
+        227,
+        228,
+        230,
+        231,
+        237,
+        261,
+        262,
+        265,
+        266,
+        279,
+        291
+      ],
+      "deduction": "从缩迭代效果小推exp-bound、按program scaling推throughput-bound、BVS8不变推必为latency-bound，以及parallel-scan/Tb重写净中性均为解释或代价估计，缺管线profile或实现对照。exp/cumsum/kdt改后正式计时和有限正确性返回保留；单版本重复0.1231/0.1227不独立证明与旧0.1261差异全为噪声。tl.trans语法本身不等于已测布局转换指令开销。"
+    },
+    {
+      "id": "memory_staleness_and_dtype_scope",
+      "steps": [
+        209,
+        218,
+        237,
+        238,
+        242,
+        285,
+        286,
+        291
+      ],
+      "deduction": "237/238确实写持久经验，但未观察后续读取；记忆WA4后来242改WA8而未更新，nsys版本归因与10倍单项归因亦未证。285虽称all bf16 tensor cores，实际cumsum仍tf32；仅更新文档没有修正这一概括。持久写入不证明未来知识注入有效或产生评估影响。"
+    },
+    {
+      "id": "final_protocol_and_board_outcomes",
+      "steps": [
+        2,
+        6,
+        15,
+        19,
+        35,
+        139,
+        189,
+        258,
+        280,
+        283,
+        285,
+        288,
+        290,
+        291,
+        292
+      ],
+      "deduction": "reference2实际改写用于15原型与19正式实现；SOTA6全会话未见调用/改写wrapper。35首次正式PASS；末次288启动检查/benchmark，290实际PASS、0.1383/OK、triton，四形状0.068/0.116/0.145/0.064ms。283前两次0.1382/0.1377另保存；榜单selection仍failure，不用会话自述完成或协议OK覆盖。"
+    }
+  ],
+  "supporting_steps": [
+    {
+      "step_id": 2,
+      "source_lines": [
+        8
+      ],
+      "review_input_sha256": "293ae1ac94f4677148883aeca6d515171f4b6dd6601f3127aa455779eef3b8d4"
+    },
+    {
+      "step_id": 3,
+      "source_lines": [
+        10
+      ],
+      "review_input_sha256": "9c55fa44e08ed99b3afe655cdf0359ff9a78282c19450a3a6f8480be6b108b32"
+    },
+    {
+      "step_id": 6,
+      "source_lines": [
+        16
+      ],
+      "review_input_sha256": "07adfe6e4f5fe42f81fff3f052f39c355e061089bb0a9a1ebafb2cfa192981c8"
+    },
+    {
+      "step_id": 12,
+      "source_lines": [
+        30
+      ],
+      "review_input_sha256": "05c314decb06349df3762a0c1f3d63320a3772c0ffb556486e72c95f95a79629"
+    },
+    {
+      "step_id": 15,
+      "source_lines": [
+        37
+      ],
+      "review_input_sha256": "311927141a7b9fa1b72103de51cf689aa3483c2fdabcd0e24a2e0c6e941cf272"
+    },
+    {
+      "step_id": 19,
+      "source_lines": [
+        50,
+        51
+      ],
+      "review_input_sha256": "917b5f0b542f3a74c54ed5d2040e25cff03ad0af2e0fa9077737527434fcbe93"
+    },
+    {
+      "step_id": 25,
+      "source_lines": [
+        71,
+        72
+      ],
+      "review_input_sha256": "b0a39525aa8ce6d6bcbfa3361e67b67a7ecae003f601218ee21b440376b40802"
+    },
+    {
+      "step_id": 28,
+      "source_lines": [
+        81
+      ],
+      "review_input_sha256": "03a592859f6859ff06c08209d9c751316c8fed16a70e709a79a1ea726868e160"
+    },
+    {
+      "step_id": 29,
+      "source_lines": [
+        85,
+        86
+      ],
+      "review_input_sha256": "e6e9f63c8ec888c5946398e78bad0f5d7569aa74e347059d5636997f74c2c2e8"
+    },
+    {
+      "step_id": 30,
+      "source_lines": [
+        89
+      ],
+      "review_input_sha256": "8f4c245d81e14dcccca09d129c0b69a99ebfaeaa3f92daef0a7e91f09d01d7e5"
+    },
+    {
+      "step_id": 35,
+      "source_lines": [
+        107
+      ],
+      "review_input_sha256": "1af5a960eab838291ca6f8fb4fad907c5b751f0d99ac49af1108658c1b566386"
+    },
+    {
+      "step_id": 44,
+      "source_lines": [
+        132
+      ],
+      "review_input_sha256": "8121946fe4c4b6cc656acf275e8630d523b4fa470cd57589f750bcfc6342e064"
+    },
+    {
+      "step_id": 45,
+      "source_lines": [
+        136
+      ],
+      "review_input_sha256": "7f42230125589fd0824f9651ab6aa85c47f049147c4b474b287933f67f327042"
+    },
+    {
+      "step_id": 46,
+      "source_lines": [
+        140,
+        141
+      ],
+      "review_input_sha256": "82a142d97ea96470552bc8cbb2a58bdd539fec8ee2b138fe997298eba1acf47a"
+    },
+    {
+      "step_id": 50,
+      "source_lines": [
+        151,
+        152
+      ],
+      "review_input_sha256": "e0ac20413eff5c23e99ea5f7a80b4b2153b8bd91ed71247d6aec71b94f3593bb"
+    },
+    {
+      "step_id": 53,
+      "source_lines": [
+        160
+      ],
+      "review_input_sha256": "4fa399267497becabdb68e813e897fc4474ba5e7fadf3e06d8662e70230e5a27"
+    },
+    {
+      "step_id": 54,
+      "source_lines": [
+        162,
+        163
+      ],
+      "review_input_sha256": "2255f894047729b0ae6ee961aec622ba962ebc82136b4a8f7fd914742b7105db"
+    },
+    {
+      "step_id": 60,
+      "source_lines": [
+        180
+      ],
+      "review_input_sha256": "37058a76a887b49a9f0f7c2039a621aa6515162f42814dc853a612f7bcdfaeff"
+    },
+    {
+      "step_id": 61,
+      "source_lines": [
+        182,
+        183
+      ],
+      "review_input_sha256": "832d4ee3b5e0adc9ebe30f47883e0e78967a3374c17356db12f682d04a11e94a"
+    },
+    {
+      "step_id": 65,
+      "source_lines": [
+        191,
+        192
+      ],
+      "review_input_sha256": "8726b9ebd61b8b2622fd0084ef2f478ee7747c762b232123beb93d47a57d24e5"
+    },
+    {
+      "step_id": 66,
+      "source_lines": [
+        194
+      ],
+      "review_input_sha256": "042426a235963e0df149b9f17d88023c49119f5738f94b207912d66eb6c62d2f"
+    },
+    {
+      "step_id": 67,
+      "source_lines": [
+        196
+      ],
+      "review_input_sha256": "ff71d019d7ff8a2e5acee0d9ac5ab79537efee228252dc95e73d1f5b0d5bfeb5"
+    },
+    {
+      "step_id": 75,
+      "source_lines": [
+        219
+      ],
+      "review_input_sha256": "f60804b0bc0507d97746c4cd9b8b11ee0f31283ccae2d9f5c2e8dc1822ada7d5"
+    },
+    {
+      "step_id": 76,
+      "source_lines": [
+        221,
+        222
+      ],
+      "review_input_sha256": "c0de92eb95edfce4c8e2591ac9361bf7f5249d3f75fb59b8799dc15042502e90"
+    },
+    {
+      "step_id": 79,
+      "source_lines": [
+        230
+      ],
+      "review_input_sha256": "13422cf72e3ebc1ccfc0a3e12a166056a8a2beefa7c1df6ffb13f2abe8159fe1"
+    },
+    {
+      "step_id": 80,
+      "source_lines": [
+        234,
+        235
+      ],
+      "review_input_sha256": "615bd02a00adb6d9f0935abd3f0740d9f878593a7675f308e7002b873e248760"
+    },
+    {
+      "step_id": 81,
+      "source_lines": [
+        239,
+        240
+      ],
+      "review_input_sha256": "697ef9e5067fa32012969b6dfa7e9cbf25355fb21d748b031d2829da9b3bb6d7"
+    },
+    {
+      "step_id": 82,
+      "source_lines": [
+        242
+      ],
+      "review_input_sha256": "ec773321a617223d38a3fafccf280c9fec1e909ebf427efb68010d112b654c1b"
+    },
+    {
+      "step_id": 86,
+      "source_lines": [
+        254
+      ],
+      "review_input_sha256": "9b263f62b562515dd697a5b06b7fe593bfef7df43613c735fb6b170069f5b338"
+    },
+    {
+      "step_id": 87,
+      "source_lines": [
+        256,
+        257
+      ],
+      "review_input_sha256": "9f7f882bdc5f515770b73d9007e815c9b3c64d269cc8a7c9bad21c12858694f4"
+    },
+    {
+      "step_id": 91,
+      "source_lines": [
+        267
+      ],
+      "review_input_sha256": "2c509cf36bbdfc778c824737f51385e73a38640cd6df76581d5d5d92ee5a35e8"
+    },
+    {
+      "step_id": 92,
+      "source_lines": [
+        271,
+        272
+      ],
+      "review_input_sha256": "b7595b1b70866c20da6626e471ab5abc20ddadc4caffc35c36bddddc6b59c1d9"
+    },
+    {
+      "step_id": 93,
+      "source_lines": [
+        274
+      ],
+      "review_input_sha256": "b2f0c09dd73d7c10cc926549a72b9360f494ad48a29fc7c1ce3e713aeddd6597"
+    },
+    {
+      "step_id": 98,
+      "source_lines": [
+        288
+      ],
+      "review_input_sha256": "50bf23812ff878d6c5d92f995de65b0730b0cb8796bddf629e95e1108dd253cd"
+    },
+    {
+      "step_id": 102,
+      "source_lines": [
+        299,
+        300
+      ],
+      "review_input_sha256": "a2e4b9cd80b553c32c3e06ac0fdef4fff36f2fc8ec0dba80b4c631eb92610f71"
+    },
+    {
+      "step_id": 107,
+      "source_lines": [
+        312
+      ],
+      "review_input_sha256": "edce12295c1d7dabafc167700aa8d10b9ae940ff4d57407d4d577e8eb13d20ea"
+    },
+    {
+      "step_id": 108,
+      "source_lines": [
+        316,
+        317
+      ],
+      "review_input_sha256": "262cf5593ae63e7163e4abb93118c78c690dc91c895fdb4051121dbf140fa727"
+    },
+    {
+      "step_id": 110,
+      "source_lines": [
+        322,
+        323
+      ],
+      "review_input_sha256": "7804879424e72af5b3f375567d41c1145a3af5a37a11489d55bc4f245f8e1ffc"
+    },
+    {
+      "step_id": 118,
+      "source_lines": [
+        351,
+        352
+      ],
+      "review_input_sha256": "cb1b2ae338814692fa61575c0eb43efb31964be3890a72dca8c60a18a80eaa76"
+    },
+    {
+      "step_id": 124,
+      "source_lines": [
+        370
+      ],
+      "review_input_sha256": "7aec4590ec846dad1cf216501223e7c7bbc1a856fcf59c3aad9341a490b3add6"
+    },
+    {
+      "step_id": 125,
+      "source_lines": [
+        372,
+        373
+      ],
+      "review_input_sha256": "3b186e04b4f21c747cae8ce57ca08c1e5b1b528dc76eac6719b06307ee0e2fc7"
+    },
+    {
+      "step_id": 128,
+      "source_lines": [
+        381
+      ],
+      "review_input_sha256": "c158cfc6d6b9797a7f73b98ff1144a8800a7e2da8114e8ad8265155b9fd75877"
+    },
+    {
+      "step_id": 129,
+      "source_lines": [
+        383,
+        384
+      ],
+      "review_input_sha256": "6c28b72d43a92e4df5ac03f2e5860436b177434938b55464fb0e76fe84abcac6"
+    },
+    {
+      "step_id": 130,
+      "source_lines": [
+        388
+      ],
+      "review_input_sha256": "cfb90ffa27515eeb47eb24174a1137403e2a14e9731fc5e6ec071f172f1a6fb7"
+    },
+    {
+      "step_id": 139,
+      "source_lines": [
+        413
+      ],
+      "review_input_sha256": "c27acdbfc19c3bed49962d9bc715df26477c9e6fb0d7cd024c2fa6f793427c94"
+    },
+    {
+      "step_id": 144,
+      "source_lines": [
+        427
+      ],
+      "review_input_sha256": "7f1dabdf4dc8ae347f897843d01548e89f2270ca5d08064e873e5093217a6c93"
+    },
+    {
+      "step_id": 147,
+      "source_lines": [
+        435,
+        436
+      ],
+      "review_input_sha256": "d8d9fcb7b55e564f029722af4ab3a042fdb3050331680a47177006c37ecdc336"
+    },
+    {
+      "step_id": 148,
+      "source_lines": [
+        438
+      ],
+      "review_input_sha256": "c253d93b8fc79888ac1ab7d1bea080c8a2f9b30bd69128d8b812fdb637333552"
+    },
+    {
+      "step_id": 152,
+      "source_lines": [
+        451,
+        452
+      ],
+      "review_input_sha256": "34b389fabad158d91293c8d4c5d3a45e4f43cf502d2a67ba4767ff1e617cc6b3"
+    },
+    {
+      "step_id": 153,
+      "source_lines": [
+        455
+      ],
+      "review_input_sha256": "b4d593a3ab96cc6019e7ad46f28abbb4e7826286149191460600cd27b14eec9b"
+    },
+    {
+      "step_id": 154,
+      "source_lines": [
+        458
+      ],
+      "review_input_sha256": "6a24b49ac9cfcf363dceea396d00a3b833475e70c10c584d78b225f2a960722c"
+    },
+    {
+      "step_id": 155,
+      "source_lines": [
+        460
+      ],
+      "review_input_sha256": "1dac485b623aaf9a9cff18af20281c00609a32cfe06b8e3a71da48c39aa5ad14"
+    },
+    {
+      "step_id": 156,
+      "source_lines": [
+        462,
+        463
+      ],
+      "review_input_sha256": "c5cca33079e825a7b629d8be9f6b08586926fd78ac025596e2e5b7338772e161"
+    },
+    {
+      "step_id": 157,
+      "source_lines": [
+        465
+      ],
+      "review_input_sha256": "fd32369eada40dd15bb2f028a8aa9ca3c59218dc1f5ca7a0b157d3c2ce8d6876"
+    },
+    {
+      "step_id": 158,
+      "source_lines": [
+        469,
+        470
+      ],
+      "review_input_sha256": "be11cbab7f0fe86d353271e20fccbda8d064111fe724b05f91393efb1edcde96"
+    },
+    {
+      "step_id": 162,
+      "source_lines": [
+        480
+      ],
+      "review_input_sha256": "e2d1e773bf77a32de904ed73bd6844a75a8a72fa77f7bc7818ba446ecf70b745"
+    },
+    {
+      "step_id": 163,
+      "source_lines": [
+        484,
+        485
+      ],
+      "review_input_sha256": "f882babf313643d9a7f14f977ce7a8e5b3538294476b151253e01c0ebd6b66e9"
+    },
+    {
+      "step_id": 164,
+      "source_lines": [
+        487
+      ],
+      "review_input_sha256": "51ed8725e5dfd7843428db443a26a4404071da7ed792b07cd6198422f0d87f38"
+    },
+    {
+      "step_id": 170,
+      "source_lines": [
+        503,
+        504
+      ],
+      "review_input_sha256": "54fb8a3c1cd3888fc83f41050e5e1e2f1446c4d5b54cc18a99a8e6c1b3bd1608"
+    },
+    {
+      "step_id": 171,
+      "source_lines": [
+        508,
+        509
+      ],
+      "review_input_sha256": "bc9b876fcd5c008e8ed8c6e595abca37b7491739f1a58a0fdbf0144f88fe1c21"
+    },
+    {
+      "step_id": 172,
+      "source_lines": [
+        511
+      ],
+      "review_input_sha256": "6aecd1fc36a12e71cd660d6ea5df01b77d70dbe05cbdef7cb09c0c702eb96374"
+    },
+    {
+      "step_id": 175,
+      "source_lines": [
+        517,
+        518
+      ],
+      "review_input_sha256": "040caee6c3e740a96e0d2634b3af6c2a3d2449e309d365a8e9be3e459082800f"
+    },
+    {
+      "step_id": 182,
+      "source_lines": [
+        538
+      ],
+      "review_input_sha256": "8bd08d00ee1b11ce0f3263650c1a61c0111840d25a3ad909222b322712ab59e5"
+    },
+    {
+      "step_id": 183,
+      "source_lines": [
+        540,
+        541
+      ],
+      "review_input_sha256": "78b7d255e6610aa6029ae95751677c247e06649e4ae7f1beb67f0e07f1294397"
+    },
+    {
+      "step_id": 189,
+      "source_lines": [
+        557,
+        558
+      ],
+      "review_input_sha256": "24fbc2fc79a10ebfb64d58d36be80f7b6818c7794e656dca5a53754833ae9cd7"
+    },
+    {
+      "step_id": 191,
+      "source_lines": [
+        565
+      ],
+      "review_input_sha256": "ad916912bd98e87f58f995e91cb9343d3492738d3e25efdaa67cc9660ccf9c91"
+    },
+    {
+      "step_id": 192,
+      "source_lines": [
+        567,
+        568
+      ],
+      "review_input_sha256": "3c73f3b694957bf9ca166ca4f3a0905c50646886e8cd90e20450c2d8bc8ab9e1"
+    },
+    {
+      "step_id": 196,
+      "source_lines": [
+        580
+      ],
+      "review_input_sha256": "73d784bcccf0eb55e83c79661ad9e1c15807c213c42f8365385dab4c3efd0b51"
+    },
+    {
+      "step_id": 197,
+      "source_lines": [
+        582,
+        583
+      ],
+      "review_input_sha256": "81aba7498e922787f0be5782da239a3250434112c9d278b6c8773f4841a57ed6"
+    },
+    {
+      "step_id": 207,
+      "source_lines": [
+        607
+      ],
+      "review_input_sha256": "0fbf8380f10d0e720c6df1d66fac2ce83e38a8e2d80b945148bc34767f16bcf3"
+    },
+    {
+      "step_id": 208,
+      "source_lines": [
+        609,
+        610
+      ],
+      "review_input_sha256": "8292196e465a1032b42de9ffc0e11c935ec42b8b0247937173e3ea11962047c2"
+    },
+    {
+      "step_id": 209,
+      "source_lines": [
+        612,
+        613
+      ],
+      "review_input_sha256": "8272a496a6b332d7ba204e15d5d6b44ea62f34fd750816cafd90a78f890e2eb7"
+    },
+    {
+      "step_id": 217,
+      "source_lines": [
+        636,
+        637
+      ],
+      "review_input_sha256": "fa46e0341f7108a74b30dc3a44d110c39f7309adb065a8f20d322fa56591ed61"
+    },
+    {
+      "step_id": 218,
+      "source_lines": [
+        639,
+        640
+      ],
+      "review_input_sha256": "8e432be8f8bf907625a7f83e8f10d55b2b14c0cc8c5d7e0ed3a98a64ae5822a1"
+    },
+    {
+      "step_id": 227,
+      "source_lines": [
+        665
+      ],
+      "review_input_sha256": "3087a28ec856d5fd2708b51d5b0212e72bf8ae07d71ad7d0323f7891233cd404"
+    },
+    {
+      "step_id": 228,
+      "source_lines": [
+        667,
+        668
+      ],
+      "review_input_sha256": "1d6fb025abd7896b0ac198cad17b1c26d25af591ec74a41b1db99d0c88635313"
+    },
+    {
+      "step_id": 230,
+      "source_lines": [
+        674
+      ],
+      "review_input_sha256": "420101543653f238546104a603d361b28fe97e7b835dbc8b7d69d89c6c5a09f3"
+    },
+    {
+      "step_id": 231,
+      "source_lines": [
+        676,
+        677
+      ],
+      "review_input_sha256": "b389a4bb297492d9eec172625e23dd771531ea646e807fcebda523d3e12a20e2"
+    },
+    {
+      "step_id": 233,
+      "source_lines": [
+        683
+      ],
+      "review_input_sha256": "3ff34d606b9ca9e1733f1e98a442a6758dd51daf1f6d014298cb25da0ba5ce4e"
+    },
+    {
+      "step_id": 234,
+      "source_lines": [
+        685,
+        686
+      ],
+      "review_input_sha256": "d18e1394408df87693dc643ff1c47f9f3e42103b8257d30b9757f284849d1853"
+    },
+    {
+      "step_id": 235,
+      "source_lines": [
+        688,
+        689
+      ],
+      "review_input_sha256": "c90b460fb960ab52d356990b6f82f7e58c08902c3a4ee4aea1a936df8448b5fd"
+    },
+    {
+      "step_id": 237,
+      "source_lines": [
+        695,
+        696
+      ],
+      "review_input_sha256": "edebfb088ab9ab70c6a0ca819c2db37077783fa1e5d715657884520db033a38b"
+    },
+    {
+      "step_id": 238,
+      "source_lines": [
+        698
+      ],
+      "review_input_sha256": "2bd0187c00537467a78b927b4beebf1b1f742a423446e626f45c9558bbcbce93"
+    },
+    {
+      "step_id": 242,
+      "source_lines": [
+        710,
+        711
+      ],
+      "review_input_sha256": "e41ab6b1081b2c8b0409c29ed52752b51df4088200f3ecc2d975f8a5c602a16d"
+    },
+    {
+      "step_id": 255,
+      "source_lines": [
+        748,
+        749
+      ],
+      "review_input_sha256": "8f954e2ffd4ba31371013c49b65314734f45538b0fb98452ec065d1302eeb421"
+    },
+    {
+      "step_id": 257,
+      "source_lines": [
+        755,
+        756
+      ],
+      "review_input_sha256": "6cf6eeb4b620b2e630b8654acf191e80bafab7038fbaf297bcaf7e3d85f14d50"
+    },
+    {
+      "step_id": 258,
+      "source_lines": [
+        760
+      ],
+      "review_input_sha256": "7d07ebc751d06d521cd2ccccfb6a54c3e4896646de03237ee5c1df0995a67d25"
+    },
+    {
+      "step_id": 261,
+      "source_lines": [
+        771
+      ],
+      "review_input_sha256": "70e432dc2f9efb0e43a5bf7fda7d5b947fe289ed8868cde78c71499ac7b83d40"
+    },
+    {
+      "step_id": 262,
+      "source_lines": [
+        773,
+        774
+      ],
+      "review_input_sha256": "ff1caecdf129f7538c67a5f4e4b841fb950b83937f7150977dc1107ea2a12bf5"
+    },
+    {
+      "step_id": 265,
+      "source_lines": [
+        782,
+        783
+      ],
+      "review_input_sha256": "399456c6de26b4019eb1880060e23ed8ad5bb7c30fb448cd744d0b90ae07ea41"
+    },
+    {
+      "step_id": 266,
+      "source_lines": [
+        785,
+        786
+      ],
+      "review_input_sha256": "27c5434f5cc22b32b73d405384fe20ef7cf6497c49cd6d42b8291418f0973a30"
+    },
+    {
+      "step_id": 279,
+      "source_lines": [
+        820
+      ],
+      "review_input_sha256": "d1b1210f82029c3257642ae68c266807ce5fc811cdb2b666e42648480c988b0f"
+    },
+    {
+      "step_id": 280,
+      "source_lines": [
+        822,
+        823
+      ],
+      "review_input_sha256": "dec0676d00aa9f3e67ce3ceb44c9d3d61b245d64cbe68d991b8e044c168b54ae"
+    },
+    {
+      "step_id": 283,
+      "source_lines": [
+        832
+      ],
+      "review_input_sha256": "d867f23362bac170627db60ddb610d1f28d43ba3cc38c7afa6a24ac05994778e"
+    },
+    {
+      "step_id": 285,
+      "source_lines": [
+        837,
+        838
+      ],
+      "review_input_sha256": "f3f5080d66fe16b609cdc9e3a85b1214b89a3fcc36916198e311c18d7a273988"
+    },
+    {
+      "step_id": 286,
+      "source_lines": [
+        840
+      ],
+      "review_input_sha256": "99b99a4ef030b701b72af545457fab396ab5ff09faddc6899e3ecd751ec64fd3"
+    },
+    {
+      "step_id": 287,
+      "source_lines": [
+        842
+      ],
+      "review_input_sha256": "4aacd90861ae5ec8d0fa7b52b53c5af7b8f4cfd954018f9cf3c0cbc0ca3a2628"
+    },
+    {
+      "step_id": 288,
+      "source_lines": [
+        844,
+        845
+      ],
+      "review_input_sha256": "84d9e1c207ed1b4aec5cae3134d4e6ce0d0b40ef97c4faba8da1e5a02690adbe"
+    },
+    {
+      "step_id": 290,
+      "source_lines": [
+        851
+      ],
+      "review_input_sha256": "02f4d0f01e4c83e38ad294f325b407ad848751dfa295f125867c9b91b1b4ec93"
+    },
+    {
+      "step_id": 291,
+      "source_lines": [
+        853
+      ],
+      "review_input_sha256": "6d6809562c8a9572cc1623daf2df2beced061bead987220f0e64bc7546e29e0d"
+    },
+    {
+      "step_id": 292,
+      "source_lines": [
+        856
+      ],
+      "review_input_sha256": "48174f11499401d0ed70a80ed0c93e43a1a03aa0b55d53a213ee7f1cc965d6b0"
+    }
+  ]
+}

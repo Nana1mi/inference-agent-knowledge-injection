@@ -1821,6 +1821,122 @@
         "trajectory.json#/agent_steps/32/tool_results/0/result",
         "trajectory.json#/agent_steps/34/tool_results/0/result"
       ]
+    },
+    {
+      "order": 310,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。7实际重写同一seq_lens的对照后返回device=cpu，99再次回显cpu；6的applypatch命令未找到，不算成功改写。pad_cumsum对照约0.879x/0.923x，不能只报告相对copy的微小差异，更不能记GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/6/tool_results/0/error",
+        "trajectory.json#/agent_steps/7/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/7/tool_results/0/success",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/99/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 312,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=true；8创建因文件已存在失败，9实际Read到默认CPU torch.empty张量、Python切片view和zeros/empty分配微基准。10/22打印模拟优化的主机耗时，未执行attention GPU算子；创建输入不能代替实际脚本。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/8/tool_results/0/success",
+        "trajectory.json#/agent_steps/9/tool_results/0/result",
+        "trajectory.json#/agent_steps/10/tool_results/0/result",
+        "trajectory.json#/agent_steps/22/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 315,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。24成功写入/执行分配微基准，虽然代码有CUDA条件分支，返回明确device=cpu；41重复也是cpu。zeros/empty主机分配收益不计GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/24/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/24/tool_results/0/success",
+        "trajectory.json#/agent_steps/24/tool_results/0/result",
+        "trajectory.json#/agent_steps/41/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 317,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。10创建失败后12成功，14实际脚本以NumPy int32长context测NgramProposer.propose，强制插入匹配片段，50次主机time计时；15/29为CPU ngram微基准，没有GPU模型执行。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_results/0/success",
+        "trajectory.json#/agent_steps/12/tool_results/0/success",
+        "trajectory.json#/agent_steps/14/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/14/tool_results/0/success",
+        "trajectory.json#/agent_steps/15/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 320,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。15实际替换脚本在custom_ops导入失败时跳过FP8 GPU分支；16/26实际均因缺sentencepiece打印SKIP，只返回CPU分配微基准。empty仅初始化首元素却对整数组求和，与zeros不具相同初始化工作，1.7x不能当有效GPU或等价程序收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/7/tool_results/0/success",
+        "trajectory.json#/agent_steps/15/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/15/tool_results/0/success",
+        "trajectory.json#/agent_steps/16/tool_results/0/result",
+        "trajectory.json#/agent_steps/26/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 322,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。5创建失败后7成功，实际MsgpackEncoder/Decoder输入为默认CPU Torch张量和NumPy数组；17增加循环，20加warmup/threshold后21约0.079ms。导入vLLM与UnspecifiedPlatform提示不构成GPU执行，CPU序列化不补GPU配额。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_results/0/success",
+        "trajectory.json#/agent_steps/7/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/7/tool_results/0/success",
+        "trajectory.json#/agent_steps/8/tool_results/0/result",
+        "trajectory.json#/agent_steps/17/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/20/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/20/tool_results/0/success",
+        "trajectory.json#/agent_steps/21/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 324,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。10成功创建的脚本按设备可用性分支，11明确Using device: cpu；数值是CPU分配及fill成本。zeros+fill与empty(no fill)工作不同，不能据此声称完整程序数值等价，也不是GPU收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/10/tool_results/0/success",
+        "trajectory.json#/agent_steps/11/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 329,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false。9/24实际allocator源码仅管理PhysicalTokenBlock对象、refcount、字典/evictor/free_blocks；Device.GPU只是对象标签。47成功脚本计时1000轮Python allocate/free，48返回0.0007–0.0018秒；没有CUDA张量分配、kernel或GPU完成计时，不把逻辑GPU块池当设备测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/9/tool_results/0/result",
+        "trajectory.json#/agent_steps/11/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/11/tool_results/0/success",
+        "trajectory.json#/agent_steps/15/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/16/tool_results/0/result",
+        "trajectory.json#/agent_steps/24/tool_results/0/result",
+        "trajectory.json#/agent_steps/47/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/47/tool_results/0/success",
+        "trajectory.json#/agent_steps/48/tool_results/0/result"
+      ]
     }
   ]
 }

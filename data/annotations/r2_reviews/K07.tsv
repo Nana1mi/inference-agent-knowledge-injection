@@ -1,0 +1,293 @@
+# step phase tool layer origin source evidence outcome flags use hypothesis rationale followup component
+1	探索代码	O	O	m	u	x	s	-	x	-	仅列workspace文件；公开动作播报不计实质推理，也未实际读知识	-	m
+2	探索代码	D	K	m	u	x	s	k	a	-	读naive数学、接口和输入生成；15 blocked prototype及19正式实现改写适配，未调用reference作候选输出	step15/19	m
+3	探索代码	D	M	m	u	x	s	-	x	-	读本题检查器和数值协议，未改oracle；不计外部知识读取	-	o
+4	探索代码	D	M	m	u	x	s	-	x	-	读正式benchmark与基线开关，未执行SOTA；不计仅看到入口为知识使用	-	o
+5	探索代码	D	C	m	u	x	s	-	x	-	读题设四形状，属于评估配置而非新增算法知识	-	m
+6	探索代码	D	K	m	u	x	s	k	n	-	读FLA SOTA adapter；全292步无实际调用或改写其wrapper，后文FLA-style设计名称不证明使用此实现	全292步核对	m
+7	探索代码	D	M	m	u	x	s	-	x	-	读问题元数据、禁用入口和阈值；题设规定不当性能实验	-	o
+8	探索代码	D	M	m	u	x	s	-	x	-	读PROMPT任务要求，不算环境额外知识包；要求正式PASS不能由spot-check代替	-	o
+9	环境准备	O	C	m	u	x	s	-	x	-	uv创建环境，实际回显torch2.11 cu130、Triton3.6、SM120与188SM，未profile	-	o
+10	探索代码	D	M	m	u	x	s	-	x	-	读检查协议numeric stress前段，不是候选更改或知识采用证据	-	o
+11	探索代码	D	M	m	u	x	s	-	x	-	读stress context和正确性实现；hardware.py路径没有实际硬件内容	-	o
+12	环境准备	O	M	m	u	x	s	-	x	-	实际评分库bf16峰值200TF、带宽1800GB/s；与K01的500TF评分口径分开，非独立硬件实测	-	o
+13	环境准备	O	O	m	u	x	s	-	x	-	搜索任务追踪工具；将先验证数学再写kernel的流程播报不当机制假设	-	m
+14	环境准备	O	O	m	u	x	s	-	x	-	创建数学原型任务，管理对象不是正式候选文件	-	m
+15	修改代码	O	K	m	u	x	u	s	x	-	写独立fp32 blocked数学原型，6轮Neumann及reference维度/seed设置；未正式写solution	step18结果	o
+16	测量	V	K	m	u	x	u	-	x	-	启动原型对照并返回后台handle，尚无正确性返回	step18	p
+17	等待	O	M	m	u	x	u	-	x	-	读取原型后台文件为空，不能当成功或失败	-	o
+18	测量	V	K	m	u	x	s	-	x	-	原型四形状maxabs6.1e-5；近零maxrel较大，有限nominal不等于全部压力验证	-	p
+19	修改代码	O	K	e	r	y	u	vc	x	Neumann blocked数学可改写为双Triton kernel	基于reference和独立数学对照写正式solution；小误差不独立证明仅bf16输出舍入	step35正式PASS	o
+20	测量	V	C	m	u	x	f	s	x	-	单形状诊断设置reference维度，scan共享请求245760超101376，未发射成功	-	p
+21	修改代码	O	C	e	c	y	u	vc	x	降低scan流水stages可减少共享内存请求	正式加warps8/stages2，后仍超容量；错误根因不按成功修复记	step22	o
+22	测量	V	C	m	u	x	f	s	x	-	共享请求降到155648仍超设备限额，未得正确性证据	-	p
+23	测量	V	C	m	u	x	u	cs	x	-	正式改stages1后启动单形状检查，返回后台尚未完成；诊断设reference维度	step24超时	p
+24	等待	O	M	m	u	x	f	-	x	-	原比较任务超时exit143；只说明任务未完成，不证明scan GPU死锁	-	o
+25	测量	V	K	e	c	u	u	vs	x	tiny形状分别运行两kernel可定位超时范围	含CUDA同步/主机时间的单发射诊断，首次可能编译，非稳态profile	step28	p
+26	等待	O	M	m	u	x	f	-	x	-	sleep60加读文件被工具拒绝，实际未等待或得到终态	-	o
+27	等待	O	M	m	u	x	u	-	x	-	读tiny诊断为空，保留未知	-	o
+28	测量	V	K	m	u	x	s	-	x	-	tiny prepare与scan都完成；打印约1秒含首次编译，不当kernel稳态延迟	-	p
+29	测量	V	M	e	c	u	u	vs	x	原超时可能由慢reference导致，应实测比较	同步主机时间对reference和solution各一次，含首次构建；不是成功硬件profile	step30	p
+30	测量	V	K	m	u	x	s	-	x	-	单形状dmax6.1e-5，主机0.18/0.21s不当稳态性能排名	-	p
+31	测量	V	K	m	u	x	u	-	x	-	启动正式check全部形状/压力，后台返回尚无结果	step35	p
+32	等待	O	M	m	u	x	u	-	x	-	等原check PASS/FAIL，等待循环自身也转后台	-	o
+33	等待	O	M	m	u	x	u	-	x	-	另启动观察同一个check的等待循环，无新检查执行或结果	-	o
+34	等待	O	M	m	u	x	u	-	x	-	check输出仍为空	-	o
+35	测量	V	K	m	u	x	s	-	x	-	读到正式check PASS；helper每次重置seed0，不能称三组不同随机激活	-	p
+36	接受	O	K	m	u	x	s	-	x	-	基于正式PASS更新管理任务为完成，非全部研究目标完成	-	s
+37	测量	B	K	m	u	x	u	-	x	-	启动正式benchmark，后台尚无返回	step44/45	p
+38	等待	O	M	m	u	x	u	-	x	-	观察原benchmark，等待循环后台	-	o
+39	等待	O	M	m	u	x	u	-	x	-	读原benchmark也返回后台，未获得结果	-	o
+40	等待	O	M	m	u	x	u	-	x	-	Read仅提示文件短，无性能数据	-	o
+41	等待	O	M	m	u	x	u	-	x	-	再次Read空文件，无新性能返回	-	o
+42	等待	O	M	m	u	x	u	-	x	-	等peak_fraction循环后台，不算新benchmark	-	o
+43	等待	O	M	m	u	x	f	-	x	-	sleep30后tail被工具拒绝，未实际等待	-	o
+44	测量	B	K	m	u	x	s	-	x	-	原正式benchmark返回geomean0.0170/LOW，非naive PyTorch参考基线	-	p
+45	测量	B	K	m	u	x	s	-	x	-	补读同次四形状结果0.408/0.767/1.424/0.713ms，不算独立重复	-	p
+46	修改代码	O	F	e	c	u	u	vc	x	低并行顺序scan拖慢，可将重输出计算分离到chunk并行kernel	正式重写三kernel设计；没有硬件profile直接确证瓶颈，后用普通事件检验	step60	o
+47	测量	V	K	m	u	x	u	s	x	-	设置两个reference形状做nominal诊断，后台尚无结果	step49	p
+48	等待	O	M	m	u	x	u	-	x	-	等待原三kernel诊断	-	o
+49	测量	V	K	m	u	x	s	-	x	-	两形状局部maxabs6.1e-5，不代替新版本正式检查	-	p
+50	测量	K	M	m	u	x	u	s	x	-	写bench_quick：warmup后单事件区间包50次forward且不flush，与正式逐次flush/sync协议不同	step53	p
+51	测量	K	K	m	u	x	u	-	x	-	启动普通事件快速计时，非硬件profile	-	p
+52	等待	O	M	m	u	x	u	-	x	-	观察quick bench，无新执行结果	-	o
+53	测量	K	K	m	u	x	s	-	x	-	quick geomean0.0253来自暖重复协议，不直接同正式0.0170作精确倍数	-	p
+54	测量	K	M	e	c	u	u	vs	x	分别计时A/B/C可定位占比	写普通事件50次循环，无NCU/nsys；各kernel独测及cache条件不同	step60	p
+55	测量	K	K	m	u	x	u	-	x	-	启动per-kernel事件计时，尚无结果	-	p
+56	等待	O	M	m	u	x	u	-	x	-	等待原per-kernel任务	-	o
+57	等待	O	M	m	u	x	u	-	x	-	读短文件，无计时	-	o
+58	等待	O	M	m	u	x	u	-	x	-	cat空输出，无计时	-	o
+59	等待	O	M	m	u	x	u	-	x	-	再观察原任务，非新测量	-	o
+60	测量	K	K	m	u	x	s	-	x	-	普通事件B显著慢于A/C，支持优化扫描方向；独测和非正式完整流水线实测	-	p
+61	修改代码	O	K	e	c	y	u	vc	x	预计算kd和decay可缩短状态扫描关键路径	正式准备接口；依据是普通计时与源码，不将其记实际硬件profile	step65/75	o
+62	修改代码	O	K	m	u	x	u	c	x	-	正式prepare增加last归约供decay使用	-	o
+63	修改代码	O	K	m	u	x	u	c	x	-	正式加入kd写回及decay槽，暂将last存到decay，后64立即修正未测试版本	-	o
+64	修改代码	O	K	m	u	x	u	c	x	-	正式decay由last修成exp(last)，尚无正确性执行	-	o
+65	修改代码	O	K	m	u	x	u	c	x	-	正式state读预计算kd/decay，同时把原fp32 dot操作数改bf16，包括S/v_new转换；后收益不单归预计算	-	o
+66	修改代码	O	F	m	u	x	u	c	x	-	正式wrapper新增kd/decay并同步接口，state stages也1改2；多项联合变更	-	o
+67	测量	K	M	m	u	x	u	s	x	-	诊断改BVS32及ST2，相较54的BVS64/ST1并非仅算法变化；写seed/reference维度	-	p
+68	测量	K	K	m	u	x	u	-	x	-	运行新普通事件计时，BVS/ST为诊断配置	step75	p
+69	等待	O	M	m	u	x	u	-	x	-	等待计时输出	-	o
+70	等待	O	M	m	u	x	u	-	x	-	短文件无返回	-	o
+71	等待	O	M	m	u	x	u	-	x	-	等待同一计时后台任务	-	o
+72	等待	O	M	m	u	x	u	-	x	-	未变文件，无新证据	-	o
+73	等待	O	M	m	u	x	u	-	x	-	动作等待播报非实质推理，cat为空	-	o
+74	等待	O	M	m	u	x	u	-	x	-	读两个观察文件返回后台，无新计时	-	o
+75	测量	K	K	m	u	x	s	-	x	-	B时长约降10倍，但同时预计算/精度/BVS/stages变更，不能独立归因单项	-	p
+76	测量	V	K	e	c	y	u	vs	x	计时改善后需检查正确性及完整forward	三nominal形状对照加quick计时，未新执行正式check	step79	p
+77	等待	O	M	m	u	x	u	-	x	-	等原校验/quick计时	-	o
+78	等待	O	M	m	u	x	u	-	x	-	短文件无新返回	-	o
+79	测量	K	K	m	u	x	s	-	x	-	nominal局部误差6.1e-5，quick0.0698；完整forward比独测和更慢，尚未证明launch是唯一原因	-	p
+80	探索代码	D	M	e	c	u	s	v	x	完整forward差距可能来自Python launch，需核对正式计时方法	读time_fn确认逐次cache清理和同步；与此前暖循环不同，不能把差额直接全当launch	-	p
+81	修改代码	O	H	e	c	u	u	vcs	x	静态buffer加CUDA graph可减少三次launch入队开销	正式capture三kernel并每次copy全部输入，持久返回out；实际launch独占成本20–30us乘3未经分解测量	step87/91	o
+82	测量	V	H	m	u	x	u	s	x	-	拟测fresh inputs回放，但reference.get_inputs重置seed0，两次内容相同；got还共享out未clone，覆盖旧输出契约未验证	step86	p
+83	等待	O	M	m	u	x	u	-	x	-	等待图诊断	-	o
+84	等待	O	M	m	u	x	u	-	x	-	短文件无结果	-	o
+85	等待	O	M	m	u	x	u	-	x	-	空输出无新结果	-	o
+86	测量	V	H	m	u	x	s	-	x	-	两次误差均6.1e-5但不证明变化内容或保留旧输出不被覆盖	-	p
+87	测量	B	H	e	c	w	u	v	x	fresh输入图回放已正确可测正式性能	所谓fresh仅指新分配指针，seed被helper重置且同内容；正式bench启动不补变化输入覆盖	step91	p
+88	等待	O	M	m	u	x	u	-	x	-	观察正式bench	-	o
+89	等待	O	M	m	u	x	u	-	x	-	文件短无结果	-	o
+90	等待	O	M	m	u	x	u	-	x	-	文件未变无新证据	-	o
+91	测量	B	H	m	u	x	s	-	x	-	正式graph+copy配置返回0.0752/LOW；保留全部形状结果	-	p
+92	修改代码	O	H	e	c	u	u	vcs	x	直接绑定全部5输入指针可省copy，指针变化时eager重算	正式graph捕获和5指针guard，每次仍重算；缺shape/stride/device切换和返回out别名验证，不自动认定评分污染	step93/98	o
+93	测量	V	H	m	u	x	u	s	x	-	局部检查capture/replay/eager并clone输出；新指针内容仍受seed0重置，未测同指针内容变化或布局变化	step98	p
+94	等待	O	M	m	u	x	u	-	x	-	等待graph-bound诊断	-	o
+95	等待	O	M	m	u	x	u	-	x	-	短文件无结果	-	o
+96	等待	O	M	m	u	x	u	-	x	-	空输出无新证据	-	o
+97	等待	O	M	m	u	x	u	-	x	-	文件未变无新证据	-	o
+98	测量	V	H	m	u	x	s	-	x	-	两形状三路径nominal误差小；有限图/eager分支检查，不证明全部契约	-	p
+99	测量	B	H	e	c	w	u	v	x	局部三路径通过足以称全部路径正确	启动正式benchmark，前述nominal不覆盖变化内容/布局/保留输出，all paths过强	step101	p
+100	等待	O	M	m	u	x	u	-	x	-	等待正式benchmark	-	o
+101	测量	B	H	m	u	x	s	-	x	-	正式直接输入graph返回0.0858/LOW；不是规则自动判定graph一定启用的证明	-	p
+102	测量	K	M	e	c	u	u	vs	x	加每次L2清理的独测可定位薄batch成本	诊断事件逐次flush，但每kernel都cold，仍与完整流水线cache条件不同	step107/108	p
+103	测量	K	C	m	u	x	u	-	x	-	启动BVS16/32/64独测配置扫描	-	p
+104	等待	O	M	m	u	x	u	-	x	-	等12条计时，非新benchmark	-	o
+105	等待	O	M	m	u	x	u	-	x	-	短文件暂无结果	-	o
+106	等待	O	M	m	u	x	u	-	x	-	文件未变，无新证据	-	o
+107	测量	K	C	m	u	x	s	-	x	-	仅取回BVS16四形状独测和，扫描尚未完全返回；不自动补32/64结果	-	p
+108	修改代码	O	C	e	c	y	u	vc	x	独测逐kernel cold会高估流水线，应用正式benchmark调参	明确承认缓存边界不同，正式添加BVS/BVO env读取；读取配置本身非写全局环境	step109	o
+109	测量	B	C	m	u	x	u	s	x	-	正式benchmark四配置顺序扫描，子进程KDA_BVS/BVO设置；非随机交错AB	step115	p
+110	等待	O	K	e	i	u	u	v	x	依赖Neumann dot链可能延迟受限	公开实质推理可见，来源先验/源码而非成功profile；工具只是等扫描	-	p
+111	等待	O	M	m	u	x	u	-	x	-	只有扫描配置标题无结果	-	o
+112	测量	B	C	m	u	x	s	-	x	-	取回扫描首配置0.0858，其余仍待完成	-	p
+113	等待	O	M	m	u	x	u	-	x	-	等原扫描全部完成	-	o
+114	测量	B	C	m	u	x	s	-	x	-	追加BVS16/BVO128为0.0895，未补未返回配置	-	p
+115	测量	B	C	m	u	x	s	-	x	-	四配置完整返回0.0858/0.0895/0.0888/0.0776，同一扫描的逐步读取不计独立重复	-	p
+116	修改代码	O	C	e	c	y	u	vc	x	当前四配置里BVS16最好，应设默认并查profile工具	正式默认设16并写scratch prof_run；which结果后117取得，尚无成功采样	-	o
+117	环境准备	O	M	m	u	x	s	-	x	-	确认ncu/nsys入口存在但版本输出为空，不证明工具可采样或具体版本	-	o
+118	profile	S	K	m	u	x	u	-	x	-	启动nsys目标节点采样转后台，stdout/stderr都抑制，尚无成功profile证据	-	p
+119	等待	O	M	m	u	x	u	-	x	-	观察nsys任务，原始错误输出被屏蔽	-	o
+120	等待	O	M	m	u	x	u	-	x	-	cat也转后台，没有采样返回	-	o
+121	等待	O	M	m	u	x	u	-	x	-	nsys输出短，未取到报告	-	o
+122	等待	O	M	m	u	x	u	-	x	-	空输出无profile证据	-	o
+123	等待	O	M	m	u	x	u	-	x	-	继续观察原nsys，非新采样	-	o
+124	等待	O	M	m	u	x	u	-	x	-	原nsys输出仍空，未见报错或终态	-	o
+125	测量	K	M	e	i	u	u	vs	x	nsys可能不能工作，可用累积图近似定位成本	未有CUDA版本不兼容错误证据；新A/AB/ABC graph独立计时相减不是直接节点profile	step128	p
+126	测量	K	K	m	u	x	u	-	x	-	启动累积CUDA graph普通事件计时，不计实际nsys/NCU	-	p
+127	等待	O	M	m	u	x	u	-	x	-	等待累积图事件结果	-	o
+128	测量	K	M	m	u	x	s	-	x	-	取回A/AB/ABC中位数差分；跨重复独立图的差不严格等于同次流水线单节点耗时	-	p
+129	探索代码	O	Q	e	c	u	s	v	x	名义误差小且bf16标称峰值更高，可尝试bf16 dot	仅备份现solution，未实际改精度；计时差分不独立证明TC吞吐瓶颈，nominal余量不代压力验证	step130/131	p
+130	修改代码	O	Q	m	u	x	u	c	x	-	正式prepare点积改bf16，同时静态展开6轮并略去末轮无后用平方；组合变更	-	o
+131	修改代码	O	Q	m	u	x	u	c	x	-	正式output点积及操作数改bf16；state此前65已用bf16操作数	-	o
+132	测量	V	K	m	u	x	u	-	x	-	启动正式bf16配置检查，尚无结果	step139	p
+133	等待	O	M	m	u	x	u	-	x	-	等待bf16正式check	-	o
+134	等待	O	M	m	u	x	u	-	x	-	短文件无结果	-	o
+135	等待	O	M	m	u	x	u	-	x	-	空输出无新证据	-	o
+136	等待	O	M	m	u	x	u	-	x	-	文件未变无新证据	-	o
+137	等待	O	M	m	u	x	u	-	x	-	等待播报非实质推理，未取回结果	-	o
+138	等待	O	M	m	u	x	u	-	x	-	继续等原bf16 check终态	-	o
+139	测量	V	K	m	u	x	s	-	x	-	正式bf16配置check返回PASS，保留helper重置seed的协议限制	-	p
+140	测量	B	K	m	u	x	u	-	x	-	启动正式bench及累积图事件测量，两种协议分开	step142	p
+141	等待	O	M	m	u	x	u	-	x	-	观察原bf16 bench及累积图	-	o
+142	测量	B	K	m	u	x	s	-	x	-	正式peak_fraction0.1087，超过0.1；过滤掉RESULT不能补成实见OK；累积差另有方法限制	-	p
+143	修改代码	O	C	e	c	u	u	vc	x	改变warps/stages可能提升链并发和隐藏延迟	正式加入模块级env调参读取，并非写环境；未有occupancy计数证实机理	step144	o
+144	测量	B	C	m	u	x	u	s	x	-	启动WA1/2/8正式扫描，子进程环境设置	-	p
+145	等待	O	M	m	u	x	u	-	x	-	观察WA扫描	-	o
+146	等待	O	M	m	u	x	u	-	x	-	短文件无结果	-	o
+147	测量	K	M	m	u	x	u	s	x	-	写单kernel图扫描，按配置分批计时且每trial cold，非完整图rank保证；设置reference维度/seed	step155/162	p
+148	测量	K	C	m	u	x	u	-	x	-	旧WA扫描尚在运行时启动tune，可能重叠，未证明结果不受干扰	-	p
+149	等待	O	M	m	u	x	u	-	x	-	等待tune四形状	-	o
+150	等待	O	M	m	u	x	u	-	x	-	短文件暂无扫描返回	-	o
+151	等待	O	M	m	u	x	u	-	x	-	只取回旧WA1标题与TUNE标题，未有实际计时	-	o
+152	环境准备	O	M	e	c	u	u	v	x	旧sweep与tune可能同时运行而扰动测量	查询GPU/进程命令转后台，未取到进程列表，也未实际执行kill	-	p
+153	等待	O	M	m	u	x	u	-	x	-	读进程诊断及WA文件又转后台，无进程证据	-	o
+154	测量	B	C	m	u	x	s	-	x	-	取回原WA1=0.0304和WA2标题，不能视整个扫描已完成	-	p
+155	测量	K	C	m	u	x	s	-	x	-	取回tune单kernel图排名，冷缓存与潜在重叠条件保留，不当端到端rank	-	p
+156	等待	O	M	e	i	u	u	v	x	重叠会放大绝对时间但相对排名仍有效	进程查询文件仍空，无不变排名保证；随后重新扫并不能追溯证明此归因	-	p
+157	环境准备	O	M	m	u	x	f	-	x	-	nvidia-smi查询超时exit143，没有得到GPU空闲证明	-	o
+158	测量	K	C	e	i	u	u	v	x	所有任务已完，可视本次重扫为clean条件	此前进程查询失败且旧WA未有终态，不能确认无并发；实际启动tune重测	step162	p
+159	等待	O	M	m	u	x	u	-	x	-	等待重扫tune	-	o
+160	等待	O	M	m	u	x	u	-	x	-	短文件暂无结果	-	o
+161	等待	O	M	m	u	x	u	-	x	-	文件未变，无新证据	-	o
+162	测量	K	C	m	u	x	s	-	x	-	重扫各kernel排名返回，仍为单kernel图，不证明clean条件或完整图最优	-	p
+163	修改代码	O	C	e	c	y	u	vc	x	单kernel排名倾向WB2，应尝试正式配置	正式WB4改2；后171/234发现rank未转化为完整图收益，保留主动纠正	-	o
+164	修改代码	O	D	m	u	x	u	c	x	-	正式按题设nprog选择BVO64/128，是形状特化而非修改评估shape	-	o
+165	测量	B	C	m	u	x	u	-	x	-	启动WB2/adaptiveBVO正式benchmark	step170	p
+166	等待	O	M	m	u	x	u	-	x	-	观察正式bench	-	o
+167	等待	O	M	m	u	x	u	-	x	-	短文件无结果	-	o
+168	等待	O	M	m	u	x	u	-	x	-	空输出无新数据	-	o
+169	等待	O	M	m	u	x	u	-	x	-	未变文件无新数据	-	o
+170	测量	B	C	m	u	x	s	-	x	-	正式geomean0.1068，和旧0.1087分批相近，未测确定噪声分布	-	p
+171	修改代码	O	K	e	c	u	u	vc	x	隔离调参未转化，应试减少Neumann高阶项	主动承认isolated tune未转化，正式增加ITERS参数；decay抑制是待验近似假设非完整误差界	step175/182	o
+172	修改代码	O	K	m	u	x	u	c	x	-	正式Neumann循环由固定6改ITERS并同步平方界限	-	o
+173	修改代码	O	C	m	u	x	u	c	x	-	正式增加KDA_NITER环境读取，默认仍6；读环境不当写环境	-	o
+174	修改代码	O	C	m	u	x	u	c	x	-	正式launcher传NITER，接口更改尚无结果	-	o
+175	测量	V	K	e	c	u	u	vs	x	倍增q/k/v压力可检验缩短级数是否仍满足容差	诊断3形状2倍率、3/4/5/6轮，seed被helper重置，不是新随机分布；不包含正式全部case	step182	p
+176	等待	O	M	m	u	x	u	-	x	-	观察迭代压力脚本	-	o
+177	等待	O	M	m	u	x	u	-	x	-	短文件暂无结果	-	o
+178	等待	O	M	m	u	x	u	-	x	-	空输出无新证据	-	o
+179	等待	O	M	m	u	x	u	-	x	-	文件未变，无新证据	-	o
+180	等待	O	M	m	u	x	u	-	x	-	等待播报非推理，仍无结果	-	o
+181	等待	O	M	m	u	x	u	-	x	-	继续观察原测试，非重跑	-	o
+182	测量	V	K	m	u	x	s	-	x	-	局部worst3轮0.04810、4轮0.00146、5/6轮0.00134；只用绝对0.05标准非正式所有容差	-	p
+183	修改代码	O	K	e	c	y	u	vc	x	4轮较3轮留更多已测误差余量，可设默认再正式检查	正式设4轮，级数只到A0^15、非64阶nilpotent的精确全逆；容差余量限所测输入	step189/191	o
+184	测量	V	K	m	u	x	u	-	x	-	启动正式check再bench；命令分号而非成功门控，但后实见PASS	step189/191	p
+185	等待	O	M	m	u	x	u	-	x	-	观察check+bench	-	o
+186	等待	O	M	m	u	x	u	-	x	-	短文件暂无返回	-	o
+187	等待	O	M	m	u	x	u	-	x	-	文件未变暂无返回	-	o
+188	等待	O	M	m	u	x	u	-	x	-	空输出无新数据	-	o
+189	测量	V	K	m	u	x	s	-	x	-	取回NITER4正式PASS，benchmark还未返回	-	p
+190	等待	O	M	m	u	x	u	-	x	-	等待同任务benchmark部分	-	o
+191	测量	B	K	m	u	x	s	-	x	-	同任务正式PASS与0.1104返回，非独立再次check	-	p
+192	测量	K	M	e	c	u	u	v	x	同步NITER4/WB2接口后重新定位成本	修独立累积图脚本并运行，BVO仍固定128，未完全匹配正式adaptiveBVO	step196	p
+193	等待	O	M	m	u	x	u	-	x	-	等待累积图事件计时	-	o
+194	等待	O	M	m	u	x	u	-	x	-	短文件暂无结果	-	o
+195	等待	O	M	m	u	x	u	-	x	-	只回patched，不是计时结果	-	o
+196	测量	K	M	m	u	x	s	-	x	-	累积图差分返回，shape3 C=2.8us跨独立中位数差，非直接节点profile	-	p
+197	修改代码	O	K	e	c	u	u	vc	x	缩迭代未明显改善意味着exp可能限制，可用倒数替代负exp	正式prepare改inv_egc与decay；差分计时不能唯一证明超越函数瓶颈，没有硬件管线计数	step207	o
+198	修改代码	O	K	m	u	x	u	c	x	-	正式kd用decay*kng替代逐元素exp(last-gc)，数学恒等但浮点不逐位相等	-	o
+199	修改代码	O	K	m	u	x	u	c	x	-	正式复用decay_vec写回，避免重复小向量exp	-	o
+200	修改代码	O	K	m	u	x	u	c	x	-	正式output以倒数替代负exp，待验证数值与性能	-	o
+201	测量	V	K	m	u	x	u	s	x	-	三nominal形状诊断后正式bench，缺shape1与small/large压力，未执行本版完整check	step205/207	p
+202	等待	O	M	m	u	x	u	-	x	-	观察exp-reduction任务	-	o
+203	等待	O	M	m	u	x	u	-	x	-	短文件无结果	-	o
+204	等待	O	M	m	u	x	u	-	x	-	空输出无新证据	-	o
+205	测量	V	K	m	u	x	s	-	x	-	局部worstabs9.16e-5返回，bench尚未结束	-	p
+206	等待	O	M	m	u	x	u	-	x	-	等待同任务bench部分	-	o
+207	测量	B	K	m	u	x	s	-	x	-	正式peak_fraction0.1192，性能改善不独立确证exp为唯一瓶颈	-	p
+208	探索代码	D	K	e	c	u	s	v	x	按program数缩放可能吞吐受限，可试TC cumsum与合并dot	读自己prepare，未实际profile或读取外部FLA/CUDA知识；throughput-bound未被计数器证实	step209	p
+209	修改代码	O	K	e	i	u	u	vc	x	下三角ones dot可替代prefix sum并用TC加速	正式prepare cumsum换tf32 matmul，尚未全case检查	step217	o
+210	测量	V	K	m	u	x	u	s	x	-	三nominal形状诊断及正式benchmark，独立seed重置限制保留	step215/217	p
+211	等待	O	M	m	u	x	u	-	x	-	观察cumsum实验任务	-	o
+212	等待	O	M	m	u	x	u	-	x	-	短文件暂无结果	-	o
+213	等待	O	M	m	u	x	u	-	x	-	空输出无新数据	-	o
+214	等待	O	M	m	u	x	u	-	x	-	读取也转后台，无新结果	-	o
+215	测量	V	K	m	u	x	s	-	x	-	局部worstabs9.16e-5，不能推广所有tf32 cumsum场景	-	p
+216	等待	O	M	m	u	x	u	-	x	-	等待正式benchmark部分	-	o
+217	测量	B	K	e	c	y	s	v	x	此处已测nominal误差不变且TC cumsum可能有性能收益	正式geomean0.1261；无全范围精度定理，后255完整检查另记	-	p
+218	修改代码	O	K	e	c	y	u	vc	x	prepare的局部收益支持将output cumsum也改TC	正式改output，并非已证两处组合必加速	step227	o
+219	探索代码	D	K	m	u	x	s	-	x	-	读自身output核查offs_c未重复，非新增知识	-	o
+220	测量	V	K	m	u	x	u	s	x	-	三nominal形状对照与正式bench，未新跑完整check	step227	p
+221	等待	O	M	m	u	x	u	-	x	-	等待cumsum-C结果	-	o
+222	等待	O	M	m	u	x	u	-	x	-	短文件无结果	-	o
+223	等待	O	M	m	u	x	u	-	x	-	文件未变无结果	-	o
+224	等待	O	M	m	u	x	u	-	x	-	空输出无新证据	-	o
+225	等待	O	M	m	u	x	u	-	x	-	等待播报无实质推理，结果仍空	-	o
+226	等待	O	M	m	u	x	u	-	x	-	继续观察同一任务	-	o
+227	测量	B	K	m	u	x	s	-	x	-	局部9.16e-5及正式0.1232返回，低于prepare单改0.1261；不把继续采用说成确定正增益	-	p
+228	测量	B	M	e	c	u	u	v	x	小差异可能来自批间噪声，应重复benchmark	实际启动同版本两次重复，但没有重测旧版本随机AB来分离变化因果	step230	p
+229	等待	O	M	m	u	x	u	-	x	-	等待两次重复	-	o
+230	测量	B	M	m	u	x	s	-	x	-	同版本两次0.1231/0.1227，支持该版本重复性，不充分证明旧新差值只是噪声	-	p
+231	测量	B	C	e	i	u	u	vs	x	全图调B配置可能比单kernel调参合适，parallel scan不划算	实际只扫SB/WB；parallel-scan净中性是先验成本推测，未实现对照测量	step233	p
+232	等待	O	M	m	u	x	u	-	x	-	等待完整图B扫描	-	o
+233	测量	B	C	m	u	x	s	-	x	-	SB3/4与WB1/4四配置0.0666/0.0086/0.0504/0.1277；过滤日志未显示资源错误或fallback路径	-	p
+234	回滚	O	C	e	c	u	u	vc	x	完整图WB4优于WB2，应恢复默认4	承认隔离调参误导，实际回滚WB；SB3/4必因smem而eager的归因缺错误/路径证据	-	s
+235	测量	B	C	e	c	y	u	vs	x	隔离排名不可靠应以正式完整图重新扫其他参数	实际启动WA/WC/BVS六配置，非硬件profile	step241	p
+236	等待	O	M	m	u	x	u	-	x	-	观察完整图扫描	-	o
+237	写报告	O	K	m	u	x	u	s	x	-	写持久project记忆；nsys CUDA13.2 mismatch/单项10x归因/4轮广泛安全均超导出证据，保存解释不等于事实	-	a
+238	写报告	O	O	m	u	x	s	s	x	-	追加持久记忆索引并读扫描进度，未读取记忆给后续另会话使用	-	a
+239	等待	O	M	m	u	x	u	-	x	-	等待WA/WC/BVS完整扫描	-	o
+240	测量	B	C	m	u	x	s	-	x	-	取回WA2/8部分，WA8为0.1353，其余仍待返回	-	p
+241	测量	B	C	e	c	y	s	v	x	已测WA8更好，需继续检查其余配置	追加WC2/8与BVS8，BVS32未返回；不补未见结果	-	p
+242	修改代码	O	C	e	c	y	u	vc	x	完整图WA8优于已测4，应设默认再验证	正式默认8；WC/BVS最优限当前已测配置，不作全局最优	step249	o
+243	测量	B	C	m	u	x	u	s	x	-	正式default8、WA16、SA3三次顺序测量；配置子进程环境非改oracle	step254	p
+244	等待	O	M	m	u	x	u	-	x	-	观察三次benchmark	-	o
+245	等待	O	M	m	u	x	u	-	x	-	短文件暂无结果	-	o
+246	等待	O	M	m	u	x	u	-	x	-	未变文件无新证据	-	o
+247	等待	O	M	m	u	x	u	-	x	-	只取回default标题，尚无计时	-	o
+248	等待	O	M	m	u	x	u	-	x	-	继续观察三次benchmark	-	o
+249	测量	B	C	m	u	x	s	-	x	-	默认WA8正式0.1355，另两配置还未返回	-	p
+250	等待	O	C	e	c	y	u	v	x	WA8默认已重复0.1355，应等WA16/SA3比较	公开推理依据实际bench，不因主工具等待而丢弃该可见理由	-	p
+251	等待	O	M	m	u	x	u	-	x	-	文件未变无新结果	-	o
+252	测量	B	C	m	u	x	s	-	x	-	补回WA16=0.1260，SA3尚待完成	-	p
+253	等待	O	M	m	u	x	u	-	x	-	等待第三配置结果	-	o
+254	测量	B	C	m	u	x	s	-	x	-	全部default8/WA16/SA3为0.1355/0.1260/0.1362；仅本次有限扫描，不证明差值噪声界	-	p
+255	测量	V	K	e	c	y	u	v	x	锁定有限扫描配置后需正式全case正确性gate	实际启动check.py，尚未返回	step258	p
+256	等待	O	M	m	u	x	u	-	x	-	观察正式check	-	o
+257	测量	K	M	m	u	x	u	-	x	-	仅同步累积图诊断WA8/WB4接口并grep，未运行或取得新计时；BVO仍固定128	-	p
+258	测量	V	K	m	u	x	s	-	x	-	新优化组合正式PASS，不能推广未测试分布或输入布局	-	p
+259	测量	K	M	m	u	x	u	-	x	-	启动累积图事件计时，不是实际硬件profile	step261	p
+260	等待	O	M	m	u	x	u	-	x	-	观察累积图任务	-	o
+261	测量	K	M	m	u	x	s	-	x	-	取回累积图差分，B在长/薄形状更大；精确份额与adaptiveBVO正式配置不完全相同	-	p
+262	测量	B	C	e	c	u	u	vs	x	薄形状增加V分块并发可能改善scan关键路径	正式以BVS8再测，认为T/b等价净中性未经实现对照	step264	p
+263	等待	O	M	m	u	x	u	-	x	-	等待BVS8重复扫描	-	o
+264	测量	B	C	m	u	x	s	-	x	-	BVS8全图0.1264，shape3约0.0813，与旧16约0.0818接近，不能唯一分离occupancy/latency机制	-	p
+265	探索代码	D	K	e	c	u	s	v	x	预转置kd可移走scan每步布局转换成本	读自写state源，tl.trans是否真实昂贵需生成码或profile，不据标记直接认定唯一瓶颈	step266	p
+266	修改代码	O	K	e	c	u	u	vc	x	将kd以K乘C布局预存可改变scan访问成本	正式prepare改转置写出，缓冲尺寸相同，未改评估输入	step279	o
+267	修改代码	O	K	m	u	x	u	c	x	-	正式state按chunk/head读K乘C新布局	-	o
+268	修改代码	O	K	m	u	x	u	c	x	-	正式state dot用kdt移除语法trans，尚未检查生成指令成本	-	o
+269	探索代码	D	K	m	u	x	s	-	x	-	读自身state准备删未用base_kd，动作说明非机制推理	-	o
+270	修改代码	O	K	m	u	x	u	c	x	-	正式删除无后用的base_kd赋值，非额外算法优化	-	o
+271	测量	V	K	m	u	x	u	s	x	-	三nominal形状对照后正式bench，尚无完整压力check	step277/279	p
+272	等待	O	M	m	u	x	u	-	x	-	观察kd transpose任务	-	o
+273	等待	O	M	m	u	x	u	-	x	-	短文件暂无返回	-	o
+274	等待	O	M	m	u	x	u	-	x	-	空输出无新结果	-	o
+275	等待	O	M	m	u	x	u	-	x	-	等待播报非实质推理，仍空	-	o
+276	等待	O	M	m	u	x	u	-	x	-	继续观察原任务	-	o
+277	测量	V	K	m	u	x	s	-	x	-	局部worstabs9.16e-5，不代替全协议	-	p
+278	等待	O	M	m	u	x	u	-	x	-	等待同任务正式bench	-	o
+279	测量	B	K	m	u	x	s	-	x	-	预转置正式0.1379，四形状值保存；相对旧批提升未做随机AB分离原因	-	p
+280	测量	V	K	e	c	y	u	v	x	新布局后应正式检查并重复bench稳定性	启动check及两次benchmark，非此前nominal就判全通过	step283	p
+281	等待	O	M	m	u	x	u	-	x	-	观察final validation原任务	-	o
+282	探索代码	D	K	m	u	x	s	-	x	-	读自身类定义准备清理重复import，未实际修改	-	o
+283	测量	B	K	m	u	x	s	-	x	-	正式PASS、两次0.1382/0.1377返回；过滤没显示RESULT，不补成该次实见OK	-	p
+284	探索代码	D	K	e	c	y	s	v	x	末版可再检查文档是否与实际一致	读完整prepare发现文档仍称6轮；8倍比较的0.017是自己最初Triton而非naive reference	-	o
+285	修改代码	O	K	e	c	y	u	vc	x	文档应由精确6轮改为实际ITERS近似	仅修docstring，仍写all bf16但cumsum用tf32，4轮wide margin只限已测case；不改算法或评分检测器	-	o
+286	探索代码	D	D	m	u	x	s	-	x	-	读实际末版Model及配置，五指针guard仍缺layout/device切换验证，返回out仍持久别名	-	o
+287	探索代码	D	D	m	u	x	s	-	x	-	读fallback尾部，捕获异常会永久设graphFalse，未直接证各扫描配置究竟走何路径	-	o
+288	测量	V	K	m	u	x	u	-	x	-	启动最终正式check加benchmark，robust播报未获一般契约证明	step290	p
+289	等待	O	M	m	u	x	u	-	x	-	等待末次正式检查/benchmark完成	-	o
+290	测量	B	K	m	u	x	s	-	x	-	末次正式PASS、0.1383/OK、四形状0.068/0.116/0.145/0.064ms；保留selection榜单failure，与协议OK分开	-	p
+291	写报告	O	K	m	u	x	u	v	x	-	总结已有优化和正式结果；8倍仅相对自写初版，未见parallel-scan rewrite对照却声称verified net-neutral；无成功硬件profile，机制解释不升级事实	-	a
+292	写报告	O	K	m	u	x	u	-	x	-	重申最终PASS/0.138；动作完成声明非新实验，不证明所有输入契约或研究任务完成	-	a

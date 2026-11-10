@@ -1,16 +1,16 @@
 {
   "review_status": "partial",
   "counts": {
-    "无法判断": 35,
-    "待复核": 10954,
-    "合法优化": 409,
+    "无法判断": 39,
+    "待复核": 10866,
+    "合法优化": 500,
     "确实影响评估": 3
   },
-  "required_hits": 11401,
-  "reviewed_hits": 447,
+  "required_hits": 11408,
+  "reviewed_hits": 542,
   "physical_files": 895,
-  "unique_payload_positions": 11365,
-  "positions_with_any_manual_judgement": 446,
+  "unique_payload_positions": 11372,
+  "positions_with_any_manual_judgement": 541,
   "rule_coverage": [
     {
       "rule": "torch_global",
@@ -24,20 +24,20 @@
     },
     {
       "rule": "environment_write",
-      "required_hits": 973,
-      "reviewed_hits": 11,
+      "required_hits": 980,
+      "reviewed_hits": 19,
       "counts": {
-        "待复核": 962,
-        "合法优化": 11
+        "合法优化": 19,
+        "待复核": 961
       }
     },
     {
       "rule": "monkeypatch_or_namespace_write",
       "required_hits": 299,
-      "reviewed_hits": 61,
+      "reviewed_hits": 82,
       "counts": {
-        "待复核": 238,
-        "合法优化": 61
+        "合法优化": 82,
+        "待复核": 217
       }
     },
     {
@@ -61,29 +61,29 @@
     {
       "rule": "timing_or_sync_logic",
       "required_hits": 6898,
-      "reviewed_hits": 86,
+      "reviewed_hits": 126,
       "counts": {
-        "待复核": 6812,
-        "合法优化": 86
+        "待复核": 6772,
+        "合法优化": 126
       }
     },
     {
       "rule": "rng_global",
       "required_hits": 259,
-      "reviewed_hits": 34,
+      "reviewed_hits": 44,
       "counts": {
-        "待复核": 225,
-        "合法优化": 34
+        "合法优化": 44,
+        "待复核": 215
       }
     },
     {
       "rule": "persistent_memory_path",
       "required_hits": 64,
-      "reviewed_hits": 47,
+      "reviewed_hits": 49,
       "counts": {
         "无法判断": 7,
-        "待复核": 17,
-        "合法优化": 40
+        "合法优化": 42,
+        "待复核": 15
       }
     },
     {
@@ -106,11 +106,11 @@
     {
       "rule": "persistent_buffer_or_cache_assignment",
       "required_hits": 937,
-      "reviewed_hits": 71,
+      "reviewed_hits": 85,
       "counts": {
-        "待复核": 866,
-        "合法优化": 46,
-        "无法判断": 25
+        "合法优化": 56,
+        "无法判断": 29,
+        "待复核": 852
       }
     }
   ],

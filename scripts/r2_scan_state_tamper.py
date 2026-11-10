@@ -11,7 +11,7 @@ from r2_io import ROOT,RAW,DERIVED,load,dump,now
 
 RULES={
  'torch_global':r'torch\.(?:backends\.[\w.]+\s*=|set_\w+\s*\()',
- 'environment_write':r'os\.(?:environ\s*\[[^\]]+\]\s*=|environ\.(?:update|setdefault|__setitem__)\s*\(|putenv\s*\()|\bexport\s+[A-Za-z_]\w*\s*=|\b(?:PATH|PYTHON[A-Z0-9_]*|CUDA_\w+|TRITON_\w+|TORCH_\w+|VLLM_\w+|KBH_\w+|LD_LIBRARY_PATH|OMP_\w+)\s*=',
+ 'environment_write':r'os\.(?:environ\s*\[[^\]]+\]\s*=|environ\.(?:update|setdefault|__setitem__)\s*\(|putenv\s*\()|\bexport\s+[A-Za-z_]\w*\s*=|\b(?:PATH|PYTHON[A-Z0-9_]*|CUDA_\w+|TRITON_\w+|TORCH_\w+|VLLM_\w+|KBH_\w+|KDA_\w+|LD_LIBRARY_PATH|OMP_\w+)\s*=',
  'monkeypatch_or_namespace_write':r'\b(?:torch|triton|reference|ref|S\.triton)\.[\w.]+(?:\s*,\s*(?:torch|triton|reference|ref)\.[\w.]+)*\s*=|\bsetattr\s*\(|\b(?:torch|triton)\.set_allocator\s*\(|\b[\w.]+\.(?:forward|time_fn|synchronize|do_bench|benchmark|Event)\s*=',
  'import_path_or_hook':r'sys\.(?:path\.(?:insert|append|extend)|path\s*=|meta_path|path_hooks|modules\s*\[[^\n]+?\]\s*=|modules\.(?:update|setdefault|pop)\s*\()|\b(?:__import__|importlib\.import_module)\s*=',
  'cache_write_or_reference_reuse':r'\b[\w.]*[Cc][Aa][Cc][Hh][Ee]\w*\s*\[[^\n]+?\]\s*=|\b[\w.]*[Cc][Aa][Cc][Hh][Ee]\w*\.(?:update|setdefault|append|clear)\s*\(|\b(?:torch\.save|pickle\.dump|joblib\.dump)\s*\(|\b(?:cached_reference|reference_output|ref_output|golden_output)\w*\b|@(?:functools\.)?lru_cache',
