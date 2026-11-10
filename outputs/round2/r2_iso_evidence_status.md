@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前172个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
+[实验] 目前178个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。关键词导航之外，新增数字计时导航得到304个候选、811个返回片段，尚未逐一复核；未检出关键词不等于没有GPU测量。该导航由`scripts/r2_iso_measurement_queue.py`生成，原文片段只保留本地。
 
 ## 已复核的三个关键区别
 
@@ -29,6 +29,9 @@
 [实验] 新检查的候选还包括模拟测量：147的配置读取成本由`time.sleep`人为添加，158用等待模拟顺序/批量warmup请求，165以虚拟地址与Dummy传输引擎代替真实KV传输。这些代码创建反馈均成功，也有真实主机计时，但不是实际GPU模型或传输测量。146的CUDA-graph插件名称同样不够：已执行脚本只测默认CPU张量和对象初始化，返回还显示缺少`libcuda.so.1`。全部判断保留精确工具输入、写入反馈、数值返回和结局定位，见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 
 ## 接下来的核验
+
+
+[实验] 追加顺位369/370/372/374/377/379共6份，仍未新增可靠成功GPU候选。370/374是数字队列中的明确CPU测量，377虽trajectory成功但实测LRUEvictor主机字典/元数据，evict变快与update回退同时保留；379仅NumPy空数组与Python容器/字符串。沿相邻顺位导航发现369/372有CUDA脚本后补核：369只创建未执行，372最初create被拒、实际Read旧env脚本，后来两个新探针分别因msgspec导入及No CUDA GPUs are available失败。它们不在数字导航队列，代码含CUDA也不构成实际计时；仍按冻结候选顺位及精确工具反馈记录，见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。374 empty未fill与zeros/full不是同等初始化工作，不能把CPU分配差异等同整程序收益。
 
 [实验] 追加顺位349/350/352/355/362/364/365/367仍未新增可靠成功GPU候选。352虽trajectory成功，实际Read为默认CPU张量/NumPy序列化；349/365回显CPU。350的0.046/1.267秒对应成功重建的async generator脚本，生产源码里的CUDA API不等于此脚本调用；367只测env查询/reload。355用人为CPU运算模拟remote get，364把导入失败后改为源码字符串检查和整数block演示，均不能当GPU模型测量。362的1898x向量判断收益与0.89x requantize回退分列，后者empty输入及重复原位改也限制外推。数字视图已补识别async def/time调用，仅改善源代码导航；逐条实际脚本、成功/失败反馈、数值及结局指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 

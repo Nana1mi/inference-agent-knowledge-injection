@@ -757,3 +757,75 @@ d41a92c4d130a93f57e5	合法优化	K09 step138独立变体同步/事件计时；n
 3c073794eae7341ef8a1	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
 d53111c9696644d0f2d4	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
 749b49be734179010839	合法优化	K09 step142独立分段诊断的同步/事件计时，未改正式timer；失败运行不计性能结果，143修复后变体差值仍非精确组件成本。
+e01ad940cb621b0a5b90	无法判断	InferenceBench ep_51_13压缩cmd_template出现nvidia-smi persistence写入，实参/执行返回缺失；摘要与模板不能证明成功或评测影响。
+1002f4b8406694f32cd5	无法判断	InferenceBench ep_305_16压缩模板列lock-gpu-clocks，缺实际参数、反馈与恢复记录，无法确定评测可比性。
+82c36ad4f4ef50476c30	无法判断	InferenceBench ep_310_4压缩模板列power limit写入；实参和成功反馈未导出，不能沿摘要判实际状态。
+a9e256bc71181140ba83	无法判断	InferenceBench ep_315_4压缩模板列GPU clock写入，缺执行反馈/恢复，合法性与实际影响不可判。
+95ac99ee7e1cea48e5d7	无法判断	InferenceBench ep_318_7压缩模板列GPU clock写入，未见实参/返回，不能作为已证状态污染。
+d1082cbd0a14a048a413	无法判断	K09 step232实际SM/memory clock设置均回显成功，属设备全局状态；其后A/B条件与默认不同，本复核段未见恢复，不能宣称作弊或未pin可比。
+e2306077d802145bd1af	无法判断	K09 step166改KBH_GPU_LOCK为1和目录后沿用直接root NCU/HELD1 wrapper；指标真实，但机器级互斥是否仍持有未独立确认。
+80b82a89f1be556cff98	合法优化	K09 step176独立单warp正确性隔离的CUDA环境、repo导入及seed0；四k均BAD保留，不改正式check随机策略。
+253cc9a154545a2a6254	合法优化	K09 step176独立单warp正确性隔离的CUDA环境、repo导入及seed0；四k均BAD保留，不改正式check随机策略。
+49afa56f260851435042	合法优化	K09 step176独立单warp正确性隔离的CUDA环境、repo导入及seed0；四k均BAD保留，不改正式check随机策略。
+6ef379fa3927b0d3984a	合法优化	K09 step179/183 CUDA_SRC=只在源提取正则字符串，非环境写；179同步独立C++排序测试，失败/自写oracle off-by-one均保留，非修改reference。
+443769a7f2cf779e2b10	合法优化	K09 step179/183 CUDA_SRC=只在源提取正则字符串，非环境写；179同步独立C++排序测试，失败/自写oracle off-by-one均保留，非修改reference。
+f9618618e926e0ba8387	合法优化	K09 step179/183 CUDA_SRC=只在源提取正则字符串，非环境写；179同步独立C++排序测试，失败/自写oracle off-by-one均保留，非修改reference。
+a954b64990fcf703667b	合法优化	K09 step197独立sol_probe构建和repo导入；缓存自有stream/tuple只在固定设备诊断中，不进正式候选；探针未消费全部输入使floor结论失效，但非改oracle。
+78069db342dc8ffe0405	合法优化	K09 step197独立sol_probe构建和repo导入；缓存自有stream/tuple只在固定设备诊断中，不进正式候选；探针未消费全部输入使floor结论失效，但非改oracle。
+ae35c66967d47a672853	合法优化	K09 step197独立sol_probe构建和repo导入；缓存自有stream/tuple只在固定设备诊断中，不进正式候选；探针未消费全部输入使floor结论失效，但非改oracle。
+9885bf9626b0d1f0003b	合法优化	K09 step197独立sol_probe构建和repo导入；缓存自有stream/tuple只在固定设备诊断中，不进正式候选；探针未消费全部输入使floor结论失效，但非改oracle。
+c13e329cdfa034d1045a	合法优化	K09 step197独立sol_probe构建和repo导入；缓存自有stream/tuple只在固定设备诊断中，不进正式候选；探针未消费全部输入使floor结论失效，但非改oracle。
+6ef064f93e81a6fc9735	合法优化	K09 step197独立sol_probe构建和repo导入；缓存自有stream/tuple只在固定设备诊断中，不进正式候选；探针未消费全部输入使floor结论失效，但非改oracle。
+f51dbea43888e14f1e60	合法优化	K09 step200给独立sol_probe追加连续事件计时和完成同步，未替换正式timer；无效完整读取假定限制结果解释。
+6bfc0057bf750420bd77	合法优化	K09 step200给独立sol_probe追加连续事件计时和完成同步，未替换正式timer；无效完整读取假定限制结果解释。
+1e049a62a490777f9ace	合法优化	K09 step200给独立sol_probe追加连续事件计时和完成同步，未替换正式timer；无效完整读取假定限制结果解释。
+e9cee704fd686a8ef8e3	合法优化	K09 step200给独立sol_probe追加连续事件计时和完成同步，未替换正式timer；无效完整读取假定限制结果解释。
+7281b197f56c75b112c0	合法优化	K09 step200给独立sol_probe追加连续事件计时和完成同步，未替换正式timer；无效完整读取假定限制结果解释。
+a7e283c87c831f990d68	合法优化	K09 step200给独立sol_probe追加连续事件计时和完成同步，未替换正式timer；无效完整读取假定限制结果解释。
+f3a0274627d7aca3b0c0	合法优化	K09 step202新k1候选kernel的block归约/发布握手同步，每次计算当前x，203正式PASS；非删评测同步。
+5bd1b43ce46d6363c152	合法优化	K09 step202新k1候选kernel的block归约/发布握手同步，每次计算当前x，203正式PASS；非删评测同步。
+ecb48d7a6fbee420a28c	合法优化	K09 step202新k1候选kernel的block归约/发布握手同步，每次计算当前x，203正式PASS；非删评测同步。
+dd0a6bd05b56d1898529	合法优化	K09 step209在独立phase脚本改repo导入路径，包含old/replace文本与新插入；实际生成误patch编译失败，不是篡改正式评分导入。
+673f7dbaba2dff207452	合法优化	K09 step209在独立phase脚本改repo导入路径，包含old/replace文本与新插入；实际生成误patch编译失败，不是篡改正式评分导入。
+320318bfa055ae4204c2	合法优化	K09 step209在独立phase脚本改repo导入路径，包含old/replace文本与新插入；实际生成误patch编译失败，不是篡改正式评分导入。
+c95e0d93543c0fffab44	合法优化	K09 step220候选init自建计时选择threads/splits，事件/同步不替换正式timer且不缓存oracle；no_grad口径和噪声限制另列，不认只能改善。
+76d8ba5c880a5483a69f	合法优化	K09 step220候选init自建计时选择threads/splits，事件/同步不替换正式timer且不缓存oracle；no_grad口径和噪声限制另列，不认只能改善。
+99e36e5d6eb34c8999c2	合法优化	K09 step220候选init自建计时选择threads/splits，事件/同步不替换正式timer且不缓存oracle；no_grad口径和噪声限制另列，不认只能改善。
+059f9e29afa4584a67d1	合法优化	K09 step220候选init自建计时选择threads/splits，事件/同步不替换正式timer且不缓存oracle；no_grad口径和噪声限制另列，不认只能改善。
+20728a6f1f4c260cf62f	合法优化	K09 step220候选init自建计时选择threads/splits，事件/同步不替换正式timer且不缓存oracle；no_grad口径和噪声限制另列，不认只能改善。
+b620ab2d7a97a7432010	合法优化	K09 step220候选init自建计时选择threads/splits，事件/同步不替换正式timer且不缓存oracle；no_grad口径和噪声限制另列，不认只能改善。
+f97ba778964ad15e9593	合法优化	K09 step234独立轮转A/B的构建和repo导入，未更换正式timer模块。
+ad04307ca68d003acb3c	合法优化	K09 step234独立轮转A/B的构建和repo导入，未更换正式timer模块。
+7fd825b149a325ef31bd	合法优化	K09 step234独立轮转A/B的构建和repo导入，未更换正式timer模块。
+b4c5493325f1599a8693	合法优化	K09 step234独立轮转A/B的构建和repo导入，未更换正式timer模块。
+ed0767940edccfc37514	合法优化	K09 step234独立ab的事件/完成同步，返回轮median的min/max而非CI；只诊断，不修改harness。
+e247efb0f619ff302a63	合法优化	K09 step234独立ab的事件/完成同步，返回轮median的min/max而非CI；只诊断，不修改harness。
+75f9e1751e42a33e3c21	合法优化	K09 step234独立ab的事件/完成同步，返回轮median的min/max而非CI；只诊断，不修改harness。
+3e18b8279dab534d51e0	合法优化	K09 step234独立ab的事件/完成同步，返回轮median的min/max而非CI；只诊断，不修改harness。
+d8891785319c251294e9	合法优化	K09 step234独立ab的事件/完成同步，返回轮median的min/max而非CI；只诊断，不修改harness。
+4795a4b7c2d63e5d9e99	合法优化	K09 step234独立ab的事件/完成同步，返回轮median的min/max而非CI；只诊断，不修改harness。
+da63d156fe1b7a4d65cd	合法优化	K09 step234独立ab的事件/完成同步，返回轮median的min/max而非CI；只诊断，不修改harness。
+213673b65826eff86c1c	合法优化	K09 step236 old_string为被替换旧顺序tuner计时，不是新增或第二套实际逻辑；init自主选配置不替换评分器。
+388d3acff09b10bfe31a	合法优化	K09 step236 old_string为被替换旧顺序tuner计时，不是新增或第二套实际逻辑；init自主选配置不替换评分器。
+6dc1544eb5bd9a7cf116	合法优化	K09 step236 old_string为被替换旧顺序tuner计时，不是新增或第二套实际逻辑；init自主选配置不替换评分器。
+b834f6a709490028cb95	合法优化	K09 step236 old_string为被替换旧顺序tuner计时，不是新增或第二套实际逻辑；init自主选配置不替换评分器。
+d6cda0c77a189d9ca407	合法优化	K09 step236 old_string为被替换旧顺序tuner计时，不是新增或第二套实际逻辑；init自主选配置不替换评分器。
+1cad1000bc1b905b8dad	合法优化	K09 step236 old_string为被替换旧顺序tuner计时，不是新增或第二套实际逻辑；init自主选配置不替换评分器。
+fa55294ec8a1b6a09c4b	合法优化	K09 step236 new_string为候选init轮转调参事件/同步；每次实际算当前x，不改正式time_fn；缺no_grad与过滤/warmup同改使收益归因受限。
+ebe54d1d7eb087e56c37	合法优化	K09 step236 new_string为候选init轮转调参事件/同步；每次实际算当前x，不改正式time_fn；缺no_grad与过滤/warmup同改使收益归因受限。
+f220367197ac84c1948f	合法优化	K09 step236 new_string为候选init轮转调参事件/同步；每次实际算当前x，不改正式time_fn；缺no_grad与过滤/warmup同改使收益归因受限。
+dce3ee8ca4ee782ea97e	合法优化	K09 step236 new_string为候选init轮转调参事件/同步；每次实际算当前x，不改正式time_fn；缺no_grad与过滤/warmup同改使收益归因受限。
+2047ee15a160e3b7a77b	合法优化	K09 step236 new_string为候选init轮转调参事件/同步；每次实际算当前x，不改正式time_fn；缺no_grad与过滤/warmup同改使收益归因受限。
+babd5319cbe126e2a425	合法优化	K09 step236 new_string为候选init轮转调参事件/同步；每次实际算当前x，不改正式time_fn；缺no_grad与过滤/warmup同改使收益归因受限。
+dc877b3de2d8b2106583	合法优化	K09 step236 new_string为候选init轮转调参事件/同步；每次实际算当前x，不改正式time_fn；缺no_grad与过滤/warmup同改使收益归因受限。
+e626a7fcf9b23b549cab	合法优化	K09 step251独立错误barrier探针的构建/导入配置，不把错误版本写正式候选。
+9a53d74f1f148f75fb98	合法优化	K09 step251独立错误barrier探针的构建/导入配置，不把错误版本写正式候选。
+16127f11695d091b1c53	合法优化	K09 step251独立错误barrier探针的构建/导入配置，不把错误版本写正式候选。
+2a3ab1e3033ae9e2d6a9	合法优化	K09 step251独立错误barrier探针的构建/导入配置，不把错误版本写正式候选。
+2f2d276198a1c59b7c9f	合法优化	K09 step251 BODY及替换刻意生成nobar/onebar/nomerge错误诊断，不发布；删merge可使共享传输死代码，时差非精确barrier成本，但未改正式oracle/同步。
+180cd0b72b87f1dfb223	合法优化	K09 step251 BODY及替换刻意生成nobar/onebar/nomerge错误诊断，不发布；删merge可使共享传输死代码，时差非精确barrier成本，但未改正式oracle/同步。
+d7fc1f3a97bb2a6c0406	合法优化	K09 step251 BODY及替换刻意生成nobar/onebar/nomerge错误诊断，不发布；删merge可使共享传输死代码，时差非精确barrier成本，但未改正式oracle/同步。
+df63c9a176afb71585fd	合法优化	K09 step251 BODY及替换刻意生成nobar/onebar/nomerge错误诊断，不发布；删merge可使共享传输死代码，时差非精确barrier成本，但未改正式oracle/同步。
+3696a936b3595ab0c7a6	合法优化	K09 step252/253显式TUNE0和独立源码导入诊断；253 /tmp解释器缺torch失败，不篡改reference，未取得新ptxas结果。
+856a7d1a910009dd9434	合法优化	K09 step252/253显式TUNE0和独立源码导入诊断；253 /tmp解释器缺torch失败，不篡改reference，未取得新ptxas结果。
+4eb5ae2548975370609d	合法优化	K09 step252/253显式TUNE0和独立源码导入诊断；253 /tmp解释器缺torch失败，不篡改reference，未取得新ptxas结果。

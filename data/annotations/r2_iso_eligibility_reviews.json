@@ -2186,6 +2186,84 @@
         "trajectory.json#/agent_steps/28/tool_results/0/result",
         "trajectory.json#/agent_steps/30/tool_results/0/result"
       ]
+    },
+    {
+      "order": 369,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory.success=false；实际只创建带CUDA分支的test_opt，完整工具调用中没有执行该探针或返回GPU数字。后续markdown的预期收益不当实测；summary成功标签不覆盖轨迹字段。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/7/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/7/tool_results/0",
+        "trajectory.json#/agent_steps/22/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/30/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 370,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；实际test_opt main明确device=cpu，数次导入修复后返回0.017836与0.008387秒，中间一次120秒超时。任务标签为MoE不改变实际计时对象为CPU regex vocab mask。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/16/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/tool_results/0/result",
+        "trajectory.json#/agent_steps/31/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 372,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory虽成功，最初create被拒、Read旧脚本为env hash。后来独立CUDA MoE探针13因msgspec导入失败，wrapper32在torch.randint(device=cuda)处明确No CUDA GPUs are available，未完成GPU计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_results/0",
+        "trajectory.json#/agent_steps/11/tool_results/0/result",
+        "trajectory.json#/agent_steps/12/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/13/tool_results/0/error",
+        "trajectory.json#/agent_steps/31/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/32/tool_results/0/error"
+      ]
+    },
+    {
+      "order": 374,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "实际成功写入的zeros/full对empty探针返回Using device: cpu，trajectory失败。empty未fill不是同等初始化工作，43.15x是CPU分配/写零差异，full最大shape还为0.98x回退，不能当GPU模型速度。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/14/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/14/tool_results/0",
+        "trajectory.json#/agent_steps/15/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 377,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功但实测为LRUEvictor的Python字典/元数据evict-update；最初create失败，按Read旧脚本定位实际运行。evict从0.899380到0.713772秒而update从0.002528到0.003241秒，且evict窗口含重建字典，非GPU算子计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_results/0",
+        "trajectory.json#/agent_steps/4/tool_results/0/result",
+        "trajectory.json#/agent_steps/5/tool_results/0/result",
+        "trajectory.json#/agent_steps/8/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 379,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；实际脚本只测NumPy零长度数组、Python list/dict/string操作，无GPU设备运算。输出2.48x/.96x/.46x/2.05x对应不同主机操作，不能合成Mooncake网络或GPU收益。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/10/tool_results/0",
+        "trajectory.json#/agent_steps/11/tool_results/0/result"
+      ]
     }
   ]
 }
