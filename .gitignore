@@ -32,4 +32,5 @@ Thumbs.db
 /data/derived/r2_state_tamper_hits.json
 /data/derived/r2_state_tamper_reviewed.json
 /data/derived/r2_iso_execution_inputs.json
+/data/derived/r2_iso_measurement_inputs.json
 !/data/raw/r2_manifest.jsonl

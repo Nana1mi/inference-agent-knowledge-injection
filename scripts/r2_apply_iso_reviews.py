@@ -24,6 +24,9 @@ def main():
                              'sha256':hashlib.sha256(path.read_bytes()).hexdigest()})
         row['gpu_measurement']=r['gpu_measurement'];row['gpu_evidence']=evidence
         row['eligibility_review']={'order':n,'eligible_success_gpu':r['eligible_success_gpu'],'reason':r['reason'],'reviewer':review['reviewer']}
+        for field in ('gpu_execution_confirmed','gpu_timing_valid','measurement_scope'):
+            if field in r:
+                row[field]=r[field]
         if (folder/'trajectory.json').exists():
             d=load(folder/'trajectory.json');row['trajectory_success']=d.get('success');row['status_conflict']=row['success'] is not None and d.get('success') is not None and row['success']!=d['success']
             row['trajectory_model']=d.get('model')

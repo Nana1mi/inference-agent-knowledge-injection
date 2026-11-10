@@ -3,7 +3,7 @@
 2	E	D	F	m	u	x	u	k	a	-	实际读取reference接口和双GEMM/SwiGLU数学定义；step40的Triton候选按该接口改写计算	step40:L122–124	o
 3	E	D	M	m	u	x	u	-	x	-	读取check及验收范围，无实际检查执行；本步thinking只列待读文件	-	m
 4	E	D	M	m	u	x	u	-	x	-	读取benchmark计分与计时调用，不把源码读取计为profile	-	m
-5	E	D	F	m	u	x	u	k	n	-	读取sota.py入口；当前后续可见部分尚未移用，待完整会话复核用途	待完整会话SOTA调用/改写复核	o
+5	E	D	F	m	u	x	u	k	n	-	读取sota.py入口；复核全部205步后，未见调用或改写该可选SOTA入口；候选从reference自写	全会话L1–L689；reference适配见step40，SOTA无后续可定位使用	o
 6	E	D	F	m	u	x	u	-	x	-	读取shape配置，不把题目参数本身计为外部参考知识	-	m
 7	E	D	M	m	u	x	u	-	x	-	读取problem.yaml计分/精度与依赖约定，没有产生实测数据	-	m
 8	E	O	F	e	c	u	u	v	x	路由由参考函数平衡分配，但正确实现应兼容变长expert区间	根据已读reference与shape作代码分析并列目录找harness，尚未验证自写实现的通用路由正确性	-	m
@@ -167,3 +167,40 @@
 166	C	O	K	i	i	n	u	-	x	增加256高tile或384线程组合可能改善吞吐与资源利用	将理论配置候选写入dispatch，未实测，未标为profile已证优解	-	o
 167	M	V	K	m	u	x	c	-	x	-	新配置扫描有有效OK条目，也有384线程组合BAD；不能只摘416TFLOPS当改进	-	o
 168	E	D	M	e	c	y	u	vt	x	TN奇数使384线程配置只完成部分N维，表面高吞吐不能作为更优kernel	在同一推理中主动撤回416TFLOPS正面结论，识别只算约三分之二工作；转读正式benchmark比较协议	-	p
+169	E	D	M	m	u	x	u	-	x	-	读取正式benchmark及计时入口，区分候选、reference和可选SOTA计时路径；没有执行SOTA	-	p
+170	E	D	M	e	c	u	u	v	x	正式计时前的L2清空可能解释scratch与正式结果的差异	已确认flush在计时区间外，但冷启动造成29微秒差异仍只是推算，未隔离实测	-	p
+171	E	D	H	e	c	u	u	v	x	完整forward内的分配与tile-map launch可能增加小形状的主机开销	转读check.py核对调用模式；缓存/复用均尚未写入，不能当作已实施状态改动	-	p
+172	E	D	K	e	i	u	u	v	x	持久CTA跨tile预取可能隐藏流水填充排空延迟	先检视现有NCU目标；完整推理明确放弃输出缓冲复用以保留新张量语义，算术中间错误后自行纠正，未执行缓存方案	-	p
+173	P	N	K	m	u	x	f	-	x	-	实际启动NCU但skip=6后没有kernel被采样，并有后处理编码错误；不能计为已获得profile数据	-	p
+174	P	N	M	e	c	y	s	v	x	skip超过实际匹配launch数量导致前次没有采样	改为skip=2后已有stall计数，末尾编码错误不抹掉已导出的指标	-	p
+175	P	N	K	m	u	x	s	-	x	-	实际获得12.24ms、tensor78.60%和warps16.60%三个NCU指标，保留其采样协议差异	-	p
+176	E	D	K	e	p	u	u	v	x	跨tile预取可减少当前kernel的填充排空损失	根据tensor与stall计数提出持久化方案并读现有代码；指标存在，但具体可回收收益没有隔离证据	-	o
+177	E	D	K	e	c	u	u	v	x	持久kernel可在前一tile结尾启动下一tile的prologue	逐段推演commit与wait分组并读源码准备改写，设计论证不是正确性或收益实测	-	o
+178	C	O	K	i	c	u	u	-	x	持久CTA与跨tile预取可能减少流水气泡	向scratch加入持久kernel，尚未测试；这里修改scratch而非solution.py	-	o
+179	E	D	K	m	u	x	u	v	x	-	检查Edit是否误删WS结构，确认只替换注释而主体仍在；有可读实现推理	-	o
+180	E	D	K	e	c	u	u	v	x	按SM数量限制持久grid可让CTA顺序处理后续tile	读取launcher位置准备加入持久分派，本步未写静态缓存	-	o
+181	C	O	H	i	c	u	u	s	x	缓存SM数量与共享内存属性可支持持久launcher	实际新增static nsm、static smem_set并调用cudaFuncSetAttribute；属于scratch中的进程/函数级状态写入	-	o
+182	C	O	K	i	c	u	u	-	x	新增持久配置入口以测试跨tile预取收益	把BM+2000映射到run_persist，尚未执行或证实收益	-	o
+183	C	O	M	m	u	x	f	-	x	-	修改scratch测试配置时old_string不匹配，没有发生文件更新	-	p
+184	C	O	M	m	u	x	u	-	x	-	重试后成功加入持久测试配置；未改正式评分器，未测性能	-	p
+185	M	V	K	m	u	x	f	-	x	-	持久kernel编译失败，返回cuda.cuda.o错误，尚无可解释的运行测量	-	o
+186	M	V	K	m	u	x	f	-	x	-	重跑显示acc_g和acc_u未定义，仍处在构建失败而非性能失败	-	o
+187	C	O	K	e	c	y	u	v	x	lambda捕获的acc必须先于lambda声明	正确定位声明顺序问题，但实际Edit只删除pragma而未移动声明，不能说本步已修复编译	-	o
+188	E	D	K	e	c	y	u	v	x	上一Edit没有移动acc声明因而未修复作用域错误	主动识别误改，grep定位声明和lambda位置以重新修改	-	o
+189	E	D	K	m	u	x	u	-	x	-	读取compute_stage附近源码确认插入位置，无新增瓶颈判断	-	o
+190	C	O	K	i	c	y	u	-	x	把acc声明提前可解决lambda引用未声明变量的问题	实际加入提前声明并恢复unroll，尚有旧声明待清理，未编译确认	-	o
+191	E	D	K	m	u	x	u	-	x	-	grep所有acc声明并检查WS附近，确认还需定位持久kernel中的重复声明	-	o
+192	E	D	K	e	c	y	u	v	x	持久kernel保留旧acc声明会形成重复声明	读到旧声明确在primed之前，本步只定位未删除	-	o
+193	C	O	K	i	c	y	u	-	x	删除旧acc声明以消除同作用域重复声明	实际删除旧声明，保留先于lambda的新声明，尚未运行	-	o
+194	M	V	K	m	u	x	c	-	x	-	持久实现虽编译运行但多个配置BAD/NaN；非持久配置有OK，不可将错误输出的时间作为等价性能	-	o
+195	C	O	K	e	i	w	u	vct	x	持久实现没有收益说明原流水填充已被硬件隐藏	以错误输出的持久实现推断瓶颈已被排除，证据无效；实际只把solution配置s4改s3，缓存尚未在此Edit落地	-	o
+196	C	O	H	i	c	u	u	cs	x	保存tile-map键与绑定函数可减少重复主机工作	在solution实例新增_ts_key和_fast缓存成员，属于跨调用状态；本步仅初始化未证收益	-	o
+197	C	O	H	i	c	n	u	cs	x	按offsets地址和版本识别可复用tile-map以减少launch	实际两条分支仍调用同一总会建图的C++函数，只记键没有省下launch；下一步主动纠正	-	o
+198	C	O	H	e	c	u	u	vcs	x	通过build_map标志让C++跳过已缓存tile-map的重建launch	明确指出上步无效并改为按地址版本键传build标志、在重建后写_ts_key；性能未重测	-	o
+199	C	O	H	i	c	u	u	c	x	缓存有效时跳过build_tile_map能减少重复launch	solution中的run_cfg增加build_map并条件化launch；旧static属性缓存只是上下文，不能算本步新增写入	-	o
+200	C	O	H	i	c	u	u	c	x	贯通build_map到分派层才能实施按缓存键跳过重建	实际修改C入口签名和配置分派传参，尚未构建验证	-	o
+201	C	O	H	i	c	u	u	c	x	Python到C++签名一致是缓存跳过路径可运行的前提	更新绑定函数接收与转发build_map，属于实现配套，未实测性能	-	o
+202	C	O	H	m	u	x	u	vcs	x	-	推理讨论扩展缓存重建并决定清理未用_fast；实际Edit只移除该缓存成员，没有在本步改module键	-	o
+203	C	O	H	i	c	u	u	cs	x	更换扩展module键可避免加载旧签名构建缓存	实际把v2改为v3的扩展命名空间，是否必要没有单独验证，不假设旧缓存机制已确认失效	-	o
+204	M	V	K	m	u	x	s	-	x	-	更新后的正式check.py返回PASS；仅证明此轨迹所见检查通过，没有最终性能重测	-	o
+205	O	O	U	m	u	x	f	-	x	-	API 429使用限额终止会话，无后续benchmark或最终性能提交；不能把末尾PASS代替最终性能结果	-	s

@@ -1,0 +1,126 @@
+# step	phase	tool	layer	origin	source	evidence	outcome	flags	use	hypothesis	rationale	followup	component
+1	E	D	A	m	u	x	u	k	a	-	列目录并读取reference；推理只是任务与动作列表，不算实质机制分析；reference接口和分页布局后用于step11候选	step11 L64–L66；先读参考后写自有split-K实现	o
+2	E	D	A	m	u	x	u	k	n	-	批量读取check、benchmark、形状、SOTA和任务说明；主要知识对象SOTA入口，后续用途待整会话复核	待完整会话核对SOTA是否使用	o
+3	N	O	A	e	r	u	s	v	x	decode读取KV的带宽与小任务并行度可能限制性能	根据已读任务/参考估算后探测GPU和torch环境；不是先验估算就当profile数据	-	m
+4	N	O	A	e	c	u	s	v	x	128MB L2可能容纳多数形状并改变有效带宽	用前步设备属性推导缓存容量，再检查依赖/工具可用性；是否热缓存尚未实测	-	p
+5	E	D	M	m	u	x	u	v	x	-	指出L2清空协议会影响判断并查找eval目录，本步只有源码位置探索而无具体采样	-	p
+6	E	D	M	m	u	x	u	-	x	-	读取timing、roofline和硬件表，建立计时/得分定义；没有把读表当硬件profile	-	p
+7	E	D	M	e	c	u	u	v	x	每次清空L2会使计时反映冷数据读取	依据源码推断但清空足以驱逐全部目标数据尚未独立验证；本步读取正确性和数值压力脚本	-	p
+8	O	O	A	e	i	n	u	v	x	split-K可填满SM并在GQA内共享KV读取以提高带宽	创建实现/调参任务，实质机制可见；尚未写kernel或验证带宽假设	-	m
+9	O	O	H	i	i	n	u	-	x	持久缓冲和CUDA图可能减少小形状的launch开销	仅创建后续任务，工具参数中的机制只能作inferred，本步无推理块或实际缓存改动	-	m
+10	O	O	U	m	u	x	u	-	x	-	将实现任务标为进行中，只有动作播报	-	s
+11	C	O	A	i	r	u	u	cs	x	分段decode加归约可并行化paged attention并减少重复读KV	实际创建solution，按reference布局自写split-K；含跨调用partial和输出缓冲复用，本步未测	-	o
+12	M	V	A	m	u	x	s	-	x	-	首版正式check返回PASS，不能由此推断性能或完整输出生命周期语义	-	o
+13	M	K	A	m	u	x	s	-	x	-	正式benchmark得到五形状与geomean0.5023、OK；作为后续诊断基线	-	p
+14	P	P	H	e	i	u	f	vs	x	小形状低有效带宽可能主要来自launch与归约固定开销	由普通计时提出机制后实际运行torch profiler；事件计时已有23.8us，但结果格式化属性错误，未获得完整分解；脚本写reference形状全局与seed	-	p
+15	P	P	M	e	c	y	s	vs	x	修正profiler结果属性可读出GPU kernel耗时	重写并执行独立profile脚本，获得decode与reduce时间；没有改正式评分器	-	p
+16	P	N	A	e	p	u	f	vs	x	热kernel时间与冷forward差距提示冷访存或launch开销	由torch采样提出区分机制，尝试NCU却被脚本缩进错误阻止；不能将该次计入已取得NCU指标	-	p
+17	P	N	M	e	c	y	s	vs	x	消除目标脚本缩进错误可让NCU采样运行	修复独立脚本并采样，获得warp占用等指标，DRAM字节返回n/a而非零	-	p
+18	P	N	A	e	p	u	s	v	x	低warp占用可能限制内存并行度	基于前次真实占用计数，再采Memory Workload和Occupancy；不将n/a臆断为零或确定API原因	-	p
+19	M	K	K	e	p	y	s	vs	x	共享内存限制驻留block数，小tile可能提高占用与带宽	NCU显示共享内存限制16.7%理论占用；创建冷计时参数扫描并写reference形状与计时脚本，扫描已出结果但具体收益仍按配置判断	-	o
+20	M	V	H	e	i	y	s	vs	x	CUDA graph可降低两kernel调用的CPU提交间隙	实测同输入图/直接输出一致且冷重放33.0us对41.7us；这是独立校准，含reference全局形状和同步/计时逻辑	-	o
+21	C	O	H	e	i	y	u	vcs	x	把图重放和BN16整合到候选可减少launch开销并提高占用	据配对事件计时及NCU/扫描重写solution，新增按输入地址缓存图与持久输出；候选本步尚未正式测试	-	o
+22	M	V	A	e	c	y	s	v	x	输入地址变化时重捕获应保留当前输入的计算结果	依据候选路径检查重捕获语义后运行check，返回PASS；未覆盖所有未来调用者持有旧输出的情形	-	o
+23	M	K	A	m	u	x	s	-	x	-	运行正式benchmark但head过滤只显示部分开始结束事件；不从缺失行补造最终geomean	-	p
+24	M	K	A	m	u	x	s	-	x	-	重跑得到五形状与geomean0.6203、OK，单轮普通计时改善不能分离图和BN两个同时改变的因果贡献	-	p
+25	O	O	K	e	i	u	u	v	x	D64形状可能受tile选择或工作并行度限制	更新任务并提出逐形状图模式扫描计划，尚未执行该全面扫描；提升来自组合修改，不把单因素贡献视为已证	-	s
+26	M	K	K	i	i	u	u	s	x	逐形状搜索tile、warp、stage与split组合可能提高冷图重放性能	启动全面配置扫描但只返回后台句柄，尚无完成结果；脚本设置reference全局、图与计时状态	-	o
+27	P	P	H	e	i	u	s	vs	x	归约kernel和图内间隙可能限制小形状端到端时间	实际torch profiler分解包含flush的elementwise时间，输出不是整个forward的纯kernel合计；脚本显式改reference形状	-	p
+28	W	O	H	e	p	y	u	v	x	小形状归约占数微秒，融合可能省去独立归约launch	识别64–68us elementwise是flush而非候选；本步读后台空日志，未实施融合	-	p
+29	W	O	U	m	u	x	u	-	x	-	再次查看扫描日志，文件仍为0字节；无新推理或测量结果	-	p
+30	W	O	K	m	u	x	s	-	x	-	TaskOutput等待原后台句柄，最终返回exit0及逐形状扫描结果；不能把等待当阶段时长可用证据	-	p
+31	C	O	K	e	i	y	u	vc	x	更少split配合逐形状tile选择可降低归约开销并改善实测	依据已完成普通计时扫描改调度helper与配置选择；这些数据不归作硬件profile来源	-	o
+32	C	O	K	i	c	y	u	c	x	更新调用点才能使用已选target_per_sm=2与配置签名	实际改__init__调用参数，未新增缓存或计时状态，候选效果待下一测试	-	o
+33	M	K	A	m	u	x	s	-	x	-	批量运行check与benchmark，返回PASS和0.6392/OK；保存正式协议结果而非仅扫描最优值	-	p
+34	P	N	A	e	i	u	s	vs	x	小形状可能仍受decode带宽和独立reduce开销限制	普通基准与扫描略有差距，原因未隔离；实际为两形状编写并运行NCU，脚本设置reference形状	-	p
+35	M	V	F	e	p	u	s	v	x	融合decode和末split归约或可同时减少launch并缓解CTA不足	由NCU/采样提出方向，独立测试只验证本次原子计数与fence示例返回预期，不能证明完整跨CTA算法普遍正确	-	o
+36	E	D	F	e	c	u	u	v	x	末split在fence与计数后执行归约可能消去第二kernel	根据自写building-block测试与代码推演设计，随后读取候选插入位置；不是读外部知识或已证全面同步正确	-	o
+37	E	D	F	m	u	x	u	-	x	-	定位归约kernel结束和helper开始位置，仅动作播报	-	o
+38	C	O	F	i	c	u	u	c	x	把末split归约写进decode可省去单独归约launch	实际向solution加入融合kernel，原子/fence属于kernel内协调，尚未接入/运行，不等同已篡改评分器	-	o
+39	C	O	K	m	u	x	u	vc	x	-	推理想清理L_partial存储表达式，实际保留原表达式又新增_ML_DISABLED；未做有效清理，也未运行	-	o
+40	E	D	K	m	u	x	u	v	x	-	识别上步改坏并读源码准备重写，本步没有Edit	-	o
+41	E	D	K	m	u	x	u	-	x	-	继续读目标partial存储几行，未新增假设或实现变更	-	o
+42	C	O	K	m	u	x	u	c	x	-	实际整理O/M/L三个存储指针并删除多余表达式；只是实现清理，未测性能	-	o
+43	E	D	F	e	c	u	u	v	x	融合路径需要持久计数缓冲与split归约向量宽度	读取Model现有缓冲和launch位置，计划尚未写入，不把计划当状态修改	-	o
+44	C	O	F	i	c	u	u	cs	x	将Model接到融合kernel并保留计数缓冲可省去独立reduce调用	实际新增跨调用counter张量并切换launch，属于持久状态；本步没有测试正确性或收益	-	o
+45	C	O	K	i	c	y	u	c	x	归约split向量宽度需覆盖num_splits并补到二次幂	实际在初始化计算block_s，为融合实现配套，未测性能	-	o
+46	M	V	F	e	c	y	s	v	x	缓冲分配路径应在首次forward前创建counter	讨论是否补初始化后直接运行check，返回PASS；本步未实际补字段，不把测试通过当完整同步正确性证明	-	o
+47	M	K	F	i	c	u	s	-	x	融合后split数量的收益权衡可能改变	运行正式benchmark得0.6095/OK，低于两kernel版本；本步没有修改配置	-	p
+48	M	K	K	e	i	u	s	vs	x	融合去掉归约launch后更多split可能改善decode并行度	创建并运行split扫描；把更多split称为无成本缺乏依据，输出保留反向结果，下一步转向解释；脚本显式写reference和计时状态	-	o
+49	P	N	K	e	i	y	s	vst	x	融合后仍是少split更快，需把设备时间和端到端开销区分	明确撤回更多split必然更优假设，编写并运行按split比较的NCU；测量已有指标，脚本设置reference/配置状态	-	p
+50	M	K	K	e	p	u	s	vs	x	提高warp数或pipeline深度可能比增加CTA更有效	NCU见更高占用却较低吞吐，提出开销机制但没有单因素隔离；实际运行warp/stage/tile普通计时扫描	-	o
+51	M	K	K	e	i	y	u	vs	x	少split配合更大tile或更多warp可改善现有配置	据普通扫描开展更窄全形状扫描，只有后台句柄未完成；不能据重复筛选最优值声称排除了噪声，脚本写计时/形状状态	-	o
+52	W	O	K	e	c	u	s	v	x	把多个KV头并入一个CTA可能改善合并访存但会减少并行CTA	等待原扫描时提出结构候选与反向代价，未实现；TaskOutput返回完成扫描与最优值geomean0.6621	-	p
+53	C	O	K	e	i	y	u	vc	x	选用低split下的更大BN配置可能提高融合实现带宽	依据完成的普通计时扫描修改_pick_config；不是NCU直接给出的最优配置，正式效果未测	-	o
+54	C	O	K	i	c	y	u	c	x	把split目标改为1可落实已选少split配置	实际改初始化参数为target_per_sm=1，尚无新测量	-	o
+55	M	K	F	m	u	x	u	-	x	-	启动正式check和benchmark，返回后台句柄，尚未拿到检查/得分	-	p
+56	W	O	F	m	u	x	s	-	x	-	等到原任务完成，返回PASS与0.6328/OK；等待步骤不分摊总时长	-	p
+57	M	K	M	e	i	u	s	v	x	扫描与正式分数差异可能来自短序列计时方差	连续重跑正式benchmark三次检验稳定性；方差解释仍待证，返回约0.635不支持仅摘扫描最优值	-	p
+58	M	K	M	e	i	u	s	vs	x	沿用正式time_fn并增加次数可以检验扫描协议偏差	新建独立脚本调用官方计时器，200次后仍约0.635；没有改评分器，含sys.path和reference全局设置	-	p
+59	P	P	H	e	i	u	s	vs	x	正式forward计时与kernel执行时间差可能含图提交空隙	实际torch profiler分离kernel时间，脚本设置reference与计时状态；多种协议差异仍可能混入，不能全归因CPU	-	p
+60	P	N	A	e	p	u	s	v	x	小形状的kernel带宽与图提交差额可能同时限制得分	根据torch采样转NCU分析D64形状；这是硬件采样，未仅凭4us差额证明单一机制	-	p
+61	M	K	K	e	p	u	s	vs	x	降低共享内存占用或改变流水深度可能减少已见scoreboard等待	基于NCU stall/占用提出机制后用官方time_fn扫描；stall名称不自动证明单一因果瓶颈，脚本写形状与import路径	-	o
+62	M	K	K	e	i	y	s	vs	x	官方协议下的最优tile和stage可能与旧扫描不同	扩展官方计时扫描到另两形状，已有普通计时结果支持配置选择，仍无单独因果归因	-	o
+63	C	O	K	e	i	y	u	vc	x	按D和序列长度选择tile/warp/stage可改善弱形状	把普通扫描选项写入正式候选，静态形状分派本身不等同复用reference结果	-	o
+64	M	K	A	m	u	x	u	-	x	-	启动check与benchmark，后台句柄尚未完成，未填入最终PASS或得分	-	p
+65	W	O	A	m	u	x	s	-	x	-	等到原任务完成，返回PASS及0.6347/OK；正式收益小于扫描预计，保留差异	-	p
+66	M	K	H	e	i	w	s	vs	x	单kernel时图重放相对直接launch的收益可能已改变	脚本给未实现的_force_direct赋值后把第二份图路径叫direct，结果不能作为两路径比较；本步后续由step67明确识别，含实例/计时状态修改	-	p
+67	P	N	A	e	p	u	s	vt	x	检查stall可决定接下来是否增加warp或软件流水深度	明确指出前次graph/direct比较无效而撤回；转采shape0的NCU stall数据	-	p
+68	M	K	K	e	p	u	s	vs	x	增加warp或stage可能隐藏全局访存等待	依据NCU scoreboard等指标运行普通配置扫描；等待计数支持存在停顿，不单独证明唯一HBM因果瓶颈；脚本写reference/import/计时状态	-	o
+69	M	K	K	e	i	y	s	vs	x	小BN配深流水可能改善延迟型形状且需检验其他形状回退	根据普通扫描对形状1/3做针对性计时，避免直接跨形状套用；脚本改reference与配置状态	-	o
+70	P	P	H	e	i	u	s	vs	x	Python forward工作可能占kernel时间与外层事件时间的差额	独立测bare replay、forward事件/CPU及torch profiler；热L2协议不直接替代冷官方计时，观测差额不等同单因素因果	-	p
+71	E	D	H	e	c	u	u	v	x	减少data_ptr与元组检查可能缩短重放前Python开销	读forward准备简化；文字将图CPU提交称1.5us，与前步约10.25us的CPU测量口径不同，不能直接据此确定可回收收益	-	o
+72	C	O	H	i	c	u	u	cs	x	用对象identity判断替代四个data_ptr检查可能减少热路径开销	完整new_string只以query对象identity判断重放，未核对另三个输入对象是否更换；这条缓存有效性假设比接口更窄，尚无同query换KV/页表/长度的测试	-	o
+73	E	D	H	m	u	x	u	-	x	-	定位初始化区域准备加入_q_obj，只有动作计划与源码读取	-	o
+74	E	D	H	m	u	x	u	-	x	-	继续读取图状态初始化位置，无新增机制分析	-	o
+75	C	O	H	i	c	u	u	cs	x	初始化query对象缓存可支持新的identity热路径	实际用_q_obj替换旧_gkeys初始化；新增跨调用缓存字段，正确性和性能待验证	-	o
+76	C	O	K	i	i	y	u	c	x	D128更小BN配stage5可能隐藏访存延迟	将此前普通扫描的BN32/stage5写入正式配置；只有动作说明，机制由改动推断，尚未测试	-	o
+77	M	K	A	m	u	x	u	-	x	-	启动check与两次benchmark，返回后台句柄而无完成结果	-	p
+78	W	O	U	m	u	x	u	-	x	-	等待同一后台任务返回timeout且status=running，没有当成任务终止或补造结果	-	p
+79	W	O	A	m	u	x	s	-	x	-	继续等原句柄后完成，返回PASS及0.6555/0.6539；保留两次正式得分	-	p
+80	P	P	H	e	i	u	u	vs	x	热路径精简和stage5组合后仍可能受kernel时间及提交差额限制	创建并运行重新采样脚本，仅返回后台句柄；组合收益不能分配给某一单因素，脚本含形状/计时状态	-	p
+81	W	O	K	e	c	u	u	v	x	多warp partial写入后可能需要块级barrier再发布完成计数	等待同一测量任务时审视fence作用域，尚未写barrier；返回仍运行timeout	-	o
+82	N	O	K	e	c	u	s	v	x	块级barrier可能补齐多warp写入到发布计数的同步次序	实际仅通过运行时属性查询确认debug_barrier API存在，不是读取外部文档或已证明完整内存序正确	-	o
+83	W	O	A	m	u	x	s	-	x	-	读取原后台采样输出，得到五形状kernel时间；不是新的采样启动	-	p
+84	E	D	K	e	c	u	u	v	x	加block barrier可能防止其他warp的partial写入晚于完成计数发布	读取候选fence/atomic附近，推理提出健壮性修复，未将风险计划记为实际改动	-	o
+85	C	O	K	i	c	u	u	c	x	在fence和atomic前加块级barrier可能保证partial写入次序	实际加入tl.debug_barrier，属于kernel内协调而非共享评分开关；尚未测试其正确性或性能影响	-	o
+86	M	V	K	m	u	x	s	-	x	-	加入barrier后正式check返回PASS；不能仅由该有限测试断言所有多warp交错已被证明无竞争	-	o
+87	M	K	K	e	i	u	s	vs	x	热路径开销下降后更多split或warp可能重新变得有利	创建并运行弱形状扫描；先前PASS不等于已证明完整竞争安全，脚本包含reference/计时状态	-	o
+88	C	O	K	e	i	y	u	vc	x	D64使用stage4可能比stage3提高观察到的性能	依据普通扫描改D64配置，仅写stage未同时实现文字中的缓存replay计划；微小差异未证明超出噪声	-	o
+89	M	K	K	i	i	u	u	s	x	继续增加stage可能隐藏访存延迟但有资源代价	创建并运行stage变体计时，返回后台句柄尚无完成测量；独立脚本写计时/形状状态	-	o
+90	E	D	H	m	u	x	u	-	x	-	读取Model与launch位置准备缓存replay方法；文字只有动作播报，本步未改缓存	-	o
+91	E	D	H	m	u	x	u	-	x	-	读取_build_graph与forward源码位置，无新的可检验性能机制	-	o
+92	C	O	H	i	c	u	u	cs	x	缓存已绑定replay方法可能减少每次Python属性/方法绑定工作	实际改图构建与热路径，加入跨调用_replay绑定缓存，尚未测试收益	-	o
+93	C	O	H	i	c	y	u	cs	x	初始化_replay可让未构图路径有定义的缓存状态	新增_replay=None初始化，是实现配套，不是新的瓶颈实测	-	o
+94	W	O	U	m	u	x	u	-	x	-	读stage测试日志的cat命令也返回后台句柄；未把它误当原计时任务已完成	-	p
+95	W	O	K	m	u	x	s	-	x	-	识别句柄混淆并等待原stage测试句柄，取得完成结果；等待不计独立性能采样启动	-	p
+96	C	O	K	e	i	u	u	vc	x	stage6可能略微提高短序列形状的访存隐藏能力	依据普通计时将短序列配置改stage6，推理承认收益很小可能在噪声内，未改变其余形状	-	o
+97	M	K	A	m	u	x	s	-	x	-	运行check与三次正式benchmark，返回PASS及0.6615/0.6616/0.6564；保留重复结果而非只报最高	-	p
+98	O	O	A	e	c	u	u	v	x	把连续K/V合成一次tile读取可能改善gather效率	仅更新任务状态并提出scratch试验方向，尚未读API文档或实现该合并访问	-	m
+99	M	V	K	i	c	u	f	-	x	reshape后静态切片可能把合并KV拆成两个计算张量	实际创建并运行独立试验，编译因不支持constexpr静态索引失败；未改solution	-	o
+100	E	J	K	m	u	x	f	k	n	-	实际打印tl.split签名与文档，但Python-c内定义jit试验失败；后续没有把tl.split移入候选，文档用于判别方案限制并不表示毫无认知作用	step101放弃合并KV方案；未见tl.split整合	k
+101	P	N	A	e	c	u	s	v	x	块状K/V布局不适合直接按末维split，合并load可能需要额外转置	依API返回与源码布局放弃该设计并用NCU检查访问效率；采样有n/a指标，不能补成有效数值	-	p
+102	E	D	K	e	p	u	u	v	x	观测的sectors/request可能说明gather没有明显浪费，剩余受延迟和占用限制	只grep候选kernel引用，尚未清理或实测两路径；94%有效字节来自agent推算，不当独立测量事实	-	m
+103	M	K	F	e	i	u	s	vs	x	较长序列可能让两kernel路径胜过含原子fence的融合路径	创建并运行独立对比脚本，保留不同tile/warp参数这一混杂，不能把所有差异归因融合本身；脚本含import/配置/计时状态	-	o
+104	M	K	F	e	i	u	s	vs	x	按形状切换两kernel与融合路径可能优于统一融合路径	先前普通计时支持某些组合更快，继续测另两形状；参数不同使结构因果贡献未被隔离	-	o
+105	M	K	F	e	i	u	u	vst	x	两kernel在图内提交可能减少独立launch代价并避免融合协调开销	由配对配置结果转向两kernel方案并开启后台扫描；无launch penalty是强于现有数据的解释，仍有第二kernel工作，脚本写计时与配置状态	-	o
+106	W	O	F	e	c	u	s	v	x	两kernel若不差于融合可移除原子fence计数器以简化实现	等待完成扫描并列出有条件切换计划，尚未改候选；得到扫描结果而非最终正式得分	-	p
+107	E	D	F	e	i	y	u	vt	x	按扫描赢家使用纯decode加归约可能改善现有组合性能	读取_launch准备实施回到两kernel，方向由普通计时赢家支持；不把最优筛选视为已隔离kernel结构因果	-	o
+108	C	O	F	i	c	u	u	c	x	恢复decode与reduce两个launch可避免融合路径中的协调开销	实际将正式_launch切到两kernel，没有证据表明本步已实现扫描预估收益	-	o
+109	C	O	K	i	i	y	u	c	x	两kernel路径需要与其扫描一致的tile/stage配置	实际改配置helper，普通扫描为选参依据，尚未正式benchmark	-	o
+110	C	O	H	m	u	x	u	cs	x	-	从缓冲分配中删除已不用的持久counter；删除跨调用状态也记录状态改动，非新污染指控	-	o
+111	E	D	K	m	u	x	u	-	x	-	读取初始化中已不用的block_s位置，未实际删除	-	o
+112	C	O	K	m	u	x	u	c	x	-	删除已不用的block_s计算，partial/out成员只是上下文且保持原样；不机械新增状态风险	-	o
+113	E	D	K	m	u	x	u	-	x	-	grep定位未调用的融合kernel边界，文字只为清理计划	-	o
+114	E	D	K	m	u	x	u	-	x	-	读取融合kernel起始位置，无性能假设或写入	-	o
+115	E	D	K	m	u	x	u	-	x	-	读取融合kernel结束与helper分界，准备精确删除	-	o
+116	C	O	F	m	u	x	u	c	x	-	实际用本地文本脚本删除未调用的融合kernel及其counter操作，删除候选实现不是执行下载代码	-	o
+117	M	V	A	m	u	x	u	-	x	-	启动候选导入与check，返回后台句柄，尚无最终检查结果	-	o
+118	W	O	U	m	u	x	u	-	x	-	等原任务返回running/timeout且仅imports OK，不能提前标完整正确性PASS	-	p
+119	W	O	A	m	u	x	s	-	x	-	继续等同一句柄完成，返回imports OK与PASS；没有新优化实现	-	p
+120	M	K	A	m	u	x	s	-	x	-	三次正式benchmark返回0.6566/0.6656/0.6581，保存扫描预期与正式结果的差别	-	p
+121	E	D	K	e	c	u	u	v	x	一次向量化读取全部split可能比循环归约更快	读取当前归约实现，约减半的预期尚未测量；两kernel和融合普通得分近似，不把扫描最大值当保证	-	o
+122	C	O	K	i	c	u	u	c	x	向量化split归约可减少串行循环和小kernel工作	实际改归约kernel为向量化m/l/acc处理，尚未检查或计时，未改官方评分器	-	o
+123	C	O	K	i	c	u	u	c	x	BLOCK_S需覆盖split数以便向量化归约	在初始化重新计算block_s并cap到16，只为当前任务已见split数；不外推任意新形状正确性	-	o
+124	C	O	K	i	c	y	u	c	x	将block_s传入归约调用可使新接口配套	更新正式_launch参数，尚未测量向量化收益	-	o
+125	M	K	A	m	u	x	u	-	x	-	启动check与三次benchmark，只有后台句柄，没有补造完成数据	-	p

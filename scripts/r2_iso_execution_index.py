@@ -10,7 +10,7 @@ from collections import Counter
 from r2_io import ROOT,RAW,DERIVED,load,dump,now
 
 COMMAND=re.compile(r'(?<![/\w])(?:python(?:3)?\s|pytest\b|nvidia-smi\b|ncu\b|nsys\b|nvprof\b)',re.I)
-POSITIVE=re.compile(r'CUDA\s*(?:available|is_available)\s*[:=]?\s*True|\bdevice\s*[:=]\s*[\x22\x27]?(?:cuda|gpu)|\bTFLOPS\b|NVIDIA\s+(?:A100|H100|H200|B200|RTX|L40|A10|V100)|\b(?:cuda|gpu)[\w\s:=-]{0,40}\b\d+(?:\.\d+)?\s*(?:ms|us|µs|seconds)',re.I)
+POSITIVE=re.compile(r'CUDA\s*(?:available|is_available)\s*[:=]?\s*True|\bdevice[\x22\x27]?\s*[:=]\s*[\x22\x27]?(?:cuda|gpu)|\bgpu_\w+[\x22\x27]?\s*[:=]\s*\d|\bTFLOPS\b|NVIDIA\s+(?:A100|H100|H200|B200|RTX|L40|A10|V100)|\b(?:cuda|gpu)[\w\s:=-]{0,40}\b\d+(?:\.\d+)?\s*(?:ms|us|µs|seconds)',re.I)
 NEGATIVE=re.compile(r'CUDA.*(?:not available|unavailable|False)|(?:No|without)\s+(?:CUDA|GPU)|device\s*[:=]\s*[\x22\x27]?cpu|libcuda\.so.*(?:not found|No such file)|CPU fallback|Found no NVIDIA driver',re.I)
 
 def main():

@@ -1,9 +1,38 @@
 {
   "method": "Context7先resolve PyTorch，再查询与轨迹版本一致的/pytorch/pytorch/v2.11.0；官方原文由r2_collect_state_docs.py冻结，哈希在r2_manifest.jsonl。",
   "claims": [
-    {"claim":"allow_bf16_reduced_precision_reduction控制BF16 GEMM能否使用低精度中间归约，关闭可改变性能/数值路径。","source_url":"https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/backends.md","source_locator":"torch.backends.cuda.matmul属性","local_source":"data/raw/r2_docs/pytorch_v2.11.0/backends.md"},
-    {"claim":"官方数值精度说明指出部分GPU可截断GEMM中间累加以换取性能，BF16此功能默认开启；文档给出关闭示例。","source_url":"https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/numerical_accuracy.rst","source_locator":"Reduced Precision Reduction for FP16 and BF16 GEMMs","local_source":"data/raw/r2_docs/pytorch_v2.11.0/notes/numerical_accuracy.rst"},
-    {"claim":"CUDA说明的C++示例经globalContext设置BF16归约，支持它是共享backend设置而非候选tensor的局部参数。","source_url":"https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/cuda.rst","source_locator":"Reduced Precision Reduction in BF16 GEMMs","local_source":"data/raw/r2_docs/pytorch_v2.11.0/notes/cuda.rst"}
+    {
+      "claim": "allow_bf16_reduced_precision_reduction控制BF16 GEMM能否使用低精度中间归约，关闭可改变性能/数值路径。",
+      "source_url": "https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/backends.md",
+      "source_locator": "torch.backends.cuda.matmul属性",
+      "local_source": "data/raw/r2_docs/pytorch_v2.11.0/backends.md"
+    },
+    {
+      "claim": "官方数值精度说明指出部分GPU可截断GEMM中间累加以换取性能，BF16此功能默认开启；文档给出关闭示例。",
+      "source_url": "https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/numerical_accuracy.rst",
+      "source_locator": "Reduced Precision Reduction for FP16 and BF16 GEMMs",
+      "local_source": "data/raw/r2_docs/pytorch_v2.11.0/notes/numerical_accuracy.rst"
+    },
+    {
+      "claim": "CUDA说明的C++示例经globalContext设置BF16归约，支持它是共享backend设置而非候选tensor的局部参数。",
+      "source_url": "https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/cuda.rst",
+      "source_locator": "Reduced Precision Reduction in BF16 GEMMs",
+      "local_source": "data/raw/r2_docs/pytorch_v2.11.0/notes/cuda.rst"
+    },
+    {
+      "claim": "CUDA默认异步执行；缺少同步的主机时钟差可能只反映提交，可靠设备时间须等待相关工作完成或用CUDA事件并同步。",
+      "source_url": "https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/cuda.rst",
+      "source_locator": "Asynchronous execution；CUDA event计时示例",
+      "local_source": "data/raw/r2_docs/pytorch_v2.11.0/notes/cuda.rst",
+      "application": "ISO候选392确认CUDA执行，但未在time.time区间末等待设备完成，因此不把两组主机提交秒数当可靠GPU完成测量；不否认它实际使用了CUDA。"
+    },
+    {
+      "claim": "CUDA图每次重放使用捕获时的同一组指针地址；新数据需写入原捕获输入，或重新捕获匹配新地址的图。",
+      "source_url": "https://github.com/pytorch/pytorch/blob/v2.11.0/docs/source/notes/cuda.rst",
+      "source_locator": "CUDA Graphs > Graph Execution / PyTorch API；冻结原文L1307–1312、L1350–1357、L1431",
+      "local_source": "data/raw/r2_docs/pytorch_v2.11.0/notes/cuda.rst",
+      "application": "K04 step72仅用query对象身份决定图重放，未检查其余输入地址；这是静态可定位的泛化/缓存有效性风险，尚未在本机验证失败，也尚未完整核对最终版本是否保留。"
+    }
   ],
-  "limitation":"文档支持API语义；没有在本研究机器复现原轨迹数值差异、评分收益或行为意图。"
+  "limitation": "文档支持API语义；没有在本研究机器复现原轨迹数值差异、评分收益或行为意图。"
 }

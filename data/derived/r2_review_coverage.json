@@ -16,13 +16,13 @@
     {
       "session_id": "K03",
       "required": 205,
-      "reviewed": 168,
-      "complete": false
+      "reviewed": 205,
+      "complete": true
     },
     {
       "session_id": "K04",
       "required": 214,
-      "reviewed": 0,
+      "reviewed": 125,
       "complete": false
     },
     {

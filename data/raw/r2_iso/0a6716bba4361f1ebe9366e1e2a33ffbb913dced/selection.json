@@ -6539,7 +6539,7 @@
           "upstream_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_040_915140fd/trajectory.json",
           "bytes": 703864,
           "blob_sha": "2c34fddf52152f9b2ff272cf57abc2e950806984",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_040_915140fd/trajectory.json"
         }
       ]
     },
@@ -6945,7 +6945,7 @@
           "upstream_path": "sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_006_1acca3a2/trajectory.json",
           "bytes": 117210,
           "blob_sha": "f14690dff50cdae622d85837cb2c258bf8cb8c10",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_006_1acca3a2/trajectory.json"
         }
       ]
     },
@@ -7211,7 +7211,7 @@
           "upstream_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_076_f06e90c2/trajectory.json",
           "bytes": 744755,
           "blob_sha": "70133bd0fcc243a897583ff5301519414c039be5",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_076_f06e90c2/trajectory.json"
         }
       ]
     },
@@ -8191,7 +8191,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0098/openhands_stdout.txt",
           "bytes": 147,
           "blob_sha": "f307f99d2dfd6bc2d6b6adaf3e5a5d973f6f631a",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0098/openhands_stdout.txt"
         }
       ]
     },
@@ -8415,7 +8415,7 @@
           "upstream_path": "sglang/claude_code/default/2025-12-23_06-28-44/sglang_038_8f8f96a6/claude_code_stdout.txt",
           "bytes": 2537,
           "blob_sha": "0e4805866b27fc38e44201fad1427272f1db9a1e",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/claude_code/default/2025-12-23_06-28-44/sglang_038_8f8f96a6/claude_code_stdout.txt"
         }
       ]
     },
@@ -8625,7 +8625,7 @@
           "upstream_path": "vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0026/trajectory.json",
           "bytes": 420311,
           "blob_sha": "60e9e04324fdefc475ecd7b1ee3cd02a33acd149",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0026/trajectory.json"
         }
       ]
     },
@@ -9325,7 +9325,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0087/openhands_stdout.txt",
           "bytes": 167,
           "blob_sha": "f54bec97a9bd26c0d72c33fcacda155dbe340875",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0087/openhands_stdout.txt"
         }
       ]
     },
@@ -9605,7 +9605,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0061/openhands_stdout.txt",
           "bytes": 160,
           "blob_sha": "488e6e7523042fc726b997d3326a1c633ffee813",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0061/openhands_stdout.txt"
         }
       ]
     },
@@ -9647,7 +9647,7 @@
           "upstream_path": "vllm/claude_code/default/2025-12-22_21-40-38/vllm_core-0000/claude_code_stdout.txt",
           "bytes": 2821,
           "blob_sha": "ef3b9d67b31fb34c329f0bb60e39c47d0c5aa386",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/claude_code/default/2025-12-22_21-40-38/vllm_core-0000/claude_code_stdout.txt"
         }
       ]
     },
@@ -9815,7 +9815,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0013/openhands_stdout.txt",
           "bytes": 230,
           "blob_sha": "a7708975abf097bda4aeda5fa065cfedbe500f09",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0013/openhands_stdout.txt"
         }
       ]
     },
@@ -10305,7 +10305,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0065/openhands_stdout.txt",
           "bytes": 125,
           "blob_sha": "efd4b768d82363d595d032dd2d06075bc619b1ef",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0065/openhands_stdout.txt"
         }
       ]
     },
@@ -10571,7 +10571,7 @@
           "upstream_path": "vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0028/trajectory.json",
           "bytes": 358216,
           "blob_sha": "b874d4aac4e818706e99b149d6120d9becd64598",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0028/trajectory.json"
         }
       ]
     },
@@ -11033,7 +11033,7 @@
           "upstream_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json",
           "bytes": 512567,
           "blob_sha": "9833e8e6e5800d6e2671dd09ee1fea3e840e846d",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4/trajectory.json"
         }
       ]
     },
@@ -11145,7 +11145,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0064/openhands_stdout.txt",
           "bytes": 145,
           "blob_sha": "d30570e6a6a0d33f5cdc9e2428e78cc98df4597b",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0064/openhands_stdout.txt"
         }
       ]
     },
@@ -11187,7 +11187,7 @@
           "upstream_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0064/claude_code_stdout.txt",
           "bytes": 2684,
           "blob_sha": "350fd056935cf0003f468c47f9a907247982c5bb",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0064/claude_code_stdout.txt"
         }
       ]
     },
@@ -11397,7 +11397,7 @@
           "upstream_path": "sglang/claude_code/default/2025-12-23_06-28-44/sglang_045_9c088829/claude_code_stdout.txt",
           "bytes": 2379,
           "blob_sha": "b102244a4ebb6cd53f980361a32dacce14a10760",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/claude_code/default/2025-12-23_06-28-44/sglang_045_9c088829/claude_code_stdout.txt"
         }
       ]
     },
@@ -11411,7 +11411,7 @@
           "upstream_path": "vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0017/trajectory.json",
           "bytes": 411374,
           "blob_sha": "9450269cca1ea02d26c87429798eb0aea1f37d43",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0017/trajectory.json"
         }
       ]
     },
@@ -11467,7 +11467,7 @@
           "upstream_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0024/claude_code_stdout.txt",
           "bytes": 2676,
           "blob_sha": "6af57df8c8e65c8ca9ebaaea9bc452e2934e4ccb",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0024/claude_code_stdout.txt"
         }
       ]
     },
@@ -11705,7 +11705,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0070/openhands_stdout.txt",
           "bytes": 95,
           "blob_sha": "6db135920cd8c52796d077da267b3e692ff63537",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0070/openhands_stdout.txt"
         }
       ]
     },
@@ -12482,7 +12482,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0067/openhands_stdout.txt",
           "bytes": 140,
           "blob_sha": "42b570f30b038582ab7de72ba240eab8767f25db",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0067/openhands_stdout.txt"
         }
       ]
     },
@@ -12538,7 +12538,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0026/openhands_stdout.txt",
           "bytes": 31,
           "blob_sha": "8699b47d89edc959444d53d6914d6913b67e8a98",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0026/openhands_stdout.txt"
         }
       ]
     },
@@ -12587,7 +12587,7 @@
           "upstream_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0085/openhands_stdout.txt",
           "bytes": 140,
           "blob_sha": "f23ac9f736378257a5230a6a690655d56ade2f13",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0085/openhands_stdout.txt"
         }
       ]
     },
@@ -12979,7 +12979,7 @@
           "upstream_path": "vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0077/trajectory.json",
           "bytes": 866974,
           "blob_sha": "95ffd791402af70d15ca07bf9b4a2ec7d0c9afa3",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0077/trajectory.json"
         }
       ]
     },
@@ -13021,7 +13021,7 @@
           "upstream_path": "sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_024_5e023301/trajectory.json",
           "bytes": 654681,
           "blob_sha": "38a55bc2a7ea237c4b7643340bc4f06f53a245cf",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_024_5e023301/trajectory.json"
         }
       ]
     },
@@ -13623,7 +13623,7 @@
           "upstream_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0044/claude_code_stdout.txt",
           "bytes": 3110,
           "blob_sha": "bbd1c13e8163b9ddeaaae17803ac63ba2d771995",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0044/claude_code_stdout.txt"
         }
       ]
     },
@@ -13889,7 +13889,7 @@
           "upstream_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_09-35-05/sglang_smoke_10189d08/trajectory.json",
           "bytes": 675579,
           "blob_sha": "66b308b0d5e27b6f4379d64f24465a377f5d0437",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_09-35-05/sglang_smoke_10189d08/trajectory.json"
         }
       ]
     },
@@ -14281,7 +14281,7 @@
           "upstream_path": "vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
           "bytes": 567601,
           "blob_sha": "e8a3447f61af31dba252224406d8f5654547ae22",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json"
         }
       ]
     },
@@ -14477,7 +14477,7 @@
           "upstream_path": "vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2026-01-23_16-40-44/vllm_core-0007/trajectory.json",
           "bytes": 599420,
           "blob_sha": "69a1c6aea2391a03ff8fbb49fa0d5e97d8cba074",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2026-01-23_16-40-44/vllm_core-0007/trajectory.json"
         }
       ]
     },
@@ -14729,7 +14729,7 @@
           "upstream_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_b77a02cd/trajectory.json",
           "bytes": 630587,
           "blob_sha": "0107146f09ddf19b92b52185b4761bba5c224595",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_b77a02cd/trajectory.json"
         }
       ]
     },
@@ -14897,7 +14897,7 @@
           "upstream_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_b1709305/trajectory.json",
           "bytes": 1437810,
           "blob_sha": "98895f5daa122cb1f2417ff909b200acfe45ba81",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_b1709305/trajectory.json"
         }
       ]
     },
@@ -15471,7 +15471,7 @@
           "upstream_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0047/claude_code_stdout.txt",
           "bytes": 2693,
           "blob_sha": "43ecd8fb8b823c16c2fa18636c00747621d12360",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0047/claude_code_stdout.txt"
         }
       ]
     },
@@ -15807,7 +15807,7 @@
           "upstream_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0037/claude_code_stdout.txt",
           "bytes": 2823,
           "blob_sha": "556a91b3118d8a14544573c692c0cccdb372d9d4",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0037/claude_code_stdout.txt"
         }
       ]
     },
@@ -16241,7 +16241,7 @@
           "upstream_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_14-38-37/sglang_sonnet45_rerun_021f76e4/trajectory.json",
           "bytes": 884433,
           "blob_sha": "8a9d79d1c769508ec1294bfa61d81aed2c09fac0",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_14-38-37/sglang_sonnet45_rerun_021f76e4/trajectory.json"
         }
       ]
     },
@@ -16353,7 +16353,7 @@
           "upstream_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_fbcbb263/trajectory.json",
           "bytes": 1486523,
           "blob_sha": "b1036cb009236fe50f1d097627bbf01ca4d59e2d",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_fbcbb263/trajectory.json"
         }
       ]
     },
@@ -16857,7 +16857,7 @@
           "upstream_path": "vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_3092375e/trajectory.json",
           "bytes": 607121,
           "blob_sha": "073d765891804a14562fcab3c92bfe6a8489d933",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_3092375e/trajectory.json"
         }
       ]
     },
@@ -16913,7 +16913,7 @@
           "upstream_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_ac971ff6/trajectory.json",
           "bytes": 911095,
           "blob_sha": "61ccb9a12b2d175bac850b351f80d99b6b92f8ae",
-          "local_file": null
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_ac971ff6/trajectory.json"
         }
       ]
     },

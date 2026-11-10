@@ -1,5 +1,5 @@
 {
-  "updated_at": "2026-11-11T02:11:09.577153+08:00",
+  "updated_at": "2026-11-11T02:21:19.768082+08:00",
   "scope": "structural observable export inventory; regex cues are NOT eligibility labels",
   "rows": [
     {
@@ -363,7 +363,7 @@
       "model": "gpt-5",
       "artifact_kind": "trajectory",
       "execution_result_count": 4,
-      "positive_cue_count": 0,
+      "positive_cue_count": 1,
       "negative_cue_count": 1,
       "trajectory_success": false,
       "steps": 29,
@@ -463,7 +463,7 @@
       "model": "gpt-5",
       "artifact_kind": "trajectory",
       "execution_result_count": 4,
-      "positive_cue_count": 0,
+      "positive_cue_count": 1,
       "negative_cue_count": 0,
       "trajectory_success": false,
       "steps": 56,
@@ -974,12 +974,14 @@
       "run_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_040_915140fd",
       "agent": "trae",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 4,
       "positive_cue_count": 0,
-      "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "negative_cue_count": 3,
+      "trajectory_success": false,
+      "steps": 57,
+      "trajectory_model": "gpt-5-2025-08-07",
+      "sha256": "3e9af78754ab81254cf3ba114def625b9897295a9f9f34c6ae38b7f2f851b974"
     },
     {
       "order": 70,
@@ -1191,7 +1193,7 @@
       "model": "gpt-5",
       "artifact_kind": "trajectory",
       "execution_result_count": 3,
-      "positive_cue_count": 0,
+      "positive_cue_count": 1,
       "negative_cue_count": 0,
       "trajectory_success": true,
       "steps": 43,
@@ -1388,12 +1390,14 @@
       "run_path": "sglang/trae/claude-sonnet-45/2025-11-28_15-26-15/sglang_006_1acca3a2",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "trajectory",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 5,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "c182d1c832508907c5c9ca944d576fdb0d53332ef210844f1becc758ec6f0a71"
     },
     {
       "order": 99,
@@ -1658,12 +1662,14 @@
       "run_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_076_f06e90c2",
       "agent": "trae",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 5,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 50,
+      "trajectory_model": "gpt-5-2025-08-07",
+      "sha256": "1171399e1f0b8e3bc42a2b002022d6a0851cb01a96ee9cc74cb0ca7153c4a70a"
     },
     {
       "order": 118,
@@ -2305,7 +2311,7 @@
       "model": "gpt-5",
       "artifact_kind": "trajectory",
       "execution_result_count": 9,
-      "positive_cue_count": 0,
+      "positive_cue_count": 6,
       "negative_cue_count": 8,
       "trajectory_success": true,
       "steps": 59,
@@ -2661,12 +2667,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0098",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "54bbaba9ab4448bc2ebb08b2b7d325364793d1d35ad928ab7c2a3d38e4e24ca8"
     },
     {
       "order": 188,
@@ -2886,12 +2893,18 @@
       "run_path": "sglang/claude_code/default/2025-12-23_06-28-44/sglang_038_8f8f96a6",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "9889c1201aa2c012c2543c8822256f7ec7d2b25008cc2d8ff1f3cc086948bbf9",
+      "stdout_model_usage": [
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 204,
@@ -3095,12 +3108,14 @@
       "run_path": "vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0026",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 9,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 43,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "202ae745aaacd1bc7d6e656b97600f9a01c7373adafffd40a73231990fddbb74"
     },
     {
       "order": 219,
@@ -3815,12 +3830,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0087",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "41d4a126aa7a8c4ce0188dfa341ed6f63179e205de80aabfaf159e509e754e15"
     },
     {
       "order": 269,
@@ -4106,12 +4122,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0061",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "6703886feeb0327fc98df6342a314cef1c53623c0d1224514bdef5e4b40cdbaa"
     },
     {
       "order": 289,
@@ -4146,12 +4163,18 @@
       "run_path": "vllm/claude_code/default/2025-12-22_21-40-38/vllm_core-0000",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "dbc0253e45f3be85f2813ca304ba70bb4177e14f4753cdfe7cce57f439595fd9",
+      "stdout_model_usage": [
+        "global.anthropic.claude-opus-4-5-20251101-v1:0",
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 292,
@@ -4318,12 +4341,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0013",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "210108b30600ba6e771f5c2194ce3a8c76515ea9e120e8c3733bc27115c24c86"
     },
     {
       "order": 304,
@@ -4828,12 +4852,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0065",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "16e11d49c0ef67edd2192abaebac6aa4320e1e80828b73e7e5a23b5a74f7e8c8"
     },
     {
       "order": 339,
@@ -5105,12 +5130,14 @@
       "run_path": "vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0028",
       "agent": "trae",
       "model": "gpt-5",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 6,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 26,
+      "trajectory_model": "gpt-5",
+      "sha256": "c50dd48eb4ed38dbde5c05dafc9672ad2dff08d166c000bf40d328fa83ab3623"
     },
     {
       "order": 358,
@@ -5582,12 +5609,14 @@
       "run_path": "sglang/trae/gpt-5/2025-11-16_09-27-51/sglang_071_e3ec6bf4",
       "agent": "trae",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 5,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 38,
+      "trajectory_model": "gpt-5-2025-08-07",
+      "sha256": "1899d13bc335eb1af29ec1f1dd90a0b9057c1bcf1f29cd439d84ad1fdccaf2c8"
     },
     {
       "order": 391,
@@ -5614,7 +5643,7 @@
       "model": "gpt-5",
       "artifact_kind": "trajectory",
       "execution_result_count": 5,
-      "positive_cue_count": 0,
+      "positive_cue_count": 1,
       "negative_cue_count": 0,
       "trajectory_success": true,
       "steps": 28,
@@ -5699,12 +5728,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0064",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "b0b2087d6bf5446dc2805157cb0e26f1e5955bb2f57dae96fe626bf1111ec085"
     },
     {
       "order": 399,
@@ -5739,12 +5769,18 @@
       "run_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0064",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "d2ff0cd4d6e81e17347fc60c1ed0caea4f52de2782edfac46e3ba70e57ee9434",
+      "stdout_model_usage": [
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 402,
@@ -5952,24 +5988,32 @@
       "run_path": "sglang/claude_code/default/2025-12-23_06-28-44/sglang_045_9c088829",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "609d71f3634cef3727e2f3bc071f57c23251c09ebab7571f91a0467aa5a5b1f0",
+      "stdout_model_usage": [
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 417,
       "run_path": "vllm/trae/gpt-5/2025-10-14_14-11-42/vllm_core-0017",
       "agent": "trae",
       "model": "gpt-5",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 2,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": true,
+      "steps": 24,
+      "trajectory_model": "gpt-5",
+      "sha256": "99c65d19c721c3d95bb4100bb28d089387306341fce63e57561d8db98927145f"
     },
     {
       "order": 418,
@@ -6017,12 +6061,18 @@
       "run_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0024",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "a6f4461e1fb82a3b0c9b792e738a1e5e883758e6b205d86bdeed1ae08389447e",
+      "stdout_model_usage": [
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 422,
@@ -6262,12 +6312,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0070",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "91014947e9b2c1cbc087a753c219ad77a5be10e80157784479027f5c1f1561da"
     },
     {
       "order": 439,
@@ -7085,12 +7136,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0067",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "bb8f9405307894acaf86617d7953710a4981a60caf131adb9a2e349aa6780792"
     },
     {
       "order": 495,
@@ -7143,12 +7195,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0026",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "fc119e8fa82fba46989a3ac2e1ad74ffecdca5739870c6d0598703ad194a2cce"
     },
     {
       "order": 499,
@@ -7199,12 +7252,13 @@
       "run_path": "vllm/codex/gpt-5/2025-11-20_11-05-30/vllm_core-0085",
       "agent": "codex",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "unstructured_stdout",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "350e845c67d3ac32ba6fbb4015d767e3c594db73f6a7972656317f1ad0ce2d2b"
     },
     {
       "order": 503,
@@ -7612,12 +7666,14 @@
       "run_path": "vllm/trae/gpt-5/2025-11-06_03-26-11/vllm_core-0077",
       "agent": "trae",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 6,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 45,
+      "trajectory_model": "gpt-5-2025-08-07",
+      "sha256": "534b85bc201a12d33356a83bf2c7c013fbbed3ab74fee77947c89de393270bb2"
     },
     {
       "order": 531,
@@ -7656,12 +7712,14 @@
       "run_path": "sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_024_5e023301",
       "agent": "trae",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 8,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 60,
+      "trajectory_model": "gpt-5-2025-08-07",
+      "sha256": "787be8c0c75120ff3dc413369725fa0c5cf98d9d074f53ca3acae46b1c4a478e"
     },
     {
       "order": 534,
@@ -8312,12 +8370,18 @@
       "run_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0044",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "fdd56c3878a9cb0620b58c65746989b27831de34d5ce575ceac904f0c51c7d7e",
+      "stdout_model_usage": [
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 577,
@@ -8600,12 +8664,14 @@
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_09-35-05/sglang_smoke_10189d08",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 7,
       "positive_cue_count": 0,
-      "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "negative_cue_count": 3,
+      "trajectory_success": false,
+      "steps": 74,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "8e5bcc2531074538ace4e6766f67238c5e974709c91e47fb0026462f958ae7f6"
     },
     {
       "order": 596,
@@ -9030,12 +9096,14 @@
       "run_path": "vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 7,
       "positive_cue_count": 0,
-      "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "negative_cue_count": 1,
+      "trajectory_success": false,
+      "steps": 53,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "9db7c9893f3e6a4b93e6bf965c165d3b43b58f3bb4d86a1219032e6aa4b5de38"
     },
     {
       "order": 624,
@@ -9252,12 +9320,14 @@
       "run_path": "vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2026-01-23_16-40-44/vllm_core-0007",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 4,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 53,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "ab9ccf13825ae7cf82f7aa0d797f122e7fa605a50d5baffcd136ea30bf7671ea"
     },
     {
       "order": 638,
@@ -9538,12 +9608,14 @@
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_b77a02cd",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 4,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 58,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "42c6db32c4b3b05eeab64d492549fc9ee0d3d69c15003a5cae1c1e365a1bff9a"
     },
     {
       "order": 656,
@@ -9728,12 +9800,14 @@
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_b1709305",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 11,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": true,
+      "steps": 174,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "1812454449441c9d963f02432236bcb99346f342263552e8e5478d13643822a0"
     },
     {
       "order": 668,
@@ -10380,12 +10454,18 @@
       "run_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0047",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "3643ec7bbe7f1cee48f414bc99dbfbd9bb40dad54580d0712d329782c4bbbb0c",
+      "stdout_model_usage": [
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 709,
@@ -10758,12 +10838,18 @@
       "run_path": "vllm/claude_code/default/2025-12-23_04-37-32/vllm_core-0037",
       "agent": "claude_code",
       "model": "gpt-5-2025-08-07",
-      "artifact_kind": "not_retrieved",
+      "artifact_kind": "final_result_without_tools",
       "execution_result_count": 0,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
       "trajectory_success": null,
-      "steps": null
+      "steps": null,
+      "sha256": "251b7c1ba1352f0bf7bdd8c4b962493cb3b3194456b23bd9b896cfe557eee75f",
+      "stdout_model_usage": [
+        "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+        "global.anthropic.claude-opus-4-5-20251101-v1:0"
+      ],
+      "stdout_subtype": "success"
     },
     {
       "order": 733,
@@ -11250,12 +11336,14 @@
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_14-38-37/sglang_sonnet45_rerun_021f76e4",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 2,
       "positive_cue_count": 0,
-      "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "negative_cue_count": 2,
+      "trajectory_success": false,
+      "steps": 92,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "f291dab4b8af91fae9bf8792b1468525929de93022d5d9d64922e66e35a47cda"
     },
     {
       "order": 764,
@@ -11376,12 +11464,14 @@
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_fbcbb263",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 6,
       "positive_cue_count": 0,
-      "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "negative_cue_count": 5,
+      "trajectory_success": true,
+      "steps": 166,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "dc368dcedcfaac9659364d90e1b28d86c109bc8effd87060698ce7c21755da1e"
     },
     {
       "order": 772,
@@ -11950,12 +12040,14 @@
       "run_path": "vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_3092375e",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 11,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": false,
+      "steps": 54,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "6c38afa8bb95d00e020cdfc7a1a5ad62126bcd94027fb91efd5fca55150a0035"
     },
     {
       "order": 808,
@@ -12012,12 +12104,14 @@
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_ac971ff6",
       "agent": "trae",
       "model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
-      "artifact_kind": "not_retrieved",
-      "execution_result_count": 0,
+      "artifact_kind": "trajectory",
+      "execution_result_count": 13,
       "positive_cue_count": 0,
       "negative_cue_count": 0,
-      "trajectory_success": null,
-      "steps": null
+      "trajectory_success": true,
+      "steps": 123,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "sha256": "bb001a5f5e960ba22762dd1df898487ace9864fff7747f7b1c3325ccab5a7ed6"
     },
     {
       "order": 812,

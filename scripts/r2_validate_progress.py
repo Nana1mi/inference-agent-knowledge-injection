@@ -44,6 +44,12 @@ def main():
         if r['annotation_method']!='研究助理逐项复核':errors.append('non-reviewed semantic record '+str(key))
         if r['duration_seconds'] is not None:errors.append('unvalidated duration '+str(key))
     coverage=load(DERIVED/'r2_review_coverage.json');counts['reviewed_kbh_steps']=len(rows);counts['required_kbh_steps']=sum(s['steps'] for s in sessions.values())
+    iso_reviews=load(ROOT/'data/annotations/r2_iso_eligibility_reviews.json')['reviews']
+    counts['reviewed_iso_eligibility_candidates']=len(iso_reviews)
+    counts['confirmed_successful_gpu_candidates']=sum(r['eligible_success_gpu'] for r in iso_reviews)
+    counts['selected_iso_sessions']=len(load(RAW/'r2_iso'/load(DERIVED/'r2_iso_index.json')['revision']/'selection.json')['selected'])
+    state_coverage=load(DERIVED/'r2_state_review_coverage.json')
+    counts['required_state_scan_hits']=state_coverage['required_hits'];counts['reviewed_state_scan_hits']=state_coverage['reviewed_hits']
     gates={'R1_index_sample_and_hashes':not errors,'R2_gpu_eligible_sample':False,'R3_complete_review':coverage['status']=='complete',
            'R3_blind_repeat_agreement':(DERIVED/'r2_agreement.json').exists(),
            'R4_analysis':(ROUND/'R4_analysis.md').exists(),'R5_full_scan_and_review':False,'R6_one_page_brief':(ROUND/'00_brief.md').exists()}

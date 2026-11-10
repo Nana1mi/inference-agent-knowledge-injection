@@ -3286,13 +3286,20 @@
       "item_id": "sglang_sonnet45_rerun_2f427491",
       "human_commit": "2f427491",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_2f427491/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_2f427491/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/8/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_2f427491/trajectory.json",
+          "sha256": "c6bd5b1321962d663165e07fbf41b2633ee3b2f3b97ab61c8a1e92cc4326962f"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -3338,7 +3345,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 414,
+        "eligible_success_gpu": false,
+        "reason": "device=cuda出现在分配失败的异常栈，真实返回Found no NVIDIA driver；没有完成GPU测量。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": true,
+      "status_conflict": false,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
     },
     {
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_31589e17",
@@ -5561,13 +5577,20 @@
       "item_id": "sglang_sonnet45_rerun_f0653886",
       "human_commit": "f0653886",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_f0653886/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_f0653886/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/10/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_f0653886/trajectory.json",
+          "sha256": "86bb467d57b1623036b8fe063ba738b0a716a96b181c4335bacbee679c4958b2"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -5613,7 +5636,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 631,
+        "eligible_success_gpu": false,
+        "reason": "实际运行test_opt.py在CUDA初始化时失败，无NVIDIA驱动；正向线索来自异常中的源码。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
     },
     {
       "run_path": "sglan/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-24_19-36-38/sglang_sonnet45_rerun_f06e90c2",
@@ -19302,13 +19334,32 @@
       "item_id": "sglang_009_23c764b1",
       "human_commit": "23c764b18aeb37c42ddedd7468f1a5753df1f232",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_009_23c764b1/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_009_23c764b1/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_009_23c764b1/trajectory.json",
+          "sha256": "2ecb368cb01753bcfd07542671a722b694af983163e6743d766a87eea2265d43"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_009_23c764b1/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/3/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_009_23c764b1/trajectory.json",
+          "sha256": "2ecb368cb01753bcfd07542671a722b694af983163e6743d766a87eea2265d43"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_009_23c764b1/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/42/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_009_23c764b1/trajectory.json",
+          "sha256": "2ecb368cb01753bcfd07542671a722b694af983163e6743d766a87eea2265d43"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -19356,7 +19407,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 375,
+        "eligible_success_gpu": false,
+        "reason": "正向device=cuda线索来自grep返回的源码；实际测试先后缺sglang、decord和sgl_kernel，最后缺libcuda.so.1，没有完成GPU测量；trajectory.success=false与summary冲突。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "gpt-5-2025-08-07"
     },
     {
       "run_path": "sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_010_25c83fff",
@@ -20294,7 +20354,26 @@
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_023_564a898a/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/0/tool_calls/0/arguments/command",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_023_564a898a/trajectory.json",
+          "sha256": "5eb82cf1e6e28f4139371101feac0ebd30ef15ff916d7f7039f92dad0661384c"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_023_564a898a/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/0/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_023_564a898a/trajectory.json",
+          "sha256": "5eb82cf1e6e28f4139371101feac0ebd30ef15ff916d7f7039f92dad0661384c"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_023_564a898a/trajectory.json",
+          "locator": "trajectory.json#/agent_steps",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_023_564a898a/trajectory.json",
+          "sha256": "5eb82cf1e6e28f4139371101feac0ebd30ef15ff916d7f7039f92dad0661384c"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -20342,7 +20421,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 492,
+        "eligible_success_gpu": false,
+        "reason": "CUDA关键词均为grep返回的源文件行；组合命令写了测试脚本但可见工具中未执行该脚本，未导出GPU设备计时。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": true,
+      "status_conflict": false,
+      "trajectory_model": "gpt-5-2025-08-07"
     },
     {
       "run_path": "sglang/trae/gpt-5/2025-11-14_21-05-32/sglang_024_5e023301",
@@ -60889,13 +60977,38 @@
       "item_id": "vllm_bedrock_sonnet45-0051",
       "human_commit": "93e5f3c5fb4a4bbd49610efb96aad30df95fca66",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "sha256": "9db7c9893f3e6a4b93e6bf965c165d3b43b58f3bb4d86a1219032e6aa4b5de38"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/33/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "sha256": "9db7c9893f3e6a4b93e6bf965c165d3b43b58f3bb4d86a1219032e6aa4b5de38"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/45/tool_calls/0/arguments/file_text",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "sha256": "9db7c9893f3e6a4b93e6bf965c165d3b43b58f3bb4d86a1219032e6aa4b5de38"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/46/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0051/trajectory.json",
+          "sha256": "9db7c9893f3e6a4b93e6bf965c165d3b43b58f3bb4d86a1219032e6aa4b5de38"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -60941,7 +61054,18 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 623,
+        "eligible_success_gpu": false,
+        "reason": "打印的input_ids(GPU)是固定标签，实际脚本把CUDA不可用时的device回退到CPU；较早返回明确CUDA not available。最终脚本仍无设备同步，trajectory.success=false与summary冲突，不计成功GPU测量。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0",
+      "gpu_execution_confirmed": false,
+      "gpu_timing_valid": false
     },
     {
       "run_path": "vllm/trae/claude-sonnet-45/2025-11-28_02-25-29/vllm_bedrock_sonnet45-0052",
@@ -73423,13 +73547,26 @@
       "item_id": "vllm_core-0033",
       "human_commit": "6dd94dbe94c1820a1e224cba65efcf0befa97995",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0033/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0033/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/20/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0033/trajectory.json",
+          "sha256": "56b610b65b4c0ef91c7b856a9deb674e3f17045fb01e9c8b9a7918f10298ec2a"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0033/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/25/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0033/trajectory.json",
+          "sha256": "56b610b65b4c0ef91c7b856a9deb674e3f17045fb01e9c8b9a7918f10298ec2a"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -73477,7 +73614,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 162,
+        "eligible_success_gpu": false,
+        "reason": "gpu_memory_utilization=0.9只是打印的配置，首次engine实例化失败于无法推断设备；重试明确device=cpu后又在模型架构检查失败，没有完成GPU计时。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": true,
+      "status_conflict": false,
+      "trajectory_model": "gpt-5"
     },
     {
       "run_path": "vllm/trae/gpt-5/2025-10-14_14-11-51/vllm_core-0034",
@@ -85378,13 +85524,32 @@
       "item_id": "vllm_core-0005",
       "human_commit": "d7740ea4",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": true,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/trajectory.json",
+          "sha256": "f3e23c77535f9a22aa84112b02434b95edd527fc1aed34b29f3913a0cc060869"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/16/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/trajectory.json",
+          "sha256": "f3e23c77535f9a22aa84112b02434b95edd527fc1aed34b29f3913a0cc060869"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/17/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005/trajectory.json",
+          "sha256": "f3e23c77535f9a22aa84112b02434b95edd527fc1aed34b29f3913a0cc060869"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -85430,7 +85595,19 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 84,
+        "eligible_success_gpu": true,
+        "reason": "summary与trajectory均导出success；工具返回实际gpu_baseline/optimized秒数。step17完整脚本只在CUDA可用时打印GPU行，显式在CUDA张量上运行并在每轮完成后同步；依赖以vllm导入stub绕过，故仅算孤立采样微基准，不外推完整引擎或正确性收益。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": true,
+      "status_conflict": false,
+      "trajectory_model": "gpt-5",
+      "gpu_execution_confirmed": true,
+      "gpu_timing_valid": true,
+      "measurement_scope": "isolated CUDA sampler microbenchmark; not full-engine end-to-end"
     },
     {
       "run_path": "vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006",
@@ -85444,13 +85621,38 @@
       "item_id": "vllm_core-0006",
       "human_commit": "a3223766",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "locator": "trajectory.json#/success",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "sha256": "62b6f9a470b8f8ab485053bcd4ed54cf73afaa34f4e3ec6ed3a157bad9002b6f"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/11/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "sha256": "62b6f9a470b8f8ab485053bcd4ed54cf73afaa34f4e3ec6ed3a157bad9002b6f"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/13/tool_calls/0/arguments/new_str",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "sha256": "62b6f9a470b8f8ab485053bcd4ed54cf73afaa34f4e3ec6ed3a157bad9002b6f"
+        },
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/14/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0006/trajectory.json",
+          "sha256": "62b6f9a470b8f8ab485053bcd4ed54cf73afaa34f4e3ec6ed3a157bad9002b6f"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -85496,7 +85698,19 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 392,
+        "eligible_success_gpu": false,
+        "reason": "确实返回device=cuda且导出success，但step12完整计时代码对异步CUDA循环只用time.time，没有计时结束同步或CUDA事件，step14只改正确性判断。保留CUDA执行证据，不能把0.00532/0.00329秒当设备完成延迟以满足可靠GPU测量配额。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": true,
+      "status_conflict": false,
+      "trajectory_model": "gpt-5",
+      "gpu_execution_confirmed": true,
+      "gpu_timing_valid": false,
+      "measurement_scope": "CUDA execution with unsynchronized host submission timings"
     },
     {
       "run_path": "vllm/trae/gpt-5/2026-01-29_16-05-49/vllm_core-0000",
@@ -90699,13 +90913,20 @@
       "item_id": "vllm_sonnet45_rerun_0d243f2a",
       "human_commit": "0d243f2a",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_0d243f2a/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_0d243f2a/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/19/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_0d243f2a/trajectory.json",
+          "sha256": "8b4ce3793da9adf23c7e7964d778791d93f207f0e01ac191b619c8cc667f8efb"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -90751,7 +90972,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 574,
+        "eligible_success_gpu": false,
+        "reason": "CUDA张量分配抛出Found no NVIDIA driver，device=cuda是错误栈回显，不是成功运行或测量。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
     },
     {
       "run_path": "vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_0ec82edd",
@@ -94531,13 +94761,20 @@
       "item_id": "vllm_sonnet45_rerun_b9986454",
       "human_commit": "b9986454",
       "success": true,
-      "gpu_measurement": null,
+      "gpu_measurement": false,
       "status_evidence": {
         "file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/summaries/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_b9986454/run_summary.json",
         "pointer": "/agent/status",
         "value": "success"
       },
-      "gpu_evidence": null,
+      "gpu_evidence": [
+        {
+          "local_file": "data/raw/r2_iso/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/candidates/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_b9986454/trajectory.json",
+          "locator": "trajectory.json#/agent_steps/24/tool_results/0/result",
+          "source_url": "https://raw.githubusercontent.com/Lossfunk/ISO-Bench/0a6716bba4361f1ebe9366e1e2a33ffbb913dced/ISO-Bench/state/runs/vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_b9986454/trajectory.json",
+          "sha256": "7562a450b62f8229bf89d9b3a388a2b5b00a12b5eaaae4c52a5da4b0cd6173ab"
+        }
+      ],
       "export_status": "success",
       "summary": {
         "schema_version": "1.0",
@@ -94583,7 +94820,16 @@
         "trae_stderr.txt",
         "trae_stdout.txt",
         "trajectory.json"
-      ]
+      ],
+      "eligibility_review": {
+        "order": 661,
+        "eligible_success_gpu": false,
+        "reason": "计时尝试在CUDA张量初始化时报系统无NVIDIA驱动，未完成GPU测量。",
+        "reviewer": "同一AI研究助理；资格逐条复核，非自动标签"
+      },
+      "trajectory_success": false,
+      "status_conflict": true,
+      "trajectory_model": "us.anthropic.claude-sonnet-4-5-20250929-v1:0"
     },
     {
       "run_path": "vllm/trae/us-anthropic-claude-sonnet-4-5-20250929-v1-0/2025-12-23_22-06-06/vllm_sonnet45_rerun_baeded25",
