@@ -54,12 +54,98 @@ def main():
     expected_steps={(sid,g['step_id']) for sid,s in sessions.items()
                     for g in map(json.loads,(ROOT/s['step_file']).read_text(encoding='utf-8').splitlines())}
     kbh_first_pass_complete=coverage['status']=='complete' and seen==expected_steps and not errors
-    # This check currently validates KBH rows only. ISO eligibility reviews are
-    # not step annotations; finishing KBH must not complete the combined R3 gate.
-    gates={'R1_index_sample_and_hashes':not errors,'R2_gpu_eligible_sample':False,
-           'R3_kbh_first_pass_complete':kbh_first_pass_complete,'R3_complete_review':False,
-           'R3_blind_repeat_agreement':(DERIVED/'r2_agreement.json').exists(),
-           'R4_analysis':(ROUND/'R4_analysis.md').exists(),'R5_full_scan_and_review':False,'R6_one_page_brief':(ROUND/'00_brief.md').exists()}
+    scope=load(DERIVED/'r2_scope_update.json') if (DERIVED/'r2_scope_update.json').exists() else None
+    if scope and scope['version']==2:
+        frozen=load(ROOT/scope['kbh']['manifest']);frozen_ok=True
+        for artifact in frozen['artifacts']:
+            for key in ('source','snapshot'):
+                if hashlib.sha256((ROOT/artifact[key]).read_bytes()).hexdigest()!=artifact['sha256']:
+                    errors.append('frozen artifact changed '+artifact[key]);frozen_ok=False
+        frozen_ok=frozen_ok and frozen['sessions']==14 and frozen['steps']==3345 and len(rows)==3345
+        iso=load(DERIVED/'r2_iso_field_decisions.json') if (DERIVED/'r2_iso_field_decisions.json').exists() else None
+        iso_done=False
+        if iso:
+            auto_ids={r['order'] for r in iso['automatic_rows']};manual_ids={r['order'] for r in iso_reviews}
+            selection=load(RAW/'r2_iso'/load(DERIVED/'r2_iso_index.json')['revision']/'selection.json')
+            expected_ids={r['order'] for r in selection['eligibility_check_order']}
+            iso_done=(len(auto_ids)==433 and len(manual_ids)==400 and not auto_ids & manual_ids and
+                      auto_ids | manual_ids==expected_ids and selection['selected']==iso['selected'] and
+                      iso['status']=='complete_under_scope_amendment' and (ROUND/'R2_iso_summary.md').exists())
+            for row in iso['automatic_rows']:
+                for evidence in [row['success_evidence']]+row['gpu_evidence']:
+                    path=ROOT/evidence['file']
+                    if hashlib.sha256(path.read_bytes()).hexdigest()!=evidence['sha256']:
+                        errors.append('ISO field source hash changed');iso_done=False
+                    node=load(path)
+                    for token in evidence['pointer'].split('/')[1:]:
+                        node=node[int(token)] if isinstance(node,list) else node[token]
+                    if node!=evidence['value']:
+                        errors.append('ISO field locator mismatch');iso_done=False
+            counts['automatically_decided_iso_candidates']=len(auto_ids)
+            counts['total_decided_iso_candidates']=len(auto_ids | manual_ids)
+            counts['iso_original_quota_shortfall']=iso['shortfall']
+        repeat_ready=False;agreement=False
+        if (DERIVED/'r2_blind_selection.json').exists():
+            blind=load(DERIVED/'r2_blind_selection.json')
+            repeat_ready=blind['steps']==150 and len(blind['by_session'])==14
+            for pathkey,hashkey in [('packet','packet_sha256'),('key','key_sha256')]:
+                if hashlib.sha256((ROOT/blind[pathkey]).read_bytes()).hexdigest()!=blind[hashkey]:
+                    errors.append('blind packet/key changed');repeat_ready=False
+            packets=load(ROOT/blind['packet'])
+            if len(packets)!=150 or len({p['blind_id'] for p in packets})!=150 or set(blind['focus_field_slots'].values())!={50}:
+                errors.append('blind150 uniqueness/field quotas');repeat_ready=False
+            raw_fields={'step_id','source_lines','thoughts','texts','calls','source_timestamp'}
+            if any(set(r)-raw_fields for p in packets for r in [p['current']]+p['context_before']+p['context_after']):
+                errors.append('non-raw fields in blind packet');repeat_ready=False
+            if (DERIVED/'r2_agreement.json').exists():
+                agreed=load(DERIVED/'r2_agreement.json')
+                repeat=ROOT/'data/annotations/r2_blind_reviews.jsonl'
+                agreement=(repeat_ready and agreed.get('status')=='complete' and agreed.get('steps')==150 and
+                           set(agreed.get('fields',{}))==set(blind['repeat_fields']) and repeat.exists() and
+                           hashlib.sha256(repeat.read_bytes()).hexdigest()==agreed.get('repeat_sha256') and
+                           all(v['n']==150 for v in agreed.get('fields',{}).values()))
+        analysis=load(DERIVED/'r2_analysis.json') if (DERIVED/'r2_analysis.json').exists() else None
+        draft=(bool(analysis) and frozen_ok and analysis['overall']['steps']==3345 and
+               analysis['knowledge']['events']==85 and (ROUND/'R4_analysis.md').exists())
+        final_review=load(DERIVED/'r2_analysis_review.json') if (DERIVED/'r2_analysis_review.json').exists() else {}
+        bounded=load(DERIVED/'r2_state_bounded_validation.json') if (DERIVED/'r2_state_bounded_validation.json').exists() else {}
+        brief=load(DERIVED/'r2_brief_validation.json') if (DERIVED/'r2_brief_validation.json').exists() else {}
+        state_units=load(DERIVED/'r2_state_units.json') if (DERIVED/'r2_state_units.json').exists() else None
+        state_ready=False
+        if state_units:
+            unit_ids={u['unit_id'] for u in state_units['units']}
+            priority_ids=set(state_units['priority_sample_ids']);random_ids=set(state_units['random_sample_ids'])
+            state_ready=(len(priority_ids)==150 and len(random_ids)==50 and not priority_ids & random_ids and
+                         priority_ids | random_ids<=unit_ids and len(unit_ids)==state_units['deduplicated_units'])
+            members=[h for u in state_units['units'] for h in u['members']]
+            excluded=[h['hit_id'] for h in state_units['excluded']]
+            if (len(members)!=len(set(members)) or set(members)&set(excluded) or
+                    len(members)+len(excluded)!=state_units['legacy_hits'] or
+                    len({(u['session'],u['rule']) for u in state_units['units']})!=len(unit_ids)):
+                errors.append('R5 unit partition/dedup');state_ready=False
+            counts['state_deduplicated_units']=len(unit_ids)
+            counts['state_priority_review_target']=len(priority_ids)
+            counts['state_random_review_target']=len(random_ids)
+        counts['legacy_state_scan_hits']=counts.pop('required_state_scan_hits')
+        counts['legacy_reviewed_state_scan_hits']=counts.pop('reviewed_state_scan_hits')
+        counts['blind_repeat_target_steps']=150
+        counts['blind_repeat_completed_steps']=150 if agreement else 0
+        counts['state_new_scope']={'unit':'session x rule','priority_cap':150,'random_sample':50}
+        gates={'R1_index_sample_and_hashes':not errors,'R2_amended_export_census':iso_done,
+               'R3_frozen_kbh_first_pass':kbh_first_pass_complete and frozen_ok,
+               'R3_blind_repeat_prepared':repeat_ready,'R3_blind_repeat_agreement':agreement,
+               'R4_draft':draft,'R4_final_analysis':draft and agreement and final_review.get('status')=='final' and
+                   final_review.get('analysis_sha256')==hashlib.sha256((DERIVED/'r2_analysis.json').read_bytes()).hexdigest() and
+                   final_review.get('report_sha256')==hashlib.sha256((ROUND/'R4_analysis.md').read_bytes()).hexdigest(),
+               'R5_sampling_prepared':state_ready,
+               'R5_bounded_audit':state_ready and bounded.get('status')=='complete' and bounded.get('random_reviewed_units')==50 and
+                                  0<bounded.get('priority_reviewed_units',0)<=150 and (ROUND/'R5_state_tamper.md').exists(),
+               'R6_one_page_brief':brief.get('status')=='complete'}
+    else:
+        gates={'R1_index_sample_and_hashes':not errors,'R2_gpu_eligible_sample':False,
+               'R3_kbh_first_pass_complete':kbh_first_pass_complete,'R3_complete_review':False,
+               'R3_blind_repeat_agreement':False,'R4_analysis':False,
+               'R5_full_scan_and_review':False,'R6_one_page_brief':False}
     report={'updated_at':now(),'status':'errors' if errors else 'in_progress','scope':'current structural provenance/schema/sample checks; incomplete gates explicitly retained, not a completion certificate',
             'counts':counts,'gates':gates,'errors':errors}
     dump(DERIVED/'r2_validation.json',report);print(json.dumps(report,ensure_ascii=False,indent=2))

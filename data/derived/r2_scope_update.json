@@ -1,0 +1,32 @@
+{
+  "version": 2,
+  "authorized_on": "2026-11-11",
+  "authority": "PLAN_ROUND2.md section 4 and explicit user scope amendment",
+  "kbh": {
+    "sessions": 14,
+    "frozen_steps": 3345,
+    "repeat_steps": 150,
+    "manifest": "data/annotations/r2_frozen/manifest.json"
+  },
+  "iso": {
+    "manual_review_stopped_at": 400,
+    "automatic_remainder": 433,
+    "missing_gpu_field": "unknown",
+    "sample_shortfall_allowed": true
+  },
+  "r5": {
+    "unit": "canonical session x scan rule",
+    "priority_cap": 150,
+    "remainder_random_sample": 50,
+    "priority_seed": 2026111107,
+    "random_seed": 2026111108
+  },
+  "milestones": {
+    "R4_draft": "2026-11-11",
+    "R5": "2026-11-12",
+    "R6": "2026-11-13",
+    "self_audit": "2026-11-14"
+  },
+  "remote_push": false,
+  "gpu_execution": false
+}

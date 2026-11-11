@@ -1,0 +1,70 @@
+{
+  "prepared_at": "2026-11-11T10:33:36.183980+08:00",
+  "steps": 150,
+  "selection_seed": 2026111105,
+  "blind_seed": 2026111106,
+  "focus_field_slots": {
+    "state_tamper_risk": 50,
+    "hypothesis_source": 50,
+    "knowledge_use": 50
+  },
+  "by_session": {
+    "K01": 12,
+    "K02": 9,
+    "K03": 12,
+    "K04": 12,
+    "K05": 12,
+    "K06": 9,
+    "K07": 12,
+    "K08": 9,
+    "K09": 12,
+    "K10": 12,
+    "K11": 9,
+    "K12": 12,
+    "K13": 9,
+    "K14": 9
+  },
+  "per_session_per_field_quota": {
+    "K01": 4,
+    "K02": 3,
+    "K03": 4,
+    "K04": 4,
+    "K05": 4,
+    "K06": 3,
+    "K07": 4,
+    "K08": 3,
+    "K09": 4,
+    "K10": 4,
+    "K11": 3,
+    "K12": 4,
+    "K13": 3,
+    "K14": 3
+  },
+  "repeat_fields": [
+    "phase",
+    "tool",
+    "layer",
+    "hypothesis_origin",
+    "evidence",
+    "outcome",
+    "turning_point",
+    "reasoning_visible",
+    "hypothesis_source",
+    "knowledge_access",
+    "knowledge_use",
+    "state_tamper_risk",
+    "candidate_edit",
+    "component"
+  ],
+  "packet": "data/derived/r2_review_inputs/blind150.json",
+  "packet_sha256": "8c9ef6679dd006457b0930148454922d8c7adebe58ee2d5b8b36794b2bc1d1fe",
+  "key": "data/annotations/r2_blind_key.json",
+  "key_sha256": "0c41cd48000e9133ce135f39a062cd913afe5c8618126b791d3bae62a8398050",
+  "first_pass_manifest_sha256": "e6727f7a0ed969301b24cfab90c009f458f83b11a32abf78acb3ef3f5602cfbb",
+  "status": "prepared_not_reannotated",
+  "limits": [
+    "First-pass labels used only for enriched sampling, omitted from the raw repeat packet",
+    "Same AI annotator; context memory cannot be eliminated",
+    "Unweighted kappa will describe this enriched diagnostic sample, not all 3345 steps"
+  ]
+}

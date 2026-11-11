@@ -47,15 +47,19 @@ def main():
         rows.append(row)
     # Join only explicit authored review IDs. Missing cues never imply eligibility.
     reviewed = {r['order'] for r in load(ROOT/'data/annotations/r2_iso_eligibility_reviews.json')['reviews']}
+    field_path = DERIVED/'r2_iso_field_decisions.json'
+    automatic = {r['order'] for r in load(field_path)['automatic_rows']} if field_path.exists() else set()
     numeric_path = DERIVED/'r2_iso_measurement_inputs.json'
     numeric = {p['order'] for p in load(numeric_path)['packets']} if numeric_path.exists() else set()
     known = {r['order'] for r in rows}
-    if not reviewed <= known or not numeric <= known:
+    if not reviewed <= known or not numeric <= known or not automatic <= known or reviewed & automatic:
         raise ValueError('review/navigation contains an order outside the frozen census')
-    pending = [r for r in rows if r['order'] not in reviewed]
+    pending = [r for r in rows if r['order'] not in reviewed | automatic]
     coverage = {
-        'scope': 'review-ID coverage only; not GPU labels or a completed census',
+        'scope': 'manual IDs plus explicit-field automatic IDs; not performance success labels',
         'required_candidates': len(rows), 'reviewed_candidates': len(reviewed),
+        'automatically_decided_candidates': len(automatic),
+        'total_decided_candidates': len(reviewed | automatic),
         'pending_candidates': len(pending),
         'numeric_navigation_candidates': len(numeric),
         'numeric_navigation_pending_orders': sorted(numeric - reviewed),

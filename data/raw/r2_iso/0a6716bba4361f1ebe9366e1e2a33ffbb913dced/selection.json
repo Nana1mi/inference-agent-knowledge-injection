@@ -5011,7 +5011,16 @@
       "model": "gpt-5-2025-08-07"
     }
   ],
-  "selected": [],
+  "selected": [
+    {
+      "order": 84,
+      "run_path": "vllm/trae/gpt-5/2026-01-23_21-19-19/vllm_core-0005",
+      "agent": "trae",
+      "model": "gpt-5",
+      "session_id": "I01",
+      "selection_basis": "all available confirmed successful GPU candidates"
+    }
+  ],
   "inspected_candidates": [
     {
       "order": 1,
@@ -17227,5 +17236,13 @@
     }
   ],
   "old_api400_runs": "data/raw/iso_current/selection.json; retained in old annotations, excluded from round2 behavioral stats",
-  "last_acquisition_trace_only": true
+  "last_acquisition_trace_only": true,
+  "scope_amendment": {
+    "authorized_on": "2026-11-11",
+    "manual_stop": 400,
+    "automatic_fields_only": 433,
+    "selection_status": "final_with_documented_shortfall",
+    "old_quota_preserved_for_shortfall_reporting": true,
+    "all_other_success_exports_used_for": "metadata summary only; no inferred step behavior"
+  }
 }

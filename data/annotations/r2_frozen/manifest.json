@@ -1,0 +1,41 @@
+{
+  "frozen_at": "2026-11-11T10:28:18.513520+08:00",
+  "authorized_scope": "User scope amendment 2026-11-11",
+  "base_commit": "ba53fa9ee4dab281d2e63f01998fd1a94ec01443",
+  "sessions": 14,
+  "steps": 3345,
+  "no_sample_expansion": true,
+  "repeat_steps": 150,
+  "selection_seed": 2026111105,
+  "blind_seed": 2026111106,
+  "artifacts": [
+    {
+      "source": "data/annotations/r2_kernelbench.jsonl",
+      "snapshot": "data/annotations/r2_frozen/first_pass.jsonl",
+      "bytes": 4747290,
+      "sha256": "40ee850b57a7d06e55cf59f2864808205668d5bcc31aae81f0834a377ffa031c"
+    },
+    {
+      "source": "data/annotations/r2_knowledge_source_reviews.json",
+      "snapshot": "data/annotations/r2_frozen/knowledge_sources.json",
+      "bytes": 91455,
+      "sha256": "90f7c7337ee7a848e543ba53c4b7d6b268a7f0241e530eca166d09758ea5c040"
+    },
+    {
+      "source": "data/derived/r2_sessions.json",
+      "snapshot": "data/annotations/r2_frozen/sessions.json",
+      "bytes": 23964,
+      "sha256": "ab385cb1a20f395489dc7f0c3fba66820d12d6eec08deefaa2da286629812662"
+    },
+    {
+      "source": "data/annotations/r2_schema.json",
+      "snapshot": "data/annotations/r2_frozen/schema.json",
+      "bytes": 4906,
+      "sha256": "1097e31462166ad37f7403f8e590d77d1c6d89871f1ee0a9350cc34d1a0d339b"
+    }
+  ],
+  "limits": [
+    "User-accepted first pass; not a claim of perfect semantic labels",
+    "Repeated annotations must not overwrite these snapshots"
+  ]
+}
