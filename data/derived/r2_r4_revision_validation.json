@@ -1,0 +1,8 @@
+{
+  "status": "passed",
+  "scope": "R4 structural/provenance/timing consistency only; manual semantic decisions remain reviewable; blind kappa pending",
+  "review_sha256": "c9695c5139124b1bc827fd7db0d867e32672f6476fc809e9103955416d87895a",
+  "aggregate_sha256": "41d9d62ee5c9f5b136e8869ef0e84b04f102200f06fb6e7f3ff24ab5eccbb562",
+  "report_sha256": "390a62c8134a5db9f85e4dcb03d9eaab7ad96c25d5fac36ed0e7cb115ab05e4c",
+  "errors": []
+}

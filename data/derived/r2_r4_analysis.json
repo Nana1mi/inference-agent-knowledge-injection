@@ -1,0 +1,361 @@
+{
+  "version": 1,
+  "review_sha256": "c9695c5139124b1bc827fd7db0d867e32672f6476fc809e9103955416d87895a",
+  "frozen_manifest_sha256": "7560125a1761303b86ef785c2b007bb90f417154b7c102f5719b0b237417d58f",
+  "legacy_category_events": 85,
+  "reference_background_events": 21,
+  "consultation_events": 38,
+  "sota_events": 13,
+  "document_events": 25,
+  "excluded_implementation_or_snippet_events": 26,
+  "adoption_levels": [
+    "照抄代码",
+    "借用思路",
+    "作为对照基线",
+    "读了未用"
+  ],
+  "by_group": {
+    "GLM": {
+      "sessions": [
+        "K01",
+        "K02",
+        "K03",
+        "K04",
+        "K05",
+        "K06"
+      ],
+      "n": 6,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 2,
+      "sota": {
+        "events": 6,
+        "levels_then_ungraded": [
+          0,
+          0,
+          1,
+          5,
+          0
+        ]
+      },
+      "documents": {
+        "events": 7,
+        "levels_then_ungraded": [
+          0,
+          2,
+          0,
+          4,
+          1
+        ]
+      }
+    },
+    "闭源模型": {
+      "sessions": [
+        "K07",
+        "K08",
+        "K09",
+        "K10",
+        "K11",
+        "K12"
+      ],
+      "n": 6,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 0,
+      "sota": {
+        "events": 5,
+        "levels_then_ungraded": [
+          0,
+          0,
+          1,
+          4,
+          0
+        ]
+      },
+      "documents": {
+        "events": 16,
+        "levels_then_ungraded": [
+          0,
+          6,
+          0,
+          1,
+          9
+        ]
+      }
+    },
+    "DeepSeek": {
+      "sessions": [
+        "K13",
+        "K14"
+      ],
+      "n": 2,
+      "profile_attempt_before_first_modification": 1,
+      "profile_support_before_first_performance_edit": 1,
+      "sota": {
+        "events": 2,
+        "levels_then_ungraded": [
+          0,
+          0,
+          1,
+          1,
+          0
+        ]
+      },
+      "documents": {
+        "events": 2,
+        "levels_then_ungraded": [
+          0,
+          2,
+          0,
+          0,
+          0
+        ]
+      }
+    }
+  },
+  "by_exact_model": {
+    "claude-opus-4-8": {
+      "sessions": [
+        "K07",
+        "K11"
+      ],
+      "n": 2,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 0,
+      "sota": {
+        "events": 2,
+        "levels_then_ungraded": [
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      "documents": {
+        "events": 0,
+        "levels_then_ungraded": [
+          0,
+          0,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "claude-opus-5": {
+      "sessions": [
+        "K09"
+      ],
+      "n": 1,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 0,
+      "sota": {
+        "events": 1,
+        "levels_then_ungraded": [
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "documents": {
+        "events": 3,
+        "levels_then_ungraded": [
+          0,
+          3,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "deepseek-v4-flash-0731": {
+      "sessions": [
+        "K13"
+      ],
+      "n": 1,
+      "profile_attempt_before_first_modification": 1,
+      "profile_support_before_first_performance_edit": 1,
+      "sota": {
+        "events": 1,
+        "levels_then_ungraded": [
+          0,
+          0,
+          1,
+          0,
+          0
+        ]
+      },
+      "documents": {
+        "events": 1,
+        "levels_then_ungraded": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "deepseek-v4.1-flash-1017": {
+      "sessions": [
+        "K14"
+      ],
+      "n": 1,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 0,
+      "sota": {
+        "events": 1,
+        "levels_then_ungraded": [
+          0,
+          0,
+          0,
+          1,
+          0
+        ]
+      },
+      "documents": {
+        "events": 1,
+        "levels_then_ungraded": [
+          0,
+          1,
+          0,
+          0,
+          0
+        ]
+      }
+    },
+    "glm-5.2": {
+      "sessions": [
+        "K02",
+        "K04",
+        "K06"
+      ],
+      "n": 3,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 1,
+      "sota": {
+        "events": 3,
+        "levels_then_ungraded": [
+          0,
+          0,
+          0,
+          3,
+          0
+        ]
+      },
+      "documents": {
+        "events": 4,
+        "levels_then_ungraded": [
+          0,
+          2,
+          0,
+          2,
+          0
+        ]
+      }
+    },
+    "glm-5.3": {
+      "sessions": [
+        "K01",
+        "K03",
+        "K05"
+      ],
+      "n": 3,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 1,
+      "sota": {
+        "events": 3,
+        "levels_then_ungraded": [
+          0,
+          0,
+          1,
+          2,
+          0
+        ]
+      },
+      "documents": {
+        "events": 3,
+        "levels_then_ungraded": [
+          0,
+          0,
+          0,
+          2,
+          1
+        ]
+      }
+    },
+    "gpt-5.6-sol": {
+      "sessions": [
+        "K08",
+        "K10",
+        "K12"
+      ],
+      "n": 3,
+      "profile_attempt_before_first_modification": 0,
+      "profile_support_before_first_performance_edit": 0,
+      "sota": {
+        "events": 2,
+        "levels_then_ungraded": [
+          0,
+          0,
+          0,
+          2,
+          0
+        ]
+      },
+      "documents": {
+        "events": 13,
+        "levels_then_ungraded": [
+          0,
+          3,
+          0,
+          1,
+          9
+        ]
+      }
+    }
+  },
+  "pairs": [
+    [
+      "KDA",
+      "K01",
+      "K07"
+    ],
+    [
+      "KDA",
+      "K01",
+      "K08"
+    ],
+    [
+      "TopK",
+      "K05",
+      "K09"
+    ],
+    [
+      "TopK",
+      "K05",
+      "K10"
+    ],
+    [
+      "MoE",
+      "K02",
+      "K11"
+    ],
+    [
+      "MoE",
+      "K02",
+      "K12"
+    ],
+    [
+      "MoE",
+      "K03",
+      "K11"
+    ],
+    [
+      "MoE",
+      "K03",
+      "K12"
+    ]
+  ]
+}

@@ -109,6 +109,18 @@ def main():
         analysis=load(DERIVED/'r2_analysis.json') if (DERIVED/'r2_analysis.json').exists() else None
         draft=(bool(analysis) and frozen_ok and analysis['overall']['steps']==3345 and
                analysis['knowledge']['events']==85 and (ROUND/'R4_analysis.md').exists())
+        r4_revision_ok=False
+        if scope.get('r4_revision'):
+            r4v_path=DERIVED/'r2_r4_revision_validation.json'
+            r4_review=ROOT/'data/annotations/r2_r4_evidence_reviews.json'
+            r4_aggregate=DERIVED/'r2_r4_analysis.json'
+            if r4v_path.exists() and r4_review.exists() and r4_aggregate.exists() and (ROUND/'R4_analysis.md').exists():
+                r4v=load(r4v_path)
+                r4_revision_ok=(r4v.get('status')=='passed' and not r4v.get('errors') and
+                    r4v.get('review_sha256')==hashlib.sha256(r4_review.read_bytes()).hexdigest() and
+                    r4v.get('aggregate_sha256')==hashlib.sha256(r4_aggregate.read_bytes()).hexdigest() and
+                    r4v.get('report_sha256')==hashlib.sha256((ROUND/'R4_analysis.md').read_bytes()).hexdigest())
+            draft=draft and r4_revision_ok
         final_review=load(DERIVED/'r2_analysis_review.json') if (DERIVED/'r2_analysis_review.json').exists() else {}
         bounded=load(DERIVED/'r2_state_bounded_validation.json') if (DERIVED/'r2_state_bounded_validation.json').exists() else {}
         brief=load(DERIVED/'r2_brief_validation.json') if (DERIVED/'r2_brief_validation.json').exists() else {}
@@ -136,7 +148,7 @@ def main():
         gates={'R1_index_sample_and_hashes':not errors,'R2_amended_export_census':iso_done,
                'R3_frozen_kbh_first_pass':kbh_first_pass_complete and frozen_ok,
                'R3_blind_repeat_prepared':repeat_ready,'R3_blind_repeat_agreement':agreement,
-               'R4_draft':draft,'R4_final_analysis':draft and agreement and final_review.get('status')=='final' and
+               'R4_draft':draft,'R4_revision_evidence':r4_revision_ok,'R4_final_analysis':draft and agreement and final_review.get('status')=='final' and
                    final_review.get('analysis_sha256')==hashlib.sha256((DERIVED/'r2_analysis.json').read_bytes()).hexdigest() and
                    final_review.get('report_sha256')==hashlib.sha256((ROUND/'R4_analysis.md').read_bytes()).hexdigest(),
                'R5_sampling_prepared':state_ready,

@@ -1,0 +1,4917 @@
+{
+  "version": 1,
+  "reviewed_at": "2026-11-11",
+  "status": "revised_draft_evidence_review",
+  "method": "同一AI研究助理逐项回看现有导出；手工判读的R4派生证据层，不回写冻结首标，不是盲复标或独立双人复核。",
+  "frozen_manifest_sha256": "7560125a1761303b86ef785c2b007bb90f417154b7c102f5719b0b237417d58f",
+  "definitions": {
+    "knowledge_consultation": "只计SOTA入口和实际返回的文档（README、教程、API签名/文档注释、主动读取的技能规范）。题目reference不计；纯实现源码、检索片段、目录、版权和零碎尾注不计。混合返回只计文档部分，同步同类文件合并。",
+    "adoption_levels": [
+      "照抄代码",
+      "借用思路",
+      "作为对照基线",
+      "读了未用"
+    ],
+    "adoption_evidence": "照抄须可核验代码搬运；借用思路须可见推理或代码注释阐明所用方法并有后续实现。只有API/结构匹配而缺这种证据则adoption_level=null，表示未分级，不强行说没用。",
+    "first_modification": "首次可见创建/改写可执行的Python/CUDA目标、数学原型或计时探针文件，包括独立基线；排除计划、笔记、clone/下载和纯环境准备脚本。另保留旧phase=C首步以审计差异。",
+    "profile_attempt": "实际调用ncu/nsys/torch.profiler，不以安装检查、任务计划、普通benchmark、CUDA events、clock64或静态PTX/寄存器检查替代。",
+    "first_performance_edit": "首次为目标算子实现具体性能机制的候选或替代原型；排除明确先写正确基线、数学/编译/接口修复，以及只创建计时、校准或配置扫描脚本。首版有独立性能动机则计入；候选正式文件和scratch算法原型一视同仁。",
+    "profile_support": "性能改动之前实际返回profile数据且可见推理/注释将其用于该决策；有一般计时不等于有profile。"
+  },
+  "sessions": [
+    {
+      "session_id": "K01",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "task": "02_kda_cutlass",
+      "published_outcome": "failure",
+      "frozen_first_phase_C": 22,
+      "first_code_write_step": 22,
+      "first_profile_attempt_step": 52,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "获得数据",
+      "attempt_result_note": "s52 NCU实际返回kernel时长/occupancy等。",
+      "attempt_evidence": [
+        {
+          "step": 52,
+          "source_lines": [
+            162
+          ],
+          "tool_result_lines": [
+            165
+          ],
+          "review_input_sha256": "252a9a6940984a6d47cf133a7c5c70e639199d0ef992cef4444cca1ba5c7757b"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 22,
+          "source_lines": [
+            65,
+            66,
+            67
+          ],
+          "tool_result_lines": [
+            68
+          ],
+          "review_input_sha256": "31df2231accd1fa0ef97d061374fb5040b2ee80758cb60f5d0a765aad196f236"
+        }
+      ],
+      "first_performance_edit_step": 22,
+      "excluded_correct_baseline_steps": [],
+      "performance_edit_rationale": "首版已有独立性能目的：输出折叠、coalesced加载、缓存中间工作区，非仅建立正确基线。",
+      "performance_edit_evidence": [
+        {
+          "step": 21,
+          "source_lines": [
+            61,
+            62,
+            63
+          ],
+          "tool_result_lines": [
+            64
+          ],
+          "review_input_sha256": "de81aab69960640209451683a5bdd693e144cbab31eb3a4c81f909a09e7e8aea"
+        },
+        {
+          "step": 22,
+          "source_lines": [
+            65,
+            66,
+            67
+          ],
+          "tool_result_lines": [
+            68
+          ],
+          "review_input_sha256": "31df2231accd1fa0ef97d061374fb5040b2ee80758cb60f5d0a765aad196f236"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K02",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "task": "06_sonic_moe_swiglu",
+      "published_outcome": "failure",
+      "frozen_first_phase_C": 12,
+      "first_code_write_step": 12,
+      "first_profile_attempt_step": null,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "未见尝试",
+      "attempt_result_note": "全会话未见实际profile调用，计划与计时不计。",
+      "attempt_evidence": [],
+      "first_write_evidence": [
+        {
+          "step": 12,
+          "source_lines": [
+            71,
+            72,
+            73
+          ],
+          "tool_result_lines": [
+            74
+          ],
+          "review_input_sha256": "df6a24293738de15614d81997f31b3c51a4f28ffc199fd3315dde74d0be86993"
+        }
+      ],
+      "first_performance_edit_step": 50,
+      "excluded_correct_baseline_steps": [
+        12,
+        13,
+        21,
+        36,
+        37,
+        38
+      ],
+      "performance_edit_rationale": "s11明确先让v1工作；此前为正确性/编译与调试等待。s50首次写TMA性能替代原型，不用一般计时或PTX检查充当profile。",
+      "performance_edit_evidence": [
+        {
+          "step": 11,
+          "source_lines": [
+            68,
+            69
+          ],
+          "tool_result_lines": [
+            70
+          ],
+          "review_input_sha256": "37760b043f62c4a022c5fa3aa1ac3191859aaf5152e55b2d7c04c67b3aaeb748"
+        },
+        {
+          "step": 12,
+          "source_lines": [
+            71,
+            72,
+            73
+          ],
+          "tool_result_lines": [
+            74
+          ],
+          "review_input_sha256": "df6a24293738de15614d81997f31b3c51a4f28ffc199fd3315dde74d0be86993"
+        },
+        {
+          "step": 38,
+          "source_lines": [
+            177,
+            178,
+            179
+          ],
+          "tool_result_lines": [
+            180
+          ],
+          "review_input_sha256": "de466a8e52fa8bb5ad611c958215970a7925c7dfd571de63eeb7d6d8684fa13a"
+        },
+        {
+          "step": 43,
+          "source_lines": [
+            195,
+            196,
+            197
+          ],
+          "tool_result_lines": [
+            198
+          ],
+          "review_input_sha256": "1fccecbf7b9e6f3b8662bddd41b28348d6d467005e6c5af486d7541e4303e552"
+        },
+        {
+          "step": 48,
+          "source_lines": [
+            215,
+            216,
+            217,
+            218
+          ],
+          "tool_result_lines": [
+            220,
+            219
+          ],
+          "review_input_sha256": "0b9d22e9ba093e6e4c6936ffd81e2b4809431a8135d2e08f8bd5f1f24405cfb4"
+        },
+        {
+          "step": 50,
+          "source_lines": [
+            224,
+            225,
+            226
+          ],
+          "tool_result_lines": [
+            227
+          ],
+          "review_input_sha256": "49d9604e71d707f1b0cd5b8b34cc3753609efd1b151339a6234a021732722ba8"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K03",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "task": "06_sonic_moe_swiglu",
+      "published_outcome": "failure",
+      "frozen_first_phase_C": 40,
+      "first_code_write_step": 17,
+      "first_profile_attempt_step": 54,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "获得数据",
+      "attempt_result_note": "s54 NCU实际返回计数器，部分后续tensor指标n/a。",
+      "attempt_evidence": [
+        {
+          "step": 54,
+          "source_lines": [
+            170
+          ],
+          "tool_result_lines": [
+            173
+          ],
+          "review_input_sha256": "bf157f06a708ec48922dbbccd225b7be001ec1450f72398d0091dcef3e0a2e4b"
+        },
+        {
+          "step": 55,
+          "source_lines": [
+            174,
+            175
+          ],
+          "tool_result_lines": [
+            178
+          ],
+          "review_input_sha256": "8cc195f29b9b27263a60f01e1b25ae7fa7c5e7e537260c28f648c3ffe691b8ff"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 17,
+          "source_lines": [
+            48,
+            49,
+            50
+          ],
+          "tool_result_lines": [
+            51
+          ],
+          "review_input_sha256": "e5c1689dcd9a76583862c635993936a884aaf512fd6a05a74dd33cc39b18a054"
+        }
+      ],
+      "first_performance_edit_step": 58,
+      "excluded_correct_baseline_steps": [
+        40,
+        44,
+        45,
+        49
+      ],
+      "performance_edit_rationale": "s37/40是明确的正确基线；s51为配置计时搜索而非目标实现改动，s58开始写自定义CUDA性能替代原型。",
+      "performance_edit_evidence": [
+        {
+          "step": 37,
+          "source_lines": [
+            114,
+            115,
+            116
+          ],
+          "tool_result_lines": [
+            117
+          ],
+          "review_input_sha256": "4bd3181886802072170062bb108066b3057a6c63a82b77babbc15a91c74181f6"
+        },
+        {
+          "step": 40,
+          "source_lines": [
+            122,
+            123
+          ],
+          "tool_result_lines": [
+            124
+          ],
+          "review_input_sha256": "52652217db45f7a57dc4dada7b1b97c286b2dafe5af8cda6c95febf7301e4066"
+        },
+        {
+          "step": 51,
+          "source_lines": [
+            159,
+            160
+          ],
+          "tool_result_lines": [
+            161
+          ],
+          "review_input_sha256": "9c07c89de111ff53d4177895c4f1febab6c3f4f73ed58fe6617985076e6638a8"
+        },
+        {
+          "step": 54,
+          "source_lines": [
+            170
+          ],
+          "tool_result_lines": [
+            173
+          ],
+          "review_input_sha256": "bf157f06a708ec48922dbbccd225b7be001ec1450f72398d0091dcef3e0a2e4b"
+        },
+        {
+          "step": 55,
+          "source_lines": [
+            174,
+            175
+          ],
+          "tool_result_lines": [
+            178
+          ],
+          "review_input_sha256": "8cc195f29b9b27263a60f01e1b25ae7fa7c5e7e537260c28f648c3ffe691b8ff"
+        },
+        {
+          "step": 56,
+          "source_lines": [
+            179,
+            180,
+            181
+          ],
+          "tool_result_lines": [
+            182
+          ],
+          "review_input_sha256": "628a94dedfb3a9252b5682340dd48d49867796c394bbb19fcbd1d664f417ab27"
+        },
+        {
+          "step": 58,
+          "source_lines": [
+            185
+          ],
+          "tool_result_lines": [
+            186
+          ],
+          "review_input_sha256": "f7117cfff02d4a3c0e892512732805deba7cd5e8b6f5d711a5948c82f4a516d6"
+        }
+      ],
+      "profile_support_before_first_performance_edit": true,
+      "support_steps": [
+        54,
+        55
+      ],
+      "support_note": "s54 ncu给出occupancy16.64%、寄存器170、时长13.20ms；s55/56解释低并行与流水，s58开始实现替代路径。部分tensor指标n/a，不能声称已证唯一瓶颈。"
+    },
+    {
+      "session_id": "K04",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "task": "03_paged_attention",
+      "published_outcome": "success",
+      "frozen_first_phase_C": 11,
+      "first_code_write_step": 11,
+      "first_profile_attempt_step": 14,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "首试未能打印数据，后补成功",
+      "attempt_result_note": "s14已经运行torch.profiler，但打印cuda_time_total触发AttributeError；s15换device_time_total后返回逐kernel数据。",
+      "attempt_evidence": [
+        {
+          "step": 14,
+          "source_lines": [
+            79,
+            80,
+            81
+          ],
+          "tool_result_lines": [
+            82
+          ],
+          "review_input_sha256": "c0fb07dabf97e5d4f81e7931a3f73b95afd6b8ea1e7df1203003a478354d3a91"
+        },
+        {
+          "step": 15,
+          "source_lines": [
+            83,
+            84,
+            85
+          ],
+          "tool_result_lines": [
+            88
+          ],
+          "review_input_sha256": "7ddc201dacdba0542079e956c78f25dc539cecca246fff81533f24d7c57b4368"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 11,
+          "source_lines": [
+            64,
+            65
+          ],
+          "tool_result_lines": [
+            66
+          ],
+          "review_input_sha256": "04eef313be443135bd061ca3b1ae0925888e18c6563e7a90fbd8e6b87d53dc5e"
+        }
+      ],
+      "first_performance_edit_step": 20,
+      "excluded_correct_baseline_steps": [
+        11
+      ],
+      "performance_edit_rationale": "s8/11明确先做正确v1；s19扫参数为测量，s20 test_graph.py首次加入图重放性能替代；s21再整合正式候选。",
+      "performance_edit_evidence": [
+        {
+          "step": 8,
+          "source_lines": [
+            51,
+            52,
+            53,
+            54
+          ],
+          "tool_result_lines": [
+            55,
+            58
+          ],
+          "review_input_sha256": "48677d9d0793e3ff5f0282f84106d0f0a2706009ad9658d08cef51d6706ce0ea"
+        },
+        {
+          "step": 11,
+          "source_lines": [
+            64,
+            65
+          ],
+          "tool_result_lines": [
+            66
+          ],
+          "review_input_sha256": "04eef313be443135bd061ca3b1ae0925888e18c6563e7a90fbd8e6b87d53dc5e"
+        },
+        {
+          "step": 14,
+          "source_lines": [
+            79,
+            80,
+            81
+          ],
+          "tool_result_lines": [
+            82
+          ],
+          "review_input_sha256": "c0fb07dabf97e5d4f81e7931a3f73b95afd6b8ea1e7df1203003a478354d3a91"
+        },
+        {
+          "step": 15,
+          "source_lines": [
+            83,
+            84,
+            85
+          ],
+          "tool_result_lines": [
+            88
+          ],
+          "review_input_sha256": "7ddc201dacdba0542079e956c78f25dc539cecca246fff81533f24d7c57b4368"
+        },
+        {
+          "step": 17,
+          "source_lines": [
+            93,
+            94
+          ],
+          "tool_result_lines": [
+            97
+          ],
+          "review_input_sha256": "642bedd4043cbac183842c5ee496d0f335ddcf502eb0678e394cf70c096ad7fd"
+        },
+        {
+          "step": 18,
+          "source_lines": [
+            98,
+            99,
+            100
+          ],
+          "tool_result_lines": [
+            103
+          ],
+          "review_input_sha256": "7fdb6ce34738d630d1beaf6d7bad081a35dc744033058c6e3d53a83266682a87"
+        },
+        {
+          "step": 19,
+          "source_lines": [
+            104,
+            105,
+            106
+          ],
+          "tool_result_lines": [
+            109
+          ],
+          "review_input_sha256": "d1d2ca6cd100ca6b35d8bc68262b70f7749a4c2be85093048f8e08ced8cd73b1"
+        },
+        {
+          "step": 20,
+          "source_lines": [
+            110,
+            111,
+            112
+          ],
+          "tool_result_lines": [
+            115
+          ],
+          "review_input_sha256": "87a9de7d0b038001a8d93fb92cea9da738ef6f9f81750fd3920cac7124b4e141"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            116,
+            117,
+            118
+          ],
+          "tool_result_lines": [
+            119
+          ],
+          "review_input_sha256": "1a92dd2de942c10fc726d7d2b4bbf094d14088525f77e1396e169cad542b30ac"
+        }
+      ],
+      "profile_support_before_first_performance_edit": true,
+      "support_steps": [
+        15,
+        17,
+        18,
+        19
+      ],
+      "support_note": "s15获得decode/reduce逐kernel数据；s17/18的NCU返回支撑s19/20对shared memory、occupancy和launch开销的解释。热profile/冷benchmark边界不同，未认证唯一根因。"
+    },
+    {
+      "session_id": "K05",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "task": "05_topk_bitonic",
+      "published_outcome": "success",
+      "frozen_first_phase_C": 19,
+      "first_code_write_step": 19,
+      "first_profile_attempt_step": 59,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "首试失败，后补成功",
+      "attempt_result_note": "s59引用的可执行路径不存在；s60修PATH后获得NCU数据。",
+      "attempt_evidence": [
+        {
+          "step": 59,
+          "source_lines": [
+            171
+          ],
+          "tool_result_lines": [
+            172
+          ],
+          "review_input_sha256": "ef726bfe474a439fde6d3573946cb760d086a11624885824432299e0feab26e5"
+        },
+        {
+          "step": 60,
+          "source_lines": [
+            173
+          ],
+          "tool_result_lines": [
+            176
+          ],
+          "review_input_sha256": "627b97d2534e9bb5d21456e2750f7cf9fbc37b8e6209fec815508fd42336b44b"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 19,
+          "source_lines": [
+            50
+          ],
+          "tool_result_lines": [
+            51
+          ],
+          "review_input_sha256": "cdce5af1c19528eae60d86a548f1a7bb3dcdd6981c56cd048d5df0504948eaea"
+        }
+      ],
+      "first_performance_edit_step": 26,
+      "excluded_correct_baseline_steps": [],
+      "performance_edit_rationale": "s19只是基线计时脚本；s21/22明确launch开销目的，s26单launch融合候选首次落地。",
+      "performance_edit_evidence": [
+        {
+          "step": 21,
+          "source_lines": [
+            54,
+            55
+          ],
+          "tool_result_lines": [
+            56
+          ],
+          "review_input_sha256": "238aa784b3b96cbc4e5aedb03df029e617aa23463077b6493d97cd8026ed8274"
+        },
+        {
+          "step": 22,
+          "source_lines": [
+            57,
+            58,
+            59
+          ],
+          "tool_result_lines": [
+            60
+          ],
+          "review_input_sha256": "26a67772223c3b7d199d3504bf5a7b862a0204543bfe2289a20e0785a41b5c93"
+        },
+        {
+          "step": 26,
+          "source_lines": [
+            67,
+            68
+          ],
+          "tool_result_lines": [
+            69
+          ],
+          "review_input_sha256": "f314c62884c0abdee68e95c5c7ae44a60b6dfc6c91a81a4180b987f04a6047b2"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K06",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "task": "07_w4a16_gemm",
+      "published_outcome": "success",
+      "frozen_first_phase_C": 12,
+      "first_code_write_step": 12,
+      "first_profile_attempt_step": 33,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "获得数据",
+      "attempt_result_note": "s33 torch.profiler实际返回GEMV/reduce CUDA计时。",
+      "attempt_evidence": [
+        {
+          "step": 33,
+          "source_lines": [
+            146,
+            147,
+            148
+          ],
+          "tool_result_lines": [
+            149
+          ],
+          "review_input_sha256": "9e9aa4bd82b4b3316b144ccb37192ed37fde83352c19748c58d2b4271ee16c87"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 12,
+          "source_lines": [
+            69,
+            70
+          ],
+          "tool_result_lines": [
+            71
+          ],
+          "review_input_sha256": "a3e2537011d7f90e09354639a35c31608d60b6fddcc9dbd1197001fdc37c7700"
+        }
+      ],
+      "first_performance_edit_step": 26,
+      "excluded_correct_baseline_steps": [
+        12,
+        15
+      ],
+      "performance_edit_rationale": "s11/12先建正确GEMM；s15修helper。s21/24/25为atomic支持诊断，s26首次以减少decode开销为目的写split-K GEMV。",
+      "performance_edit_evidence": [
+        {
+          "step": 9,
+          "source_lines": [
+            56,
+            57,
+            58,
+            59
+          ],
+          "tool_result_lines": [
+            60,
+            61
+          ],
+          "review_input_sha256": "8d3f35e35329a4749b4c6508bfe677fe51f65e317b1c53f079586c1274ca3b3f"
+        },
+        {
+          "step": 11,
+          "source_lines": [
+            66,
+            67
+          ],
+          "tool_result_lines": [
+            68
+          ],
+          "review_input_sha256": "2dace49bb10159f43b5d7a8b27b107fbea3519e6a967208a77aa79496509b968"
+        },
+        {
+          "step": 12,
+          "source_lines": [
+            69,
+            70
+          ],
+          "tool_result_lines": [
+            71
+          ],
+          "review_input_sha256": "a3e2537011d7f90e09354639a35c31608d60b6fddcc9dbd1197001fdc37c7700"
+        },
+        {
+          "step": 15,
+          "source_lines": [
+            81
+          ],
+          "tool_result_lines": [
+            82
+          ],
+          "review_input_sha256": "9baf9d7451698f4b9af1cee1f0b771416d838026f22abccce86511e3f24458b0"
+        },
+        {
+          "step": 25,
+          "source_lines": [
+            118,
+            119,
+            120
+          ],
+          "tool_result_lines": [
+            121
+          ],
+          "review_input_sha256": "922e149c8aebc574f222a2d22f0642bdb7336e00fc0e6d53df0f4f42cd85a3ab"
+        },
+        {
+          "step": 26,
+          "source_lines": [
+            122,
+            123,
+            124
+          ],
+          "tool_result_lines": [
+            125
+          ],
+          "review_input_sha256": "90feb4ef983206b953e230970b2d41ea897e3b48a08c7f78594a4d9d1ed25a9c"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K07",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "task": "02_kda_cutlass",
+      "published_outcome": "failure",
+      "frozen_first_phase_C": 15,
+      "first_code_write_step": 15,
+      "first_profile_attempt_step": 118,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "未取得可见数据，原因无法判定",
+      "attempt_result_note": "s118真实调用nsys，但stdout/stderr重定向；后续导出中无可核验的逐kernel表，不能推测权限或工具损坏。",
+      "attempt_evidence": [
+        {
+          "step": 118,
+          "source_lines": [
+            351,
+            352
+          ],
+          "tool_result_lines": [
+            354
+          ],
+          "review_input_sha256": "cb1b2ae338814692fa61575c0eb43efb31964be3890a72dca8c60a18a80eaa76"
+        },
+        {
+          "step": 119,
+          "source_lines": [
+            355
+          ],
+          "tool_result_lines": [
+            357
+          ],
+          "review_input_sha256": "d7a82af64a9a9f7288f4270d83d83374784a34d1d871c53f52cb437750a01a74"
+        },
+        {
+          "step": 122,
+          "source_lines": [
+            363
+          ],
+          "tool_result_lines": [
+            366
+          ],
+          "review_input_sha256": "dd183903298d2f7ba630a60c596c60fca0104b99bd13c9f89978e5aad912d0b7"
+        },
+        {
+          "step": 124,
+          "source_lines": [
+            370
+          ],
+          "tool_result_lines": [
+            371
+          ],
+          "review_input_sha256": "7aec4590ec846dad1cf216501223e7c7bbc1a856fcf59c3aad9341a490b3add6"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 15,
+          "source_lines": [
+            37
+          ],
+          "tool_result_lines": [
+            38
+          ],
+          "review_input_sha256": "311927141a7b9fa1b72103de51cf689aa3483c2fdabcd0e24a2e0c6e941cf272"
+        }
+      ],
+      "first_performance_edit_step": 46,
+      "excluded_correct_baseline_steps": [
+        15,
+        19,
+        21,
+        23
+      ],
+      "performance_edit_rationale": "s15数学原型、s19正确性起点及s21/23资源修复不算性能改动；s46据普通benchmark重构顺序scan。",
+      "performance_edit_evidence": [
+        {
+          "step": 14,
+          "source_lines": [
+            35
+          ],
+          "tool_result_lines": [
+            36
+          ],
+          "review_input_sha256": "ca75765b39ec55a7cacd4f8c6b4fac3ada65637e1680105df6901ec8649486ae"
+        },
+        {
+          "step": 15,
+          "source_lines": [
+            37
+          ],
+          "tool_result_lines": [
+            38
+          ],
+          "review_input_sha256": "311927141a7b9fa1b72103de51cf689aa3483c2fdabcd0e24a2e0c6e941cf272"
+        },
+        {
+          "step": 19,
+          "source_lines": [
+            50,
+            51
+          ],
+          "tool_result_lines": [
+            52
+          ],
+          "review_input_sha256": "917b5f0b542f3a74c54ed5d2040e25cff03ad0af2e0fa9077737527434fcbe93"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            57,
+            58
+          ],
+          "tool_result_lines": [
+            59
+          ],
+          "review_input_sha256": "2e022e9b36fd06b76724a6db585c1625294cf6dda7c76c707405ae4bc1e6603e"
+        },
+        {
+          "step": 23,
+          "source_lines": [
+            64
+          ],
+          "tool_result_lines": [
+            66
+          ],
+          "review_input_sha256": "d06faf8d4572dfe6635ae49c9a9b0c171fe59bf2e263eae01e3c83a4f34728e0"
+        },
+        {
+          "step": 44,
+          "source_lines": [
+            132
+          ],
+          "tool_result_lines": [
+            135
+          ],
+          "review_input_sha256": "8121946fe4c4b6cc656acf275e8630d523b4fa470cd57589f750bcfc6342e064"
+        },
+        {
+          "step": 45,
+          "source_lines": [
+            136
+          ],
+          "tool_result_lines": [
+            139
+          ],
+          "review_input_sha256": "7f42230125589fd0824f9651ab6aa85c47f049147c4b474b287933f67f327042"
+        },
+        {
+          "step": 46,
+          "source_lines": [
+            140,
+            141
+          ],
+          "tool_result_lines": [
+            142
+          ],
+          "review_input_sha256": "82a142d97ea96470552bc8cbb2a58bdd539fec8ee2b138fe997298eba1acf47a"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K08",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "task": "02_kda_cutlass",
+      "published_outcome": "failure",
+      "frozen_first_phase_C": 21,
+      "first_code_write_step": 21,
+      "first_profile_attempt_step": null,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "未见尝试",
+      "attempt_result_note": "全会话未见实际profile调用；读取源码与计时不计。",
+      "attempt_evidence": [],
+      "first_write_evidence": [
+        {
+          "step": 21,
+          "source_lines": [
+            53
+          ],
+          "tool_result_lines": [
+            54
+          ],
+          "review_input_sha256": "e2c6a320cb47ef9ecf7d6eabd1390a04e66ab6e67eb2f6aebbd64c068bc4422e"
+        }
+      ],
+      "first_performance_edit_step": 21,
+      "excluded_correct_baseline_steps": [],
+      "performance_edit_rationale": "首版注释明确持久递推、沿V切分而不落state，具有独立性能目的。",
+      "performance_edit_evidence": [
+        {
+          "step": 18,
+          "source_lines": [
+            47
+          ],
+          "tool_result_lines": [
+            48
+          ],
+          "review_input_sha256": "3f510890b03a38e6cc97149042f31b42515f5818488beac6706d51523ce99a20"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            53
+          ],
+          "tool_result_lines": [
+            54
+          ],
+          "review_input_sha256": "e2c6a320cb47ef9ecf7d6eabd1390a04e66ab6e67eb2f6aebbd64c068bc4422e"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K09",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "task": "05_topk_bitonic",
+      "published_outcome": "success",
+      "frozen_first_phase_C": 29,
+      "first_code_write_step": 29,
+      "first_profile_attempt_step": 88,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "首试失败，后补成功",
+      "attempt_result_note": "s88 Python启动报unknown encoding: utf-8-sig；s93取得NCU表，LD_PRELOAD等只是agent猜测，不当根因。",
+      "attempt_evidence": [
+        {
+          "step": 88,
+          "source_lines": [
+            274
+          ],
+          "tool_result_lines": [
+            277
+          ],
+          "review_input_sha256": "fcb9bc12f4df09f8d754a0c497c1bc49a0f1bb37acc6e8ae1580bf3aeff14b5b"
+        },
+        {
+          "step": 89,
+          "source_lines": [
+            278,
+            279
+          ],
+          "tool_result_lines": [
+            280
+          ],
+          "review_input_sha256": "32778f675867c867f60cd477220f70c1911cb382bb99db394af7ec3d7c9c58f8"
+        },
+        {
+          "step": 93,
+          "source_lines": [
+            288,
+            289
+          ],
+          "tool_result_lines": [
+            292
+          ],
+          "review_input_sha256": "1f7e07a55e4456cd8c43c0f5a6412c61f9a3b528a273ffdab15226a1b0567700"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 29,
+          "source_lines": [
+            80
+          ],
+          "tool_result_lines": [
+            81
+          ],
+          "review_input_sha256": "3e77d797b138a9c2265ca539fe29454e4aef26534bb4ec2d494e201bf75509e7"
+        }
+      ],
+      "first_performance_edit_step": 63,
+      "excluded_correct_baseline_steps": [
+        49,
+        50,
+        51
+      ],
+      "performance_edit_rationale": "s49明确slow but definitely correct，先建正确基线；此前floor/plumb/spin/readmax等为空/简化测量探针，未改目标top-K实现。s63首次改为warp bitonic并优化host调用。",
+      "performance_edit_evidence": [
+        {
+          "step": 49,
+          "source_lines": [
+            143,
+            144,
+            145
+          ],
+          "tool_result_lines": [
+            146
+          ],
+          "review_input_sha256": "843f06c42f8dd59b80fcf31e27e55f09f2ae7c60ca75986149b32b096f1b0fd7"
+        },
+        {
+          "step": 54,
+          "source_lines": [
+            160,
+            161,
+            162
+          ],
+          "tool_result_lines": [
+            163
+          ],
+          "review_input_sha256": "8c659a82e57d7634af8833fb8e97c09dc9b290127e66e680de368d41caf2a8ac"
+        },
+        {
+          "step": 56,
+          "source_lines": [
+            168,
+            169,
+            170
+          ],
+          "tool_result_lines": [
+            171
+          ],
+          "review_input_sha256": "8b455b6e0a689c59d493d383af35d166e26a88f32e073536040516f93c20e3fe"
+        },
+        {
+          "step": 62,
+          "source_lines": [
+            188,
+            189,
+            190
+          ],
+          "tool_result_lines": [
+            191
+          ],
+          "review_input_sha256": "46048f0ae8909e6d36c66e226901bfff34643d2bc4987283b041322ba4599159"
+        },
+        {
+          "step": 63,
+          "source_lines": [
+            193,
+            194,
+            195
+          ],
+          "tool_result_lines": [
+            196
+          ],
+          "review_input_sha256": "edcfbc78ff0344ea9e29b62a35ad70b929622f33b5a857cee8e35f3765bca45f"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K10",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "task": "05_topk_bitonic",
+      "published_outcome": "success",
+      "frozen_first_phase_C": 9,
+      "first_code_write_step": 9,
+      "first_profile_attempt_step": 29,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "后台返回后取得数据",
+      "attempt_result_note": "s29已有实际nsys调用，首次返回后台会话和CPU tracing警告，不是GPU profiling失败；s30返回CUDA kernel汇总。",
+      "attempt_evidence": [
+        {
+          "step": 29,
+          "source_lines": [
+            102,
+            103,
+            104
+          ],
+          "tool_result_lines": [
+            105
+          ],
+          "review_input_sha256": "7691bd1de6722039a3b89ae919fade38e78f6fe531e0538f8dbb034362e52e4a"
+        },
+        {
+          "step": 30,
+          "source_lines": [
+            106
+          ],
+          "tool_result_lines": [
+            107
+          ],
+          "review_input_sha256": "af50f4240d5b27e1a63dd0348237bc1fefd6e880b4145b7acf2ca0fd1a8732de"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 9,
+          "source_lines": [
+            40,
+            41,
+            42,
+            43
+          ],
+          "tool_result_lines": [
+            44
+          ],
+          "review_input_sha256": "c3d309f0ef4e02a2dc2d5c00f3a3c9bac4f63c103350b43fa9dfd02dbe97139f"
+        }
+      ],
+      "first_performance_edit_step": 9,
+      "excluded_correct_baseline_steps": [],
+      "performance_edit_rationale": "首版基于多block分块与候选合并，s8可见标题和s9实现/注释支持性能设计；没有明确仅建正确基线的声明。",
+      "performance_edit_evidence": [
+        {
+          "step": 8,
+          "source_lines": [
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ],
+          "tool_result_lines": [
+            39
+          ],
+          "review_input_sha256": "cd2fefd6084e7b078a45ddf1442cd705c687c2c860023729faaa66ff00270716"
+        },
+        {
+          "step": 9,
+          "source_lines": [
+            40,
+            41,
+            42,
+            43
+          ],
+          "tool_result_lines": [
+            44
+          ],
+          "review_input_sha256": "c3d309f0ef4e02a2dc2d5c00f3a3c9bac4f63c103350b43fa9dfd02dbe97139f"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K11",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "task": "06_sonic_moe_swiglu",
+      "published_outcome": "failure",
+      "frozen_first_phase_C": 10,
+      "first_code_write_step": 8,
+      "first_profile_attempt_step": 38,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "首试失败，后补成功",
+      "attempt_result_note": "s38/39驱动脚本找不到solution；s40修导入环境后返回NCU表。",
+      "attempt_evidence": [
+        {
+          "step": 38,
+          "source_lines": [
+            117,
+            118
+          ],
+          "tool_result_lines": [
+            119
+          ],
+          "review_input_sha256": "9f1e7cd79370d18f439280635b54bf08fdaa13da04b3209bd7f05e17f37bfed8"
+        },
+        {
+          "step": 39,
+          "source_lines": [
+            120
+          ],
+          "tool_result_lines": [
+            121
+          ],
+          "review_input_sha256": "63c7ef4b7e6e54d1fde467f09275a9b8a5d90530183944f569efa42de50e4752"
+        },
+        {
+          "step": 40,
+          "source_lines": [
+            122
+          ],
+          "tool_result_lines": [
+            125
+          ],
+          "review_input_sha256": "7163012beba57d022fe7caac230474f1ed133746793c330a1057e566ea040976"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 8,
+          "source_lines": [
+            20,
+            21
+          ],
+          "tool_result_lines": [
+            22
+          ],
+          "review_input_sha256": "a7d4d169dc3124c3cea288b5f4efc5172a25c3076d059b2920f983d30892bda6"
+        }
+      ],
+      "first_performance_edit_step": 10,
+      "excluded_correct_baseline_steps": [],
+      "performance_edit_rationale": "s8为dense-GEMM校准；s10候选注释明确共享激活、只读一次并融合epilogue，首版带独立性能目的。",
+      "performance_edit_evidence": [
+        {
+          "step": 8,
+          "source_lines": [
+            20,
+            21
+          ],
+          "tool_result_lines": [
+            22
+          ],
+          "review_input_sha256": "a7d4d169dc3124c3cea288b5f4efc5172a25c3076d059b2920f983d30892bda6"
+        },
+        {
+          "step": 10,
+          "source_lines": [
+            26,
+            27
+          ],
+          "tool_result_lines": [
+            28
+          ],
+          "review_input_sha256": "09b650beaa380152bf04d00e23ba01a8b10648460988cccd39e12d8cba8f90de"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K12",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "task": "06_sonic_moe_swiglu",
+      "published_outcome": "failure",
+      "frozen_first_phase_C": 9,
+      "first_code_write_step": 9,
+      "first_profile_attempt_step": 57,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "失败",
+      "attempt_result_note": "s57明确ERR_NVGPUCTRPERM，无GPU计数器权限；全会话未见成功profile数据。",
+      "attempt_evidence": [
+        {
+          "step": 57,
+          "source_lines": [
+            186,
+            187
+          ],
+          "tool_result_lines": [
+            188
+          ],
+          "review_input_sha256": "4cd7486ff6bc7a63a57ea9fd716c1f2e38020b4431b5ab1b66ba17d42eaa5d45"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 9,
+          "source_lines": [
+            38,
+            39,
+            40,
+            41,
+            42
+          ],
+          "tool_result_lines": [
+            43
+          ],
+          "review_input_sha256": "749bb3afef14c4862fc4a5c2a6d6891aa776e5e40c47b389ed3fde37038a73ba"
+        }
+      ],
+      "first_performance_edit_step": 9,
+      "excluded_correct_baseline_steps": [],
+      "performance_edit_rationale": "首版注释明确device端prefix扫描免host同步和metadata展开，属于性能目的实现。",
+      "performance_edit_evidence": [
+        {
+          "step": 7,
+          "source_lines": [
+            30,
+            31,
+            32,
+            33
+          ],
+          "tool_result_lines": [
+            34
+          ],
+          "review_input_sha256": "ae8b1e24413f6bb8567f28d5f265476e39f4f12d1e5701d41e8fc03b499b89d2"
+        },
+        {
+          "step": 9,
+          "source_lines": [
+            38,
+            39,
+            40,
+            41,
+            42
+          ],
+          "tool_result_lines": [
+            43
+          ],
+          "review_input_sha256": "749bb3afef14c4862fc4a5c2a6d6891aa776e5e40c47b389ed3fde37038a73ba"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    },
+    {
+      "session_id": "K13",
+      "model": "deepseek-v4-flash-0731",
+      "model_group": "DeepSeek",
+      "task": "05_topk_bitonic",
+      "published_outcome": "success",
+      "frozen_first_phase_C": 24,
+      "first_code_write_step": 24,
+      "first_profile_attempt_step": 20,
+      "attempt_before_first_code_write": true,
+      "first_attempt_status": "获得数据",
+      "attempt_result_note": "s20 torch.profiler实际返回CUDA kernel表。",
+      "attempt_evidence": [
+        {
+          "step": 20,
+          "source_lines": [
+            57,
+            58
+          ],
+          "tool_result_lines": [
+            61
+          ],
+          "review_input_sha256": "8f7f907935f985f16c56ad0d6b538eac3ea0a9257931476ee1bb216890875eab"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            62,
+            63
+          ],
+          "tool_result_lines": [
+            64
+          ],
+          "review_input_sha256": "9743ddced99d45937d45a8d8329ec2796ef2dfb6c8c119763048a4f26c4556fa"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 24,
+          "source_lines": [
+            71,
+            72
+          ],
+          "tool_result_lines": [
+            73
+          ],
+          "review_input_sha256": "21237b5605de9c2b97a164b58cef41ac04bfb8f10f5c687702dd3817217c002a"
+        }
+      ],
+      "first_performance_edit_step": 32,
+      "excluded_correct_baseline_steps": [],
+      "performance_edit_rationale": "s24/29仅空/读取计时floor；s32首次目标Top-K原型，落实s21的单launch策略；不以晚至s85的正式候选代替首次性能实现。",
+      "performance_edit_evidence": [
+        {
+          "step": 20,
+          "source_lines": [
+            57,
+            58
+          ],
+          "tool_result_lines": [
+            61
+          ],
+          "review_input_sha256": "8f7f907935f985f16c56ad0d6b538eac3ea0a9257931476ee1bb216890875eab"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            62,
+            63
+          ],
+          "tool_result_lines": [
+            64
+          ],
+          "review_input_sha256": "9743ddced99d45937d45a8d8329ec2796ef2dfb6c8c119763048a4f26c4556fa"
+        },
+        {
+          "step": 24,
+          "source_lines": [
+            71,
+            72
+          ],
+          "tool_result_lines": [
+            73
+          ],
+          "review_input_sha256": "21237b5605de9c2b97a164b58cef41ac04bfb8f10f5c687702dd3817217c002a"
+        },
+        {
+          "step": 29,
+          "source_lines": [
+            85,
+            86
+          ],
+          "tool_result_lines": [
+            87
+          ],
+          "review_input_sha256": "d8fdd41f2a9ce7ce69196506674d19763f00ceed72a105ffa8633b358e9b9ec7"
+        },
+        {
+          "step": 32,
+          "source_lines": [
+            97,
+            98
+          ],
+          "tool_result_lines": [
+            99
+          ],
+          "review_input_sha256": "ca267930a1726ddb9c5ba4581358ab2b1005e71938a32bd4124f0cb4572c2bda"
+        }
+      ],
+      "profile_support_before_first_performance_edit": true,
+      "support_steps": [
+        20,
+        21
+      ],
+      "support_note": "s20真实torch.profiler返回topk CUDA kernel表与350.234us合计；s21可见推理据多kernel/launch成本提出单launch策略，s32写入原型。launch主导是agent的解释，不当作完整CPU/GPU因果分解。"
+    },
+    {
+      "session_id": "K14",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "task": "06_sonic_moe_swiglu",
+      "published_outcome": "success",
+      "frozen_first_phase_C": 19,
+      "first_code_write_step": 7,
+      "first_profile_attempt_step": 38,
+      "attempt_before_first_code_write": false,
+      "first_attempt_status": "获得数据",
+      "attempt_result_note": "s38 NCU实际返回计数器与时长。",
+      "attempt_evidence": [
+        {
+          "step": 38,
+          "source_lines": [
+            161,
+            162,
+            163
+          ],
+          "tool_result_lines": [
+            166
+          ],
+          "review_input_sha256": "67bc673e43159e2932c380c0381fa89a5d3aad3aadbdf071731792f9dbbe384b"
+        },
+        {
+          "step": 39,
+          "source_lines": [
+            167,
+            168
+          ],
+          "tool_result_lines": [
+            171
+          ],
+          "review_input_sha256": "5d9cff3aa80824cd8447442749d26d7c84a9e16965d34b6ffcb67f407742f127"
+        }
+      ],
+      "first_write_evidence": [
+        {
+          "step": 7,
+          "source_lines": [
+            35,
+            36,
+            37
+          ],
+          "tool_result_lines": [
+            38,
+            39
+          ],
+          "review_input_sha256": "361ea463eb346714075e6d00c55830aed9982ee8ffe2b4fc26344a6b7d26607f"
+        }
+      ],
+      "first_performance_edit_step": 22,
+      "excluded_correct_baseline_steps": [
+        19,
+        20,
+        21
+      ],
+      "performance_edit_rationale": "s18明确先写working Triton baseline，s20/21修autotune映射；s22开始自写CUDA性能替代。dense校准与静态PTX检查不算目标性能实现。",
+      "performance_edit_evidence": [
+        {
+          "step": 18,
+          "source_lines": [
+            77,
+            78
+          ],
+          "tool_result_lines": [
+            80
+          ],
+          "review_input_sha256": "b7b984624f1f8997be1de648b3ac69d9be7b76d825edde300df77a92509e4a90"
+        },
+        {
+          "step": 19,
+          "source_lines": [
+            81,
+            82,
+            83
+          ],
+          "tool_result_lines": [
+            84
+          ],
+          "review_input_sha256": "31839baadfaae6ddf1a83351f270933d897b44e1d24f257cb4f5ff5246b942b3"
+        },
+        {
+          "step": 20,
+          "source_lines": [
+            85,
+            86
+          ],
+          "tool_result_lines": [
+            87
+          ],
+          "review_input_sha256": "8e3af556ac2af95bc20e60814c5ebeb6f96eb51a531911f9e358f334273a3172"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            88,
+            89
+          ],
+          "tool_result_lines": [
+            91
+          ],
+          "review_input_sha256": "c81b8fe92c8fd9971b033710af0c98fbf2020a3dad01fde1ef49aeb42e97b1d2"
+        },
+        {
+          "step": 22,
+          "source_lines": [
+            93,
+            94,
+            95
+          ],
+          "tool_result_lines": [
+            96
+          ],
+          "review_input_sha256": "f471370c9db7ad0304c7d5157e80cb109d58624c7b23865c407d985d7807e978"
+        }
+      ],
+      "profile_support_before_first_performance_edit": false,
+      "support_steps": [],
+      "support_note": "此前无可见profile结果支持该性能实现；已有一般计时/源码推演不充作profile。"
+    }
+  ],
+  "knowledge_events": [
+    {
+      "event_id": "K01:1:环境技能",
+      "session_id": "K01",
+      "step_id": 1,
+      "source_kind": "环境技能",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        5,
+        6
+      ],
+      "tool_result_lines": [
+        7
+      ],
+      "review_input_sha256": "3cc31ef3f3d4811da1d6db589c2820ec60f51dae1ce35bfeda615d76f95765f2",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "kernel技能规范",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "全会话未见具体规范采用；常规profile/AB不足以归因。",
+      "followup_evidence": [
+        {
+          "step": 1,
+          "source_lines": [
+            5,
+            6
+          ],
+          "tool_result_lines": [
+            7
+          ],
+          "review_input_sha256": "3cc31ef3f3d4811da1d6db589c2820ec60f51dae1ce35bfeda615d76f95765f2"
+        },
+        {
+          "step": 9,
+          "source_lines": [
+            24,
+            25
+          ],
+          "tool_result_lines": [
+            26
+          ],
+          "review_input_sha256": "f217805930750f161935d4c70a69bae3e59a1d4285169922a5b08e11f53c34bc"
+        }
+      ]
+    },
+    {
+      "event_id": "K01:3:参考实现",
+      "session_id": "K01",
+      "step_id": 3,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        11,
+        12
+      ],
+      "tool_result_lines": [
+        13
+      ],
+      "review_input_sha256": "829c81a6c854337807fed40b550dbfd91c7f8ecfdc2884cd941d550f92bfc32c",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K01:8:SOTA入口",
+      "session_id": "K01",
+      "step_id": 8,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        22
+      ],
+      "tool_result_lines": [
+        23
+      ],
+      "review_input_sha256": "929532d0044349a04cf6ed899a74d24a8366a11cf3bd38626681401bafc3e329",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "入口仅提示FLA可能不兼容；未见实际入口失败或明确拒绝。后续FLA实现源码阅读不归此入口的采用。",
+      "followup_evidence": [
+        {
+          "step": 8,
+          "source_lines": [
+            22
+          ],
+          "tool_result_lines": [
+            23
+          ],
+          "review_input_sha256": "929532d0044349a04cf6ed899a74d24a8366a11cf3bd38626681401bafc3e329"
+        },
+        {
+          "step": 9,
+          "source_lines": [
+            24,
+            25
+          ],
+          "tool_result_lines": [
+            26
+          ],
+          "review_input_sha256": "f217805930750f161935d4c70a69bae3e59a1d4285169922a5b08e11f53c34bc"
+        },
+        {
+          "step": 15,
+          "source_lines": [
+            42,
+            43
+          ],
+          "tool_result_lines": [
+            44
+          ],
+          "review_input_sha256": "8a0ae96ba020856fbdc63f1267ffa1f81331b7babd72b7c5a747be03cc71f2f6"
+        },
+        {
+          "step": 22,
+          "source_lines": [
+            65,
+            66,
+            67
+          ],
+          "tool_result_lines": [
+            68
+          ],
+          "review_input_sha256": "31df2231accd1fa0ef97d061374fb5040b2ee80758cb60f5d0a765aad196f236"
+        }
+      ],
+      "nonadoption_reason_category": "无迹可循"
+    },
+    {
+      "event_id": "K01:15:库源码或文档",
+      "session_id": "K01",
+      "step_id": 15,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        42,
+        43
+      ],
+      "tool_result_lines": [
+        44
+      ],
+      "review_input_sha256": "8a0ae96ba020856fbdc63f1267ffa1f81331b7babd72b7c5a747be03cc71f2f6",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K01:16:库源码或文档",
+      "session_id": "K01",
+      "step_id": 16,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        45,
+        46
+      ],
+      "tool_result_lines": [
+        47
+      ],
+      "review_input_sha256": "92571d6aa290a803878ffd5241b2b2dfe2d83b3220acbf84a5195221ac75db97",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K01:17:库源码或文档",
+      "session_id": "K01",
+      "step_id": 17,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        48,
+        49
+      ],
+      "tool_result_lines": [
+        50
+      ],
+      "review_input_sha256": "7f0612bfc98cdabfbde204f5c1dc01809ccf3e5ab1efeb65fa54b9fc14ce3178",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K01:18:库源码或文档",
+      "session_id": "K01",
+      "step_id": 18,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        51,
+        52
+      ],
+      "tool_result_lines": [
+        53
+      ],
+      "review_input_sha256": "bd524eec1c848c090ec926ef6ac86872c4758ec1a07884f40c8ec2459799fcc1",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K01:19:库源码或文档",
+      "session_id": "K01",
+      "step_id": 19,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        54,
+        55,
+        56
+      ],
+      "tool_result_lines": [
+        57
+      ],
+      "review_input_sha256": "78bef4452f04ec0b021cdfa4b9cf5d90ee9fc79535398849baf25f5752fac0e8",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K01:20:库源码或文档",
+      "session_id": "K01",
+      "step_id": 20,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053629_zai-claude_glm-5.3_02_kda_cutlass.jsonl",
+      "source_lines": [
+        58,
+        59
+      ],
+      "tool_result_lines": [
+        60
+      ],
+      "review_input_sha256": "2dfd842ec27001c6edf628920336ef766c1c274b203bbf0766892caf0f76f10a",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K02:1:参考实现",
+      "session_id": "K02",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "tool_result_lines": [
+        12,
+        9
+      ],
+      "review_input_sha256": "60ff394385269fed45f2a100869008933d5c376467796c6f7602ec211c24f60a",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K02:3:SOTA入口",
+      "session_id": "K02",
+      "step_id": 3,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        19,
+        20,
+        21,
+        22,
+        23
+      ],
+      "tool_result_lines": [
+        25,
+        27,
+        26,
+        24
+      ],
+      "review_input_sha256": "7ec96aca23872435a2e5f2c04348007619903d5a8f0b940659b922b7fc6dc2b5",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "入口有SM120/接口警告和题目禁止vendor调用的约束，但未见agent说明这就是放弃入口的原因。",
+      "followup_evidence": [
+        {
+          "step": 3,
+          "source_lines": [
+            19,
+            20,
+            21,
+            22,
+            23
+          ],
+          "tool_result_lines": [
+            25,
+            27,
+            26,
+            24
+          ],
+          "review_input_sha256": "7ec96aca23872435a2e5f2c04348007619903d5a8f0b940659b922b7fc6dc2b5"
+        },
+        {
+          "step": 7,
+          "source_lines": [
+            48,
+            49,
+            50,
+            51
+          ],
+          "tool_result_lines": [
+            52,
+            53
+          ],
+          "review_input_sha256": "524b414ebd85b14b978e3abe920a133f8f0105858af69738f2e03a4bf91321d9"
+        },
+        {
+          "step": 12,
+          "source_lines": [
+            71,
+            72,
+            73
+          ],
+          "tool_result_lines": [
+            74
+          ],
+          "review_input_sha256": "df6a24293738de15614d81997f31b3c51a4f28ffc199fd3315dde74d0be86993"
+        }
+      ],
+      "nonadoption_reason_category": "无迹可循"
+    },
+    {
+      "event_id": "K02:40:库源码或文档",
+      "session_id": "K02",
+      "step_id": 40,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        184,
+        185,
+        186
+      ],
+      "tool_result_lines": [
+        187
+      ],
+      "review_input_sha256": "0c5a4545991387ddf7ebc050bf2de220499fdc8e0e08ca65bc1fbc10ed09a805",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "make_tensor_descriptor API文档",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s50可见推理说明TMA descriptor与ragged边界检查的用途并写独立实验；不把API可用等同硬件收益。",
+      "followup_evidence": [
+        {
+          "step": 40,
+          "source_lines": [
+            184,
+            185,
+            186
+          ],
+          "tool_result_lines": [
+            187
+          ],
+          "review_input_sha256": "0c5a4545991387ddf7ebc050bf2de220499fdc8e0e08ca65bc1fbc10ed09a805"
+        },
+        {
+          "step": 43,
+          "source_lines": [
+            195,
+            196,
+            197
+          ],
+          "tool_result_lines": [
+            198
+          ],
+          "review_input_sha256": "1fccecbf7b9e6f3b8662bddd41b28348d6d467005e6c5af486d7541e4303e552"
+        },
+        {
+          "step": 50,
+          "source_lines": [
+            224,
+            225,
+            226
+          ],
+          "tool_result_lines": [
+            227
+          ],
+          "review_input_sha256": "49d9604e71d707f1b0cd5b8b34cc3753609efd1b151339a6234a021732722ba8"
+        }
+      ],
+      "idea_evidence": {
+        "step": 50,
+        "origin": "thought",
+        "excerpt": "TMA + ragged descriptor approach to verify it produces tcgen05 and is correct, before integrating.",
+        "source_lines": [
+          224,
+          225,
+          226
+        ]
+      }
+    },
+    {
+      "event_id": "K02:43:库源码或文档",
+      "session_id": "K02",
+      "step_id": 43,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        195,
+        196,
+        197
+      ],
+      "tool_result_lines": [
+        198
+      ],
+      "review_input_sha256": "1fccecbf7b9e6f3b8662bddd41b28348d6d467005e6c5af486d7541e4303e552",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "ragged TMA API文档",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s43可见推理明确将文档的子数组硬件边界检查对应到variable-length MoE，s50实施。",
+      "followup_evidence": [
+        {
+          "step": 43,
+          "source_lines": [
+            195,
+            196,
+            197
+          ],
+          "tool_result_lines": [
+            198
+          ],
+          "review_input_sha256": "1fccecbf7b9e6f3b8662bddd41b28348d6d467005e6c5af486d7541e4303e552"
+        },
+        {
+          "step": 50,
+          "source_lines": [
+            224,
+            225,
+            226
+          ],
+          "tool_result_lines": [
+            227
+          ],
+          "review_input_sha256": "49d9604e71d707f1b0cd5b8b34cc3753609efd1b151339a6234a021732722ba8"
+        }
+      ],
+      "idea_evidence": {
+        "step": 43,
+        "origin": "thought",
+        "excerpt": "It creates a \"ragged descriptor\" that allows reading subarrays `T[batch_offset : batch_offset + batch_size]` with hardware bounds-checking — perfect for the variable-length MoE grouped GEMM where each expert has a variable number of tokens.",
+        "source_lines": [
+          195,
+          196,
+          197
+        ]
+      }
+    },
+    {
+      "event_id": "K02:63:库源码或文档",
+      "session_id": "K02",
+      "step_id": 63,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_061433_zai-claude_glm-5.2_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        278,
+        279,
+        280
+      ],
+      "tool_result_lines": [
+        281
+      ],
+      "review_input_sha256": "c94e0764309422a1ce3fe7ab5de982af850861a402c9a8e58ba77e0e27de5593",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "CUTLASS例程75用法说明",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "实际读到SM100架构说明和运行示例；随后未见整合该例程。",
+      "followup_evidence": [
+        {
+          "step": 63,
+          "source_lines": [
+            278,
+            279,
+            280
+          ],
+          "tool_result_lines": [
+            281
+          ],
+          "review_input_sha256": "c94e0764309422a1ce3fe7ab5de982af850861a402c9a8e58ba77e0e27de5593"
+        },
+        {
+          "step": 117,
+          "source_lines": [
+            529,
+            530,
+            531
+          ],
+          "tool_result_lines": [
+            533
+          ],
+          "review_input_sha256": "5e529d9ab3c32b54863ea1c75ee13ef17bbdfae78ada566522bbff4b00eb2b2a"
+        },
+        {
+          "step": 161,
+          "source_lines": [
+            708,
+            709,
+            710
+          ],
+          "tool_result_lines": [
+            711
+          ],
+          "review_input_sha256": "738fa1969087f1b6f1c6c172b393bd3f22a37c4a651760ebb2976f28d2c59524"
+        }
+      ]
+    },
+    {
+      "event_id": "K03:2:参考实现",
+      "session_id": "K03",
+      "step_id": 2,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        8
+      ],
+      "tool_result_lines": [
+        9
+      ],
+      "review_input_sha256": "4ae455072afd492ecf77409140faec784e0ede1a20e271eb4308b9e21b60ec60",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K03:5:SOTA入口",
+      "session_id": "K03",
+      "step_id": 5,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        15
+      ],
+      "tool_result_lines": [
+        16
+      ],
+      "review_input_sha256": "2b6ae874a22d925808e8f00aff0fe24b84991bb48463d358414eebe0b7b33ffc",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "看到sonic-moe的SM120警告，未见针对该入口的实测失败或明确拒绝；不能从自写CUDA反推原因。",
+      "followup_evidence": [
+        {
+          "step": 5,
+          "source_lines": [
+            15
+          ],
+          "tool_result_lines": [
+            16
+          ],
+          "review_input_sha256": "2b6ae874a22d925808e8f00aff0fe24b84991bb48463d358414eebe0b7b33ffc"
+        },
+        {
+          "step": 40,
+          "source_lines": [
+            122,
+            123
+          ],
+          "tool_result_lines": [
+            124
+          ],
+          "review_input_sha256": "52652217db45f7a57dc4dada7b1b97c286b2dafe5af8cda6c95febf7301e4066"
+        }
+      ],
+      "nonadoption_reason_category": "无迹可循"
+    },
+    {
+      "event_id": "K03:72:库源码或文档",
+      "session_id": "K03",
+      "step_id": 72,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_075101_zai-claude_glm-5.3_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        234
+      ],
+      "tool_result_lines": [
+        235
+      ],
+      "review_input_sha256": "4fc2f1a8be42cb36bb4fd4d6a7d09b2e3ad4d16dee8433ae9dd0bc023a74ced9",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "cpp_extension架构选项文档",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "返回ARCH_LIST/+PTX文档，偏离当时load_inline修复目标；后续改查实现。",
+      "followup_evidence": [
+        {
+          "step": 72,
+          "source_lines": [
+            234
+          ],
+          "tool_result_lines": [
+            235
+          ],
+          "review_input_sha256": "4fc2f1a8be42cb36bb4fd4d6a7d09b2e3ad4d16dee8433ae9dd0bc023a74ced9"
+        },
+        {
+          "step": 75,
+          "source_lines": [
+            240
+          ],
+          "tool_result_lines": [
+            241
+          ],
+          "review_input_sha256": "c447daa5fd4fd245d3df5e83b2662fa7ff1e0d6d7dac3cd61031bb4ed8755550"
+        },
+        {
+          "step": 78,
+          "source_lines": [
+            248,
+            249,
+            250
+          ],
+          "tool_result_lines": [
+            251
+          ],
+          "review_input_sha256": "7740e4514743b1f007464544b34395f5318e437a8be42ff340d79284bf4ff9bb"
+        }
+      ]
+    },
+    {
+      "event_id": "K04:1:参考实现",
+      "session_id": "K04",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+      "source_lines": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "tool_result_lines": [
+        10,
+        9
+      ],
+      "review_input_sha256": "03f67c81b184930ccc0cf2bdf8f1a2add7f5d31ad68feeba224f0e7762443dc5",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K04:2:SOTA入口",
+      "session_id": "K04",
+      "step_id": 2,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+      "source_lines": [
+        11,
+        12,
+        13,
+        14,
+        15,
+        16,
+        17,
+        18
+      ],
+      "tool_result_lines": [
+        22,
+        20,
+        19,
+        23,
+        24,
+        21
+      ],
+      "review_input_sha256": "ed1695bedbd82b15d1cb426ceadbe64944a2533d0cb8df2c1e54370f59524c02",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "依赖/接口实际不可用：s4导入探测、s5可见推理确认flashinfer/vllm未安装。是已证客观障碍，agent非采用动机仍未明示。",
+      "followup_evidence": [
+        {
+          "step": 2,
+          "source_lines": [
+            11,
+            12,
+            13,
+            14,
+            15,
+            16,
+            17,
+            18
+          ],
+          "tool_result_lines": [
+            22,
+            20,
+            19,
+            23,
+            24,
+            21
+          ],
+          "review_input_sha256": "ed1695bedbd82b15d1cb426ceadbe64944a2533d0cb8df2c1e54370f59524c02"
+        },
+        {
+          "step": 4,
+          "source_lines": [
+            31,
+            32,
+            33
+          ],
+          "tool_result_lines": [
+            34
+          ],
+          "review_input_sha256": "37c27118c99617f7bfd868f18e71f6232d6a0cea160bf3d92acc42e7cf580656"
+        },
+        {
+          "step": 5,
+          "source_lines": [
+            35,
+            36,
+            37
+          ],
+          "tool_result_lines": [
+            38
+          ],
+          "review_input_sha256": "6b8669beee87ee5b1cc30908b413699d7982801c4d6dea823280f6dc7cbcf1e8"
+        }
+      ],
+      "nonadoption_reason_category": "硬件或接口不适用"
+    },
+    {
+      "event_id": "K04:100:库源码或文档",
+      "session_id": "K04",
+      "step_id": 100,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_055815_zai-claude_glm-5.2_03_paged_attention.jsonl",
+      "source_lines": [
+        438,
+        439
+      ],
+      "tool_result_lines": [
+        442
+      ],
+      "review_input_sha256": "dbf5c1612ea5c1142f89c63bac5a3f8a578fa6ad0811debf9ef9dbac0f23c91b",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "tl.split签名与docstring",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "s101放弃合并KV方案，未见候选采用tl.split；该标签不否认排除方案的认知用途。",
+      "followup_evidence": [
+        {
+          "step": 100,
+          "source_lines": [
+            438,
+            439
+          ],
+          "tool_result_lines": [
+            442
+          ],
+          "review_input_sha256": "dbf5c1612ea5c1142f89c63bac5a3f8a578fa6ad0811debf9ef9dbac0f23c91b"
+        },
+        {
+          "step": 101,
+          "source_lines": [
+            443,
+            444,
+            445
+          ],
+          "tool_result_lines": [
+            448
+          ],
+          "review_input_sha256": "99f7cf4a2673931afcb5e42667dfa1278de60c1d3cd628ef18185a60ec06c9dc"
+        }
+      ]
+    },
+    {
+      "event_id": "K05:2:参考实现",
+      "session_id": "K05",
+      "step_id": 2,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_lines": [
+        8
+      ],
+      "tool_result_lines": [
+        9
+      ],
+      "review_input_sha256": "0ac8f933f707665dc9a2f06d3b5f433e7cfa8f4f30ba01be42f0e142ec216a63",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K05:7:SOTA入口",
+      "session_id": "K05",
+      "step_id": 7,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_lines": [
+        18
+      ],
+      "tool_result_lines": [
+        19
+      ],
+      "review_input_sha256": "996e53a52b30966ea316726e895c2833d9783240e9aa69a4047095ac1486ddca",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "作为对照基线",
+      "adoption_status": "可判定",
+      "evidence_note": "独立torch.topk对照计时/诊断，未把该vendor调用写入正式候选。",
+      "followup_evidence": [
+        {
+          "step": 7,
+          "source_lines": [
+            18
+          ],
+          "tool_result_lines": [
+            19
+          ],
+          "review_input_sha256": "996e53a52b30966ea316726e895c2833d9783240e9aa69a4047095ac1486ddca"
+        },
+        {
+          "step": 19,
+          "source_lines": [
+            50
+          ],
+          "tool_result_lines": [
+            51
+          ],
+          "review_input_sha256": "cdce5af1c19528eae60d86a548f1a7bb3dcdd6981c56cd048d5df0504948eaea"
+        },
+        {
+          "step": 20,
+          "source_lines": [
+            52
+          ],
+          "tool_result_lines": [
+            53
+          ],
+          "review_input_sha256": "28506d69281b95fc4567a17fc430a548b228ecf603ce85465829291227246a00"
+        }
+      ]
+    },
+    {
+      "event_id": "K05:36:环境技能",
+      "session_id": "K05",
+      "step_id": 36,
+      "source_kind": "环境技能",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_lines": [
+        97
+      ],
+      "tool_result_lines": [
+        98
+      ],
+      "review_input_sha256": "b7094514af47cef17e8728e58afc380423664d150d847abb9d59862784193244",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "cuda-build-blackwell技能规范",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "后续命令匹配CUDA_HOME，但可见推理未明确把具体方法连到本文档；仅凭命令匹配不足确认借用思路。",
+      "followup_evidence": [
+        {
+          "step": 36,
+          "source_lines": [
+            97
+          ],
+          "tool_result_lines": [
+            98
+          ],
+          "review_input_sha256": "b7094514af47cef17e8728e58afc380423664d150d847abb9d59862784193244"
+        },
+        {
+          "step": 37,
+          "source_lines": [
+            99,
+            100,
+            101
+          ],
+          "tool_result_lines": [
+            102
+          ],
+          "review_input_sha256": "37a09a52634825bdd7c86a2a269809eaf5d45a808c1495ee8902eccdf523b5e5"
+        },
+        {
+          "step": 40,
+          "source_lines": [
+            107
+          ],
+          "tool_result_lines": [
+            110
+          ],
+          "review_input_sha256": "0690484429159218e635f00730114f4009bd92284b0ff5bd0b7e526e38b56640"
+        }
+      ]
+    },
+    {
+      "event_id": "K05:45:库源码或文档",
+      "session_id": "K05",
+      "step_id": 45,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_lines": [
+        126,
+        127
+      ],
+      "tool_result_lines": [
+        128
+      ],
+      "review_input_sha256": "33dd52523a2e022edaf5f2040233aac45acf1697565cecdc2f1062cc4d646edf",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K05:136:参考实现",
+      "session_id": "K05",
+      "step_id": 136,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_lines": [
+        428,
+        429
+      ],
+      "tool_result_lines": [
+        430
+      ],
+      "review_input_sha256": "40c629bbe967814431c7aefb744d8637b5245856bb02bce8f3954b240789f36b",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K05:197:参考实现",
+      "session_id": "K05",
+      "step_id": 197,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_lines": [
+        629
+      ],
+      "tool_result_lines": [
+        630
+      ],
+      "review_input_sha256": "9a11b3cda035baa5aed3010a40600f5b68c2ea56cae63d0f37aa2cf86ccd2f92",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K05:198:参考实现",
+      "session_id": "K05",
+      "step_id": 198,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260822_053709_zai-claude_glm-5.3_05_topk_bitonic.jsonl",
+      "source_lines": [
+        631
+      ],
+      "tool_result_lines": [
+        632
+      ],
+      "review_input_sha256": "fd5c57b236e432737a824ace7267fd90d6318e96b8770ec967c464d139c2ba1c",
+      "model": "glm-5.3",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K06:1:参考实现",
+      "session_id": "K06",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl",
+      "source_lines": [
+        5,
+        6,
+        7,
+        8
+      ],
+      "tool_result_lines": [
+        9,
+        10
+      ],
+      "review_input_sha256": "60ecd3e46ee57ee48d4a542941eba0840c00df048bd0062f76a5493a785d8b97",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K06:3:SOTA入口",
+      "session_id": "K06",
+      "step_id": 3,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_061443_zai-claude_glm-5.2_07_w4a16_gemm.jsonl",
+      "source_lines": [
+        17,
+        18,
+        19,
+        20,
+        21
+      ],
+      "tool_result_lines": [
+        22,
+        25,
+        24,
+        23
+      ],
+      "review_input_sha256": "18a1d1e69d31dabeeb8f80e0409f90bb6a8caa474574bb7f21ddc3f9221b000d",
+      "model": "glm-5.2",
+      "model_group": "GLM",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "入口明示bnb NF4/block64与题目AWQ式非对称INT4/group128不一致，不能作为正确性候选直接替换；这是可核实接口/数值不等价，并非agent自述拒绝。",
+      "followup_evidence": [
+        {
+          "step": 3,
+          "source_lines": [
+            17,
+            18,
+            19,
+            20,
+            21
+          ],
+          "tool_result_lines": [
+            22,
+            25,
+            24,
+            23
+          ],
+          "review_input_sha256": "18a1d1e69d31dabeeb8f80e0409f90bb6a8caa474574bb7f21ddc3f9221b000d"
+        },
+        {
+          "step": 12,
+          "source_lines": [
+            69,
+            70
+          ],
+          "tool_result_lines": [
+            71
+          ],
+          "review_input_sha256": "a3e2537011d7f90e09354639a35c31608d60b6fddcc9dbd1197001fdc37c7700"
+        }
+      ],
+      "nonadoption_reason_category": "硬件或接口不适用"
+    },
+    {
+      "event_id": "K07:2:参考实现",
+      "session_id": "K07",
+      "step_id": 2,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+      "source_lines": [
+        8
+      ],
+      "tool_result_lines": [
+        9
+      ],
+      "review_input_sha256": "293ae1ac94f4677148883aeca6d515171f4b6dd6601f3127aa455779eef3b8d4",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K07:6:SOTA入口",
+      "session_id": "K07",
+      "step_id": 6,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_042257_claude_claude-opus-4-8_02_kda_cutlass.jsonl",
+      "source_lines": [
+        16
+      ],
+      "tool_result_lines": [
+        17
+      ],
+      "review_input_sha256": "07adfe6e4f5fe42f81fff3f052f39c355e061089bb0a9a1ebafb2cfa192981c8",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "FLA兼容性警告是条件句；后续FLA-style三kernel描述未指向入口wrapper，不足证明借用入口或拒绝原因。",
+      "followup_evidence": [
+        {
+          "step": 6,
+          "source_lines": [
+            16
+          ],
+          "tool_result_lines": [
+            17
+          ],
+          "review_input_sha256": "07adfe6e4f5fe42f81fff3f052f39c355e061089bb0a9a1ebafb2cfa192981c8"
+        },
+        {
+          "step": 19,
+          "source_lines": [
+            50,
+            51
+          ],
+          "tool_result_lines": [
+            52
+          ],
+          "review_input_sha256": "917b5f0b542f3a74c54ed5d2040e25cff03ad0af2e0fa9077737527434fcbe93"
+        },
+        {
+          "step": 46,
+          "source_lines": [
+            140,
+            141
+          ],
+          "tool_result_lines": [
+            142
+          ],
+          "review_input_sha256": "82a142d97ea96470552bc8cbb2a58bdd539fec8ee2b138fe997298eba1acf47a"
+        }
+      ],
+      "nonadoption_reason_category": "无迹可循"
+    },
+    {
+      "event_id": "K08:1:参考实现",
+      "session_id": "K08",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        10,
+        11
+      ],
+      "tool_result_lines": [
+        12
+      ],
+      "review_input_sha256": "fe7f85f416b586de3e2031cd0caee930fde6a29c581310288a3eb7c12af22095",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K08:2:SOTA入口",
+      "session_id": "K08",
+      "step_id": 2,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        13
+      ],
+      "tool_result_lines": [
+        14
+      ],
+      "review_input_sha256": "27e49a617a45fae3cb5387249e1c6b828c497e845d5b0a2d9b4bca5cd1d7609f",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "入口与环境返回不足以确定不可用；另读FLA源码和FlashKDA文档不等于解释未用该入口。",
+      "followup_evidence": [
+        {
+          "step": 2,
+          "source_lines": [
+            13
+          ],
+          "tool_result_lines": [
+            14
+          ],
+          "review_input_sha256": "27e49a617a45fae3cb5387249e1c6b828c497e845d5b0a2d9b4bca5cd1d7609f"
+        },
+        {
+          "step": 8,
+          "source_lines": [
+            26
+          ],
+          "tool_result_lines": [
+            27
+          ],
+          "review_input_sha256": "ce89fc24f60baf915a4f4552ae348903a911f5dc62bd8823711f27ebf83fdc51"
+        },
+        {
+          "step": 17,
+          "source_lines": [
+            45
+          ],
+          "tool_result_lines": [
+            46
+          ],
+          "review_input_sha256": "10dcd17aa6a4c46154790bd7fc5c443e77f22c1b83a87cb197c7679ab10cff50"
+        },
+        {
+          "step": 18,
+          "source_lines": [
+            47
+          ],
+          "tool_result_lines": [
+            48
+          ],
+          "review_input_sha256": "3f510890b03a38e6cc97149042f31b42515f5818488beac6706d51523ce99a20"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            53
+          ],
+          "tool_result_lines": [
+            54
+          ],
+          "review_input_sha256": "e2c6a320cb47ef9ecf7d6eabd1390a04e66ab6e67eb2f6aebbd64c068bc4422e"
+        }
+      ],
+      "nonadoption_reason_category": "无迹可循"
+    },
+    {
+      "event_id": "K08:5:其他网页片段",
+      "session_id": "K08",
+      "step_id": 5,
+      "source_kind": "其他网页片段",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        20
+      ],
+      "tool_result_lines": [
+        21
+      ],
+      "review_input_sha256": "3362991cf04c128d5e63bb6fd87b388e9cc8c89941e443b5f14f73258bc38be9",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K08:8:库源码或文档",
+      "session_id": "K08",
+      "step_id": 8,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        26
+      ],
+      "tool_result_lines": [
+        27
+      ],
+      "review_input_sha256": "ce89fc24f60baf915a4f4552ae348903a911f5dc62bd8823711f27ebf83fdc51",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K08:10:库源码或文档",
+      "session_id": "K08",
+      "step_id": 10,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        30
+      ],
+      "tool_result_lines": [
+        31
+      ],
+      "review_input_sha256": "0713008a0e64ba076845f97c2d1a6790ccc3207eb4d28a27aff0f11c2ef5a2a2",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K08:11:库源码或文档",
+      "session_id": "K08",
+      "step_id": 11,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        32
+      ],
+      "tool_result_lines": [
+        33
+      ],
+      "review_input_sha256": "d28ee2e217888f314cd31456e96270fe400436379df05fd88fa4c0246edd364e",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K08:17:库源码或文档",
+      "session_id": "K08",
+      "step_id": 17,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        45
+      ],
+      "tool_result_lines": [
+        46
+      ],
+      "review_input_sha256": "10dcd17aa6a4c46154790bd7fc5c443e77f22c1b83a87cb197c7679ab10cff50",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "FlashKDA README",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "README主要为安装与接口；未构建/调用该扩展。16-token和base-2的具体算法证据来自s18深度文档，不能回填给README。",
+      "followup_evidence": [
+        {
+          "step": 17,
+          "source_lines": [
+            45
+          ],
+          "tool_result_lines": [
+            46
+          ],
+          "review_input_sha256": "10dcd17aa6a4c46154790bd7fc5c443e77f22c1b83a87cb197c7679ab10cff50"
+        },
+        {
+          "step": 18,
+          "source_lines": [
+            47
+          ],
+          "tool_result_lines": [
+            48
+          ],
+          "review_input_sha256": "3f510890b03a38e6cc97149042f31b42515f5818488beac6706d51523ce99a20"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            53
+          ],
+          "tool_result_lines": [
+            54
+          ],
+          "review_input_sha256": "e2c6a320cb47ef9ecf7d6eabd1390a04e66ab6e67eb2f6aebbd64c068bc4422e"
+        }
+      ]
+    },
+    {
+      "event_id": "K08:18:库源码或文档",
+      "session_id": "K08",
+      "step_id": 18,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        47
+      ],
+      "tool_result_lines": [
+        48
+      ],
+      "review_input_sha256": "3f510890b03a38e6cc97149042f31b42515f5818488beac6706d51523ce99a20",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "FlashKDA deep-dive（与代码混合返回）",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s21代码注释明确16-token WY、持久递推不落中间state，以及base-2 gate映射ex2，和s18深度文档对应。只计文档部分；实现源码部分不另算查阅。",
+      "followup_evidence": [
+        {
+          "step": 18,
+          "source_lines": [
+            47
+          ],
+          "tool_result_lines": [
+            48
+          ],
+          "review_input_sha256": "3f510890b03a38e6cc97149042f31b42515f5818488beac6706d51523ce99a20"
+        },
+        {
+          "step": 21,
+          "source_lines": [
+            53
+          ],
+          "tool_result_lines": [
+            54
+          ],
+          "review_input_sha256": "e2c6a320cb47ef9ecf7d6eabd1390a04e66ab6e67eb2f6aebbd64c068bc4422e"
+        }
+      ],
+      "idea_evidence": {
+        "step": 21,
+        "origin": "code_comment",
+        "excerpt": "Keep the cumulative gate in base-2 units so exponentiation maps directly\\",
+        "source_lines": [
+          53
+        ]
+      }
+    },
+    {
+      "event_id": "K08:19:库源码或文档",
+      "session_id": "K08",
+      "step_id": 19,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        49
+      ],
+      "tool_result_lines": [
+        50
+      ],
+      "review_input_sha256": "a9a588af781c6dcf1ba932724f4f3a1acd8d22d266b0ca2c66deaace436b91bd",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K08:20:库源码或文档",
+      "session_id": "K08",
+      "step_id": 20,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260709_192708_codex_gpt-5.6-sol_02_kda_cutlass.jsonl",
+      "source_lines": [
+        51
+      ],
+      "tool_result_lines": [
+        52
+      ],
+      "review_input_sha256": "5cbf3597ebc5af5b24b8e188b1fed1d72e0f1975fd46cb2a10e76f25c7ffdeb4",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K09:3:参考实现",
+      "session_id": "K09",
+      "step_id": 3,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        10,
+        11,
+        12
+      ],
+      "tool_result_lines": [
+        13
+      ],
+      "review_input_sha256": "6fffaac1e15ffc3b7d174395a3d57eae46c4baa04572a60d9db43abd321bdc08",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K09:7:SOTA入口",
+      "session_id": "K09",
+      "step_id": 7,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        20
+      ],
+      "tool_result_lines": [
+        21
+      ],
+      "review_input_sha256": "8163d4f7fff0d17676a3a5c33554cd29992ea84140633247280e1df7184b607e",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "作为对照基线",
+      "adoption_status": "可判定",
+      "evidence_note": "独立torch.topk对照计时/诊断，未把该vendor调用写入正式候选。",
+      "followup_evidence": [
+        {
+          "step": 7,
+          "source_lines": [
+            20
+          ],
+          "tool_result_lines": [
+            21
+          ],
+          "review_input_sha256": "8163d4f7fff0d17676a3a5c33554cd29992ea84140633247280e1df7184b607e"
+        },
+        {
+          "step": 29,
+          "source_lines": [
+            80
+          ],
+          "tool_result_lines": [
+            81
+          ],
+          "review_input_sha256": "3e77d797b138a9c2265ca539fe29454e4aef26534bb4ec2d494e201bf75509e7"
+        },
+        {
+          "step": 32,
+          "source_lines": [
+            89,
+            90
+          ],
+          "tool_result_lines": [
+            91
+          ],
+          "review_input_sha256": "fa5ef0a61dd12b2cf24ba2d7be7c5b6be9eec7a2b63835d8fcb45dbbd6ab4520"
+        },
+        {
+          "step": 38,
+          "source_lines": [
+            109
+          ],
+          "tool_result_lines": [
+            112
+          ],
+          "review_input_sha256": "645b1a8daa80788b68ad4854fd4634945060c1759d413b9d3cf05afb12b12bcf"
+        }
+      ]
+    },
+    {
+      "event_id": "K09:27:环境技能",
+      "session_id": "K09",
+      "step_id": 27,
+      "source_kind": "环境技能",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        73,
+        74
+      ],
+      "tool_result_lines": [
+        75
+      ],
+      "review_input_sha256": "0705da99b18c869bf90566c5909e7e85d792f5afc57d66687fc1fa092899bf39",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "cuda-build-blackwell技能规范",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s28可见推理明确设置sm_120和CUDA_HOME；s29/32构建脚本实施。",
+      "followup_evidence": [
+        {
+          "step": 27,
+          "source_lines": [
+            73,
+            74
+          ],
+          "tool_result_lines": [
+            75
+          ],
+          "review_input_sha256": "0705da99b18c869bf90566c5909e7e85d792f5afc57d66687fc1fa092899bf39"
+        },
+        {
+          "step": 28,
+          "source_lines": [
+            76,
+            77,
+            78
+          ],
+          "tool_result_lines": [
+            79
+          ],
+          "review_input_sha256": "ac98e47bd888bcbf180e9435264c281184750228c373313ccde92c498e52f1a9"
+        },
+        {
+          "step": 29,
+          "source_lines": [
+            80
+          ],
+          "tool_result_lines": [
+            81
+          ],
+          "review_input_sha256": "3e77d797b138a9c2265ca539fe29454e4aef26534bb4ec2d494e201bf75509e7"
+        },
+        {
+          "step": 32,
+          "source_lines": [
+            89,
+            90
+          ],
+          "tool_result_lines": [
+            91
+          ],
+          "review_input_sha256": "fa5ef0a61dd12b2cf24ba2d7be7c5b6be9eec7a2b63835d8fcb45dbbd6ab4520"
+        }
+      ],
+      "idea_evidence": {
+        "step": 28,
+        "origin": "thought",
+        "excerpt": "I'm setting up the CUDA environment with sm_120 architecture and noting that the existing CUDA_HOME path should work fine. Now I'm planning a floor benchmark that uses an empty kernel launched with minimal configuration, followed by a read operation to measure baseline performance.",
+        "source_lines": [
+          76,
+          77,
+          78
+        ]
+      }
+    },
+    {
+      "event_id": "K09:35:库源码或文档",
+      "session_id": "K09",
+      "step_id": 35,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        101,
+        102
+      ],
+      "tool_result_lines": [
+        103
+      ],
+      "review_input_sha256": "2bc0e2a39e68bbaef7ab666346d5c6ac64360e55cd14110e85c88653914b7a26",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K09:41:库源码或文档",
+      "session_id": "K09",
+      "step_id": 41,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        121,
+        122
+      ],
+      "tool_result_lines": [
+        123
+      ],
+      "review_input_sha256": "2debb6d665d77df36d9ed95f026c00e7db2fdebfef99121439cb8376f3eba18b",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K09:42:库源码或文档",
+      "session_id": "K09",
+      "step_id": 42,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        124
+      ],
+      "tool_result_lines": [
+        125
+      ],
+      "review_input_sha256": "05ee09fa58b244317ed327eda3293c71e931b856fdd81c54eef7f285b7a259d7",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K09:230:环境技能",
+      "session_id": "K09",
+      "step_id": 230,
+      "source_kind": "环境技能",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        765,
+        766,
+        767
+      ],
+      "tool_result_lines": [
+        768
+      ],
+      "review_input_sha256": "d7c8cb21d66cb208f9546b155ce8675eadc841798cff5214c7b36dfad6db0c91",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "benchmark-integrity技能规范",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s231明确查noise floor；s232可见推理规定5次基线、均值/标准差与2σ阈值，s233/234执行与解释。",
+      "followup_evidence": [
+        {
+          "step": 230,
+          "source_lines": [
+            765,
+            766,
+            767
+          ],
+          "tool_result_lines": [
+            768
+          ],
+          "review_input_sha256": "d7c8cb21d66cb208f9546b155ce8675eadc841798cff5214c7b36dfad6db0c91"
+        },
+        {
+          "step": 231,
+          "source_lines": [
+            770,
+            771
+          ],
+          "tool_result_lines": [
+            772
+          ],
+          "review_input_sha256": "e61084c0f5bfdccf17de325e7933d82e9e9f58b35cc844d22c27685d7db312b4"
+        },
+        {
+          "step": 232,
+          "source_lines": [
+            773,
+            774,
+            775
+          ],
+          "tool_result_lines": [
+            776
+          ],
+          "review_input_sha256": "52133eb09e186d46c7cb29d0d2982af74662c1046805709932c03695b2707bfc"
+        },
+        {
+          "step": 233,
+          "source_lines": [
+            777,
+            778
+          ],
+          "tool_result_lines": [
+            781
+          ],
+          "review_input_sha256": "17f18bd5d3d7bb7de3d7d8ea9f344f7b90ba1d33da6aefa63ba1468176e6b0f4"
+        },
+        {
+          "step": 234,
+          "source_lines": [
+            782,
+            783,
+            784
+          ],
+          "tool_result_lines": [
+            785
+          ],
+          "review_input_sha256": "53269a4f9b4091f00ab3bd9616f6dd81b9163c732f443712825214389979c68f"
+        }
+      ],
+      "idea_evidence": {
+        "step": 232,
+        "origin": "thought",
+        "excerpt": "I need to establish a noise baseline by running the actual benchmark metric multiple times to compute the mean and standard deviation, then set the minimum detectable difference threshold at twice the standard deviation—only keeping changes that exceed this threshold and maintain correctness.",
+        "source_lines": [
+          773,
+          774,
+          775
+        ]
+      }
+    },
+    {
+      "event_id": "K09:231:环境技能",
+      "session_id": "K09",
+      "step_id": 231,
+      "source_kind": "环境技能",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        770,
+        771
+      ],
+      "tool_result_lines": [
+        772
+      ],
+      "review_input_sha256": "e61084c0f5bfdccf17de325e7933d82e9e9f58b35cc844d22c27685d7db312b4",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "optimize-loop规范片段",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s232明确根据所读baseline-reps/noise-k2安排5次、2σ判据；不宣称执行全部规范。",
+      "followup_evidence": [
+        {
+          "step": 231,
+          "source_lines": [
+            770,
+            771
+          ],
+          "tool_result_lines": [
+            772
+          ],
+          "review_input_sha256": "e61084c0f5bfdccf17de325e7933d82e9e9f58b35cc844d22c27685d7db312b4"
+        },
+        {
+          "step": 232,
+          "source_lines": [
+            773,
+            774,
+            775
+          ],
+          "tool_result_lines": [
+            776
+          ],
+          "review_input_sha256": "52133eb09e186d46c7cb29d0d2982af74662c1046805709932c03695b2707bfc"
+        },
+        {
+          "step": 233,
+          "source_lines": [
+            777,
+            778
+          ],
+          "tool_result_lines": [
+            781
+          ],
+          "review_input_sha256": "17f18bd5d3d7bb7de3d7d8ea9f344f7b90ba1d33da6aefa63ba1468176e6b0f4"
+        },
+        {
+          "step": 234,
+          "source_lines": [
+            782,
+            783,
+            784
+          ],
+          "tool_result_lines": [
+            785
+          ],
+          "review_input_sha256": "53269a4f9b4091f00ab3bd9616f6dd81b9163c732f443712825214389979c68f"
+        }
+      ],
+      "idea_evidence": {
+        "step": 232,
+        "origin": "thought",
+        "excerpt": "The plan is to run benchmark.py five times fresh to get reliable baseline measurements, then use full benchmark runs as the decision metric going forward. I'm also considering pinning the GPU clock to stabilize measurements around the sustained boost frequency, which would make the results more representative and consistent, though I need to verify the clock pinning works and understand how to report the honest unpin",
+        "source_lines": [
+          773,
+          774,
+          775
+        ]
+      }
+    },
+    {
+      "event_id": "K09:282:参考实现",
+      "session_id": "K09",
+      "step_id": 282,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260725_002808_or-opus_anthropic_claude-opus-5_05_topk_bitonic.jsonl",
+      "source_lines": [
+        967,
+        968
+      ],
+      "tool_result_lines": [
+        969
+      ],
+      "review_input_sha256": "d00f8daef6e37b93032091a9523b24d5967a4d96e9175eff1925b15ced3509b1",
+      "model": "claude-opus-5",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K10:1:参考实现",
+      "session_id": "K10",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_lines": [
+        10,
+        11,
+        12
+      ],
+      "tool_result_lines": [
+        13
+      ],
+      "review_input_sha256": "914cfb2339d3fc01ef011e9c668f0c737aaee86a19052eb7d7876d6f04c8faf5",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K10:8:库源码或文档",
+      "session_id": "K10",
+      "step_id": 8,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_lines": [
+        33,
+        34,
+        35,
+        36,
+        37,
+        38
+      ],
+      "tool_result_lines": [
+        39
+      ],
+      "review_input_sha256": "cd2fefd6084e7b078a45ddf1442cd705c687c2c860023729faaa66ff00270716",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "CUB BlockRadixSort API文档",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s9实现调用匹配API，但推理仅有摘要标题，候选注释未清楚阐明所借用的文档方法；不把接口匹配直接记为借用思路或照抄。",
+      "followup_evidence": [
+        {
+          "step": 8,
+          "source_lines": [
+            33,
+            34,
+            35,
+            36,
+            37,
+            38
+          ],
+          "tool_result_lines": [
+            39
+          ],
+          "review_input_sha256": "cd2fefd6084e7b078a45ddf1442cd705c687c2c860023729faaa66ff00270716"
+        },
+        {
+          "step": 9,
+          "source_lines": [
+            40,
+            41,
+            42,
+            43
+          ],
+          "tool_result_lines": [
+            44
+          ],
+          "review_input_sha256": "c3d309f0ef4e02a2dc2d5c00f3a3c9bac4f63c103350b43fa9dfd02dbe97139f"
+        }
+      ]
+    },
+    {
+      "event_id": "K10:39:库源码或文档",
+      "session_id": "K10",
+      "step_id": 39,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_lines": [
+        127,
+        128,
+        129,
+        130,
+        131
+      ],
+      "tool_result_lines": [
+        132
+      ],
+      "review_input_sha256": "9f489020a43288cd8e0c4229de8217ba7e564f4466ed40d92629bbbde05f020a",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K10:40:库源码或文档",
+      "session_id": "K10",
+      "step_id": 40,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_lines": [
+        133,
+        134
+      ],
+      "tool_result_lines": [
+        135
+      ],
+      "review_input_sha256": "352bf376af44c727147613c2e6c2011db437cd91ebcc5f91bc434ebc4f4a2f86",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K10:138:库源码或文档",
+      "session_id": "K10",
+      "step_id": 138,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_215148_codex_gpt-5.6-sol_05_topk_bitonic.jsonl",
+      "source_lines": [
+        387,
+        388,
+        389
+      ],
+      "tool_result_lines": [
+        390
+      ],
+      "review_input_sha256": "df5984b49c452a9e265bddd601fa623cbcd02f3a4d041834a3281c8120c20508",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "CUB WarpMergeSort API文档",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s138可见实质推理讨论末端精排与merge成本权衡，s140继续讨论K64专用merge并加入WarpMergeSort；不据此保证候选集合完整。",
+      "followup_evidence": [
+        {
+          "step": 138,
+          "source_lines": [
+            387,
+            388,
+            389
+          ],
+          "tool_result_lines": [
+            390
+          ],
+          "review_input_sha256": "df5984b49c452a9e265bddd601fa623cbcd02f3a4d041834a3281c8120c20508"
+        },
+        {
+          "step": 140,
+          "source_lines": [
+            394,
+            395,
+            396,
+            397
+          ],
+          "tool_result_lines": [
+            398
+          ],
+          "review_input_sha256": "e640f85fa9a8b8e6204997779808b4e08b63b057dffe4b685b176271fa50af5d"
+        },
+        {
+          "step": 154,
+          "source_lines": [
+            430,
+            431,
+            432,
+            433
+          ],
+          "tool_result_lines": [
+            434
+          ],
+          "review_input_sha256": "af819a8b08eeccde2acdb320b5ff99a66ec58b46c538fbc964121a4dad40d4c6"
+        }
+      ],
+      "idea_evidence": {
+        "step": 138,
+        "origin": "thought",
+        "excerpt": "I'm exploring how to improve local sorting of candidates using bitonic sorting within tiles, aiming to reduce kernel launch overhead and merge time. I'm considering partial orders and approximations that sometimes cause small mismatches, so I’m thinking about adding a final exact sort after the merge to fix ordering issues. This involves balancing warp-level merges, sync overhead, and candidate grouping strategies wi",
+        "source_lines": [
+          387,
+          388,
+          389
+        ]
+      }
+    },
+    {
+      "event_id": "K11:1:参考实现",
+      "session_id": "K11",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        5,
+        6
+      ],
+      "tool_result_lines": [
+        7
+      ],
+      "review_input_sha256": "afd433b13d8310a83508b70c4b4b2ce45da3e3e74a7b6e1dacef410ba476ed96",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K11:3:SOTA入口",
+      "session_id": "K11",
+      "step_id": 3,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        10
+      ],
+      "tool_result_lines": [
+        11
+      ],
+      "review_input_sha256": "17bf4dcc9c0229e5509350b9bab91d80ee1ab8436548c53399acb8f25d8dbce6",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "未见对sonic-moe入口的明确拒绝；s87–89拒绝的是另查的CUTLASS builder，不能错记为该入口原因。",
+      "followup_evidence": [
+        {
+          "step": 3,
+          "source_lines": [
+            10
+          ],
+          "tool_result_lines": [
+            11
+          ],
+          "review_input_sha256": "17bf4dcc9c0229e5509350b9bab91d80ee1ab8436548c53399acb8f25d8dbce6"
+        },
+        {
+          "step": 87,
+          "source_lines": [
+            296
+          ],
+          "tool_result_lines": [
+            297
+          ],
+          "review_input_sha256": "ae6318fa5e03a9e7e5d63a83454be2c84c20a0f3430b27748a593bbd8662104d"
+        },
+        {
+          "step": 88,
+          "source_lines": [
+            298,
+            299
+          ],
+          "tool_result_lines": [
+            300
+          ],
+          "review_input_sha256": "99b1a5999f03f8fff5c3208d30e2c0757677ec10557c68aa7c6751d30dd2cdb9"
+        },
+        {
+          "step": 89,
+          "source_lines": [
+            301,
+            302
+          ],
+          "tool_result_lines": [
+            303
+          ],
+          "review_input_sha256": "7203b4198beb5a1e94b2ed3e9600cb8e9a71d89f92a71da50cdc7e914e2fd754"
+        }
+      ],
+      "nonadoption_reason_category": "无迹可循"
+    },
+    {
+      "event_id": "K11:87:库源码或文档",
+      "session_id": "K11",
+      "step_id": 87,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        296
+      ],
+      "tool_result_lines": [
+        297
+      ],
+      "review_input_sha256": "ae6318fa5e03a9e7e5d63a83454be2c84c20a0f3430b27748a593bbd8662104d",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K11:88:库源码或文档",
+      "session_id": "K11",
+      "step_id": 88,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260613_042321_claude_claude-opus-4-8_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        298,
+        299
+      ],
+      "tool_result_lines": [
+        300
+      ],
+      "review_input_sha256": "99b1a5999f03f8fff5c3208d30e2c0757677ec10557c68aa7c6751d30dd2cdb9",
+      "model": "claude-opus-4-8",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K12:2:SOTA入口",
+      "session_id": "K12",
+      "step_id": 2,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        14,
+        15
+      ],
+      "tool_result_lines": [
+        16
+      ],
+      "review_input_sha256": "bc347aa93b0165baa4451f3b44f7c8d5ab853cfc113d57122e69c7c549d3d33d",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "未见对sonic-moe入口的实测拒绝原因；quack等依赖探测不足以认证整条sonic-moe路径不可用，推理只露出摘要标题。",
+      "followup_evidence": [
+        {
+          "step": 2,
+          "source_lines": [
+            14,
+            15
+          ],
+          "tool_result_lines": [
+            16
+          ],
+          "review_input_sha256": "bc347aa93b0165baa4451f3b44f7c8d5ab853cfc113d57122e69c7c549d3d33d"
+        },
+        {
+          "step": 8,
+          "source_lines": [
+            35,
+            36
+          ],
+          "tool_result_lines": [
+            37
+          ],
+          "review_input_sha256": "ba30e944389a79da6b89929c56721758c36718d21007127e6f0af3a3cf1bdda8"
+        },
+        {
+          "step": 9,
+          "source_lines": [
+            38,
+            39,
+            40,
+            41,
+            42
+          ],
+          "tool_result_lines": [
+            43
+          ],
+          "review_input_sha256": "749bb3afef14c4862fc4a5c2a6d6891aa776e5e40c47b389ed3fde37038a73ba"
+        }
+      ],
+      "nonadoption_reason_category": "无迹可循"
+    },
+    {
+      "event_id": "K12:2:参考实现",
+      "session_id": "K12",
+      "step_id": 2,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        14,
+        15
+      ],
+      "tool_result_lines": [
+        16
+      ],
+      "review_input_sha256": "bc347aa93b0165baa4451f3b44f7c8d5ab853cfc113d57122e69c7c549d3d33d",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K12:30:库源码或文档",
+      "session_id": "K12",
+      "step_id": 30,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        101,
+        102,
+        103
+      ],
+      "tool_result_lines": [
+        104
+      ],
+      "review_input_sha256": "36d5d13997d22c3d380b4607fede525809bf027fb23f326930bd8f7355ed5657",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "tl.join/split/reshape API文档",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s35候选代码注释明确把gate/up交错在minor维再展平为一次MMA，代码使用tl.join与tl.split，与文档语义对应。",
+      "followup_evidence": [
+        {
+          "step": 30,
+          "source_lines": [
+            101,
+            102,
+            103
+          ],
+          "tool_result_lines": [
+            104
+          ],
+          "review_input_sha256": "36d5d13997d22c3d380b4607fede525809bf027fb23f326930bd8f7355ed5657"
+        },
+        {
+          "step": 35,
+          "source_lines": [
+            117,
+            118,
+            119,
+            120
+          ],
+          "tool_result_lines": [
+            121
+          ],
+          "review_input_sha256": "28ede954ca77b067076364ce8b59bb349e790ee7a1972c881c859c036de0a58b"
+        }
+      ],
+      "idea_evidence": {
+        "step": 35,
+        "origin": "code_comment",
+        "excerpt": "Interleave gate/up in a minor dimension, then flatten it into a\\",
+        "source_lines": [
+          117,
+          118,
+          119,
+          120
+        ]
+      }
+    },
+    {
+      "event_id": "K12:60:库源码或文档",
+      "session_id": "K12",
+      "step_id": 60,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        195,
+        196
+      ],
+      "tool_result_lines": [
+        197
+      ],
+      "review_input_sha256": "333e754fdc8852a41a22cb63b95f445fc379583232f08eb71350993cfdd9d0a7",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K12:61:库源码或文档",
+      "session_id": "K12",
+      "step_id": 61,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        198,
+        199
+      ],
+      "tool_result_lines": [
+        200
+      ],
+      "review_input_sha256": "29fd90f2318cf5d6a9b2aa497901e0ce4599831b546d6445098731871b7a0742",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K12:62:库源码或文档",
+      "session_id": "K12",
+      "step_id": 62,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        201,
+        202
+      ],
+      "tool_result_lines": [
+        203
+      ],
+      "review_input_sha256": "6f07b98ac18373892bf608351c287600a5a25aa799c674ebd70835e9676aa28a",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K12:67:库源码或文档",
+      "session_id": "K12",
+      "step_id": 67,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        216,
+        217
+      ],
+      "tool_result_lines": [
+        218
+      ],
+      "review_input_sha256": "83fd73d44e6cf40875c3e0ae0916ed1d68f90ff6111484a6e0409a2bce8393aa",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "官方tcgen05教程",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s70有可定位的API/结构适配，但可见推理仅摘要标题、无阐明借用机制的注释；又非可确证照抄的整段代码。保留未分级。",
+      "followup_evidence": [
+        {
+          "step": 67,
+          "source_lines": [
+            216,
+            217
+          ],
+          "tool_result_lines": [
+            218
+          ],
+          "review_input_sha256": "83fd73d44e6cf40875c3e0ae0916ed1d68f90ff6111484a6e0409a2bce8393aa"
+        },
+        {
+          "step": 69,
+          "source_lines": [
+            223,
+            224,
+            225,
+            226
+          ],
+          "tool_result_lines": [
+            227
+          ],
+          "review_input_sha256": "94905c9bbb1368d0f6ee5968888be647d8ca91706fcced20ac071af504562630"
+        },
+        {
+          "step": 70,
+          "source_lines": [
+            228,
+            229
+          ],
+          "tool_result_lines": [
+            230
+          ],
+          "review_input_sha256": "b47701d8dd19a537a478d94ff29f50b9da824ceb8c75b1084c3b3dd894092cb0"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:68:库源码或文档",
+      "session_id": "K12",
+      "step_id": 68,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        219,
+        220,
+        221
+      ],
+      "tool_result_lines": [
+        222
+      ],
+      "review_input_sha256": "1fb41f65534feb66adf52cdc3893b863897c2e134b10ae5cd8b5226653025743",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "tcgen05教程尾部的性能说明",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "同批返回含TensorDescriptor实现；文档部分是否用于s70的布局决策缺少可见推理/注释，源码匹配不能代替文档采用证据。",
+      "followup_evidence": [
+        {
+          "step": 68,
+          "source_lines": [
+            219,
+            220,
+            221
+          ],
+          "tool_result_lines": [
+            222
+          ],
+          "review_input_sha256": "1fb41f65534feb66adf52cdc3893b863897c2e134b10ae5cd8b5226653025743"
+        },
+        {
+          "step": 70,
+          "source_lines": [
+            228,
+            229
+          ],
+          "tool_result_lines": [
+            230
+          ],
+          "review_input_sha256": "b47701d8dd19a537a478d94ff29f50b9da824ceb8c75b1084c3b3dd894092cb0"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:69:库源码或文档",
+      "session_id": "K12",
+      "step_id": 69,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        223,
+        224,
+        225,
+        226
+      ],
+      "tool_result_lines": [
+        227
+      ],
+      "review_input_sha256": "94905c9bbb1368d0f6ee5968888be647d8ca91706fcced20ac071af504562630",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "tcgen05 barrier教程说明",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s70实现barrier序列，但缺少可见推理/注释说明从教程借用；不将改写API序列称照抄代码。",
+      "followup_evidence": [
+        {
+          "step": 69,
+          "source_lines": [
+            223,
+            224,
+            225,
+            226
+          ],
+          "tool_result_lines": [
+            227
+          ],
+          "review_input_sha256": "94905c9bbb1368d0f6ee5968888be647d8ca91706fcced20ac071af504562630"
+        },
+        {
+          "step": 70,
+          "source_lines": [
+            228,
+            229
+          ],
+          "tool_result_lines": [
+            230
+          ],
+          "review_input_sha256": "b47701d8dd19a537a478d94ff29f50b9da824ceb8c75b1084c3b3dd894092cb0"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:73:库源码或文档",
+      "session_id": "K12",
+      "step_id": 73,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        237,
+        238
+      ],
+      "tool_result_lines": [
+        239
+      ],
+      "review_input_sha256": "2714e74de6775a49f1103058beca19d42958bd8f297c80fcf6232a97520c21c4",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "Blackwell/Hopper TMA公开API docstring",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s75有接口迁移，推理仅摘要标题；未见具体借用说明，不能仅凭后续调用确认借用思路。",
+      "followup_evidence": [
+        {
+          "step": 73,
+          "source_lines": [
+            237,
+            238
+          ],
+          "tool_result_lines": [
+            239
+          ],
+          "review_input_sha256": "2714e74de6775a49f1103058beca19d42958bd8f297c80fcf6232a97520c21c4"
+        },
+        {
+          "step": 75,
+          "source_lines": [
+            243,
+            244
+          ],
+          "tool_result_lines": [
+            245
+          ],
+          "review_input_sha256": "c06b3b0fc58538b04a670c4c535bc1c6cc0c13caf5c22ed6970e727c6b7bf88f"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:74:库源码或文档",
+      "session_id": "K12",
+      "step_id": 74,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        240,
+        241
+      ],
+      "tool_result_lines": [
+        242
+      ],
+      "review_input_sha256": "6aa6f9785b929625caa33f9a49fb398b4466db79563d29b3041be5500257c7ce",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "allocate/tcgen05公开API docstring",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s75增reg_layout与读取调用；缺少说明该决策如何来自所读文档的可见推理/注释。",
+      "followup_evidence": [
+        {
+          "step": 74,
+          "source_lines": [
+            240,
+            241
+          ],
+          "tool_result_lines": [
+            242
+          ],
+          "review_input_sha256": "6aa6f9785b929625caa33f9a49fb398b4466db79563d29b3041be5500257c7ce"
+        },
+        {
+          "step": 75,
+          "source_lines": [
+            243,
+            244
+          ],
+          "tool_result_lines": [
+            245
+          ],
+          "review_input_sha256": "c06b3b0fc58538b04a670c4c535bc1c6cc0c13caf5c22ed6970e727c6b7bf88f"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:84:库源码或文档",
+      "session_id": "K12",
+      "step_id": 84,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        273,
+        274
+      ],
+      "tool_result_lines": [
+        275
+      ],
+      "review_input_sha256": "122ca6c39987d28891ba14e6249d19dd9add6e7f4f83c43469a3554e5a82075d",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "官方matmul教程分组解释",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s87只去掉n_tiles的constexpr注解，缺少可见推理/注释将修复连到该分组说明。",
+      "followup_evidence": [
+        {
+          "step": 84,
+          "source_lines": [
+            273,
+            274
+          ],
+          "tool_result_lines": [
+            275
+          ],
+          "review_input_sha256": "122ca6c39987d28891ba14e6249d19dd9add6e7f4f83c43469a3554e5a82075d"
+        },
+        {
+          "step": 87,
+          "source_lines": [
+            281,
+            282
+          ],
+          "tool_result_lines": [
+            283
+          ],
+          "review_input_sha256": "265e27497ab8c8e2ee8caf2df10a185b70d8798328b295653d6ccebda8f9c55b"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:85:库源码或文档",
+      "session_id": "K12",
+      "step_id": 85,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        276,
+        277
+      ],
+      "tool_result_lines": [
+        278
+      ],
+      "review_input_sha256": "a66a4113221bb93765c00204c477b561094847ccd1d6e07b519c0eeaf9a3e94e",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "官方matmul教程签名与配置示例",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s87的声明修复可定位，但缺少可见借用理由；不把普通签名匹配当照抄代码。",
+      "followup_evidence": [
+        {
+          "step": 85,
+          "source_lines": [
+            276,
+            277
+          ],
+          "tool_result_lines": [
+            278
+          ],
+          "review_input_sha256": "a66a4113221bb93765c00204c477b561094847ccd1d6e07b519c0eeaf9a3e94e"
+        },
+        {
+          "step": 87,
+          "source_lines": [
+            281,
+            282
+          ],
+          "tool_result_lines": [
+            283
+          ],
+          "review_input_sha256": "265e27497ab8c8e2ee8caf2df10a185b70d8798328b295653d6ccebda8f9c55b"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:86:库源码或文档",
+      "session_id": "K12",
+      "step_id": 86,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        279
+      ],
+      "tool_result_lines": [
+        280
+      ],
+      "review_input_sha256": "7bf269ff8e1e4756dd75601e363908a65f522bd17e0d8a1a9fd89cc249212dc2",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "官方matmul教程映射代码示例",
+      "adoption_level": null,
+      "adoption_status": "证据不足，未分级",
+      "evidence_note": "s87没有复制整段group映射，仅改声明；推理只有标题。采用证据未达到本次要求。",
+      "followup_evidence": [
+        {
+          "step": 86,
+          "source_lines": [
+            279
+          ],
+          "tool_result_lines": [
+            280
+          ],
+          "review_input_sha256": "7bf269ff8e1e4756dd75601e363908a65f522bd17e0d8a1a9fd89cc249212dc2"
+        },
+        {
+          "step": 87,
+          "source_lines": [
+            281,
+            282
+          ],
+          "tool_result_lines": [
+            283
+          ],
+          "review_input_sha256": "265e27497ab8c8e2ee8caf2df10a185b70d8798328b295653d6ccebda8f9c55b"
+        }
+      ]
+    },
+    {
+      "event_id": "K12:158:库源码或文档",
+      "session_id": "K12",
+      "step_id": 158,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260718_222659_codex_gpt-5.6-sol_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        497,
+        498,
+        499,
+        500
+      ],
+      "tool_result_lines": [
+        501
+      ],
+      "review_input_sha256": "64071a653482663a977f237204a7f520e053fa4c9169f3e904ea1a2926ca8651",
+      "model": "gpt-5.6-sol",
+      "model_group": "闭源模型",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K13:1:参考实现",
+      "session_id": "K13",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+      "source_lines": [
+        5,
+        6
+      ],
+      "tool_result_lines": [
+        7
+      ],
+      "review_input_sha256": "f895038a7dfe68ae531c2610e41a93208fa777af7cd48b2c9b4016f65fbf6d67",
+      "model": "deepseek-v4-flash-0731",
+      "model_group": "DeepSeek",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K13:2:SOTA入口",
+      "session_id": "K13",
+      "step_id": 2,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+      "source_lines": [
+        8,
+        9
+      ],
+      "tool_result_lines": [
+        10
+      ],
+      "review_input_sha256": "13c2cf4e47d212db3a2811ac5b4f59b8de61238eec621bf81d9430193864d765",
+      "model": "deepseek-v4-flash-0731",
+      "model_group": "DeepSeek",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "作为对照基线",
+      "adoption_status": "可判定",
+      "evidence_note": "独立torch.topk对照计时/诊断，未把该vendor调用写入正式候选。",
+      "followup_evidence": [
+        {
+          "step": 2,
+          "source_lines": [
+            8,
+            9
+          ],
+          "tool_result_lines": [
+            10
+          ],
+          "review_input_sha256": "13c2cf4e47d212db3a2811ac5b4f59b8de61238eec621bf81d9430193864d765"
+        },
+        {
+          "step": 16,
+          "source_lines": [
+            45,
+            46
+          ],
+          "tool_result_lines": [
+            47
+          ],
+          "review_input_sha256": "a80d68579e627869947760b1aaeb438b38998dccd7a62266d664cb5519b60924"
+        },
+        {
+          "step": 20,
+          "source_lines": [
+            57,
+            58
+          ],
+          "tool_result_lines": [
+            61
+          ],
+          "review_input_sha256": "8f7f907935f985f16c56ad0d6b538eac3ea0a9257931476ee1bb216890875eab"
+        }
+      ]
+    },
+    {
+      "event_id": "K13:61:库源码或文档",
+      "session_id": "K13",
+      "step_id": 61,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20260801_225649_or-fable_deepseek_deepseek-v4-flash-0731_05_topk_bitonic.jsonl",
+      "source_lines": [
+        205
+      ],
+      "tool_result_lines": [
+        206
+      ],
+      "review_input_sha256": "8781d141f23c6190f9865e6b27fc740d9d0e042c0bc9c23d5f4e9cdc72fba909",
+      "model": "deepseek-v4-flash-0731",
+      "model_group": "DeepSeek",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "CUB BlockRadixSort签名和示例片段",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s62可见推理具体解释线程blocked输出分布及top-K提取，随即写CUB实验；不把少量签名命中当整段照抄。",
+      "followup_evidence": [
+        {
+          "step": 61,
+          "source_lines": [
+            205
+          ],
+          "tool_result_lines": [
+            206
+          ],
+          "review_input_sha256": "8781d141f23c6190f9865e6b27fc740d9d0e042c0bc9c23d5f4e9cdc72fba909"
+        },
+        {
+          "step": 62,
+          "source_lines": [
+            207,
+            208,
+            209
+          ],
+          "tool_result_lines": [
+            212
+          ],
+          "review_input_sha256": "a9d733746e37dd021e6856be1ecc0cdf069ab8526bd8b41346e299ddff7f3c10"
+        },
+        {
+          "step": 65,
+          "source_lines": [
+            225,
+            226,
+            227
+          ],
+          "tool_result_lines": [
+            228
+          ],
+          "review_input_sha256": "fae90712dafdccba07b95028c05fb4b2be6f1d53568c943f3a5d5192d561d900"
+        }
+      ],
+      "idea_evidence": {
+        "step": 62,
+        "origin": "thought",
+        "excerpt": "The \"Blocked\" layout means the sorted output is distributed such that thread 0 has the first ITEMS_PER_THREAD elements, thread 1 the next, etc. Actually CUB's \"blocked\" output: the sorted sequence is blocked — thread t holds items [t*ITEMS, (t+1)*ITEMS). For descending, thread 0 holds the largest ITEMS, thread 1 the next, etc. So the top-K are in the first ceil(K/ITEMS) threads' arrays.",
+        "source_lines": [
+          207,
+          208,
+          209
+        ]
+      }
+    },
+    {
+      "event_id": "K14:1:参考实现",
+      "session_id": "K14",
+      "step_id": 1,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        5,
+        6,
+        7
+      ],
+      "tool_result_lines": [
+        8,
+        9
+      ],
+      "review_input_sha256": "4f3485114ea69776c471f45ec96a8a9fdd0406a893a2c5fa33a71b6ea531e508",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K14:2:SOTA入口",
+      "session_id": "K14",
+      "step_id": 2,
+      "source_kind": "SOTA入口",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        10,
+        11,
+        12
+      ],
+      "tool_result_lines": [
+        13,
+        14
+      ],
+      "review_input_sha256": "9ece2d62345b3ed1206ce30d5e0345cc5a5854a152e52e81693129473815bdb7",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": true,
+      "consultation_kind": "SOTA入口",
+      "adoption_level": "读了未用",
+      "adoption_status": "可判定",
+      "evidence_note": "s6可见推理在提到quack/flashinfer后明确说不重要、必须自己写；为题目自写约束下拒绝vendor调用，不扩大为拒绝借鉴算法。",
+      "followup_evidence": [
+        {
+          "step": 2,
+          "source_lines": [
+            10,
+            11,
+            12
+          ],
+          "tool_result_lines": [
+            13,
+            14
+          ],
+          "review_input_sha256": "9ece2d62345b3ed1206ce30d5e0345cc5a5854a152e52e81693129473815bdb7"
+        },
+        {
+          "step": 6,
+          "source_lines": [
+            30,
+            31,
+            32
+          ],
+          "tool_result_lines": [
+            33,
+            34
+          ],
+          "review_input_sha256": "36917aa50169002ff140b32baa12f64bf435a911519d9dba2786dc47235d3467"
+        }
+      ],
+      "nonadoption_reason_category": "agent明确拒绝"
+    },
+    {
+      "event_id": "K14:12:库源码或文档",
+      "session_id": "K14",
+      "step_id": 12,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        56,
+        57
+      ],
+      "tool_result_lines": [
+        58
+      ],
+      "review_input_sha256": "bd71850c14ba7e9d3d397c517dd7734b087e867238514fe352f3eb1fb6a2342e",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K14:13:库源码或文档",
+      "session_id": "K14",
+      "step_id": 13,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        59,
+        60
+      ],
+      "tool_result_lines": [
+        61
+      ],
+      "review_input_sha256": "d80487e260b0866943cb4fc69826549f94daa392589514c6d7116914b5367155",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": false,
+      "exclusion_reason": "只读实现源码/内部实现或网页检索片段；非SOTA入口或实际返回的文档。附带版权/零散尾注不单计文档。"
+    },
+    {
+      "event_id": "K14:97:库源码或文档",
+      "session_id": "K14",
+      "step_id": 97,
+      "source_kind": "库源码或文档",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        399,
+        400
+      ],
+      "tool_result_lines": [
+        401
+      ],
+      "review_input_sha256": "6d443c74e9b81c167d8e9ac2f2991258fecf90fafd2c4cd5673e25a77b8140d6",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": true,
+      "consultation_kind": "文档",
+      "document": "tl.range签名与docstring",
+      "adoption_level": "借用思路",
+      "adoption_status": "可判定",
+      "evidence_note": "s98可见推理明确要在TMA循环试warp_specialize/flatten，并列出矩阵实验后写入探针。",
+      "followup_evidence": [
+        {
+          "step": 97,
+          "source_lines": [
+            399,
+            400
+          ],
+          "tool_result_lines": [
+            401
+          ],
+          "review_input_sha256": "6d443c74e9b81c167d8e9ac2f2991258fecf90fafd2c4cd5673e25a77b8140d6"
+        },
+        {
+          "step": 98,
+          "source_lines": [
+            402,
+            403,
+            404
+          ],
+          "tool_result_lines": [
+            407
+          ],
+          "review_input_sha256": "33cdd75c242ce5550ca516ac575be754f4d25438d46dd29b2ef49c9cbe8da9e3"
+        }
+      ],
+      "idea_evidence": {
+        "step": 98,
+        "origin": "thought",
+        "excerpt": "Let me test: modify the TMA kernel to use `tl.range(0, H//BK, warp_specialize=True)`. Requires num_warps=4 or 8 with extra consumer groups auto-allocated.",
+        "source_lines": [
+          402,
+          403,
+          404
+        ]
+      }
+    },
+    {
+      "event_id": "K14:100:参考实现",
+      "session_id": "K14",
+      "step_id": 100,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        413,
+        414,
+        415
+      ],
+      "tool_result_lines": [
+        416
+      ],
+      "review_input_sha256": "0f13cd48abab776fb735a832d1c61446b33f81858e1b7580c6f49f58132c1686",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K14:101:参考实现",
+      "session_id": "K14",
+      "step_id": 101,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        417,
+        418
+      ],
+      "tool_result_lines": [
+        419
+      ],
+      "review_input_sha256": "bb2e346e6b4330b1c63928e63851c7fcb64bb074f168746b01a72080263fdc32",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    },
+    {
+      "event_id": "K14:102:参考实现",
+      "session_id": "K14",
+      "step_id": 102,
+      "source_kind": "参考实现",
+      "raw_file": "data/raw/r2_kbh/c2c764c8b5a5fdad493592a2fde1055684e0f064/traces/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_url": "https://huggingface.co/datasets/Infatoshi/kernelbench-hard-traces/resolve/c2c764c8b5a5fdad493592a2fde1055684e0f064/20261017_215407_or-fable_deepseek_deepseek-v4.1-flash-1017_06_sonic_moe_swiglu.jsonl",
+      "source_lines": [
+        420,
+        421
+      ],
+      "tool_result_lines": [
+        422
+      ],
+      "review_input_sha256": "5a071bd221f7854a6592cff8623b7bca6732adfad2bddd26b628220176d1a2b2",
+      "model": "deepseek-v4.1-flash-1017",
+      "model_group": "DeepSeek",
+      "included": false,
+      "exclusion_reason": "题目定义/参考接口，按用户要求不计知识查阅。"
+    }
+  ],
+  "closed_model_pairs": [
+    [
+      "KDA",
+      "K01",
+      "K07"
+    ],
+    [
+      "KDA",
+      "K01",
+      "K08"
+    ],
+    [
+      "TopK",
+      "K05",
+      "K09"
+    ],
+    [
+      "TopK",
+      "K05",
+      "K10"
+    ],
+    [
+      "MoE",
+      "K02",
+      "K11"
+    ],
+    [
+      "MoE",
+      "K02",
+      "K12"
+    ],
+    [
+      "MoE",
+      "K03",
+      "K11"
+    ],
+    [
+      "MoE",
+      "K03",
+      "K12"
+    ]
+  ],
+  "limits": [
+    "文档采用有证据不足未分级项，不把它们填入读了未用；四级采用统计另报已分级分母。",
+    "硬件/接口不适用区分客观障碍与agent自述动机；泛泛SM120兼容性警告不能证明入口不可用。",
+    "first_performance_edit是依可见动机的人工判断，保留排除列表与原文定位；不能推断不可见推理。",
+    "当前κ待150步重复标注，本文仍初稿；统计不推断模型总体或知识采用的因果收益。"
+  ],
+  "evidence_hash_convention": "sha256(json.dumps(unlabelled_step, ensure_ascii=False, sort_keys=True).encode(UTF-8)); artifact byte hashes use UTF-8/LF",
+  "sensitivity": {
+    "component_performance_prototypes_included": {
+      "K03": {
+        "first_performance_edit_step": 19,
+        "profile_support_before_first_performance_edit": false,
+        "evidence_steps": [
+          18,
+          19,
+          25
+        ],
+        "reason": "把dense/TMA codegen组件校准算成性能修改时，早于s54 profile。"
+      },
+      "GLM_profile_supported_sessions": 1,
+      "all_profile_supported_sessions": 2,
+      "primary_rule": "主分析限目标算子实现；一般dense/codegen校准不算。K02s50实际写完整grouped SwiGLU，仍属于目标替代实现。"
+    }
+  }
+}

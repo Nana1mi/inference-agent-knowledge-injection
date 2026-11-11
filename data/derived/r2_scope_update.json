@@ -28,5 +28,31 @@
     "self_audit": "2026-11-14"
   },
   "remote_push": false,
-  "gpu_execution": false
+  "gpu_execution": false,
+  "r4_revision": {
+    "authorized_on": "2026-11-11",
+    "reference_is_task_definition": true,
+    "knowledge_consultation": [
+      "SOTA入口",
+      "文档"
+    ],
+    "adoption_levels": [
+      "照抄代码",
+      "借用思路",
+      "作为对照基线",
+      "读了未用"
+    ],
+    "borrowed_idea_requires": "visible reasoning or code comments",
+    "profile_indicators": [
+      "attempt before first code modification",
+      "profile support before first performance-motivated edit, excluding correct baselines"
+    ],
+    "model_reporting": [
+      "GLM",
+      "closed models",
+      "DeepSeek separately"
+    ],
+    "paired_reporting": "eight explicit GLM-closed pairs",
+    "review": "data/annotations/r2_r4_evidence_reviews.json"
+  }
 }
