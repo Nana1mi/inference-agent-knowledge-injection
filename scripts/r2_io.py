@@ -16,7 +16,8 @@ def now():
 
 def dump(path, data):
     path.parent.mkdir(parents=True, exist_ok=True)
-    path.write_text(json.dumps(data, ensure_ascii=False, indent=2), encoding='utf-8')
+    # Match the repository's *.json eol=lf rule so committed hashes reproduce.
+    path.write_bytes(json.dumps(data, ensure_ascii=False, indent=2).encode('utf-8'))
 
 def fetch(url, relative, note='官方公开来源；许可依上游，不自动再分发', timeout=45, revalidate_existing=False):
     target = RAW / relative

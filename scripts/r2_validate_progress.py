@@ -59,7 +59,9 @@ def main():
         frozen=load(ROOT/scope['kbh']['manifest']);frozen_ok=True
         for artifact in frozen['artifacts']:
             for key in ('source','snapshot'):
-                if hashlib.sha256((ROOT/artifact[key]).read_bytes()).hexdigest()!=artifact['sha256']:
+                data=(ROOT/artifact[key]).read_bytes()
+                if frozen.get('hash_convention')=='UTF-8, LF line endings':data=data.replace(b'\r\n',b'\n')
+                if hashlib.sha256(data).hexdigest()!=artifact['sha256']:
                     errors.append('frozen artifact changed '+artifact[key]);frozen_ok=False
         frozen_ok=frozen_ok and frozen['sessions']==14 and frozen['steps']==3345 and len(rows)==3345
         iso=load(DERIVED/'r2_iso_field_decisions.json') if (DERIVED/'r2_iso_field_decisions.json').exists() else None
@@ -102,7 +104,7 @@ def main():
                 repeat=ROOT/'data/annotations/r2_blind_reviews.jsonl'
                 agreement=(repeat_ready and agreed.get('status')=='complete' and agreed.get('steps')==150 and
                            set(agreed.get('fields',{}))==set(blind['repeat_fields']) and repeat.exists() and
-                           hashlib.sha256(repeat.read_bytes()).hexdigest()==agreed.get('repeat_sha256') and
+                           hashlib.sha256(repeat.read_bytes().replace(b'\r\n',b'\n')).hexdigest()==agreed.get('repeat_sha256') and
                            all(v['n']==150 for v in agreed.get('fields',{}).values()))
         analysis=load(DERIVED/'r2_analysis.json') if (DERIVED/'r2_analysis.json').exists() else None
         draft=(bool(analysis) and frozen_ok and analysis['overall']['steps']==3345 and

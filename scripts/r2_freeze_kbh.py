@@ -13,32 +13,35 @@ def main():
         'schema.json': ROOT / 'data/annotations/r2_schema.json',
     }
     target.mkdir(parents=True, exist_ok=True)
+    manifest = target / 'manifest.json'
+    prior = load(manifest) if manifest.exists() else None
+    previous = {a['snapshot']: a for a in prior['artifacts']} if prior else {}
     artifacts = []
     for name, source in sources.items():
-        data = source.read_bytes()
+        original = source.read_bytes()
+        data = original.replace(b'\r\n', b'\n')
         frozen = target / name
-        if frozen.exists() and frozen.read_bytes() != data:
+        if frozen.exists() and frozen.read_bytes().replace(b'\r\n', b'\n') != data:
             raise ValueError('Frozen first-pass source changed: ' + str(source))
-        if not frozen.exists():
-            frozen.write_bytes(data)
+        frozen.write_bytes(data)
+        snapshot = frozen.relative_to(ROOT).as_posix()
         artifacts.append({'source': source.relative_to(ROOT).as_posix(),
-                          'snapshot': frozen.relative_to(ROOT).as_posix(),
-                          'bytes': len(data), 'sha256': hashlib.sha256(data).hexdigest()})
-    manifest = target / 'manifest.json'
-    if manifest.exists():
-        prior = load(manifest)
-        if prior['artifacts'] != artifacts:
-            raise ValueError('Frozen manifest does not match accepted first pass')
-    else:
-        dump(manifest, {
+                          'snapshot': snapshot, 'bytes': len(data),
+                          'sha256': hashlib.sha256(data).hexdigest(),
+                          'original_source_sha256': previous.get(snapshot, {}).get('original_source_sha256',
+                              hashlib.sha256(original).hexdigest())})
+    if prior and prior.get('hash_convention') == 'UTF-8, LF line endings' and prior['artifacts'] != artifacts:
+        raise ValueError('Frozen manifest does not match accepted first pass')
+    metadata = prior or {
             'frozen_at': now(), 'authorized_scope': 'User scope amendment 2026-11-11',
             'base_commit': subprocess.check_output(['git', 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip(),
             'sessions': 14, 'steps': 3345, 'no_sample_expansion': True,
             'repeat_steps': 150, 'selection_seed': 2026111105, 'blind_seed': 2026111106,
-            'artifacts': artifacts,
             'limits': ['User-accepted first pass; not a claim of perfect semantic labels',
                        'Repeated annotations must not overwrite these snapshots'],
-        })
+        }
+    metadata.update(artifacts=artifacts, hash_convention='UTF-8, LF line endings')
+    dump(manifest, metadata)
     dump(DERIVED / 'r2_scope_update.json', {
         'version': 2, 'authorized_on': '2026-11-11',
         'authority': 'PLAN_ROUND2.md section 4 and explicit user scope amendment',

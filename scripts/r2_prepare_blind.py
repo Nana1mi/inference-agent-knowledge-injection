@@ -82,8 +82,7 @@ def main():
     for path, value in [(packet_path, packets), (key_path, keyrows)]:
         if path.exists() and load(path) != value:
             raise ValueError('Existing blind selection differs: ' + str(path))
-        if not path.exists():
-            dump(path, value)
+        dump(path, value)
     manifest = {
         'prepared_at': now(), 'steps': 150, 'selection_seed': 2026111105, 'blind_seed': 2026111106,
         'focus_field_slots': dict(Counter(field for field, _ in chosen)),

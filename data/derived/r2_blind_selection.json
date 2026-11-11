@@ -57,10 +57,10 @@
     "component"
   ],
   "packet": "data/derived/r2_review_inputs/blind150.json",
-  "packet_sha256": "8c9ef6679dd006457b0930148454922d8c7adebe58ee2d5b8b36794b2bc1d1fe",
+  "packet_sha256": "905116ddb7e529ddd761951cffe112ccf063be7417a88a080a732abba75d44dd",
   "key": "data/annotations/r2_blind_key.json",
-  "key_sha256": "0c41cd48000e9133ce135f39a062cd913afe5c8618126b791d3bae62a8398050",
-  "first_pass_manifest_sha256": "e6727f7a0ed969301b24cfab90c009f458f83b11a32abf78acb3ef3f5602cfbb",
+  "key_sha256": "5d6a0ef3028877200bcc6386c2c68830f7147de7a2510401e0c40f9ac649ef99",
+  "first_pass_manifest_sha256": "7560125a1761303b86ef785c2b007bb90f417154b7c102f5719b0b237417d58f",
   "status": "prepared_not_reannotated",
   "limits": [
     "First-pass labels used only for enriched sampling, omitted from the raw repeat packet",

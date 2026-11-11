@@ -50,7 +50,7 @@ def main():
         'status': 'complete', 'scored_at': now(), 'steps': 150, 'fields': results,
         'design': 'same AI annotator, enriched diagnostic strata; not independent human raters or population kappa',
         'selection_sha256': hashlib.sha256((DERIVED / 'r2_blind_selection.json').read_bytes()).hexdigest(),
-        'repeat_sha256': hashlib.sha256(path.read_bytes()).hexdigest(),
+        'repeat_sha256': hashlib.sha256(path.read_bytes().replace(b'\r\n', b'\n')).hexdigest(),
     })
     print('Scored150 separately authored repeats; agreement saved')
 
