@@ -2,6 +2,15 @@
 
 ## 第二轮启动（2026-11-11）
 
+### 最新本地进度：ISO至400份、独立诊断再核148处
+
+- [实验] 上轮42份ISO资格判断、127处状态判断和独立stderr导航修复已保存本地提交`54b0abc`，属于有效进展。本轮继续原R1–R6目标，仅本地提交；未执行下载代码或本机GPU。KBH保持14会话、3345/3345步首标，未冻结、未抽盲复标。
+- [实验] ISO新增18份（180/189/216/225/234/243/246/249/254/257/259/275/277/280/287/289/292/294），累计400/833份资格判断，可靠成功GPU仍1份、最终selected仍空。完整输入/实际Read、创建/替换反馈、返回和结局指针见[资格复核](../data/annotations/r2_iso_eligibility_reviews.json)及[ISO状态](round2/r2_iso_evidence_status.md)。
+- [实验] 成功轨迹180/277实际明确跳过CUDA基准；246在warmup内部triton.cdiv缺失，无Duration。257成功且本地Mamba数学实现返回两个mean，但条件设备未打印，保留unknown，不按函数默认cpu判设备。189仅CPU序列化，216默认CPU rotary时间不能证明新增VisionTransformer缓存收益，后者实际初始化失败并被捕获跳过；249只计parse_request_id，torch与NCCL engine是stub；275只计字符串RadixCache插入，287只计逻辑块元数据。
+- [实验] 234/292约.026–.028秒只是文件遍历/哈希，mypy手动hook数量也不是执行性能；259的10–40%是新写后cat回显的EXPECTED摘要，唯一探针运行导入失败，pip管道success也掩盖了metadata-generation-failed。254创建test_opt后从未运行，只做语法/导入检查；280另建benchmark文件也未执行。833份资格普查尚余433：62 trajectory、126其他stdout、242仅最终result、3未取得，顺位见[导出盘点](../data/derived/r2_iso_execution_inventory.json)。
+- [实验] R5追加148个明确判断，覆盖12份完整参数正文、23处输入位置及对应反馈：独立Mamba/MoE同步与时钟、RadixCache字符串树路径/时钟、CPU tensor序列化往返、P2P字符串解析导入stub。PYTHON_DIR局部变量与环境写入分开；torch.save写新BytesIO后读回不是复用reference结果；old_str删除、失败创建和成功写入分别说明。只对这些命中判断，不覆盖其他位置的正式reference函数改写。
+- [实验] [显式批次记录](../data/annotations/r2_state_payload_review_batches.json)累计1126个固定ID、73份完整参数、120处位置，哈希/定位/TSV关联机械校验通过。R5累计2223/11494：2152合法、68无法判断、3确实影响评估，余9271；3条确认仍是同一FP8全局开关案例。结构校验errors为空，整体in_progress；最终ISO样本、全源首标审计/冻结与20%盲复标/κ、R4/R5最终报告及R6简报仍未完成。
+
 ### 最新本地进度：ISO至382份、补核完整工具序列与独立错误返回
 
 - [实验] 上轮数字导航复核与import删除审计已保存本地提交`ecbbe28`，属于有效进展。本轮继续原R1–R6目标，只在本地提交；未执行下载代码或本机GPU。KBH保持14会话、3345/3345步首标，尚未冻结或抽盲复标。

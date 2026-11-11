@@ -8,7 +8,7 @@
 
 [实验] 已按预先冻结的833个success候选顺序完成资格普查文件的下载尝试及同源重试：取得442份trajectory、248份仅含最终result的输出、139份其他文本输出；3个目录没有非空轨迹/标准输出，另1份trajectory两次访问后仍未取得（候选213）。仅有最终摘要的导出不能补写成逐步工具轨迹。计数见[导出盘点](../../data/derived/r2_iso_execution_inventory.json)，请求/失败见[manifest](../../data/raw/r2_manifest.jsonl)。
 
-[实验] 目前382个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。数字计时导航涉及的304个候选现均有资格判断，但833个候选的普查尚余451份：80份trajectory、126份其他stdout、242份仅最终result、3份未取得；精确剩余顺位见[导出盘点的eligibility_review_coverage](../../data/derived/r2_iso_execution_inventory.json)。导航未检出数字或关键词不等于没有GPU测量。数字导航的811个返回片段只保留本地，覆盖统计只连接明确人工复核ID，不自动生成设备/资格标签。
+[实验] 目前400个候选已有逐条资格判断，确认合格1份；最终`selected`仍为空。不能把下载数量、关键词命中数或summary成功数当成合格样本数。数字计时导航涉及的304个候选现均有资格判断，但833个候选的普查尚余433份：62份trajectory、126份其他stdout、242份仅最终result、3份未取得；精确剩余顺位见[导出盘点的eligibility_review_coverage](../../data/derived/r2_iso_execution_inventory.json)。导航未检出数字或关键词不等于没有GPU测量。数字导航的811个返回片段只保留本地，覆盖统计只连接明确人工复核ID，不自动生成设备/资格标签。
 
 ## 已复核的三个关键区别
 
@@ -29,6 +29,10 @@
 [实验] 新检查的候选还包括模拟测量：147的配置读取成本由`time.sleep`人为添加，158用等待模拟顺序/批量warmup请求，165以虚拟地址与Dummy传输引擎代替真实KV传输。这些代码创建反馈均成功，也有真实主机计时，但不是实际GPU模型或传输测量。146的CUDA-graph插件名称同样不够：已执行脚本只测默认CPU张量和对象初始化，返回还显示缺少`libcuda.so.1`。全部判断保留精确工具输入、写入反馈、数值返回和结局定位，见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 
 ## 接下来的核验
+
+[实验] 新增180/189/216/225/234/243/246/249/254/257/259/275/277/280/287/289/292/294共18份，未新增可靠成功GPU候选。180/277虽trajectory成功，实回CUDA不可用并跳过；246成功但warmup因triton.cdiv缺失失败。257也成功，本地Mamba数学函数产生mean秒值，但入口条件设备未打印，保留unknown，不按函数默认cpu推断实际设备。189只是CPU序列化，216仍是默认CPU rotary，新增VisionTransformer测量先配置失败、后捕获跳过；249的torch/NCCL engine是stub，只循环解析request_id字符串；275仅主机字符串树插入，287是逻辑prefix block/mark元数据。实际输入/Read、失败与成功反馈、返回和结局均见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
+
+[实验] 234/292文件哈希探针约.026–.028秒及mypy手动hook计数不代表GPU或CI任务实际性能。259的10–40%是新写摘要的EXPECTED数字，唯一测试导入失败，pip尾部输出仍metadata-generation-failed；254只做语法/导入验证，test_opt并未执行，280新增的benchmark文件也没有运行。导航未命中这些无空格秒单位或字段名中的ms，继续以完整工具序列补核，不能宣告GPU样本短缺已最终证成。
 
 [实验] 本轮从非数字导航轨迹补核42份，仍未新增可靠成功GPU候选。21份仅一步启动错误且无工具调用（20份SSO令牌过期、1份配额耗尽）。108/114/168/171虽trajectory成功，基准分别在warmup、导入或CUDA初始化失败；114的管道sed成功不等于内部Python成功。176初次导入还落到另一worktree，修导入后未重跑。105实际CPU分配，120只计逻辑块元数据，138固定CPU且mock FlashInfer wrapper；117的fallback有时间返回但未打印实际设备，继续保留unknown。122只运行替换计时API的维护脚本，没有基准执行。全部实际Read、写入/错误反馈、返回与结局指针见[资格复核](../../data/annotations/r2_iso_eligibility_reviews.json)。
 

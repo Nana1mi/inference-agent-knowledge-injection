@@ -1,18 +1,18 @@
 {
-  "updated_at": "2026-11-11T07:56:02.678768+08:00",
+  "updated_at": "2026-11-11T10:18:31.580036+08:00",
   "scope": "structural observable export inventory; regex cues are NOT eligibility labels",
   "eligibility_review_coverage": {
     "scope": "review-ID coverage only; not GPU labels or a completed census",
     "required_candidates": 833,
-    "reviewed_candidates": 382,
-    "pending_candidates": 451,
+    "reviewed_candidates": 400,
+    "pending_candidates": 433,
     "numeric_navigation_candidates": 304,
     "numeric_navigation_pending_orders": [],
     "pending_by_artifact_kind": {
       "unstructured_stdout": 126,
       "final_result_without_tools": 242,
-      "trajectory": 80,
-      "not_retrieved": 3
+      "not_retrieved": 3,
+      "trajectory": 62
     },
     "pending_orders_by_artifact_kind": {
       "final_result_without_tools": [
@@ -265,24 +265,6 @@
         500
       ],
       "trajectory": [
-        180,
-        189,
-        216,
-        225,
-        234,
-        243,
-        246,
-        249,
-        254,
-        257,
-        259,
-        275,
-        277,
-        280,
-        287,
-        289,
-        292,
-        294,
         309,
         314,
         325,

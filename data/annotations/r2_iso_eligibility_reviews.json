@@ -5332,6 +5332,310 @@
         "trajectory.json#/agent_steps/10/tool_results/0",
         "trajectory.json#/agent_steps/24/error"
       ]
+    },
+    {
+      "order": 180,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；10创建后11导入失败，12替换失败，以14/18实际Read和15重写为准。16实报No CUDA GPUs，17 applypatch不存在未应用，19成功加CUDA guard后20/33均明确跳过，完整序列无GPU计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_results/0",
+        "trajectory.json#/agent_steps/11/tool_results/0/error",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/15/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/15/tool_results/0",
+        "trajectory.json#/agent_steps/16/tool_results/0/error",
+        "trajectory.json#/agent_steps/17/tool_results/0/error",
+        "trajectory.json#/agent_steps/18/tool_results/0/result",
+        "trajectory.json#/agent_steps/19/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/19/tool_results/0",
+        "trajectory.json#/agent_steps/20/tool_results/0/result",
+        "trajectory.json#/agent_steps/33/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 189,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；27创建缺目录失败29成功，源码只有默认CPU randn、pickle与torch.save/load且map_location=cpu。30/48无空格秒值是8MB CPU序列化往返，不是GPU权重更新或分布式广播实测；52 API400中止。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/27/tool_results/0",
+        "trajectory.json#/agent_steps/29/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/29/tool_results/0",
+        "trajectory.json#/agent_steps/30/tool_results/0/result",
+        "trajectory.json#/agent_steps/48/tool_results/0/result",
+        "trajectory.json#/agent_steps/52/error"
+      ]
+    },
+    {
+      "order": 216,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；8创建被拒，9/28实际Read仅默认CPU rotary模块；3读取类源码inv_freq默认主机且后续沿buffer.device，没有将模块移到CUDA。13/27的秒值不是GPU时间，条件synchronize不改变设备。新增VisionTransformer探针38配置设备失败，40捕获后41明确skipped，43解析错误终止，无GPU计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_results/0/result",
+        "trajectory.json#/agent_steps/8/tool_results/0",
+        "trajectory.json#/agent_steps/9/tool_results/0/result",
+        "trajectory.json#/agent_steps/13/tool_results/0/result",
+        "trajectory.json#/agent_steps/27/tool_results/0/result",
+        "trajectory.json#/agent_steps/28/tool_results/0/result",
+        "trajectory.json#/agent_steps/34/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/38/tool_results/0/error",
+        "trajectory.json#/agent_steps/40/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/40/tool_results/0",
+        "trajectory.json#/agent_steps/41/tool_results/0/result",
+        "trajectory.json#/agent_steps/43/error"
+      ]
+    },
+    {
+      "order": 225,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；19创建被拒，21实际Read为CUDA MoE。29/30/34先导入失败，33/35成功改导入/路径后36实报无NVIDIA驱动，在输入分配失败，没有Duration；40 API400终止。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/19/tool_results/0",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/tool_results/0/error",
+        "trajectory.json#/agent_steps/30/tool_results/0/error",
+        "trajectory.json#/agent_steps/33/tool_results/0",
+        "trajectory.json#/agent_steps/34/tool_results/0/error",
+        "trajectory.json#/agent_steps/35/tool_results/0",
+        "trajectory.json#/agent_steps/36/tool_results/0/result",
+        "trajectory.json#/agent_steps/36/tool_results/0/error",
+        "trajectory.json#/agent_steps/40/error"
+      ]
+    },
+    {
+      "order": 234,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；13创建的是遍历文件并sha256哈希的独立CPU/I-O探针，14/17约.0275/.0276秒只测1409个文件读取/哈希，不含CUDA或模型执行。完整工具序列修改的是CI/pre-commit配置；20 API400终止，无GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/13/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/13/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/17/tool_results/0/result",
+        "trajectory.json#/agent_steps/20/error"
+      ]
+    },
+    {
+      "order": 243,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；10创建缺目录失败12成功，13/16分别因vllm或sgl_kernel导入失败，15替换成功没有解决依赖，27 editable安装亦失败。24 timeout是ls，完整工具序列无完成基准，30 API400终止，无GPU计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/10/tool_results/0",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/13/tool_results/0/error",
+        "trajectory.json#/agent_steps/15/tool_results/0",
+        "trajectory.json#/agent_steps/16/tool_results/0/error",
+        "trajectory.json#/agent_steps/24/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/27/tool_results/0",
+        "trajectory.json#/agent_steps/30/error"
+      ]
+    },
+    {
+      "order": 246,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；9create缺目录失败11成功，12导入compressed_tensors失败。13成功改为文件导入的条件设备基准，但14在warmup内部triton.cdiv缺失失败，没有Duration返回；之后47步完整序列只修改/读取源码及提交，无重跑GPU计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/9/tool_results/0",
+        "trajectory.json#/agent_steps/11/tool_results/0",
+        "trajectory.json#/agent_steps/12/tool_results/0/error",
+        "trajectory.json#/agent_steps/13/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/13/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/14/tool_results/0/error"
+      ]
+    },
+    {
+      "order": 249,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；12create缺目录失败14成功，15/17/19导入失败，20成功改为torch与NCCL engine等stub。21/50的prefill/decode毫秒数只循环parse_request_id字符串，不调用真实通信、GPU张量或模型。完整序列其余为源码修改/读/提交，54 API400终止，无GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/12/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_results/0",
+        "trajectory.json#/agent_steps/15/tool_results/0/error",
+        "trajectory.json#/agent_steps/17/tool_results/0/error",
+        "trajectory.json#/agent_steps/19/tool_results/0/error",
+        "trajectory.json#/agent_steps/20/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/20/tool_results/0",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/50/tool_results/0/result",
+        "trajectory.json#/agent_steps/54/error"
+      ]
+    },
+    {
+      "order": 254,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；6成功创建test_opt但完整37步序列从未执行它。15 py_compile和22 ast.parse仅语法检查；20/21 verify_syntax只导入/hasattr，且因transformers缺失失败。24/34创建摘要不当性能结果，36 API400终止，无GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/6/tool_results/0",
+        "trajectory.json#/agent_steps/15/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/20/tool_calls/0/arguments/file_text",
+        "trajectory.json#/agent_steps/20/tool_results/0",
+        "trajectory.json#/agent_steps/21/tool_results/0/result",
+        "trajectory.json#/agent_steps/21/tool_results/0/error",
+        "trajectory.json#/agent_steps/22/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/24/tool_results/0",
+        "trajectory.json#/agent_steps/34/tool_results/0",
+        "trajectory.json#/agent_steps/36/error"
+      ]
+    },
+    {
+      "order": 257,
+      "eligible_success_gpu": false,
+      "gpu_measurement": null,
+      "reason": "trajectory成功；19创建后20/22/24/28/30/32持续导入失败，33成功改为本地reference数学实现，34返回两项mean秒值。但入口按CUDA可用性选择设备，未打印实际device，不能从脚本默认cpu或无warning推断实际CPU/GPU，保留设备unknown；随后84步完整序列仅patch/git，无其他GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/19/tool_results/0",
+        "trajectory.json#/agent_steps/20/tool_results/0/error",
+        "trajectory.json#/agent_steps/22/tool_results/0/error",
+        "trajectory.json#/agent_steps/28/tool_results/0/error",
+        "trajectory.json#/agent_steps/30/tool_results/0/error",
+        "trajectory.json#/agent_steps/32/tool_results/0/error",
+        "trajectory.json#/agent_steps/33/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/33/tool_results/0",
+        "trajectory.json#/agent_steps/34/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 259,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；13成功创建探针，14唯一执行在import performance第一项vllm.model_executor导入失败，无计时。15 pip安装管道success=true但正文metadata-generation-failed/CUDA_HOME未设。50所谓10-40%为cat写入再回显的EXPECTED摘要，不是测量，55 API400终止。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/13/tool_results/0",
+        "trajectory.json#/agent_steps/14/tool_results/0/result",
+        "trajectory.json#/agent_steps/14/tool_results/0/error",
+        "trajectory.json#/agent_steps/15/tool_results/0/result",
+        "trajectory.json#/agent_steps/50/tool_calls/0/arguments/command",
+        "trajectory.json#/agent_steps/50/tool_results/0/result",
+        "trajectory.json#/agent_steps/55/error"
+      ]
+    },
+    {
+      "order": 275,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；4创建后5导入失败，6替换后7因list非Tensor失败，8成功改为仅插入字符串key的RadixCache探针。9/33的.1438/.1405秒只测主机逻辑树，不含GPU张量、KV搬运或reference复用；37 API400终止。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/4/tool_results/0",
+        "trajectory.json#/agent_steps/5/tool_results/0/error",
+        "trajectory.json#/agent_steps/6/tool_results/0",
+        "trajectory.json#/agent_steps/7/tool_results/0/error",
+        "trajectory.json#/agent_steps/8/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/8/tool_results/0",
+        "trajectory.json#/agent_steps/9/tool_results/0/result",
+        "trajectory.json#/agent_steps/33/tool_results/0/result",
+        "trajectory.json#/agent_steps/37/error"
+      ]
+    },
+    {
+      "order": 277,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory成功；3创建被拒，4实际Read的scaled_mm基准在非CUDA时直接return None。5/17两次实际均明确CUDA not available/Benchmark skipped，没有进入kernel或GPU计时，不把流程成功当测量成功。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/3/tool_results/0",
+        "trajectory.json#/agent_steps/4/tool_results/0/result",
+        "trajectory.json#/agent_steps/5/tool_results/0/result",
+        "trajectory.json#/agent_steps/17/tool_results/0/result"
+      ]
+    },
+    {
+      "order": 280,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；7create缺目录失败9成功，10/11仅两次执行均在sglang/vllm导入失败。19虽另建benchmark_ep_pre_reorder_triton.py，但完整32步序列未运行该文件，31 API400终止，无GPU测量。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/7/tool_results/0",
+        "trajectory.json#/agent_steps/9/tool_results/0",
+        "trajectory.json#/agent_steps/10/tool_results/0/error",
+        "trajectory.json#/agent_steps/11/tool_results/0/error",
+        "trajectory.json#/agent_steps/19/tool_calls/0/arguments/path",
+        "trajectory.json#/agent_steps/19/tool_results/0",
+        "trajectory.json#/agent_steps/31/error"
+      ]
+    },
+    {
+      "order": 287,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；18创建被拒，20成功替换为逻辑prefix block/mark metadata探针，21导入失败，24成功插入Triton包stub后25/37取得秒数。num_gpu_blocks仅逻辑容量，实际没有GPU张量操作，不能按名称算GPU测量；41 API400终止。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/18/tool_results/0",
+        "trajectory.json#/agent_steps/20/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/20/tool_results/0",
+        "trajectory.json#/agent_steps/21/tool_results/0/error",
+        "trajectory.json#/agent_steps/24/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/24/tool_results/0",
+        "trajectory.json#/agent_steps/25/tool_results/0/result",
+        "trajectory.json#/agent_steps/37/tool_results/0/result",
+        "trajectory.json#/agent_steps/41/error"
+      ]
+    },
+    {
+      "order": 289,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；5成功创建探针，6唯一运行因vllm.config导入失败。7 pip安装管道success=true但正文CUDA_HOME未设且metadata-generation-failed；完整序列之后只改/读NeuronWorker、diff和摘要，未重跑或产生计时，32 API400终止。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/6/tool_results/0/error",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/tool_results/0",
+        "trajectory.json#/agent_steps/32/error"
+      ]
+    },
+    {
+      "order": 292,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；4创建被拒，以5实际Read为准，脚本只遍历/哈希文件；7平均.0266秒是CPU/I-O。19成功追加mypy手动hook计数，20约.0261秒仍是文件扫描，hook数量也非性能测量；29 API400终止，无GPU计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/4/tool_results/0",
+        "trajectory.json#/agent_steps/5/tool_results/0/result",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/19/tool_calls/0/arguments/new_str",
+        "trajectory.json#/agent_steps/19/tool_results/0",
+        "trajectory.json#/agent_steps/20/tool_results/0/result",
+        "trajectory.json#/agent_steps/29/error"
+      ]
+    },
+    {
+      "order": 294,
+      "eligible_success_gpu": false,
+      "gpu_measurement": false,
+      "reason": "trajectory失败；5创建成功，6唯一基准执行在sglang导入vllm._custom_ops失败，7单独vllm导入也失败。之后完整工具序列只读/改源码及Dockerfile，没有重跑，27 API400终止，无GPU计时。",
+      "evidence": [
+        "trajectory.json#/success",
+        "trajectory.json#/agent_steps/5/tool_results/0",
+        "trajectory.json#/agent_steps/6/tool_results/0/result",
+        "trajectory.json#/agent_steps/7/tool_results/0/result",
+        "trajectory.json#/agent_steps/27/error"
+      ]
     }
   ]
 }

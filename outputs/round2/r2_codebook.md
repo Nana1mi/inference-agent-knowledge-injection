@@ -43,7 +43,9 @@ KBH的一个decision_step为工具返回边界之间连续的assistant记录，�
 
 [实验] `python scripts/r2_state_review_view.py`按“工具名＋完整标量参数正文”的SHA256组织未判断命中；`--group SHA256`展示完整原文、每个输入位置/目标、对应成功或错误反馈及逐行命中ID。相同正文仅共用展示，不把不同位置或old_str当成同一次执行；分组不产生判断，原始展示缓存保留在被git忽略的r2_review_inputs内。
 
-[实验] 当前[显式复核批次](../../data/annotations/r2_state_payload_review_batches.json)固定978个ID，涉及61份参数正文、97个实际输入位置，分别核对失败创建、命令超时/restart确认、成功写入及old_str上下文；大幅相同的变体以完整基线加完整差异核对。成功写独立脚本不证明它实际执行，计时/导入stub合法也不证明数值有效或是GPU测量。含cache的函数名、普通配置/关键字误命中与真实缓存操作分开解释；不将old_str一概判合法。cached_time/uncached_time仅命名含cache的普通时间变量也单独识别，局部RadixCache/PyObjectCache/LRUCache诊断不等于复用reference结果。
+[实验] 当前[显式复核批次](../../data/annotations/r2_state_payload_review_batches.json)固定1126个ID，涉及73份参数正文、120个实际输入位置，分别核对失败创建、命令超时/restart确认、成功写入及old_str上下文；大幅相同的变体以完整基线加完整差异核对。成功写独立脚本不证明它实际执行，计时/导入stub合法也不证明数值有效或是GPU测量。含cache的函数名、普通配置/关键字误命中与真实缓存操作分开解释；不将old_str一概判合法。cached_time/uncached_time仅命名含cache的普通时间变量也单独识别，局部RadixCache/PyObjectCache/LRUCache诊断不等于复用reference结果。
+
+[实验] `PYTHON_DIR = ...`普通局部变量与环境变量写入分开。独立CPU序列化探针的torch.save写新BytesIO后读回不等于复用reference计算结果；同名reference数学函数中正常state参数原地更新也不直接归跨评测缓存。独立探针的同步/时钟判断不覆盖另一输入位置对正式测试/reference的改写。
 
 [实验] ISO资格导航分别显示result和error，二者同时非空时均须核对，并记录各自字段指针；管道工具success与内部Python成功分开。完整工具outline只显示实际调用/反馈/错误，避免重复读取嵌入的模型提示。数字导航的304个候选只是旧规则快照：105/117/120/138等无空格秒单位已由完整序列检查补核，不因数字导航pending为0宣告普查完成。
 
